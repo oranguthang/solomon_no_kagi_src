@@ -13,7 +13,10 @@ EnemyAiRecordPointerHighTable:
 .endrepeat
 
 ObjectRecordPointerLowTable:
-    .byte <DanaObject, <MagicSparkObject, <FireballObject, <AuxiliaryObject
+    .byte <DanaObject
+
+NonDanaObjectPointerLowTable:
+    .byte <MagicSparkObject, <FireballObject, <AuxiliaryObject
 
 EnemyObjectPointerLowTable:
 .repeat EnemyObjectCount, Index
@@ -21,7 +24,10 @@ EnemyObjectPointerLowTable:
 .endrepeat
 
 ObjectRecordPointerHighTable:
-    .byte >DanaObject, >MagicSparkObject, >FireballObject, >AuxiliaryObject
+    .byte >DanaObject
+
+NonDanaObjectPointerHighTable:
+    .byte >MagicSparkObject, >FireballObject, >AuxiliaryObject
 
 EnemyObjectPointerHighTable:
 .repeat EnemyObjectCount, Index
@@ -33,5 +39,7 @@ ObjectPointerTableCount = ObjectRecordPointerHighTable - ObjectRecordPointerLowT
 
 .assert EnemyAiPointerTableCount = EnemyAiStateCount, error, "unexpected enemy AI pointer count"
 .assert ObjectPointerTableCount = ObjectRecordCount, error, "unexpected object pointer count"
+.assert NonDanaObjectPointerLowTable = ObjectRecordPointerLowTable + 1, error, "unexpected non-Dana low pointer offset"
+.assert NonDanaObjectPointerHighTable = ObjectRecordPointerHighTable + 1, error, "unexpected non-Dana high pointer offset"
 .assert EnemyObjectPointerLowTable = ObjectRecordPointerLowTable + 4, error, "unexpected enemy object pointer offset"
 .assert EnemyObjectPointerHighTable = ObjectRecordPointerHighTable + 4, error, "unexpected enemy object pointer offset"

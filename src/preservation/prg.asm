@@ -370,48 +370,7 @@ _label_bank0_8379:
     STA $041F,Y
     RTS
 
-    LDA #$01
-    STA a:JOYPAD1
-    LSR A
-    TAX
-    STA a:JOYPAD1
-    STA $09
-    LDY #$08
-    JSR $83AF
-    STY $09
-    INX
-    LDY #$08
-    JSR $83AF
-    LDA $78
-    LSR A
-
-_label_bank0_8399:
-    LDA $82,X
-    BCS _label_bank0_83a8
-    AND #$30
-    STA $08
-    LDA $03E4,X
-    AND #$CF
-    ORA $08
-
-_label_bank0_83a8:
-    STA $03E4,X
-    DEX
-    BPL _label_bank0_8399
-    RTS
-
-_label_bank0_83af:
-    LDA a:JOYPAD1,X
-    STA $08
-    ROR A
-    ORA $08
-    ROR A
-    ROL $09
-    DEY
-    BNE _label_bank0_83af
-    LDA $09
-    STA $82,X
-    RTS
+.segment "PRG_POST_CONTROLLER_INPUT"
 
     LDA $057F
     CMP #$C0
@@ -597,9 +556,9 @@ _label_bank0_84ca:
     LDY #$07
 
 _label_bank0_84d2:
-    LDA $B469,X
+    LDA NonDanaObjectPointerLowTable,X
     STA $08
-    LDA $B47E,X
+    LDA NonDanaObjectPointerHighTable,X
     STA $09
     LDA ($08),Y
     STA $40,X
@@ -743,9 +702,9 @@ _label_bank0_859b:
     STX $0B
 
 _label_bank0_85a5:
-    LDA $B469,Y
+    LDA NonDanaObjectPointerLowTable,Y
     STA $08
-    LDA $B47E,Y
+    LDA NonDanaObjectPointerHighTable,Y
     STA $09
     LDA $0C
     ASL A
@@ -1401,7 +1360,7 @@ _label_bank0_8981:
     STA ($08),Y
     RTS
 
-    JSR $8A62
+    JSR ObjectClampYCoordinateToSurface
     LDA $0F
     TAX
     SEC
@@ -1427,7 +1386,7 @@ _label_bank0_89ad:
     STA ($08),Y
     RTS
 
-    JSR $8A7F
+    JSR ObjectClampXCoordinateToLeftSurface
     LDA #$FC
     AND $0F
     BEQ _label_bank0_89d5
@@ -1482,20 +1441,20 @@ _label_bank0_89f5:
     AND #$08
     BEQ _label_bank0_8a2a
     JSR $8A41
-    JSR $8A7F
+    JSR ObjectClampXCoordinateToLeftSurface
     LDY #$03
     LDA #$09
     STA ($08),Y
     RTS
 
 _label_bank0_8a20:
-    JSR $8A62
-    JSR $8A7F
+    JSR ObjectClampYCoordinateToSurface
+    JSR ObjectClampXCoordinateToLeftSurface
     LDX #$07
     BNE _label_bank0_8a32
 
 _label_bank0_8a2a:
-    JSR $8A62
+    JSR ObjectClampYCoordinateToSurface
     JSR $8AA4
     LDX #$06
 
@@ -1534,49 +1493,7 @@ _label_bank0_8a40:
     STA ($08),Y
     RTS
 
-    LDY #$07
-    LDA ($08),Y
-    TAX
-    CLC
-    ADC #$10
-    AND #$0F
-    STA $0A
-    TXA
-    SEC
-    SBC $0A
-    STA ($08),Y
-    LDY #$05
-    LDA ($08),Y
-    ROL A
-    LDA #$00
-    ROR A
-    STA ($08),Y
-    RTS
-
-    LDY #$0A
-    LDA ($08),Y
-    TAX
-    SEC
-    SBC #$04
-    ORA #$F0
-    EOR #$FF
-    STA $0B
-    INC $0B
-    TXA
-    CLC
-    ADC $0B
-    STA ($08),Y
-    DEY
-    LDA #$00
-    STA ($08),Y
-    DEY
-    STA ($08),Y
-
-_label_bank0_8a9d:
-    LDY #$08
-    LDA #$00
-    STA ($08),Y
-    RTS
+.segment "PRG_POST_OBJECT_CLAMPS"
 
     LDY #$0A
     LDA ($08),Y
@@ -1594,7 +1511,7 @@ _label_bank0_8a9d:
     STA ($08),Y
     DEY
     STA ($08),Y
-    BNE _label_bank0_8a9d
+    .byte $D0, $DD  ; BNE ClearObjectXMotion across linker segments
     STA ($08),Y
     STA $0F
     TXA
@@ -2365,13 +2282,13 @@ _label_bank0_9307:
     .byte $00, $00, $78, $78
     .byte $60, $00, $fe, $80, $00, $c0, $1c, $ff, $00, $00, $02, $01, $03
 
-    JSR $CA5A
+    JSR DeactivateAllNonDanaObjects
     LDX #$0E
 
 _label_bank0_9345:
-    LDA $B469,X
+    LDA NonDanaObjectPointerLowTable,X
     STA $00
-    LDA $B47E,X
+    LDA NonDanaObjectPointerHighTable,X
     STA $01
     LDA #$C0
     STA $04
@@ -2397,7 +2314,7 @@ _label_bank0_9370:
     DEX
     BPL _label_bank0_9370
     STA $02
-    JMP $CA3C
+    JMP SetActiveNonDanaObjectState
 
 _label_bank0_937b:
     CMP $07
@@ -2453,9 +2370,9 @@ _label_bank0_93c6:
     JSR $9429
     STA $03
     LDX $06
-    LDA $B469,X
+    LDA NonDanaObjectPointerLowTable,X
     STA $00
-    LDA $B47E,X
+    LDA NonDanaObjectPointerHighTable,X
     STA $01
     LDA #$40
     AND $05
@@ -6936,7 +6853,7 @@ _label_bank0_ba5d:
     BNE _label_bank0_ba5d
     LDA #$82
     STA $02
-    JSR $CA3C
+    JSR SetActiveNonDanaObjectState
     LDX #$06
     JSR $C756
     LSR $78
@@ -8472,7 +8389,7 @@ _label_bank0_c779:
     LDA #$00
     PHA
     STA $02
-    JSR $CA3C
+    JSR SetActiveNonDanaObjectState
     INX
 
 _label_bank0_c7a0:
@@ -8524,7 +8441,7 @@ _label_bank0_c7c3:
     STA $02
     ASL A
     STA $23
-    JSR $CA3C
+    JSR SetActiveNonDanaObjectState
     LDX #$23
     LDA #$09
     JSR $9C52
@@ -8550,7 +8467,7 @@ _label_bank0_c821:
     JSR $9C52
 
 _label_bank0_c832:
-    JSR $CA5A
+    JSR DeactivateAllNonDanaObjects
     JSR $C9BD
     JSR $C60E
     LDA #$10
@@ -8831,40 +8748,7 @@ _label_bank0_ca29:
     JSR $1A00
     JSR $1A20
     ASL $1820,X
-    LDX #$13
-
-_label_bank0_ca3e:
-    JSR $CA4F
-    LDY #$00
-    LDA ($00),Y
-    BPL _label_bank0_ca4b
-    LDA $02
-    STA ($00),Y
-
-_label_bank0_ca4b:
-    DEX
-    BPL _label_bank0_ca3e
-    RTS
-
-    LDA $B469,X
-    STA $00
-    LDA $B47E,X
-    STA $01
-    RTS
-
-    LDX #$13
-
-_label_bank0_ca5c:
-    JSR $CA4F
-    LDY #$00
-    TYA
-    STA ($00),Y
-    LDY #$07
-    LDA #$F8
-    STA ($00),Y
-    DEX
-    BPL _label_bank0_ca5c
-    RTS
+.segment "PRG_POST_NON_DANA_OBJECT_DEACTIVATION"
 
     LDX #$01
     JSR $C756

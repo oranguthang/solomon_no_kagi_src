@@ -13,10 +13,13 @@ ROM := $(BUILD_DIR)/solomons_key.nes
 LABELS := $(BUILD_DIR)/solomons_key.lbl
 MAP := $(BUILD_DIR)/solomons_key.map
 DEBUG := $(BUILD_DIR)/solomons_key.dbg
-SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/startup.asm \
+SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm \
+	src/system/startup.asm \
 	src/system/scheduler.asm src/system/pause_thread.asm \
 	src/system/sound_effect_queue.asm \
 	src/system/ppu_update_buffer.asm src/system/jump_with_params.asm \
+	src/game/object_y_clamp.asm \
+	src/game/object_x_left_clamp.asm \
 	src/game/main_thread.asm src/game/timer.asm \
 	src/game/coordinate_conversion.asm \
 	src/game/timer_display.asm src/game/enemy_movement.asm \
@@ -32,6 +35,9 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/startup.asm \
 	src/data/enemy_record_pointers.asm \
 	src/game/enemy_deactivation.asm \
 	src/game/current_enemy_deactivation.asm \
+	src/game/active_object_states.asm \
+	src/game/object_pointer.asm \
+	src/game/non_dana_object_deactivation.asm \
 	src/preservation/prg.asm \
 	src/graphics/chr.asm src/memory/hardware.inc src/memory/ram.inc
 

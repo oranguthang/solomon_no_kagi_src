@@ -17,6 +17,12 @@ registers, commits OAM page `$02`, selects one of four CNROM CHR banks through
 CPU registers. `WritePpuScroll` resets the PPU write latch by reading
 `PPU_STATUS`, then performs the X and Y writes to `PPU_SCROLL`.
 
+The active NMI path calls `ReadJoyPads` once per service. It strobes and reads
+both controller ports, records complete serial samples at `$0082-$0083`, and
+updates the cached input at `$03E4-$03E5`. Depending on bit 0 of the global
+game-state flags, the cache either receives the complete sample or refreshes
+only Start and Select. See `docs/controller_input.md`.
+
 Foreground producers build compact PPU update programs in the shared RAM
 buffer at `$03E6`. `PublishPpuUpdateBuffer` points `$001A-$001B` at that
 buffer; the NMI path uses the pointer's high byte to decide whether to invoke
@@ -87,11 +93,19 @@ $05CF-$070F seventeen enemy slots
 ```
 
 Coordinates have integer and fractional components. In the Dana record,
-`+$06` is the integer Y coordinate and `+$0A` is the integer X coordinate;
+`+$07` is the integer Y coordinate and `+$0A` is the integer X coordinate;
 neighboring fields participate in fractional motion and movement state.
 Enemy-specific AI state is stored separately at `$04F7` with an eight-byte
 stride for seventeen entries. This is a split-state design rather than one
 fully self-contained structure per enemy.
+
+Collision code uses `ObjectClampYCoordinateToSurface` on a record selected by
+`TempPointer08`. It aligns object byte 7 down to a 16-pixel boundary and
+reduces byte 5 to its old sign bit, exposing the shared integer-Y and signed
+fraction/direction convention without yet generalizing every adjacent field.
+`ObjectClampXCoordinateToLeftSurface` similarly moves byte 10 to the `...4`
+inset of a 16-pixel cell and clears bytes 9 and 8 after a left-side surface
+contact.
 
 Most consumers resolve either side of that split state through two shared
 helpers. `LoadEnemyObjectPointer` and `LoadEnemyAiPointer` accept a slot index
@@ -102,6 +116,18 @@ The tables themselves are reconstructed from the two RAM bases and strides,
 with seventeen AI entries and twenty-one object entries. Four leading object
 entries cover Dana, the magic spark, the fireball, and an auxiliary record;
 the enemy-only table labels begin at the fifth entry.
+
+A third helper, `LoadObjectPointer`, serves whole-pool operations that exclude
+Dana. It accepts `X=0..19` and uses pointer-table index `X+1`, covering the
+magic spark, fireball, auxiliary record, and all seventeen enemies. Its two
+callers sweep every non-Dana object; eight other paths use the same source-owned
+plus-one table aliases directly.
+
+Two whole-pool services bracket that helper in PRG. One conditionally replaces
+byte 0 for records whose state is negative; the other unconditionally clears
+byte 0 and moves every non-Dana record offscreen with Y sentinel `$F8`. These
+sweeps expose scene-wide state-transition and teardown boundaries without yet
+assigning meanings to every negative state value.
 
 Allocation scans the AI side first. `FindFreeEnemySlotIndex` walks all
 seventeen AI state records and treats a non-negative byte 0 as available. On

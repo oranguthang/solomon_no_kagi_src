@@ -122,7 +122,7 @@ _label_bank0_80ca:
 _label_bank0_80cd:
     INC NmiFrameCounter
     JSR $84CE
-    JSR $837D
+    JSR ReadJoyPads
     LDA $78
     AND #$04
     BNE NmiRestoreRegisters

@@ -24,6 +24,9 @@
 .include "memory/ram.inc"
 
 .include "system/nmi.asm"
+.include "system/controller_input.asm"
+.include "game/object_y_clamp.asm"
+.include "game/object_x_left_clamp.asm"
 .include "system/startup.asm"
 .include "system/scheduler.asm"
 .include "system/pause_thread.asm"
@@ -47,5 +50,8 @@
 .include "data/enemy_record_pointers.asm"
 .include "game/enemy_deactivation.asm"
 .include "game/current_enemy_deactivation.asm"
+.include "game/active_object_states.asm"
+.include "game/object_pointer.asm"
+.include "game/non_dana_object_deactivation.asm"
 .include "preservation/prg.asm"
 .include "graphics/chr.asm"

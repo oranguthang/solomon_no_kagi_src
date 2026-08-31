@@ -13,11 +13,11 @@ range is understood.
 | `$0022` | NMI-incremented frame counter used by pause debounce | confirmed |
 | `$0023` | shared pending gameplay/timer update count | high |
 | `$0078` | global game-state flags; pause thread modifies bits 1-2 | high |
-| `$0082-$0083` | raw controller values | high |
+| `$0082-$0083` | raw controller values in A/B/Select/Start/Up/Down/Left/Right bit order | confirmed |
 | `$0210-$030F` | OAM shadow buffer, 64 four-byte sprites | high |
 | `$0302` | current scheduler context index | high |
 | `$0304...` | logical room map / tile state | high |
-| `$03E4-$03E5` | cached controller state | high |
+| `$03E4-$03E5` | cached controller state with game-state-dependent filtering | confirmed |
 | `$03E6...` | shared RAM PPU update-program buffer | confirmed base |
 | `$0423-$0425` | three sound-effect request slots | confirmed |
 | `$0428` | zero-based current room index | confirmed |
@@ -37,3 +37,9 @@ Important object fields observed on Dana include integer Y at `$0586`, integer
 X at `$0589`, and adjacent fractional/movement fields. Equivalent offsets are
 expected across the object pool, but each field should be proven before global
 renaming.
+
+Across shared object helpers, record byte 7 is the integer Y coordinate and
+byte 5 carries a signed fractional/directional component. The surface clamp
+aligns byte 7 to 16 pixels and preserves only byte 5's sign bit.
+Record byte 10 is integer X; its left-surface clamp clears fractional byte 9
+and motion byte 8 after aligning X to low nibble `$4`.

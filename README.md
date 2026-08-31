@@ -14,7 +14,8 @@ evidence, and small tested tools for decoded game data.
   entrypoint; CHR is a private generated asset and is not stored in Git.
 - Confirmed NES registers and high-confidence RAM aliases are separated into
   `src/memory/`.
-- Twenty-four semantic PRG modules own NMI (`$8000-$80FE`), reset/startup
+- Thirty semantic PRG modules own NMI (`$8000-$80FE`), controller input
+  (`$837D-$83C1`), reset/startup
   (`$8C00-$8D5E`), the cooperative scheduler (`$8D5F-$8E46`), and the main
   gameplay thread (`$A000-$A04B`), plus countdown timer arithmetic and warning
   transitions (`$A15F-$A225`), its HUD update builder (`$A238-$A273`), and
@@ -28,7 +29,10 @@ evidence, and small tested tools for decoded game data.
   the free-slot allocator owns `$B42A-$B445`, their split pointer tables own
   `$B446-$B491`, and slot deactivation owns `$B492-$B4B5`.
   Current-record deactivation follows at `$B4B6-$B4C3`.
+  Non-Dana object-pool state and teardown sweeps own `$CA3C-$CA4E` and
+  `$CA5A-$CA6D`, around the pointer resolver at `$CA4F-$CA59`.
   Pixel/room-map conversion owns `$918A-$91B8` and all 31 callers use symbols.
+  Object surface clamps own `$8A62-$8AA3`.
   Context 2's pause loop owns `$8E47-$8E8C`, the sound-effect request queue
   owns `$8E8D-$8E9F`, shared PPU-buffer publication owns `$8EA0-$8EA8`, and
   the inline appendix dispatcher is source-owned at `$8EA9-$8EBF`.
@@ -159,12 +163,15 @@ scripts/enemy_ai_data.py enemy AI handler-table decoder and audit
 scripts/enemy_pointer_data.py split record-pointer decoder and audit
 src/main.asm               assembly entrypoint and iNES header
 src/system/nmi.asm         semantic `$8000-$80FE` vertical-blank module
+src/system/controller_input.asm serial sampling and cached controller input
 src/system/startup.asm     reset, warm-boot state, PPU and thread bootstrap
 src/system/scheduler.asm   eight-context cooperative stack scheduler
 src/system/pause_thread.asm context-two Start-button pause loop
 src/system/sound_effect_queue.asm three-slot sound command producer
 src/system/ppu_update_buffer.asm publish shared RAM program to NMI
 src/system/jump_with_params.asm inline appendix tail-dispatch ABI
+src/game/object_y_clamp.asm align object Y to a 16-pixel surface
+src/game/object_x_left_clamp.asm clamp object X against its left surface
 src/game/coordinate_conversion.asm pixel and packed room-index conversion
 src/game/main_thread.asm   context-three gameplay service loop
 src/game/timer.asm         countdown arithmetic and warning-state transitions
@@ -182,6 +189,9 @@ src/game/enemy_slot_allocation.asm free enemy-record allocator
 src/data/enemy_record_pointers.asm generated record-pool pointer tables
 src/game/enemy_deactivation.asm parallel-record slot retirement
 src/game/current_enemy_deactivation.asm selected enemy-record retirement
+src/game/active_object_states.asm update active non-Dana record states
+src/game/object_pointer.asm non-Dana object-record pointer resolver
+src/game/non_dana_object_deactivation.asm clear the non-Dana object pool
 src/preservation/prg.asm   remaining address-ordered PRG source
 src/graphics/chr.asm       `.incbin` wrapper for ignored generated CHR
 src/memory/                hardware and RAM symbol registries

@@ -28,11 +28,11 @@ file. The audit is part of `make release-check`.
 Accepted baseline after the first split:
 
 ```text
-semantic modules            24
-documented PRG bytes      1942 / 32768 (5.927%)
-generated address labels   747
-raw control-flow targets   436
-preservation lines       10998
+semantic modules            30
+documented PRG bytes      2127 / 32768 (6.491%)
+generated address labels   740
+raw control-flow targets   419
+preservation lines       10882
 ```
 
 These are non-regression bounds, not a completion claim. As reconstruction
@@ -43,10 +43,16 @@ decrease.
 
 - `$8000-$80FE`: NMI, CNROM bank selection, OAM DMA, and PPU scroll commit are
   isolated in `src/system/nmi.asm`;
+- `$837D-$83C1`: both controller ports are serially sampled and merged into
+  raw and policy-filtered cached input bytes in `src/system/controller_input.asm`;
 - `$8C00-$8D5E`: reset, warm-boot state, PPU initialization, and scheduler
   bootstrap are isolated in `src/system/startup.asm`;
 - `$8D5F-$8E46`: the eight-context cooperative scheduler and its initial
   stack/entry tables are isolated in `src/system/scheduler.asm`;
+- `$8A62-$8A7E`: the shared object Y-to-surface clamp is isolated in
+  `src/game/object_y_clamp.asm`, with all three calls named;
+- `$8A7F-$8AA3`: the left-surface object X clamp and motion reset are isolated
+  in `src/game/object_x_left_clamp.asm`, with all three calls named;
 - `$8E47-$8E8C`: context 2 selector 1's Start-button pause/debounce loop is
   isolated in `src/system/pause_thread.asm`;
 - `$8E8D-$8E9F`: the three-slot sound-effect request producer is isolated in
@@ -89,6 +95,8 @@ decrease.
   pools by `DeactivateEnemySlot` in `src/game/enemy_deactivation.asm`;
 - `$B4B6-$B4C3`: eleven enemy behavior tail-calls retire the dispatcher-
   selected slot through `DeactivateCurrentEnemy`;
+- `$CA3C-$CA6D`: two twenty-record state/teardown sweeps bracket
+  `LoadObjectPointer`, all using source-owned plus-one pointer table aliases;
 - split the remaining preservation range into reset/startup, scheduler, room,
   gameplay/object, rendering, audio, static-data, and vector modules at proven
   code/data boundaries;

@@ -13,6 +13,9 @@ The first four object entries address Dana (`$057F`), the magic spark
 remaining seventeen begin at `EnemyObjects` (`$05CF`). Consequently,
 `EnemyObjectPointerLowTable` and `EnemyObjectPointerHighTable` are labels four
 entries into the complete object tables, not separate duplicated data.
+`NonDanaObjectPointerLowTable` and `NonDanaObjectPointerHighTable` are the
+plus-one aliases at `$B469/$B47E`; they begin with the magic spark and feed
+`LoadObjectPointer` plus eight direct consumers.
 
 The source expresses both sequences from their RAM bases and strides with
 assembly-time count and offset assertions. This keeps the byte-identical

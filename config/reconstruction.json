@@ -21,6 +21,43 @@
       ]
     },
     {
+      "id": "controller_input",
+      "path": "src/system/controller_input.asm",
+      "segment": "PRG_CONTROLLER_INPUT",
+      "start": "0x837d",
+      "end": "0x83c1",
+      "status": "semantic",
+      "required_labels": [
+        "ReadJoyPads",
+        "UpdateJoypadCache",
+        "CacheCompleteJoypadState",
+        "ReadJoyPad"
+      ]
+    },
+    {
+      "id": "object_y_clamp",
+      "path": "src/game/object_y_clamp.asm",
+      "segment": "PRG_OBJECT_Y_CLAMP",
+      "start": "0x8a62",
+      "end": "0x8a7e",
+      "status": "semantic",
+      "required_labels": [
+        "ObjectClampYCoordinateToSurface"
+      ]
+    },
+    {
+      "id": "object_x_left_clamp",
+      "path": "src/game/object_x_left_clamp.asm",
+      "segment": "PRG_OBJECT_X_LEFT_CLAMP",
+      "start": "0x8a7f",
+      "end": "0x8aa3",
+      "status": "semantic",
+      "required_labels": [
+        "ObjectClampXCoordinateToLeftSurface",
+        "ClearObjectXMotion"
+      ]
+    },
+    {
       "id": "scheduler",
       "path": "src/system/scheduler.asm",
       "segment": "PRG_SCHEDULER",
@@ -279,8 +316,10 @@
         "EnemyAiRecordPointerLowTable",
         "EnemyAiRecordPointerHighTable",
         "ObjectRecordPointerLowTable",
+        "NonDanaObjectPointerLowTable",
         "EnemyObjectPointerLowTable",
         "ObjectRecordPointerHighTable",
+        "NonDanaObjectPointerHighTable",
         "EnemyObjectPointerHighTable"
       ]
     },
@@ -319,14 +358,50 @@
       "required_labels": [
         "DeactivateCurrentEnemy"
       ]
+    },
+    {
+      "id": "active_object_states",
+      "path": "src/game/active_object_states.asm",
+      "segment": "PRG_SET_ACTIVE_OBJECT_STATES",
+      "start": "0xca3c",
+      "end": "0xca4e",
+      "status": "semantic",
+      "required_labels": [
+        "SetActiveNonDanaObjectState",
+        "SetNextActiveNonDanaObjectState",
+        "SkipInactiveNonDanaObject"
+      ]
+    },
+    {
+      "id": "object_pointer",
+      "path": "src/game/object_pointer.asm",
+      "segment": "PRG_LOAD_OBJECT_POINTER",
+      "start": "0xca4f",
+      "end": "0xca59",
+      "status": "semantic",
+      "required_labels": [
+        "LoadObjectPointer"
+      ]
+    },
+    {
+      "id": "non_dana_object_deactivation",
+      "path": "src/game/non_dana_object_deactivation.asm",
+      "segment": "PRG_DEACTIVATE_NON_DANA_OBJECTS",
+      "start": "0xca5a",
+      "end": "0xca6d",
+      "status": "semantic",
+      "required_labels": [
+        "DeactivateAllNonDanaObjects",
+        "DeactivateNextNonDanaObject"
+      ]
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 24,
-    "minimum_documented_prg_bytes": 1942,
-    "minimum_provenance_entries": 108,
-    "maximum_preservation_lines": 10998,
-    "maximum_generated_labels": 747,
-    "maximum_raw_control_flow_targets": 436
+    "minimum_semantic_modules": 30,
+    "minimum_documented_prg_bytes": 2127,
+    "minimum_provenance_entries": 119,
+    "maximum_preservation_lines": 10882,
+    "maximum_generated_labels": 740,
+    "maximum_raw_control_flow_targets": 419
   }
 }

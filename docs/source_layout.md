@@ -1,9 +1,11 @@
 # Source layout
 
 `src/main.asm` owns the CPU selection, iNES header, hardware/RAM registries, and
-address-ordered includes. Semantic system modules own NMI at `$8000-$80FE`,
-startup at `$8C00-$8D5E`, the scheduler at `$8D5F-$8E46`, context 2's pause
-loop at `$8E47-$8E8C`, sound-effect request queuing at `$8E8D-$8E9F`, PPU
+address-ordered includes. Semantic modules own NMI at `$8000-$80FE`, controller
+sampling at `$837D-$83C1`, object
+surface clamping at `$8A62-$8AA3`, startup at `$8C00-$8D5E`, the scheduler at
+`$8D5F-$8E46`, context 2's pause loop at `$8E47-$8E8C`, sound-effect request
+queuing at `$8E8D-$8E9F`, PPU
 update-buffer publication at `$8EA0-$8EA8`, inline appendix dispatch at
 `$8EA9-$8EBF`, room-map coordinate conversion at `$918A-$91B8`, and the main
 gameplay thread at `$A000-$A04B`.
@@ -21,6 +23,8 @@ The free enemy-slot allocator owns `$B42A-$B445`.
 Their split record-pool pointer tables own `$B446-$B491`.
 The adjacent enemy-slot deactivation helper owns `$B492-$B4B5`.
 Current selected-enemy deactivation owns `$B4B6-$B4C3`.
+Non-Dana object state maintenance owns `$CA3C-$CA6D`, split into two sweep
+routines around the shared pointer resolver.
 `src/preservation/prg.asm` owns the unresolved ranges
 between and after those modules. `src/graphics/chr.asm` includes the ignored CHR payload created by
 `make split`; no CHR bytes are kept in Git.
@@ -31,7 +35,12 @@ The linker deliberately preserves the upstream segment names:
 | --- | --- | ---: |
 | `HEADER` | 16-byte iNES header | 16 |
 | `PRG_NMI` | semantic NMI and PPU commit module | 255 |
-| `PRG_PRE_STARTUP` | unresolved `$80FF-$8BFF` range | 2,817 |
+| `PRG_PRE_STARTUP` | unresolved `$80FF-$837C` range | 638 |
+| `PRG_CONTROLLER_INPUT` | two-port serial controller sampling and caching | 69 |
+| `PRG_POST_CONTROLLER_INPUT` | unresolved `$83C2-$8A61` range | 1,696 |
+| `PRG_OBJECT_Y_CLAMP` | align object Y to a 16-pixel surface | 29 |
+| `PRG_OBJECT_X_LEFT_CLAMP` | clamp X against a left-side surface | 37 |
+| `PRG_POST_OBJECT_CLAMPS` | unresolved `$8AA4-$8BFF` range | 348 |
 | `PRG_STARTUP` | reset and startup module | 351 |
 | `PRG_SCHEDULER` | cooperative scheduler and entry tables | 232 |
 | `PRG_PAUSE_THREAD` | context-two pause and Start debounce loop | 70 |
@@ -62,7 +71,11 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_ENEMY_POINTER_TABLES` | split object/AI record pointer tables | 76 |
 | `PRG_ENEMY_DEACTIVATION` | parallel-record enemy slot retirement | 36 |
 | `PRG_CURRENT_ENEMY_DEACTIVATION` | selected enemy-record retirement | 14 |
-| `PRG_BANK_0` | unresolved `$B4C4-$FFFF` range | 19,260 |
+| `PRG_BANK_0` | unresolved `$B4C4-$CA3B` range | 5,496 |
+| `PRG_SET_ACTIVE_OBJECT_STATES` | conditional non-Dana state sweep | 19 |
+| `PRG_LOAD_OBJECT_POINTER` | non-Dana object pointer resolver | 11 |
+| `PRG_DEACTIVATE_NON_DANA_OBJECTS` | whole non-Dana object teardown | 20 |
+| `PRG_POST_NON_DANA_OBJECT_DEACTIVATION` | unresolved `$CA6E-$FFFF` range | 13,714 |
 | `PRG_BANK_1` | generated CHR payload (historical name) | 32,768 |
 
 This unusual naming is documented in `config/linker/cnrom.cfg`. Renaming a
