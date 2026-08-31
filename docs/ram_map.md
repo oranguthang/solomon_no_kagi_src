@@ -8,7 +8,7 @@ range is understood.
 | `$0000-$000F` | temporary pointers and scratch values | high |
 | `$0012-$0019` | saved SP values for eight cooperative contexts | high |
 | `$001A-$001B` | NMI-consumed PPU update-stream pointer | confirmed |
-| `$0023` | number of pending timer updates | high |
+| `$0023` | shared pending gameplay/timer update count | high |
 | `$0082-$0083` | raw controller values | high |
 | `$0210-$030F` | OAM shadow buffer, 64 four-byte sprites | high |
 | `$0302` | current scheduler context index | high |
@@ -17,6 +17,7 @@ range is understood.
 | `$0428` | zero-based current room index | confirmed |
 | `$0429-$043D` | fireball, inventory, and lifetime state | mixed/high |
 | `$0434-$043B` | timer warning state, step, fraction, and decimal digits | high |
+| `$0447` | active enemy count produced by the movement prepass | high |
 | `$044A-$0451` | decimal score digits | high |
 | `$0452` | remaining lives | high |
 | `$0453-$0454` | collected and queued fairies | high |

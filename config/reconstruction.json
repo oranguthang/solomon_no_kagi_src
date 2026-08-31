@@ -77,14 +77,68 @@
         "CommitTimerDisplayUpdate",
         "UpdateTimerWarningState"
       ]
+    },
+    {
+      "id": "timer_display",
+      "path": "src/game/timer_display.asm",
+      "segment": "PRG_TIMER_DISPLAY",
+      "start": "0xa238",
+      "end": "0xa273",
+      "status": "semantic",
+      "required_labels": [
+        "BuildTimerDisplayUpdate",
+        "CopyTimerDigits",
+        "BlankLeadingTimerZeroes",
+        "TimerDisplayWriterCallTemplate"
+      ]
+    },
+    {
+      "id": "enemy_movement",
+      "path": "src/game/enemy_movement.asm",
+      "segment": "PRG_ENEMY_MOVEMENT",
+      "start": "0xa274",
+      "end": "0xa2db",
+      "status": "semantic",
+      "required_labels": [
+        "UpdateEnemiesMovement",
+        "UpdateNextEnemyMovement",
+        "NextEnemyMovement"
+      ]
+    },
+    {
+      "id": "enemy_ai_dispatch",
+      "path": "src/game/enemy_ai_dispatch.asm",
+      "segment": "PRG_ENEMY_AI_DISPATCH",
+      "start": "0xa2dc",
+      "end": "0xa30b",
+      "status": "semantic",
+      "required_labels": [
+        "RunEnemyAiDispatcher",
+        "CheckNextEnemyAiSlot",
+        "NextEnemyAiSlot"
+      ]
+    },
+    {
+      "id": "fireball_lifetime",
+      "path": "src/game/fireball_lifetime.asm",
+      "segment": "PRG_FIREBALL_LIFETIME",
+      "start": "0xa3a4",
+      "end": "0xa3d6",
+      "status": "semantic",
+      "required_labels": [
+        "UpdateFireballLifetime",
+        "CheckActiveFireballLifetime",
+        "CheckInactiveFireballCleanup",
+        "FinishFireballLifetimeUpdate"
+      ]
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 5,
-    "minimum_documented_prg_bytes": 1113,
-    "minimum_provenance_entries": 54,
-    "maximum_preservation_lines": 11424,
-    "maximum_generated_labels": 771,
-    "maximum_raw_control_flow_targets": 603
+    "minimum_semantic_modules": 9,
+    "minimum_documented_prg_bytes": 1376,
+    "minimum_provenance_entries": 70,
+    "maximum_preservation_lines": 11276,
+    "maximum_generated_labels": 761,
+    "maximum_raw_control_flow_targets": 597
   }
 }

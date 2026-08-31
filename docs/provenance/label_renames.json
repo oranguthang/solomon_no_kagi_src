@@ -489,6 +489,153 @@
       "evidence": [
         "All paths that skip or complete threshold handling return through this RTS."
       ]
+    },
+    {
+      "address": "0xa238",
+      "previous": "$A238",
+      "current": "BuildTimerDisplayUpdate",
+      "confidence": "confirmed",
+      "evidence": [
+        "The routine copies the four timer digits into the NMI-consumed RAM update buffer and publishes that buffer through $8EA0."
+      ]
+    },
+    {
+      "address": "0xa23a",
+      "previous": "_label_bank0_a23a",
+      "current": "CopyTimerDisplayWriterCall",
+      "confidence": "confirmed",
+      "evidence": [
+        "The three-iteration loop copies TimerDisplayWriterCallTemplate to the start of TimerDisplayUpdateBuffer."
+      ]
+    },
+    {
+      "address": "0xa24d",
+      "previous": "_label_bank0_a24d",
+      "current": "CopyTimerDigits",
+      "confidence": "confirmed",
+      "evidence": [
+        "The loop copies TimerDigit10000 through TimerDigit10 into ascending display-buffer positions while ORing all digits."
+      ]
+    },
+    {
+      "address": "0xa261",
+      "previous": "_label_bank0_a261",
+      "current": "BlankLeadingTimerZeroes",
+      "confidence": "confirmed",
+      "evidence": [
+        "The loop replaces leading zero digits with blank tile $24 and stops at the first nonzero digit."
+      ]
+    },
+    {
+      "address": "0xa26e",
+      "previous": "_label_bank0_a26e",
+      "current": "PublishTimerDisplayUpdate",
+      "confidence": "high",
+      "evidence": [
+        "All display-builder paths tail-call $8EA0, whose instruction flow points the shared PPU stream at RAM $03E6."
+      ]
+    },
+    {
+      "address": "0xa271",
+      "previous": "$A271",
+      "current": "TimerDisplayWriterCallTemplate",
+      "confidence": "confirmed",
+      "evidence": [
+        "BuildTimerDisplayUpdate copies these exact three bytes to RAM; they encode JSR $4469 at the head of the generated update program."
+      ]
+    },
+    {
+      "address": "0xa274",
+      "previous": "$A274",
+      "current": "UpdateEnemiesMovement",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map identifies this entry as UpdateEnemiesMovement.",
+        "The routine consumes the shared update count and advances active records selected through the 17 enemy pointer-table entries."
+      ]
+    },
+    {
+      "address": "0xa28b",
+      "previous": "_label_bank0_a28b",
+      "current": "UpdateNextEnemyMovement",
+      "confidence": "confirmed",
+      "evidence": [
+        "The 17-iteration loop loads matching enemy object and AI-record pointers before testing and updating the record."
+      ]
+    },
+    {
+      "address": "0xa2d8",
+      "previous": "_label_bank0_a2d8",
+      "current": "NextEnemyMovement",
+      "confidence": "confirmed",
+      "evidence": [
+        "Inactive and completed enemy-record paths converge here to decrement the slot index and continue the loop."
+      ]
+    },
+    {
+      "address": "0xa2dc",
+      "previous": "$A2DC",
+      "current": "RunEnemyAiDispatcher",
+      "confidence": "high",
+      "evidence": [
+        "Bisqwit's map identifies this entry as MaybeRunAllEnemyAI.",
+        "The routine scans all 17 enemy pointer pairs and conditionally calls the per-enemy handler at $A469."
+      ]
+    },
+    {
+      "address": "0xa2de",
+      "previous": "_label_bank0_a2de",
+      "current": "CheckNextEnemyAiSlot",
+      "confidence": "confirmed",
+      "evidence": [
+        "The outer loop resolves AI and object pointers for the current slot before applying two eligibility tests."
+      ]
+    },
+    {
+      "address": "0xa306",
+      "previous": "_label_bank0_a306",
+      "current": "NextEnemyAiSlot",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both failed eligibility checks and the completed handler path restore X and continue with the next slot."
+      ]
+    },
+    {
+      "address": "0xa3a4",
+      "previous": "$A3A4",
+      "current": "UpdateFireballLifetime",
+      "confidence": "high",
+      "evidence": [
+        "Bisqwit's map identifies this entry as MaybeRunFireballAI_1.",
+        "The routine checks FireballObject activity, compares the fireball life counter with its configured lifetime, and transitions cleanup state."
+      ]
+    },
+    {
+      "address": "0xa3a9",
+      "previous": "$A3A9",
+      "current": "CheckActiveFireballLifetime",
+      "confidence": "confirmed",
+      "evidence": [
+        "After the object-active guard, this block tests FireballActive and performs the 16-bit lifetime comparison."
+      ]
+    },
+    {
+      "address": "0xa3cc",
+      "previous": "_label_bank0_a3cc",
+      "current": "CheckInactiveFireballCleanup",
+      "confidence": "high",
+      "evidence": [
+        "When FireballActive is clear, the block waits until the low life counter reaches eight before clearing FireballObject."
+      ]
+    },
+    {
+      "address": "0xa3d6",
+      "previous": "_label_bank0_a3d6",
+      "current": "FinishFireballLifetimeUpdate",
+      "confidence": "confirmed",
+      "evidence": [
+        "All inactive, unexpired, expiration, and cleanup paths converge on this RTS."
+      ]
     }
   ]
 }

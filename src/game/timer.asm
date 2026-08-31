@@ -7,7 +7,7 @@ DecrementTimer:
     STA TempPointer00
     LDA #>TimerWarningState
     STA TempPointer00 + 1
-    LDA TimerUpdateCount
+    LDA GameplayUpdateCount
     STA $02
     BEQ CommitTimerDisplayUpdate
     LDA TimerDecrementStep
@@ -70,7 +70,7 @@ CommitTimerDisplayUpdate:
     LDA TimerDecrementStep
     AND #$7F
     STA TimerDecrementStep
-    JSR $A238
+    JSR BuildTimerDisplayUpdate
     LDA $02
     BNE UpdateTimerWarningState
     LDA #$33

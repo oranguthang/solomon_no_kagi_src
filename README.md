@@ -14,10 +14,12 @@ evidence, and small tested tools for decoded game data.
   entrypoint; CHR is a private generated asset and is not stored in Git.
 - Confirmed NES registers and high-confidence RAM aliases are separated into
   `src/memory/`.
-- Five semantic PRG modules own NMI (`$8000-$80FE`), reset/startup
+- Nine semantic PRG modules own NMI (`$8000-$80FE`), reset/startup
   (`$8C00-$8D5E`), the cooperative scheduler (`$8D5F-$8E46`), and the main
   gameplay thread (`$A000-$A04B`), plus countdown timer arithmetic and warning
-  transitions (`$A15F-$A225`).
+  transitions (`$A15F-$A225`), its HUD update builder (`$A238-$A273`), and
+  the enemy movement prepass (`$A274-$A2DB`) plus AI dispatcher
+  (`$A2DC-$A30B`), and fireball lifetime service (`$A3A4-$A3D6`).
 - `make reconstruction-status` reports monotonic cleanup metrics, while
   `make reconstruction-audit` binds module ranges and renamed labels to linker
   output.
@@ -141,6 +143,10 @@ src/system/startup.asm     reset, warm-boot state, PPU and thread bootstrap
 src/system/scheduler.asm   eight-context cooperative stack scheduler
 src/game/main_thread.asm   context-three gameplay service loop
 src/game/timer.asm         countdown arithmetic and warning-state transitions
+src/game/timer_display.asm NMI update-program builder for timer digits
+src/game/enemy_movement.asm active-enemy movement prepass
+src/game/enemy_ai_dispatch.asm 17-slot per-enemy AI selector
+src/game/fireball_lifetime.asm fireball expiration and delayed cleanup
 src/preservation/prg.asm   remaining address-ordered PRG source
 src/graphics/chr.asm       `.incbin` wrapper for ignored generated CHR
 src/memory/                hardware and RAM symbol registries

@@ -15,6 +15,9 @@ MAP := $(BUILD_DIR)/solomons_key.map
 DEBUG := $(BUILD_DIR)/solomons_key.dbg
 SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/startup.asm \
 	src/system/scheduler.asm src/game/main_thread.asm src/game/timer.asm \
+	src/game/timer_display.asm src/game/enemy_movement.asm \
+	src/game/enemy_ai_dispatch.asm \
+	src/game/fireball_lifetime.asm \
 	src/preservation/prg.asm \
 	src/graphics/chr.asm src/memory/hardware.inc src/memory/ram.inc
 

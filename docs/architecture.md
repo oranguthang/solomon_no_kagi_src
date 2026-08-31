@@ -62,6 +62,22 @@ Enemy-specific AI state is stored separately at `$04F7` with an eight-byte
 stride for seventeen entries. This is a split-state design rather than one
 fully self-contained structure per enemy.
 
+`UpdateEnemiesMovement` walks these parallel pools through four split pointer
+tables. It advances active AI records using the shared gameplay update count,
+caches direction components relative to Dana, and publishes an active-enemy
+count for later services. Field-level semantics beyond the confirmed offsets
+remain deliberately unresolved; see `docs/enemy_movement.md`.
+
+The following `RunEnemyAiDispatcher` pass resolves the same parallel pointers,
+applies two object-record eligibility tests, and invokes a per-enemy handler.
+Keeping selection separate from behavior matches the two-stage movement/AI
+pipeline visible in `MainGameplayThread`.
+
+The fireball uses a separate two-phase lifetime service. An active fireball is
+expired when its 16-bit counter passes the configured lifetime; the object is
+retired only after a short low-counter grace interval. This state transition is
+isolated from the later object initialization and rendering helpers.
+
 ## Countdown timer
 
 The gameplay thread consumes pending timer ticks through `DecrementTimer`.

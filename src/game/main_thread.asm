@@ -4,15 +4,15 @@
 
 MainGameplayThread:
     JSR DecrementTimer
-    JSR $A274
+    JSR UpdateEnemiesMovement
     JSR $A0A7
     JSR $A04C
     JSR SwitchThreads
-    JSR $A2DC
+    JSR RunEnemyAiDispatcher
     JSR SwitchThreads
     JSR $C432
     JSR SwitchThreads
-    JSR $A3A4
+    JSR UpdateFireballLifetime
     JSR SwitchThreads
     LDA FairiesQueued
     BEQ ContinueMainGameplayThread

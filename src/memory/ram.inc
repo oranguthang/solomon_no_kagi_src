@@ -3,6 +3,7 @@
 ; listing yet. See docs/naming.md for the evidence rule
 
 TempPointer00 = $0000
+TempPointer02 = $0002
 TempPointer04 = $0004
 TempPointer08 = $0008
 TempPointer0A = $000A
@@ -11,7 +12,9 @@ TempPointer0E = $000E
 NmiSavedX = $0010
 NmiSavedY = $0011
 PpuUpdateStreamPointer = $001A
-TimerUpdateCount = $0023
+GameplayUpdateCount = $0023
+EnemyAiPointer = $002C
+EnemyObjectPointer = $002E
 
 ThreadStackPointers = $0012
 ThreadStackPointerCount = 8
@@ -32,6 +35,9 @@ Joypad1Raw = $0082
 Joypad2Raw = $0083
 Joypad1Cached = $03E4
 Joypad2Cached = $03E5
+TimerDisplayUpdateBuffer = $03E6
+TimerDisplayDigits = $03E9
+TimerDisplayTerminator = $03ED
 
 OamBuffer = $0210
 OamBufferSize = $0100
@@ -55,6 +61,7 @@ TimerDigit10 = $0438
 TimerDigit100 = $0439
 TimerDigit1000 = $043A
 TimerDigit10000 = $043B
+ActiveEnemyCount = $0447
 ScoreDigits = $044A
 RemainingLives = $0452
 FairiesCollected = $0453
@@ -66,6 +73,8 @@ EnemyAiStateCount = 17
 
 ObjectRecordSize = $14
 DanaObject = $057F
+DanaYPosition = DanaObject + $07
+DanaXPosition = DanaObject + $0A
 MagicSparkObject = $0593
 FireballObject = $05A7
 EnemyObjects = $05CF

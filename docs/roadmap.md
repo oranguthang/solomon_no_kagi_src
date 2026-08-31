@@ -28,11 +28,11 @@ file. The audit is part of `make release-check`.
 Accepted baseline after the first split:
 
 ```text
-semantic modules             5
-documented PRG bytes      1113 / 32768 (3.397%)
-generated address labels   771
-raw control-flow targets   603
-preservation lines       11424
+semantic modules             9
+documented PRG bytes      1376 / 32768 (4.199%)
+generated address labels   761
+raw control-flow targets   597
+preservation lines       11276
 ```
 
 These are non-regression bounds, not a completion claim. As reconstruction
@@ -51,6 +51,14 @@ decrease.
   fairy path are isolated in `src/game/main_thread.asm`;
 - `$A15F-$A225`: countdown arithmetic, decimal borrow propagation, display
   dirty state, and threshold transitions are isolated in `src/game/timer.asm`;
+- `$A238-$A273`: timer digit formatting and NMI update-program construction
+  are isolated in `src/game/timer_display.asm`;
+- `$A274-$A2DB`: the 17-slot active-enemy movement prepass is isolated in
+  `src/game/enemy_movement.asm`;
+- `$A2DC-$A30B`: the eligibility scan and per-enemy AI dispatch are isolated
+  in `src/game/enemy_ai_dispatch.asm`;
+- `$A3A4-$A3D6`: fireball lifetime comparison, expiration, and delayed object
+  cleanup are isolated in `src/game/fireball_lifetime.asm`;
 - split the remaining preservation range into reset/startup, scheduler, room,
   gameplay/object, rendering, audio, static-data, and vector modules at proven
   code/data boundaries;

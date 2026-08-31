@@ -198,6 +198,9 @@ def command_lint(_args: argparse.Namespace) -> None:
         "config/scheduler_entries.json",
         "config/linker/cnrom.cfg",
         "docs/code_quality.md",
+        "docs/enemy_movement.md",
+        "docs/enemy_ai_dispatch.md",
+        "docs/fireball_lifetime.md",
         "docs/main_gameplay_thread.md",
         "docs/nmi.md",
         "docs/scheduler.md",
@@ -214,7 +217,11 @@ def command_lint(_args: argparse.Namespace) -> None:
         "src/system/scheduler.asm",
         "src/system/startup.asm",
         "src/game/main_thread.asm",
+        "src/game/enemy_movement.asm",
+        "src/game/enemy_ai_dispatch.asm",
+        "src/game/fireball_lifetime.asm",
         "src/game/timer.asm",
+        "src/game/timer_display.asm",
     )
     missing = [name for name in required if not (ROOT / name).is_file()]
     if missing:
@@ -257,6 +264,26 @@ def command_lint(_args: argparse.Namespace) -> None:
             "DecrementTimer:",
             "DecrementTimerByOne:",
             "UpdateTimerWarningState:",
+        ),
+        "src/game/timer_display.asm": (
+            '.segment "PRG_TIMER_DISPLAY"',
+            "BuildTimerDisplayUpdate:",
+            "TimerDisplayWriterCallTemplate:",
+        ),
+        "src/game/enemy_movement.asm": (
+            '.segment "PRG_ENEMY_MOVEMENT"',
+            "UpdateEnemiesMovement:",
+            "UpdateNextEnemyMovement:",
+        ),
+        "src/game/enemy_ai_dispatch.asm": (
+            '.segment "PRG_ENEMY_AI_DISPATCH"',
+            "RunEnemyAiDispatcher:",
+            "CheckNextEnemyAiSlot:",
+        ),
+        "src/game/fireball_lifetime.asm": (
+            '.segment "PRG_FIREBALL_LIFETIME"',
+            "UpdateFireballLifetime:",
+            "FinishFireballLifetimeUpdate:",
         ),
         "src/preservation/prg.asm": (
             '.segment "PRG_BANK_0"',

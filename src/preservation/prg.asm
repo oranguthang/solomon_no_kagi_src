@@ -1875,7 +1875,7 @@ _label_bank0_8e9a:
     LDA #$FF
     LDX #$1B
     JSR $9165
-    JSR $A238
+    JSR BuildTimerDisplayUpdate
     LDX #$08
 
 _label_bank0_8ef5:
@@ -4166,136 +4166,11 @@ _label_bank0_a131:
     JSR $9D99
     RTS
 
-.segment "PRG_BANK_0"
+.segment "PRG_PRE_TIMER_DISPLAY"
     .byte $20, $69, $44, $02, $04, $10, $23, $c2, $41, $f0, $30, $00, $23
     .byte $c2, $41, $a0, $20, $00
 
-    LDX #$02
-
-_label_bank0_a23a:
-    LDA $A271,X
-    STA $03E6,X
-    DEX
-    BPL _label_bank0_a23a
-    LDX #$03
-    LDA #$00
-    STA $03EE
-    STA $02
-    TAY
-
-_label_bank0_a24d:
-    LDA $0438,X
-    STA $03E9,Y
-    ORA $02
-    STA $02
-    INY
-    DEX
-    BPL _label_bank0_a24d
-    INX
-    STX $03ED
-    LDA #$24
-
-_label_bank0_a261:
-    LDY $03E9,X
-    BNE _label_bank0_a26e
-    STA $03E9,X
-    INX
-    CPX #$04
-    BNE _label_bank0_a261
-
-_label_bank0_a26e:
-    JMP $8EA0
-    JSR $4469
-    LDA $0586
-    STA $06
-    LDA $0589
-    STA $07
-    LDA $23
-    STA $00
-    LDA #$00
-    STA $23
-    STA $0447
-    LDX #$10
-
-_label_bank0_a28b:
-    LDA $B46C,X
-    STA $02
-    LDA $B481,X
-    STA $03
-    LDA $B446,X
-    STA $04
-    LDA $B457,X
-    STA $05
-    LDY #$00
-    LDA ($04),Y
-    BPL _label_bank0_a2d8
-    INC $0447
-    INY
-    LDA $00
-    CLC
-    ADC ($04),Y
-    STA ($04),Y
-    INY
-    LDA $00
-    CLC
-    ADC ($04),Y
-    STA ($04),Y
-    INY
-    LDA #$00
-    ADC ($04),Y
-    STA ($04),Y
-    LDY #$07
-    LDA ($02),Y
-    SEC
-    SBC $06
-    ROR A
-    PHA
-    LDY #$0A
-    LDA ($02),Y
-    SEC
-    SBC $07
-    ROR A
-    LDY #$05
-    STA ($04),Y
-    DEY
-    PLA
-    STA ($04),Y
-
-_label_bank0_a2d8:
-    DEX
-    BPL _label_bank0_a28b
-    RTS
-
-    LDX #$10
-
-_label_bank0_a2de:
-    TXA
-    PHA
-    LDA $B446,X
-    STA $2C
-    LDA $B457,X
-    STA $2D
-    LDA $B46C,X
-    STA $2E
-    LDA $B481,X
-    STA $2F
-    LDY #$00
-    LDA ($2E),Y
-    CMP #$C0
-    BCC _label_bank0_a306
-    INY
-    LDA ($2E),Y
-    SBC #$14
-    BCC _label_bank0_a306
-    JSR $A469
-
-_label_bank0_a306:
-    PLA
-    TAX
-    DEX
-    BPL _label_bank0_a2de
-    RTS
-
+.segment "PRG_PRE_FIREBALL_LIFETIME"
     LDA #$FF
     LDX #$1B
     JSR $9165
@@ -4391,32 +4266,9 @@ _label_bank0_a389:
     JMP $8EA0
 
     .byte $b4, $b0, $b1, $4a, $54, $20, $4a, $74
-    .byte $20, $ad, $a7, $05, $10, $2d
+    .byte $20
 
-    LDA $042A
-    BEQ _label_bank0_a3cc
-    SEC
-    LDA $0432
-    SBC $042C
-    LDA $0433
-    SBC $042D
-    BCS _label_bank0_a3d6
-    LDA #$00
-    STA $042A
-    STA $042C
-    LDX #$04
-    STX $05AA
-    BNE _label_bank0_a3d6
-
-_label_bank0_a3cc:
-    LDX $042C
-    CPX #$08
-    BCC _label_bank0_a3d6
-    STA $05A7
-
-_label_bank0_a3d6:
-    RTS
-
+.segment "PRG_BANK_0"
     LDA $06
     JSR $B296
     LDY #$00
