@@ -28,11 +28,11 @@ file. The audit is part of `make release-check`.
 Accepted baseline after the first split:
 
 ```text
-semantic modules            12
-documented PRG bytes      1522 / 32768 (4.645%)
+semantic modules            16
+documented PRG bytes      1696 / 32768 (5.176%)
 generated address labels   757
-raw control-flow targets   588
-preservation lines       11195
+raw control-flow targets   558
+preservation lines       11164
 ```
 
 These are non-regression bounds, not a completion claim. As reconstruction
@@ -65,6 +65,14 @@ decrease.
   are isolated in `src/game/enemy_type_configuration.asm`;
 - `$A44E-$A468`: the directly indexed 27-byte enemy-type flag table is
   isolated in `src/data/enemy_types.asm`;
+- `$A469-$A4A5`: selector normalization, inline dispatch, and all 28 handler
+  pointers are isolated in `src/game/enemy_ai_handlers.asm`;
+- `$A4A6-$A4B2`: the shared current-enemy position-copy helper is isolated in
+  `src/game/enemy_position.asm`;
+- `$B28A-$B2A1`: the indexed object/AI record pointer resolvers are isolated
+  in `src/game/enemy_pointers.asm`, and all 28 call sites use their symbols;
+- `$B446-$B491`: the 17-entry AI and 21-entry object split pointer tables are
+  formula-generated and machine-audited in `src/data/enemy_record_pointers.asm`;
 - split the remaining preservation range into reset/startup, scheduler, room,
   gameplay/object, rendering, audio, static-data, and vector modules at proven
   code/data boundaries;

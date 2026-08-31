@@ -700,6 +700,109 @@
       "evidence": [
         "ConfigureEnemyType indexes this 27-byte table with (SpawnType - $18) / 4; room types $80/$81 require final index 26, proving the byte at $A468 belongs to the table."
       ]
+    },
+    {
+      "address": "0xa469",
+      "previous": "$A469",
+      "current": "DispatchEnemyAiHandler",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map identifies this entry as MaybeRunOneEnemyAI.",
+        "The routine divides the selector by four and calls JumpWithParams, whose inline appendix contains 28 handler pointers."
+      ]
+    },
+    {
+      "address": "0xa46e",
+      "previous": "$A46E",
+      "current": "EnemyAiHandlerTable",
+      "confidence": "confirmed",
+      "evidence": [
+        "The 56 bytes after JSR $8EA9 decode as 28 valid little-endian PRG targets consumed by the JumpWithParams appendix convention."
+      ]
+    },
+    {
+      "address": "0xa4a6",
+      "previous": "$A4A6",
+      "current": "LoadCurrentEnemyPosition",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both call sites first select an enemy object record, then use the copied coordinates while constructing a related object.",
+        "The helper copies object offsets 7 and 10 through EnemyObjectPointer into the shared SpawnYPosition and SpawnXPosition scratch fields."
+      ]
+    },
+    {
+      "address": "0xb28a",
+      "previous": "$B28A",
+      "current": "LoadEnemyObjectPointer",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map identifies this entry as LoadEnemyObjectPointer.",
+        "The routine uses the slot index in A to combine the low-byte table at $B46C and high-byte table at $B481 into TempPointer00."
+      ]
+    },
+    {
+      "address": "0xb296",
+      "previous": "$B296",
+      "current": "LoadEnemyAiPointer",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map identifies this entry as LoadEnemyAIvarsPointer.",
+        "The routine uses the slot index in A to combine the low-byte table at $B446 and high-byte table at $B457 into TempPointer00."
+      ]
+    },
+    {
+      "address": "0xb446",
+      "previous": "$B446",
+      "current": "EnemyAiRecordPointerLowTable",
+      "confidence": "confirmed",
+      "evidence": [
+        "Seventeen bytes are the low halves of the arithmetic sequence $04F7 + index * 8 used by every enemy AI record resolver."
+      ]
+    },
+    {
+      "address": "0xb457",
+      "previous": "$B457",
+      "current": "EnemyAiRecordPointerHighTable",
+      "confidence": "confirmed",
+      "evidence": [
+        "Seventeen bytes pair with $B446 to address the complete $04F7-$057E enemy AI state pool."
+      ]
+    },
+    {
+      "address": "0xb468",
+      "previous": "$B468",
+      "current": "ObjectRecordPointerLowTable",
+      "confidence": "confirmed",
+      "evidence": [
+        "Twenty-one bytes are the low halves of the arithmetic sequence $057F + index * $14 covering four special objects and seventeen enemies."
+      ]
+    },
+    {
+      "address": "0xb46c",
+      "previous": "$B46C",
+      "current": "EnemyObjectPointerLowTable",
+      "confidence": "confirmed",
+      "evidence": [
+        "This label is four entries into ObjectRecordPointerLowTable and begins the seventeen enemy object records at $05CF."
+      ]
+    },
+    {
+      "address": "0xb47d",
+      "previous": "$B47D",
+      "current": "ObjectRecordPointerHighTable",
+      "confidence": "confirmed",
+      "evidence": [
+        "Twenty-one bytes pair with $B468 to address the complete $057F-$071E object pool at a $14-byte stride."
+      ]
+    },
+    {
+      "address": "0xb481",
+      "previous": "$B481",
+      "current": "EnemyObjectPointerHighTable",
+      "confidence": "confirmed",
+      "evidence": [
+        "This label is four entries into ObjectRecordPointerHighTable and pairs with the enemy-only low table at $B46C."
+      ]
     }
   ]
 }

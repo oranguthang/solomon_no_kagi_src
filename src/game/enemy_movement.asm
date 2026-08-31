@@ -15,13 +15,13 @@ UpdateEnemiesMovement:
     LDX #EnemyObjectCount - 1
 
 UpdateNextEnemyMovement:
-    LDA $B46C,X
+    LDA EnemyObjectPointerLowTable,X
     STA TempPointer02
-    LDA $B481,X
+    LDA EnemyObjectPointerHighTable,X
     STA TempPointer02 + 1
-    LDA $B446,X
+    LDA EnemyAiRecordPointerLowTable,X
     STA TempPointer04
-    LDA $B457,X
+    LDA EnemyAiRecordPointerHighTable,X
     STA TempPointer04 + 1
     LDY #$00
     LDA (TempPointer04),Y

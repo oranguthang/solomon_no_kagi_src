@@ -168,14 +168,65 @@
       "required_labels": [
         "EnemyTypeConfigurationTable"
       ]
+    },
+    {
+      "id": "enemy_ai_handlers",
+      "path": "src/game/enemy_ai_handlers.asm",
+      "segment": "PRG_ENEMY_AI_HANDLERS",
+      "start": "0xa469",
+      "end": "0xa4a5",
+      "status": "semantic",
+      "required_labels": [
+        "DispatchEnemyAiHandler",
+        "EnemyAiHandlerTable"
+      ]
+    },
+    {
+      "id": "enemy_position",
+      "path": "src/game/enemy_position.asm",
+      "segment": "PRG_ENEMY_POSITION",
+      "start": "0xa4a6",
+      "end": "0xa4b2",
+      "status": "semantic",
+      "required_labels": [
+        "LoadCurrentEnemyPosition"
+      ]
+    },
+    {
+      "id": "enemy_pointers",
+      "path": "src/game/enemy_pointers.asm",
+      "segment": "PRG_ENEMY_POINTERS",
+      "start": "0xb28a",
+      "end": "0xb2a1",
+      "status": "semantic",
+      "required_labels": [
+        "LoadEnemyObjectPointer",
+        "LoadEnemyAiPointer"
+      ]
+    },
+    {
+      "id": "enemy_record_pointer_tables",
+      "path": "src/data/enemy_record_pointers.asm",
+      "segment": "PRG_ENEMY_POINTER_TABLES",
+      "start": "0xb446",
+      "end": "0xb491",
+      "status": "semantic",
+      "required_labels": [
+        "EnemyAiRecordPointerLowTable",
+        "EnemyAiRecordPointerHighTable",
+        "ObjectRecordPointerLowTable",
+        "EnemyObjectPointerLowTable",
+        "ObjectRecordPointerHighTable",
+        "EnemyObjectPointerHighTable"
+      ]
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 12,
-    "minimum_documented_prg_bytes": 1522,
-    "minimum_provenance_entries": 77,
-    "maximum_preservation_lines": 11195,
+    "minimum_semantic_modules": 16,
+    "minimum_documented_prg_bytes": 1696,
+    "minimum_provenance_entries": 88,
+    "maximum_preservation_lines": 11164,
     "maximum_generated_labels": 757,
-    "maximum_raw_control_flow_targets": 588
+    "maximum_raw_control_flow_targets": 558
   }
 }

@@ -62,6 +62,16 @@ Enemy-specific AI state is stored separately at `$04F7` with an eight-byte
 stride for seventeen entries. This is a split-state design rather than one
 fully self-contained structure per enemy.
 
+Most consumers resolve either side of that split state through two shared
+helpers. `LoadEnemyObjectPointer` and `LoadEnemyAiPointer` accept a slot index
+in `A` and construct the chosen record address in `TempPointer00`. Each helper
+uses separate low/high pointer tables, keeping pool bases and record strides
+out of the calling code. All 28 source call sites now use these entry names.
+The tables themselves are reconstructed from the two RAM bases and strides,
+with seventeen AI entries and twenty-one object entries. Four leading object
+entries cover Dana, the magic spark, the fireball, and an auxiliary record;
+the enemy-only table labels begin at the fifth entry.
+
 `UpdateEnemiesMovement` walks these parallel pools through four split pointer
 tables. It advances active AI records using the shared gameplay update count,
 caches direction components relative to Dana, and publishes an active-enemy
@@ -93,6 +103,16 @@ type configuration are intentionally separate services.
 The type decoder's compact 27-byte flag table is now source-owned separately
 from executable code. Its size is assembly-asserted, while individual bit
 names remain deferred until all consuming helpers are understood.
+
+Eligible AI records are routed through an inline appendix dispatcher. A
+two-bit shift selects one of 28 little-endian entries consumed by the generic
+`JumpWithParams` convention; repeated entries collapse those selectors onto 14
+behavior targets. The complete pointer inventory is machine-audited.
+
+Two of those behavior families call `LoadCurrentEnemyPosition`. It copies the
+selected enemy record's working Y/X bytes into the shared spawn scratch area,
+making the current enemy position available to a related-object construction
+path without coupling that helper to a particular enemy type.
 
 ## Countdown timer
 

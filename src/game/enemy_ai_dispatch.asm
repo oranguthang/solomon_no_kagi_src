@@ -8,13 +8,13 @@ RunEnemyAiDispatcher:
 CheckNextEnemyAiSlot:
     TXA
     PHA
-    LDA $B446,X
+    LDA EnemyAiRecordPointerLowTable,X
     STA EnemyAiPointer
-    LDA $B457,X
+    LDA EnemyAiRecordPointerHighTable,X
     STA EnemyAiPointer + 1
-    LDA $B46C,X
+    LDA EnemyObjectPointerLowTable,X
     STA EnemyObjectPointer
-    LDA $B481,X
+    LDA EnemyObjectPointerHighTable,X
     STA EnemyObjectPointer + 1
     LDY #$00
     LDA (EnemyObjectPointer),Y
@@ -24,7 +24,7 @@ CheckNextEnemyAiSlot:
     LDA (EnemyObjectPointer),Y
     SBC #$14
     BCC NextEnemyAiSlot
-    JSR $A469
+    JSR DispatchEnemyAiHandler
 
 NextEnemyAiSlot:
     PLA

@@ -15,7 +15,7 @@ Super Mario Bros. preservation projects.
 - `make quality-check` runs lint and tests without requiring a reference ROM
 - `make release-check` adds byte-identical ROM verification, room-data
   validation and round trips, semantic reconstruction audit, and scheduler
-  entry/call-site audit
+  entry/call-site and enemy-AI handler-table audits
 - `make check` is the full release check
 
 The address-ordered `src/preservation/prg.asm` is intentionally monolithic at

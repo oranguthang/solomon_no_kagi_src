@@ -28,7 +28,8 @@ the iNES header, PRG, CHR, headerless payload, full image, and extracted CHR.
 | `rom-info` | print and validate identities for original and built images |
 | `roundtrip-formats` | losslessly decode/encode all room records and pointer tables |
 | `scheduler-audit` | check scheduler stacks, static entries, and StartThread call counts |
-| `release-check` | lint, tests, verification, room round trips, reconstruction and scheduler audits |
+| `enemy-ai-audit` | check all 28 inline enemy-AI handler pointers |
+| `release-check` | lint, tests, verification, room round trips, reconstruction, scheduler, and AI audits |
 | `check` | alias for `release-check` |
 
 Focused region targets deliberately compare only their named output region.
@@ -42,6 +43,8 @@ against the ld65 label file. Byte comparison proves output fidelity; this
 separate audit proves that reported reconstruction progress matches the built
 artifacts. `make scheduler-audit` separately binds packed `StartThread` codes
 and their RTS-derived entry addresses to a reviewed manifest.
+`make enemy-ai-audit` applies the same reviewed-manifest contract to the
+inline `JumpWithParams` handler appendix.
 
 ## Failure diagnostics
 

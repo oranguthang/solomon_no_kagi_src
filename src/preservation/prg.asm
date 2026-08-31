@@ -34,9 +34,9 @@ _label_bank0_8106:
 
 _label_bank0_8136:
     LDX $0A
-    LDA $B46C,X
+    LDA EnemyObjectPointerLowTable,X
     STA $08
-    LDA $B481,X
+    LDA EnemyObjectPointerHighTable,X
     STA $09
     LDX #$00
     JSR $81B1
@@ -82,9 +82,9 @@ _label_bank0_8187:
 
 _label_bank0_818c:
     LDX $0A
-    LDA $B46C,X
+    LDA EnemyObjectPointerLowTable,X
     STA $08
-    LDA $B481,X
+    LDA EnemyObjectPointerHighTable,X
     STA $09
     LDX #$01
     JSR $81B1
@@ -843,9 +843,9 @@ _label_bank0_8638:
 
 _label_bank0_8640:
     LDX $0D
-    LDA $B468,X
+    LDA ObjectRecordPointerLowTable,X
     STA $08
-    LDA $B47D,X
+    LDA ObjectRecordPointerHighTable,X
     STA $09
     LDY #$00
     LDA ($08),Y
@@ -1927,7 +1927,7 @@ _label_bank0_8f34:
 
 _label_bank0_8f47:
     TXA
-    JSR $B28A
+    JSR LoadEnemyObjectPointer
     LDY #$07
     LDA #$50
     STA ($00),Y
@@ -4268,22 +4268,7 @@ _label_bank0_a389:
     .byte $b4, $b0, $b1, $4a, $54, $20, $4a, $74
     .byte $20
 
-.segment "PRG_BANK_0"
-    .byte $4a, $4a, $20, $a9, $8e, $b3, $a4, $dd, $a5, $40
-    .byte $a8, $fb, $b0, $8c, $a6, $69, $aa, $6d, $aa, $37, $ad, $37, $ad, $37, $ad, $37
-    .byte $ad, $37, $ad, $37, $ad, $37, $ad, $37, $ad, $48, $b3, $48, $b3, $48, $b3, $78
-    .byte $b1, $78, $b1, $78, $b1, $8a, $a7, $8a, $a7, $51, $ae, $51, $ae, $5c, $af, $5c
-    .byte $af
-    .byte $e0, $a6
-
-    LDY #$07
-    LDA ($2E),Y
-    STA $04
-    LDY #$0A
-    LDA ($2E),Y
-    STA $05
-    RTS
-
+.segment "PRG_PRE_ENEMY_POINTERS"
     LDY #$03
     LDA ($2E),Y
     BNE _label_bank0_a4d4
@@ -4400,7 +4385,7 @@ _label_bank0_a559:
     RTS
 
 _label_bank0_a55d:
-    JSR $A4A6
+    JSR LoadCurrentEnemyPosition
     JSR $C721
     LDY #$0D
     JSR $8E8D
@@ -4577,7 +4562,7 @@ _label_bank0_a662:
 
 _label_bank0_a664:
     TXA
-    JSR $B28A
+    JSR LoadEnemyObjectPointer
     LDY #$00
     LDA ($00),Y
     BPL _label_bank0_a682
@@ -4589,7 +4574,7 @@ _label_bank0_a670:
     DEY
     BPL _label_bank0_a670
     TXA
-    JSR $B296
+    JSR LoadEnemyAiPointer
     LDY #$00
     TYA
     INY
@@ -4907,7 +4892,7 @@ _label_bank0_a869:
     CPX #$0A
     BCC _label_bank0_a8ab
     INC $86
-    JSR $A4A6
+    JSR LoadCurrentEnemyPosition
     JSR $C721
     JSR $C4A1
     LDX #$00
@@ -5659,7 +5644,7 @@ _label_bank0_acdb:
     JSR $AD79
     LDY #$06
     LDA ($2C),Y
-    JSR $B28A
+    JSR LoadEnemyObjectPointer
     LDA $07
     BEQ _label_bank0_ad78
     JSR $B156
@@ -6016,7 +6001,7 @@ _label_bank0_afab:
     LDY #$06
     LDA ($2C),Y
     STA $02
-    JSR $B296
+    JSR LoadEnemyAiPointer
     LDY #$00
     LDA #$FE
     AND ($2C),Y
@@ -6025,7 +6010,7 @@ _label_bank0_afab:
     LDA #$00
     STA ($00),Y
     LDA $02
-    JSR $B28A
+    JSR LoadEnemyObjectPointer
     LDY #$07
     LDA ($2E),Y
     CLC
@@ -6379,7 +6364,7 @@ _label_bank0_b218:
 
     LDY #$07
     LDA ($2C),Y
-    JSR $B28A
+    JSR LoadEnemyObjectPointer
     LDY #$00
     LDA ($00),Y
     RTS
@@ -6397,7 +6382,7 @@ _label_bank0_b225:
     JSR $8E8D
     LDY #$07
     LDA ($2C),Y
-    JSR $B28A
+    JSR LoadEnemyObjectPointer
     LDA ($2E),Y
     STA ($00),Y
     LDA #$04
@@ -6427,7 +6412,7 @@ _label_bank0_b25a:
     STX $04
     LDY #$06
     LDA ($2C),Y
-    JSR $B28A
+    JSR LoadEnemyObjectPointer
     LDY #$03
     LDA ($2E),Y
     AND #$01
@@ -6439,19 +6424,7 @@ _label_bank0_b25a:
 _label_bank0_b289:
     RTS
 
-    TAX
-    LDA $B46C,X
-    STA $00
-    LDA $B481,X
-    STA $01
-    RTS
-
-    TAX
-    LDA $B446,X
-    STA $00
-    LDA $B457,X
-    STA $01
-    RTS
+.segment "PRG_PRE_ENEMY_POINTER_TABLES"
 
     LDY #$08
     TYA
@@ -6628,9 +6601,9 @@ _label_bank0_b39c:
     STA ($2C),Y
     LDA $00
     STA $04
-    LDA $B46C,X
+    LDA EnemyObjectPointerLowTable,X
     STA $00
-    LDA $B481,X
+    LDA EnemyObjectPointerHighTable,X
     STA $01
     LDY #$00
     LDA #$DF
@@ -6692,9 +6665,9 @@ _label_bank0_b41b:
     LDY #$00
 
 _label_bank0_b42e:
-    LDA $B446,X
+    LDA EnemyAiRecordPointerLowTable,X
     STA $04
-    LDA $B457,X
+    LDA EnemyAiRecordPointerHighTable,X
     STA $05
     LDA ($04),Y
     BPL _label_bank0_b444
@@ -6710,23 +6683,19 @@ _label_bank0_b444:
 _label_bank0_b445:
     RTS
 
-    .byte $f7, $ff, $07, $0f, $17, $1f, $27, $2f, $37, $3f, $47, $4f, $57
-    .byte $5f, $67, $6f, $77, $04, $04, $05, $05, $05, $05, $05, $05, $05, $05, $05, $05
-    .byte $05, $05, $05, $05, $05, $7f, $93, $a7, $bb, $cf, $e3, $f7, $0b, $1f, $33, $47
-    .byte $5b, $6f, $83, $97, $ab, $bf, $d3, $e7, $fb, $0f, $05, $05, $05, $05, $05, $05
-    .byte $05, $06, $06, $06, $06, $06, $06, $06, $06, $06, $06, $06, $06, $06, $07
+.segment "PRG_BANK_0"
 
     TAX
     LDY #$00
-    LDA $B446,X
+    LDA EnemyAiRecordPointerLowTable,X
     STA $04
-    LDA $B457,X
+    LDA EnemyAiRecordPointerHighTable,X
     STA $05
     TYA
     STA ($04),Y
-    LDA $B46C,X
+    LDA EnemyObjectPointerLowTable,X
     STA $04
-    LDA $B481,X
+    LDA EnemyObjectPointerHighTable,X
     STA $05
     TYA
     STA ($04),Y
@@ -7156,7 +7125,7 @@ _label_bank0_ba5d:
 
 _label_bank0_ba98:
     LDA $07
-    JSR $B28A
+    JSR LoadEnemyObjectPointer
     LDY #$00
     LDA #$40
     ORA ($00),Y
@@ -7178,7 +7147,7 @@ _label_bank0_ba98:
     JSR $91A3
     JSR $C364
     LDA $07
-    JSR $B296
+    JSR LoadEnemyAiPointer
     LDX #$03
     LDY #$07
 
@@ -7203,11 +7172,11 @@ _label_bank0_bae9:
 
 _label_bank0_baed:
     LDA $07
-    JSR $B296
+    JSR LoadEnemyAiPointer
     TXA
     LDX #$00
     JSR $BE08
-    JSR $B28A
+    JSR LoadEnemyObjectPointer
     LDX #$02
     JSR $BE08
     JSR $C342
@@ -7286,7 +7255,7 @@ _label_bank0_bb85:
 
 _label_bank0_bb92:
     LDA $02
-    JSR $B28A
+    JSR LoadEnemyObjectPointer
     LDA #$C2
     STA $04
     LDA #$1C
@@ -7402,7 +7371,7 @@ _label_bank0_bc55:
 
 _label_bank0_bc59:
     LDA $02
-    JSR $B28A
+    JSR LoadEnemyObjectPointer
     LDA #$F0
     SBC $1F
     LSR A
@@ -7447,7 +7416,7 @@ _label_bank0_bc83:
 
 _label_bank0_bca3:
     TXA
-    JSR $B28A
+    JSR LoadEnemyObjectPointer
     TYA
     STA ($00),Y
     DEX
@@ -7639,11 +7608,11 @@ _label_bank0_bdea:
     RTS
 
     LDA $2A
-    JSR $B296
+    JSR LoadEnemyAiPointer
     LDX #$00
     JSR $BE08
     LDA $2A
-    JSR $B28A
+    JSR LoadEnemyObjectPointer
     LDX #$02
     JSR $BE08
     RTS
@@ -7753,7 +7722,7 @@ _label_bank0_bfc5:
 
 _label_bank0_c104:
     LDA $02
-    JSR $B28A
+    JSR LoadEnemyObjectPointer
     LDY #$00
     LDA ($00),Y
     BPL _label_bank0_c16a
@@ -7770,7 +7739,7 @@ _label_bank0_c104:
     LDA $C178,X
     STA $03
     LDA $02
-    JSR $B296
+    JSR LoadEnemyAiPointer
     LDA #$00
     STA ($00),Y
     TAY
@@ -7802,7 +7771,7 @@ _label_bank0_c144:
     LDY #$06
     STA ($00),Y
     LDA $02
-    JSR $B28A
+    JSR LoadEnemyObjectPointer
     LDA #$C6
     STA $04
     LDA #$14
@@ -7896,7 +7865,7 @@ _label_bank0_c247:
 
 _label_bank0_c25a:
     TXA
-    JSR $B28A
+    JSR LoadEnemyObjectPointer
     LDY #$00
     LDA ($00),Y
     PHA
@@ -7921,7 +7890,7 @@ _label_bank0_c25a:
 
 _label_bank0_c287:
     TXA
-    JSR $B28A
+    JSR LoadEnemyObjectPointer
     LDY #$02
     LDA ($00),Y
     LDY #$00
@@ -8257,7 +8226,7 @@ _label_bank0_c4c5:
 
 _label_bank0_c50f:
     TXA
-    JSR $B28A
+    JSR LoadEnemyObjectPointer
     LDY #$00
     LDA ($00),Y
     CMP #$C0

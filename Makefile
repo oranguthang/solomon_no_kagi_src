@@ -21,6 +21,10 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/startup.asm \
 	src/game/enemy_initialization.asm \
 	src/game/enemy_type_configuration.asm \
 	src/data/enemy_types.asm \
+	src/game/enemy_ai_handlers.asm \
+	src/game/enemy_position.asm \
+	src/game/enemy_pointers.asm \
+	src/data/enemy_record_pointers.asm \
 	src/preservation/prg.asm \
 	src/graphics/chr.asm src/memory/hardware.inc src/memory/ram.inc
 
@@ -29,7 +33,8 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/startup.asm \
 	rom-info rom-info-reference rom-info-built format format-check lint lint-asm \
 	lint-source lint-project test quality-check check release-check rooms \
 	validate-rooms roundtrip-formats reconstruction-status reconstruction-audit \
-	scheduler-report scheduler-audit clean
+	scheduler-report scheduler-audit enemy-ai-report enemy-ai-audit \
+	enemy-pointer-report enemy-pointer-audit clean
 
 all: verify
 
@@ -126,10 +131,22 @@ scheduler-report: $(ROM)
 scheduler-audit: $(ROM)
 	$(PYTHON) scripts/scheduler_data.py audit --image "$(ROM)"
 
+enemy-ai-report: $(ROM)
+	$(PYTHON) scripts/enemy_ai_data.py report --image "$(ROM)"
+
+enemy-ai-audit: $(ROM)
+	$(PYTHON) scripts/enemy_ai_data.py audit --image "$(ROM)"
+
+enemy-pointer-report: $(ROM)
+	$(PYTHON) scripts/enemy_pointer_data.py report --image "$(ROM)"
+
+enemy-pointer-audit: $(ROM)
+	$(PYTHON) scripts/enemy_pointer_data.py audit --image "$(ROM)"
+
 quality-check: lint test
 
 release-check: quality-check verify validate-rooms roundtrip-formats \
-	reconstruction-audit scheduler-audit
+	reconstruction-audit scheduler-audit enemy-ai-audit enemy-pointer-audit
 
 check: release-check
 

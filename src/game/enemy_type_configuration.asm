@@ -4,7 +4,7 @@
 
 ConfigureEnemyType:
     LDA SpawnSlotIndex
-    JSR $B28A
+    JSR LoadEnemyObjectPointer
     LDA SpawnType
     STA $05
     AND #$03
@@ -48,7 +48,7 @@ ApplyEnemyTypeConfiguration:
     LSR A
     BCC FinishEnemyTypeConfiguration
     LDA SpawnSlotIndex
-    JSR $B296
+    JSR LoadEnemyAiPointer
     LDA SpawnType
     AND #$03
     LDY #$06

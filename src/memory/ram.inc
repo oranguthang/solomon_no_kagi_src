@@ -81,5 +81,7 @@ DanaYPosition = DanaObject + $07
 DanaXPosition = DanaObject + $0A
 MagicSparkObject = $0593
 FireballObject = $05A7
+AuxiliaryObject = $05BB
 EnemyObjects = $05CF
 EnemyObjectCount = 17
+ObjectRecordCount = 4 + EnemyObjectCount

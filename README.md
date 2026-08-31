@@ -14,7 +14,7 @@ evidence, and small tested tools for decoded game data.
   entrypoint; CHR is a private generated asset and is not stored in Git.
 - Confirmed NES registers and high-confidence RAM aliases are separated into
   `src/memory/`.
-- Twelve semantic PRG modules own NMI (`$8000-$80FE`), reset/startup
+- Sixteen semantic PRG modules own NMI (`$8000-$80FE`), reset/startup
   (`$8C00-$8D5E`), the cooperative scheduler (`$8D5F-$8E46`), and the main
   gameplay thread (`$A000-$A04B`), plus countdown timer arithmetic and warning
   transitions (`$A15F-$A225`), its HUD update builder (`$A238-$A273`), and
@@ -22,7 +22,10 @@ evidence, and small tested tools for decoded game data.
   (`$A2DC-$A30B`), and fireball lifetime service (`$A3A4-$A3D6`).
   Enemy slot position/state initialization owns `$A3D7-$A3F7`, followed by
   type-specific object/AI configuration at `$A3F8-$A44D` and its table at
-  `$A44E-$A468`.
+  `$A44E-$A468`. The inline 28-entry enemy AI handler dispatcher owns
+  `$A469-$A4A5`, followed by its shared position-copy helper at
+  `$A4A6-$A4B2`. Shared object/AI record pointer helpers own `$B28A-$B2A1`,
+  and their split pointer tables own `$B446-$B491`.
 - `make reconstruction-status` reports monotonic cleanup metrics, while
   `make reconstruction-audit` binds module ranges and renamed labels to linker
   output.
@@ -107,6 +110,10 @@ make reconstruction-status # report semantic coverage and remaining raw source
 make reconstruction-audit # validate module ranges, provenance, and thresholds
 make scheduler-report # decode scheduler stack and entry tables as JSON
 make scheduler-audit # check entries and StartThread call inventory
+make enemy-ai-report # decode the 28-entry AI handler appendix
+make enemy-ai-audit # compare every handler pointer with its reviewed manifest
+make enemy-pointer-report # decode the split object/AI record pointer tables
+make enemy-pointer-audit # verify pointer bases, strides, and counts
 make roundtrip-formats # decode and re-encode all 53 room-data records
 make release-check # complete static, test, identity, and room-data gate
 make check       # alias for release-check
@@ -133,6 +140,8 @@ bin/                       local ca65/ld65 toolchain and license
 config/linker/cnrom.cfg    complete iNES/PRG/CHR linker layout
 config/reconstruction.json machine-checked module inventory and progress floors
 config/scheduler_entries.json reviewed scheduler-entry inventory
+config/enemy_ai_handlers.json reviewed enemy AI handler pointer inventory
+config/enemy_record_pointers.json reviewed record-pool pointer layouts
 docs/                      architecture and reverse-engineering notes
 scripts/project.py         split, verify, lint, and safe build helpers
 scripts/asm_style.py       shared ca65 formatter and style checker
@@ -140,6 +149,8 @@ scripts/verify_rom.py      original/build/asset comparison and ROM reports
 scripts/room_data.py       room-format decoder
 scripts/reconstruction_status.py semantic coverage and provenance audit
 scripts/scheduler_data.py scheduler-table decoder and source-call audit
+scripts/enemy_ai_data.py enemy AI handler-table decoder and audit
+scripts/enemy_pointer_data.py split record-pointer decoder and audit
 src/main.asm               assembly entrypoint and iNES header
 src/system/nmi.asm         semantic `$8000-$80FE` vertical-blank module
 src/system/startup.asm     reset, warm-boot state, PPU and thread bootstrap
@@ -153,6 +164,10 @@ src/game/fireball_lifetime.asm fireball expiration and delayed cleanup
 src/game/enemy_initialization.asm enemy slot position/state initialization
 src/game/enemy_type_configuration.asm spawn-type object/AI configuration
 src/data/enemy_types.asm  packed enemy-type configuration table
+src/game/enemy_ai_handlers.asm inline handler dispatcher and pointer table
+src/game/enemy_position.asm shared current-enemy position-copy helper
+src/game/enemy_pointers.asm shared object/AI record pointer resolvers
+src/data/enemy_record_pointers.asm generated record-pool pointer tables
 src/preservation/prg.asm   remaining address-ordered PRG source
 src/graphics/chr.asm       `.incbin` wrapper for ignored generated CHR
 src/memory/                hardware and RAM symbol registries

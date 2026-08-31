@@ -4,7 +4,7 @@
 
 InitializeEnemy:
     LDA SpawnSlotIndex
-    JSR $B296
+    JSR LoadEnemyAiPointer
     LDY #$00
     TYA
 
@@ -14,7 +14,7 @@ ClearEnemyAiStateFields:
     CPY #$03
     BNE ClearEnemyAiStateFields
     LDA SpawnSlotIndex
-    JSR $B28A
+    JSR LoadEnemyObjectPointer
     LDY #$07
     LDA SpawnYPosition
     STA (TempPointer00),Y
