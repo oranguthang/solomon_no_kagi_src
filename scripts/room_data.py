@@ -83,6 +83,49 @@ def true_positions(rows: Iterable[Iterable[bool]]) -> list[dict[str, int]]:
     ]
 
 
+def encode_position(value: dict[str, int]) -> int:
+    raw = value.get("raw")
+    if raw is not None:
+        if position(raw) != value:
+            raise RoomDataError(f"position fields disagree: {value!r}")
+        return raw
+    x = value.get("x")
+    y = value.get("y")
+    if not isinstance(x, int) or not isinstance(y, int) or not 0 <= x < ROOM_WIDTH:
+        raise RoomDataError(f"invalid position: {value!r}")
+    encoded_y = y + 1
+    if not 0 <= encoded_y <= 0x0F:
+        raise RoomDataError(f"invalid position: {value!r}")
+    return (encoded_y << 4) | x
+
+
+def encode_bitplane(positions: Iterable[dict[str, int]]) -> bytes:
+    output = bytearray(BITPLANE_SIZE)
+    occupied: set[tuple[int, int]] = set()
+    for value in positions:
+        x = value.get("x")
+        y = value.get("y")
+        if not isinstance(x, int) or not isinstance(y, int):
+            raise RoomDataError(f"invalid block position: {value!r}")
+        if not 0 <= x < ROOM_WIDTH or not 0 <= y < ROOM_HEIGHT:
+            raise RoomDataError(f"block position outside room: {value!r}")
+        coordinate = (x, y)
+        if coordinate in occupied:
+            raise RoomDataError(f"duplicate block position: {value!r}")
+        occupied.add(coordinate)
+        output[y * 2 + x // 8] |= 0x80 >> (x % 8)
+    return bytes(output)
+
+
+def encode_split_pointers(offsets: Iterable[int]) -> bytes:
+    cpu_addresses = [offset + 0x8000 for offset in offsets]
+    if any(not 0x8000 <= address <= 0xFFFF for address in cpu_addresses):
+        raise RoomDataError("pointer outside PRG CPU window")
+    return bytes(address & 0xFF for address in cpu_addresses) + bytes(
+        address >> 8 for address in cpu_addresses
+    )
+
+
 def decode_enemies(prg: bytes, room_index: int) -> dict[str, object]:
     offset = split_pointer(prg, ENEMY_POINTER_TABLE, room_index, ROOM_COUNT)
     encoded_lifetime = prg[offset]
@@ -97,10 +140,33 @@ def decode_enemies(prg: bytes, room_index: int) -> dict[str, object]:
         cursor += 1
     return {
         "prg_offset": offset,
+        "encoded_size": cursor - offset,
         "spawn_lifetime": rotate_left_3(encoded_lifetime),
         "spawn_lifetime_encoded": encoded_lifetime,
         "enemies": enemies,
     }
+
+
+def encode_enemies(stream: dict[str, object]) -> bytes:
+    encoded_lifetime = stream.get("spawn_lifetime_encoded")
+    enemies = stream.get("enemies")
+    if not isinstance(encoded_lifetime, int) or not 0 <= encoded_lifetime <= 0xFF:
+        raise RoomDataError("invalid encoded enemy lifetime")
+    if not isinstance(enemies, list):
+        raise RoomDataError("enemy list is missing")
+    output = bytearray((encoded_lifetime,))
+    for enemy in enemies:
+        if not isinstance(enemy, dict) or not isinstance(enemy.get("type"), int):
+            raise RoomDataError(f"invalid enemy record: {enemy!r}")
+        enemy_type = enemy["type"]
+        if not 1 <= enemy_type <= 0xFF:
+            raise RoomDataError(f"invalid enemy type: {enemy_type!r}")
+        enemy_position = enemy.get("position")
+        if not isinstance(enemy_position, dict):
+            raise RoomDataError(f"invalid enemy position: {enemy_position!r}")
+        output.extend((enemy_type, encode_position(enemy_position)))
+    output.append(0)
+    return bytes(output)
 
 
 def decode_items(prg: bytes, room_index: int) -> dict[str, object]:
@@ -120,6 +186,7 @@ def decode_items(prg: bytes, room_index: int) -> dict[str, object]:
             "normal"
         ),
         "time_decrease_rate": status_rate & 0x0F,
+        "status_rate_raw": status_rate,
         "door": position(header[5]),
         "key": position(header[6]),
         "player_start": position(header[7]),
@@ -127,6 +194,7 @@ def decode_items(prg: bytes, room_index: int) -> dict[str, object]:
         "mirror_2": position(header[9]),
     }
     items: list[dict[str, object]] = []
+    commands: list[dict[str, object]] = []
     constellation: dict[str, object] | None = None
     cursor = offset + 10
     tileset = 0
@@ -134,10 +202,18 @@ def decode_items(prg: bytes, room_index: int) -> dict[str, object]:
         code = prg[cursor]
         cursor += 1
         if code == 0 or 0xE0 <= code <= 0xEF:
+            commands.append({"kind": "end", "opcode": code})
             tileset = (code >> 2) & 3
             break
         if 0xF0 <= code <= 0xFB:
             constellation = {"type": code, "position": position(prg[cursor])}
+            commands.append(
+                {
+                    "kind": "constellation",
+                    "opcode": code,
+                    "position": position(prg[cursor]),
+                }
+            )
             cursor += 1
             tileset = (code >> 2) & 3
             break
@@ -145,19 +221,112 @@ def decode_items(prg: bytes, room_index: int) -> dict[str, object]:
             count = code - 0xC0 + 1
             item_type = prg[cursor]
             cursor += 1
+            positions: list[dict[str, int]] = []
             for _ in range(count):
-                items.append({"type": item_type, "position": position(prg[cursor])})
+                item_position = position(prg[cursor])
+                positions.append(item_position)
+                items.append({"type": item_type, "position": item_position})
                 cursor += 1
+            commands.append(
+                {
+                    "kind": "repeat",
+                    "opcode": code,
+                    "type": item_type,
+                    "positions": positions,
+                }
+            )
             continue
-        items.append({"type": code, "position": position(prg[cursor])})
+        item_position = position(prg[cursor])
+        commands.append(
+            {"kind": "item", "type": code, "position": item_position}
+        )
+        items.append({"type": code, "position": item_position})
         cursor += 1
     return {
         "prg_offset": offset,
+        "encoded_size": cursor - offset,
         "metadata": metadata,
         "tileset": tileset,
         "constellation": constellation,
         "items": items,
+        "commands": commands,
     }
+
+
+def encode_items(stream: dict[str, object]) -> bytes:
+    metadata = stream.get("metadata")
+    commands = stream.get("commands")
+    if not isinstance(metadata, dict) or not isinstance(commands, list):
+        raise RoomDataError("item metadata or commands are missing")
+    status_rate = metadata.get("status_rate_raw")
+    if not isinstance(status_rate, int) or not 0 <= status_rate <= 0xFF:
+        raise RoomDataError("invalid raw key-status/time-rate byte")
+    header_values: list[int] = []
+    for field in (
+        "mirror_2_schedule",
+        "mirror_1_schedule",
+        "mirror_2_enemy_set",
+        "mirror_1_enemy_set",
+    ):
+        value = metadata.get(field)
+        if not isinstance(value, int) or not 0 <= value <= 0xFF:
+            raise RoomDataError(f"invalid item metadata field: {field}")
+        header_values.append(value)
+    header_values.append(status_rate)
+    for field in ("door", "key", "player_start", "mirror_1", "mirror_2"):
+        value = metadata.get(field)
+        if not isinstance(value, dict):
+            raise RoomDataError(f"invalid item metadata position: {field}")
+        header_values.append(encode_position(value))
+    output = bytearray(header_values)
+    for command in commands:
+        if not isinstance(command, dict):
+            raise RoomDataError(f"invalid item command: {command!r}")
+        kind = command.get("kind")
+        if kind == "end":
+            opcode = command.get("opcode")
+            if not isinstance(opcode, int) or not (opcode == 0 or 0xE0 <= opcode <= 0xEF):
+                raise RoomDataError(f"invalid item end command: {command!r}")
+            output.append(opcode)
+        elif kind == "constellation":
+            opcode = command.get("opcode")
+            value = command.get("position")
+            if not isinstance(opcode, int) or not 0xF0 <= opcode <= 0xFB or not isinstance(value, dict):
+                raise RoomDataError(f"invalid constellation command: {command!r}")
+            output.extend((opcode, encode_position(value)))
+        elif kind == "repeat":
+            opcode = command.get("opcode")
+            item_type = command.get("type")
+            positions = command.get("positions")
+            if (
+                not isinstance(opcode, int)
+                or not 0xC0 <= opcode <= 0xDF
+                or not isinstance(item_type, int)
+                or not 0 <= item_type <= 0xFF
+                or not isinstance(positions, list)
+                or len(positions) != opcode - 0xC0 + 1
+            ):
+                raise RoomDataError(f"invalid repeated-item command: {command!r}")
+            output.extend((opcode, item_type))
+            for value in positions:
+                if not isinstance(value, dict):
+                    raise RoomDataError(f"invalid repeated-item position: {value!r}")
+                output.append(encode_position(value))
+        elif kind == "item":
+            item_type = command.get("type")
+            value = command.get("position")
+            if (
+                not isinstance(item_type, int)
+                or not (1 <= item_type < 0xC0 or 0xFC <= item_type <= 0xFF)
+                or not isinstance(value, dict)
+            ):
+                raise RoomDataError(f"invalid item command: {command!r}")
+            output.extend((item_type, encode_position(value)))
+        else:
+            raise RoomDataError(f"unknown item command: {kind!r}")
+    if not commands or commands[-1].get("kind") not in {"end", "constellation"}:
+        raise RoomDataError("item command stream has no terminator")
+    return bytes(output)
 
 
 def decode_blocks(prg: bytes, room_index: int) -> dict[str, object]:
@@ -173,6 +342,14 @@ def decode_blocks(prg: bytes, room_index: int) -> dict[str, object]:
     }
 
 
+def encode_blocks(blocks: dict[str, object]) -> bytes:
+    brown = blocks.get("brown")
+    white = blocks.get("white")
+    if not isinstance(brown, list) or not isinstance(white, list):
+        raise RoomDataError("block planes are missing")
+    return encode_bitplane(brown) + encode_bitplane(white)
+
+
 def decode_room(prg: bytes, room_index: int) -> dict[str, object]:
     if not 0 <= room_index < ROOM_COUNT:
         raise RoomDataError(f"room index outside 0..{ROOM_COUNT - 1}: {room_index}")
@@ -185,6 +362,43 @@ def decode_room(prg: bytes, room_index: int) -> dict[str, object]:
     }
 
 
+def roundtrip_rooms(prg: bytes) -> dict[str, int]:
+    rooms = [decode_room(prg, index) for index in range(ROOM_COUNT)]
+    enemy_offsets: list[int] = []
+    item_offsets: list[int] = []
+    checked_bytes = 0
+    for room in rooms:
+        blocks = room["blocks"]
+        enemies = room["enemy_stream"]
+        items = room["item_stream"]
+        if not isinstance(blocks, dict) or not isinstance(enemies, dict) or not isinstance(items, dict):
+            raise RoomDataError("decoded room has an invalid structure")
+        block_offset = int(blocks["prg_offset"])
+        encoded_blocks = encode_blocks(blocks)
+        if encoded_blocks != prg[block_offset : block_offset + len(encoded_blocks)]:
+            raise RoomDataError(f"room {room['room']} block round trip differs")
+        enemy_offset = int(enemies["prg_offset"])
+        encoded_enemies = encode_enemies(enemies)
+        if encoded_enemies != prg[enemy_offset : enemy_offset + len(encoded_enemies)]:
+            raise RoomDataError(f"room {room['room']} enemy round trip differs")
+        item_offset = int(items["prg_offset"])
+        encoded_items = encode_items(items)
+        if encoded_items != prg[item_offset : item_offset + len(encoded_items)]:
+            raise RoomDataError(f"room {room['room']} item round trip differs")
+        enemy_offsets.append(enemy_offset)
+        item_offsets.append(item_offset)
+        checked_bytes += len(encoded_blocks) + len(encoded_enemies) + len(encoded_items)
+
+    enemy_pointers = encode_split_pointers(enemy_offsets)
+    item_pointers = encode_split_pointers(item_offsets)
+    if enemy_pointers != prg[ENEMY_POINTER_TABLE : ENEMY_POINTER_TABLE + len(enemy_pointers)]:
+        raise RoomDataError("enemy pointer-table round trip differs")
+    if item_pointers != prg[ITEM_POINTER_TABLE : ITEM_POINTER_TABLE + len(item_pointers)]:
+        raise RoomDataError("item pointer-table round trip differs")
+    checked_bytes += len(enemy_pointers) + len(item_pointers)
+    return {"rooms": len(rooms), "format_families": 3, "checked_bytes": checked_bytes}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--image", required=True, help="iNES image or bare 32 KiB PRG")
@@ -195,9 +409,22 @@ def main() -> int:
         action="store_true",
         help="decode every room and print only a structural summary",
     )
+    parser.add_argument(
+        "--roundtrip",
+        action="store_true",
+        help="decode and re-encode every room-data record and pointer table",
+    )
     args = parser.parse_args()
     try:
         prg = extract_prg(Path(args.image).read_bytes())
+        if args.roundtrip:
+            result = roundtrip_rooms(prg)
+            print(
+                f"[OK] round-tripped {result['format_families']} room format "
+                f"families across {result['rooms']} rooms "
+                f"({result['checked_bytes']} checked bytes)"
+            )
+            return 0
         if args.validate:
             rooms = [decode_room(prg, index) for index in range(ROOM_COUNT)]
             enemy_count = sum(

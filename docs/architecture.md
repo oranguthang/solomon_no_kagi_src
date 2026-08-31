@@ -10,6 +10,13 @@ The NMI handler saves X, Y, and A, performs PPU/OAM work, updates selected
 frame services, restores the registers, and returns with `RTI`. The foreground
 game code is not a single once-per-frame update loop.
 
+The statically confirmed `$8000-$80FE` range is isolated in
+`src/system/nmi.asm`. It disables NMI/rendering bits through the PPU shadow
+registers, commits OAM page `$02`, selects one of four CNROM CHR banks through
+`ChrBankSelectValues`, and finishes by restoring the PPU control shadow and
+CPU registers. `WritePpuScroll` resets the PPU write latch by reading
+`PPU_STATUS`, then performs the X and Y writes to `PPU_SCROLL`.
+
 ## Cooperative scheduler
 
 The strongest unusual architectural feature is an eight-context cooperative
@@ -27,9 +34,14 @@ explains why work is not guaranteed to occur exactly once per rendered frame:
 the same activity may resume more than once, or receive less service when
 other contexts are busy.
 
-Working addresses inherited from Bisqwit's map are `$8DB4` for the switch,
-`$8DFC` for the default thread entry, and `$A000` for the main gameplay loop.
-They remain evidence-backed working names until runtime traces are added here.
+Bisqwit's map identified `$8DB4` as the switch, `$8DFC` as the default thread
+entry, and `$A000` as the main gameplay loop. These are now source-owned as
+`SwitchThreads`, `IdleThreadLoop`, and `MainGameplayThread`. Independently, the
+decoded `$30` scheduler entry stores return address `$9FFF`, proving that its
+RTS enters `$A000`. `StartThread` builds this continuation from a packed
+context/entry selector; `StopThread` resets a context to the idle continuation
+and clears its active bit. See `docs/scheduler.md`,
+`docs/scheduler_entries.md`, and `docs/main_gameplay_thread.md`.
 
 ## Runtime objects
 
@@ -49,6 +61,15 @@ neighboring fields participate in fractional motion and movement state.
 Enemy-specific AI state is stored separately at `$04F7` with an eight-byte
 stride for seventeen entries. This is a split-state design rather than one
 fully self-contained structure per enemy.
+
+## Countdown timer
+
+The gameplay thread consumes pending timer ticks through `DecrementTimer`.
+Fractional accumulation controls when a decimal decrement occurs; borrow then
+propagates across four unpacked decimal digits. A dirty flag defers HUD work
+until the shared PPU update stream is free. Separate state tracks crossing one
+of four warning thresholds. See `docs/timer.md` for the owned range and current
+evidence boundary.
 
 ## Room pipeline
 

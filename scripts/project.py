@@ -194,11 +194,27 @@ def command_lint(_args: argparse.Namespace) -> None:
         "README.md",
         "Makefile",
         "assets/manifest.json",
+        "config/reconstruction.json",
+        "config/scheduler_entries.json",
         "config/linker/cnrom.cfg",
         "docs/code_quality.md",
+        "docs/main_gameplay_thread.md",
+        "docs/nmi.md",
+        "docs/scheduler.md",
+        "docs/scheduler_entries.md",
+        "docs/startup.md",
+        "docs/timer.md",
+        "docs/provenance/label_renames.json",
         "scripts/asm_style.py",
+        "scripts/reconstruction_status.py",
+        "scripts/scheduler_data.py",
         "scripts/verify_rom.py",
         "src/main.asm",
+        "src/system/nmi.asm",
+        "src/system/scheduler.asm",
+        "src/system/startup.asm",
+        "src/game/main_thread.asm",
+        "src/game/timer.asm",
     )
     missing = [name for name in required if not (ROOT / name).is_file()]
     if missing:
@@ -207,6 +223,9 @@ def command_lint(_args: argparse.Namespace) -> None:
     for relative in (
         "config/debugger_watches.json",
         "config/debugger_breakpoints.json",
+        "config/reconstruction.json",
+        "config/scheduler_entries.json",
+        "docs/provenance/label_renames.json",
     ):
         try:
             debug_config = json.loads((ROOT / relative).read_text(encoding="utf-8"))
@@ -216,7 +235,33 @@ def command_lint(_args: argparse.Namespace) -> None:
             raise ProjectError(f"unsupported schema in {relative}")
     source_contract = {
         "src/main.asm": ('.setcpu "6502x"', '.segment "HEADER"'),
-        "src/preservation/prg.asm": ('.segment "PRG_BANK_0"',),
+        "src/system/nmi.asm": ('.segment "PRG_NMI"', "NMI:", "WritePpuScroll:"),
+        "src/system/startup.asm": (
+            '.segment "PRG_STARTUP"',
+            "Reset:",
+            "InitializeNametable:",
+        ),
+        "src/system/scheduler.asm": (
+            '.segment "PRG_SCHEDULER"',
+            "StartThread:",
+            "SwitchThreads:",
+            "StopThread:",
+        ),
+        "src/game/main_thread.asm": (
+            '.segment "PRG_MAIN_THREAD"',
+            "MainGameplayThread:",
+            "ContinueMainGameplayThread:",
+        ),
+        "src/game/timer.asm": (
+            '.segment "PRG_TIMER"',
+            "DecrementTimer:",
+            "DecrementTimerByOne:",
+            "UpdateTimerWarningState:",
+        ),
+        "src/preservation/prg.asm": (
+            '.segment "PRG_BANK_0"',
+            "CPU $80FF",
+        ),
         "src/graphics/chr.asm": (
             '.segment "PRG_BANK_1"',
             '.incbin "../../assets/generated/chr/solomons_key.chr"',

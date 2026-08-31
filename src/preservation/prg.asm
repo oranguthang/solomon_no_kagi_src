@@ -1,151 +1,7 @@
-; Address-ordered 32 KiB PRG preservation listing
+; Address-ordered PRG preservation listing beginning at CPU $80FF
 ; Keep byte-identical through make verify
 
-.segment "PRG_BANK_0"
-
-NMI:
-    STX $10
-    STY $11
-    PHA
-    LDA $0300
-    AND #$7F
-    TAY
-    STA $0300
-    STA a:PPU_CTRL
-    LDA $0301
-    AND #$E7
-    STA a:PPU_MASK
-    LDX $1F
-    JSR $80F3
-    STY a:PPU_CTRL
-    LDA #$00
-    STA a:OAM_ADDR
-    LDA #$02
-    STA a:OAM_DMA
-    LDY #$01
-    CPY $1B
-    BCS _label_bank0_8034
-    JSR $8B7F
-
-_label_bank0_8034:
-    LDA $28
-    AND #$04
-    BEQ _label_bank0_8040
-    JSR $8B51
-    JMP $8044
-
-_label_bank0_8040:
-    LDA #$00
-    STA $29
-    LDA $7D
-    BMI _label_bank0_8055
-    AND #$03
-    TAX
-    LDA $80EF,X
-    STA $80EF,X
-    LDA #$80
-    STA $7D
-
-_label_bank0_8055:
-    LDA $0301
-    STA a:PPU_MASK
-    TSX
-    TXA
-    AND #$1F
-    CMP #$08
-    BCS _label_bank0_8065
-    BCC _label_bank0_80de
-
-_label_bank0_8065:
-    JSR $8107
-    LDA $78
-    TAX
-    AND #$02
-    BNE _label_bank0_80cd
-    LDA #$10
-    AND $03E4
-    BEQ _label_bank0_8087
-    TXA
-    ROR A
-    BCC _label_bank0_8087
-    LDA #$02
-    ORA $78
-    STA $78
-    LDA #$21
-    JSR $836F
-    BPL _label_bank0_80cd
-
-_label_bank0_8087:
-    JSR $83C2
-    LDX #$07
-
-_label_bank0_808c:
-    INC $20,X
-    DEX
-    BPL _label_bank0_808c
-    JSR $81DD
-    JSR $863C
-    INC $042C
-    BNE _label_bank0_809f
-    INC $042D
-
-_label_bank0_809f:
-    INC $043C
-    BNE _label_bank0_80a7
-    INC $043D
-
-_label_bank0_80a7:
-    LDA $057F
-    CMP #$C0
-    BCC _label_bank0_80c4
-    ROR A
-    BCS _label_bank0_80ca
-    LDA $03E4
-    ASL A
-    BCC _label_bank0_80bc
-    JSR $831E
-    BCS _label_bank0_80ca
-
-_label_bank0_80bc:
-    ASL A
-    BCC _label_bank0_80c4
-    JSR $80FF
-    BCS _label_bank0_80ca
-
-_label_bank0_80c4:
-    LDA #$FE
-    AND $28
-    STA $28
-
-_label_bank0_80ca:
-    JMP $80CF
-
-_label_bank0_80cd:
-    INC $22
-    JSR $84CE
-    JSR $837D
-    LDA $78
-    AND #$04
-    BNE _label_bank0_80de
-    JSR $F000
-
-_label_bank0_80de:
-    LDX $10
-    LDY $11
-    LDA $0300
-    ORA #$80
-    STA $0300
-    STA a:PPU_CTRL
-    PLA
-    RTI
-
-    .byte $10, $11, $12, $13
-
-    LDA a:PPU_STATUS
-    LDA $1E
-    STA a:PPU_SCROLL
-    STX a:PPU_SCROLL
-    RTS
+.segment "PRG_PRE_STARTUP"
     LDA #$13
     STA $08
     JSR $8326
@@ -1922,322 +1778,7 @@ _label_bank0_8bb8:
     .byte $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $ff, $00, $ff
     .byte $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00
 
-Reset:
-    SEI
-    CLD
-    LDA #$30
-    STA a:PPU_CTRL
-    LDX #$FF
-    TXS
-
-_label_bank0_8c0a:
-    LDA a:PPU_STATUS
-    BPL _label_bank0_8c0a
-
-_label_bank0_8c0f:
-    LDA a:PPU_STATUS
-    BPL _label_bank0_8c0f
-    LDA #$00
-    STA $00
-    TAY
-    LDX #$07
-    LDY #$F0
-
-_label_bank0_8c1d:
-    STX $01
-
-_label_bank0_8c1f:
-    DEY
-    STA ($00),Y
-    BNE _label_bank0_8c1f
-    DEX
-    BPL _label_bank0_8c1d
-    TXS
-    STA a:APU_DMC_FREQ
-    STA a:APU_DMC_RAW
-    STA a:APU_FRAME
-    LDA #$0F
-    STA a:APU_SND_CHN
-    LDA #$00
-    STA a:PPU_MASK
-    STA $0301
-    TAY
-    LDA #$F8
-    STY $00
-    LDX #$02
-    STX $01
-
-_label_bank0_8c47:
-    STA ($00),Y
-    INY
-    INY
-    INY
-    INY
-    BNE _label_bank0_8c47
-    LDA #$20
-    JSR $8D2D
-    LDA #$28
-    JSR $8D2D
-    LDX #$F8
-    STX $1E
-    LDX #$00
-    STX $1F
-    DEX
-    TXS
-    LDA #$B0
-    STA $0300
-    STA a:PPU_CTRL
-
-_label_bank0_8c6b:
-    LDA $21
-    CMP #$02
-    BCC _label_bank0_8c6b
-    LDA #$30
-    STA a:PPU_CTRL
-    LDA a:PPU_STATUS
-
-_label_bank0_8c79:
-    LDA $8D20
-    STA $8D20
-    LDA #$15
-    STA a:PPU_ADDR
-    LDA #$80
-    STA a:PPU_ADDR
-    LDA a:PPU_DATA
-    LDA a:PPU_DATA
-    CMP #$DF
-    BEQ _label_bank0_8c79
-    LDA #$B0
-    STA a:PPU_CTRL
-    LDA #$1E
-    STA $0301
-    STA a:PPU_MASK
-    LDX #$03
-
-_label_bank0_8ca2:
-    LDA $8D21,X
-    CMP $07F0,X
-    BNE _label_bank0_8caf
-    DEX
-    BPL _label_bank0_8ca2
-    BMI _label_bank0_8cca
-
-_label_bank0_8caf:
-    LDX #$03
-
-_label_bank0_8cb1:
-    LDA $8D21,X
-    STA $07F0,X
-    DEX
-    BPL _label_bank0_8cb1
-    LDX #$07
-
-_label_bank0_8cbc:
-    LDA $8D25,X
-    STA $07F6,X
-    DEX
-    BPL _label_bank0_8cbc
-    LDA #$2F
-    STA $07F4
-
-_label_bank0_8cca:
-    LDA #$1C
-    LDX #$07
-
-_label_bank0_8cce:
-    STA $12,X
-    CLC
-    ADC #$20
-    DEX
-    BNE _label_bank0_8cce
-    STX $0302
-    INX
-    LDA #$1D
-    STA $00
-    STX $01
-    LDY #$06
-    DEX
-    CLC
-
-_label_bank0_8ce4:
-    LDA #$FB
-    STA ($00,X)
-    INC $00
-    LDA #$8D
-    STA ($00,X)
-    LDA #$1F
-    ADC $00
-    STA $00
-    DEY
-    BNE _label_bank0_8ce4
-    LDA #$C0
-    STA $1A
-    LDA #$8E
-    STA $1B
-    LDA #$17
-    JSR $8D5F
-
-_label_bank0_8d04:
-    LDY #$03
-
-_label_bank0_8d06:
-    LDX $041F,Y
-    BEQ _label_bank0_8d18
-    LDA #$00
-    STA $041F,Y
-    TXA
-    STY $06
-    JSR $8D5F
-    LDY $06
-
-_label_bank0_8d18:
-    DEY
-    BPL _label_bank0_8d06
-    JSR $8DB4
-    BCS _label_bank0_8d04
-
-    .byte $96, $46, $55
-    .byte $4b, $55, $00, $00, $01, $00, $00, $00, $00, $00
-
-    LDX a:PPU_STATUS
-    STA a:PPU_ADDR
-    LDA #$00
-    STA a:PPU_ADDR
-    LDA #$31
-    STA a:PPU_CTRL
-    LDA #$24
-    LDX #$04
-    LDY #$C0
-
-_label_bank0_8d43:
-    STA a:PPU_DATA
-    DEY
-    BNE _label_bank0_8d43
-    DEX
-    BNE _label_bank0_8d43
-    TXA
-    LDY #$40
-
-_label_bank0_8d4f:
-    STA a:PPU_DATA
-    DEY
-    BNE _label_bank0_8d4f
-    STY a:PPU_SCROLL
-    STY a:PPU_SCROLL
-    LDX a:PPU_STATUS
-    RTS
-
-    STA $00
-    LSR A
-    LSR A
-    LSR A
-    LSR A
-    STA $01
-    TAY
-    LDA #$00
-    SEC
-
-_label_bank0_8d6b:
-    ROL A
-    DEY
-    BPL _label_bank0_8d6b
-    ORA $0303
-    STA $0303
-    LDY $01
-    LDX $8E01,Y
-    STX $12,Y
-    INX
-    STX $02
-    LDX #$01
-    STX $03
-    LDA $01
-    ASL A
-    TAY
-    LDA $00
-    AND #$0F
-    ASL A
-    STA $04
-    LDA $8E09,Y
-    ADC $04
-    STA $04
-    LDA $8E0A,Y
-    ADC #$00
-    STA $05
-    LDY #$00
-
-_label_bank0_8d9e:
-    LDA ($04),Y
-    STA ($02),Y
-    INY
-    CPY #$02
-    BNE _label_bank0_8d9e
-    LDA $00
-    STA ($02),Y
-    LDY $01
-    CPY $0302
-    BNE _label_bank0_8dc8
-    BEQ _label_bank0_8dc5
-    TSX
-    LDY $0302
-    STX $12,Y
-    LDY $0302
-    INY
-    TYA
-    AND #$07
-    STA $0302
-    TAY
-
-_label_bank0_8dc5:
-    LDX $12,Y
-    TXS
-
-_label_bank0_8dc8:
-    SEC
-    RTS
-
-    TAX
-    LDA $8E01,X
-    STA $12,X
-    STA $00
-    STA $02
-    INC $00
-    LDY #$01
-    STY $01
-    LDA #$8D
-    STA ($00),Y
-    DEY
-    LDA #$FB
-    STA ($00),Y
-    TXA
-    CMP $0302
-    BNE _label_bank0_8dec
-    LDX $02
-    TXS
-
-_label_bank0_8dec:
-    TAX
-    LDA #$FF
-    CLC
-
-_label_bank0_8df0:
-    ROL A
-    DEX
-    BPL _label_bank0_8df0
-    AND $0303
-    STA $0303
-    SEC
-    RTS
-
-_label_bank0_8dfc:
-    JSR $8DB4
-    BCS _label_bank0_8dfc
-
-    .byte $fc, $dc
-    .byte $bc, $9c, $7c, $5c, $3c, $1c, $17, $8e, $17, $8e, $29, $8e, $2f, $8e, $3b, $8e
-    .byte $43, $8e, $45, $8e, $1d, $90, $79, $9b, $6c, $9a, $04, $9b, $e3, $8e, $20, $90
-    .byte $51, $c8, $6d, $ca, $09, $cb, $9e, $8e, $46, $8e, $2a, $cb, $ff, $9f, $e6, $c7
-    .byte $86, $c5, $89, $c7, $3b, $c2, $31, $c8, $94, $c3, $85, $c3, $97, $c3, $88, $c3
-    .byte $ff, $c0, $ff, $b7
+.segment "PRG_PRE_MAIN_THREAD"
 
     LDY #$0C
     JSR $8E8D
@@ -2275,7 +1816,7 @@ _label_bank0_8e6e:
     LDY #$0E
     JSR $8E8D
     LDA #$02
-    JSR $8DCA
+    JSR StopThread
     LDA $03E4
     AND #$10
     BNE _label_bank0_8e8c
@@ -2429,7 +1970,7 @@ _label_bank0_8f6c:
     LDY #$18
     JSR $8E8D
     LDA #$15
-    JSR $8D5F
+    JSR StartThread
 
     .byte $00
     .byte $00, $00, $00, $03, $00, $01, $80, $00, $c0, $1c, $ff
@@ -2533,7 +2074,7 @@ _label_bank0_9042:
 _label_bank0_9045:
     JSR $99F2
     LDA #$60
-    JSR $8D5F
+    JSR StartThread
     LDA #$00
     STA $7E
     STA $7F
@@ -2644,9 +2185,9 @@ _label_bank0_9111:
 
 _label_bank0_9114:
     LDA #$30
-    JSR $8D5F
+    JSR StartThread
     LDA #$01
-    JSR $8DCA
+    JSR StopThread
 
     .byte $00, $e0, $00, $ff, $07
     .byte $1c, $04, $09, $1c, $07, $04, $07, $09, $1c, $07, $04, $80, $80, $01, $05, $09
@@ -2690,7 +2231,7 @@ _label_bank0_9165:
     TYA
     AND $00,X
     BEQ _label_bank0_9176
-    JSR $8DB4
+    JSR SwitchThreads
     PLA
     TAX
     PLA
@@ -2709,7 +2250,7 @@ _label_bank0_9179:
     TYA
     AND $00,X
     BNE _label_bank0_9176
-    JSR $8DB4
+    JSR SwitchThreads
     PLA
     TAX
     PLA
@@ -2960,7 +2501,7 @@ _label_bank0_9345:
     STA $21
 
 _label_bank0_9363:
-    JSR $8DB4
+    JSR SwitchThreads
     LDA $21
     CMP #$40
     BCC _label_bank0_937b
@@ -3107,7 +2648,7 @@ _label_bank0_9471:
     LDX $1B
     BEQ _label_bank0_947c
     PHA
-    JSR $8DB4
+    JSR SwitchThreads
     PLA
     BCS _label_bank0_9471
 
@@ -3986,13 +3527,13 @@ _label_bank0_9c48:
     LDA #$00
     STA $0593
     LDA #$01
-    JSR $8DCA
+    JSR StopThread
 
 _label_bank0_9c52:
     PHA
     TXA
     PHA
-    JSR $8DB4
+    JSR SwitchThreads
     PLA
     TAX
     PLA
@@ -4244,13 +3785,13 @@ _label_bank0_9dd6:
     LDA #$04
     AND $28
     BEQ _label_bank0_9de1
-    JSR $8DB4
+    JSR SwitchThreads
     BCS _label_bank0_9dd6
 
 _label_bank0_9de1:
     LDA $29
     BPL _label_bank0_9dea
-    JSR $8DB4
+    JSR SwitchThreads
     BCS _label_bank0_9de1
 
 _label_bank0_9dea:
@@ -4264,7 +3805,7 @@ _label_bank0_9dea:
     STA $28
 
 _label_bank0_9df8:
-    JSR $8DB4
+    JSR SwitchThreads
     LDA $29
     BMI _label_bank0_9e05
     LDA $28
@@ -4281,7 +3822,7 @@ _label_bank0_9e05:
 _label_bank0_9e0e:
     LDA $1B
     BEQ _label_bank0_9e17
-    JSR $8DB4
+    JSR SwitchThreads
     BCS _label_bank0_9e0e
 
 _label_bank0_9e17:
@@ -4462,37 +4003,7 @@ _label_bank0_9f11:
     .byte $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $ff, $00, $ff
     .byte $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00
 
-    JSR $A15F
-    JSR $A274
-    JSR $A0A7
-    JSR $A04C
-    JSR $8DB4
-    JSR $A2DC
-    JSR $8DB4
-    JSR $C432
-    JSR $8DB4
-    JSR $A3A4
-    JSR $8DB4
-    LDA $0454
-    BEQ _label_bank0_a049
-    JSR $B42A
-    BCC _label_bank0_a049
-    DEC $0454
-    LDA #$80
-    LDY #$00
-    STA ($04),Y
-    STX $06
-    LDY #$05
-    LDA ($30),Y
-    STA $04
-    JSR $91A3
-    LDA #$1C
-    STA $07
-    JSR $A3D7
-    JSR $A3F8
-
-_label_bank0_a049:
-    JMP $A000
+.segment "PRG_PRE_TIMER"
     LDX $043E
     CPX #$40
     BCC _label_bank0_a0a6
@@ -4655,130 +4166,7 @@ _label_bank0_a131:
     JSR $9D99
     RTS
 
-    LDA #$34
-    STA $00
-    LDA #$04
-    STA $01
-    LDA $23
-    STA $02
-    BEQ _label_bank0_a1b5
-    LDA $0435
-    AND #$7F
-    STA $03
-    STA $0435
-
-_label_bank0_a177:
-    LDY #$02
-    LDA ($00),Y
-    INY
-    CLC
-    ADC ($00),Y
-    STA ($00),Y
-    BCC _label_bank0_a1b1
-    INY
-    LDA ($00),Y
-    SBC $03
-    BCS _label_bank0_a1a7
-    LDX #$04
-    BCC _label_bank0_a195
-
-_label_bank0_a18e:
-    INY
-    LDA ($00),Y
-    SBC #$00
-    BCS _label_bank0_a1a7
-
-_label_bank0_a195:
-    ADC #$0A
-    STA ($00),Y
-    CLC
-    DEX
-    BNE _label_bank0_a18e
-    LDX #$02
-    LDA #$00
-
-_label_bank0_a1a1:
-    STA $0438,X
-    DEX
-    BPL _label_bank0_a1a1
-
-_label_bank0_a1a7:
-    STA ($00),Y
-    LDA #$80
-    ORA $0435
-    STA $0435
-
-_label_bank0_a1b1:
-    DEC $02
-    BNE _label_bank0_a177
-
-_label_bank0_a1b5:
-    LDA $0435
-    BPL _label_bank0_a1d2
-    LDX $1B
-    BNE _label_bank0_a1d2
-    LDA $0435
-    AND #$7F
-    STA $0435
-    JSR $A238
-    LDA $02
-    BNE _label_bank0_a1d2
-    LDA #$33
-    JSR $8D5F
-
-_label_bank0_a1d2:
-    LDA $0434
-    TAY
-    AND #$03
-    TAX
-    TYA
-    AND #$10
-    TAY
-    LDA $043B
-    ASL A
-    ASL A
-    ASL A
-    ASL A
-    ORA $043A
-    CMP $A229,X
-    BCS _label_bank0_a207
-    TYA
-    BNE _label_bank0_a225
-    LDA $1B
-    BNE _label_bank0_a225
-    LDA #$2C
-    STA $1A
-    LDA #$A2
-    STA $1B
-    LDY #$04
-    JSR $8E8D
-    LDA #$10
-    ORA $0434
-    BNE _label_bank0_a222
-
-_label_bank0_a207:
-    TYA
-    BEQ _label_bank0_a225
-    LDA #$32
-    STA $1A
-    LDA #$A2
-    STA $1B
-    LDY #$01
-    LDA $0429
-    BEQ _label_bank0_a21a
-    INY
-
-_label_bank0_a21a:
-    JSR $8E8D
-    LDA #$EF
-    AND $0434
-
-_label_bank0_a222:
-    STA $0434
-
-_label_bank0_a225:
-    RTS
-
+.segment "PRG_BANK_0"
     .byte $20, $69, $44, $02, $04, $10, $23, $c2, $41, $f0, $30, $00, $23
     .byte $c2, $41, $a0, $20, $00
 
@@ -5254,7 +4642,7 @@ _label_bank0_a55d:
     BCC _label_bank0_a581
     JSR $C4A1
     LDA #$43
-    JSR $8D5F
+    JSR StartThread
     JMP $B4B6
 
 _label_bank0_a581:
@@ -5262,7 +4650,7 @@ _label_bank0_a581:
 
 _label_bank0_a584:
     LDA #$42
-    JSR $8D5F
+    JSR StartThread
     JMP $B4B6
 
 _label_bank0_a58c:
@@ -5582,7 +4970,7 @@ _label_bank0_a751:
     JSR $A77D
     BCS _label_bank0_a77c
     LDA #$31
-    JSR $8D5F
+    JSR StartThread
 
 _label_bank0_a77c:
     RTS
@@ -5756,7 +5144,7 @@ _label_bank0_a869:
 
 _label_bank0_a8ab:
     STX $0453
-    JSR $8D5F
+    JSR StartThread
     LDY #$01
     LDA ($2E),Y
     CMP #$1C
@@ -5787,7 +5175,7 @@ _label_bank0_a8c1:
     LDA #$2A
     STA $30
     LDA #$32
-    JSR $8D5F
+    JSR StartThread
     LDY #$08
     LDA ($2E),Y
     ASL A
@@ -7664,7 +7052,7 @@ _label_bank0_b4f0:
 
     JSR $B808
     LDA #$06
-    JSR $8DCA
+    JSR StopThread
     LDX $0428
     TXA
     LSR A
@@ -7712,7 +7100,7 @@ _label_bank0_b879:
     BNE _label_bank0_b879
 
 _label_bank0_b889:
-    JSR $8DB4
+    JSR SwitchThreads
     LDA $7F
     CMP #$7E
     BNE _label_bank0_b889
@@ -7754,7 +7142,7 @@ _label_bank0_b8d7:
     BMI _label_bank0_b8d7
 
 _label_bank0_b8dc:
-    JSR $8DB4
+    JSR SwitchThreads
     LDA $057F
     LSR A
     BCS _label_bank0_b8dc
@@ -7776,7 +7164,7 @@ _label_bank0_b8f5:
     BNE _label_bank0_b91a
 
 _label_bank0_b900:
-    JSR $8DB4
+    JSR SwitchThreads
     LDA $0582
     CMP #$14
     BNE _label_bank0_b900
@@ -7791,7 +7179,7 @@ _label_bank0_b900:
 _label_bank0_b91a:
     RTS
 
-    JSR $8DB4
+    JSR SwitchThreads
     LDX $88
     LDA $0304,X
     RTS
@@ -7803,7 +7191,7 @@ _label_bank0_b91a:
     RTS
 
 _label_bank0_b930:
-    JSR $8DB4
+    JSR SwitchThreads
     JSR $B42A
     BCC _label_bank0_b930
     LDA #$80
@@ -7847,7 +7235,7 @@ _label_bank0_b973:
     BNE _label_bank0_b973
 
 _label_bank0_b97e:
-    JSR $8DB4
+    JSR SwitchThreads
     LDA $7F
     CMP #$56
     BNE _label_bank0_b97e
@@ -7885,7 +7273,7 @@ _label_bank0_b9bc:
     BPL _label_bank0_b9bc
 
 _label_bank0_b9c5:
-    JSR $8DB4
+    JSR SwitchThreads
     LDA $7E
     CMP #$AD
     BNE _label_bank0_b9c5
@@ -7902,7 +7290,7 @@ _label_bank0_b9c5:
     STA $0386
 
 _label_bank0_b9e9:
-    JSR $8DB4
+    JSR SwitchThreads
     LDA $7E
     CMP #$57
     BNE _label_bank0_b9e9
@@ -7924,7 +7312,7 @@ _label_bank0_b9fe:
     STA $039B
 
 _label_bank0_ba0b:
-    JSR $8DB4
+    JSR SwitchThreads
     LDA $0586
     STA $04
     LDA $0589
@@ -7960,7 +7348,7 @@ _label_bank0_ba2d:
     STA $0390
 
 _label_bank0_ba4f:
-    JSR $8DB4
+    JSR SwitchThreads
     LDA $7E
     CMP #$6C
     BNE _label_bank0_ba4f
@@ -7968,7 +7356,7 @@ _label_bank0_ba4f:
     STA $036D
 
 _label_bank0_ba5d:
-    JSR $8DB4
+    JSR SwitchThreads
     LDA $7E
     CMP #$67
     BNE _label_bank0_ba5d
@@ -8422,9 +7810,9 @@ _label_bank0_bd5c:
     ORA $0301
     STA $0301
     LDA #$16
-    JSR $8D5F
+    JSR StartThread
     LDA #$06
-    JSR $8DCA
+    JSR StopThread
     BIT $0C1C
     LDX #$12
 
@@ -8474,7 +7862,7 @@ _label_bank0_bdce:
     RTS
 
 _label_bank0_bdea:
-    JSR $8DB4
+    JSR SwitchThreads
     LDA $057F
     BPL _label_bank0_bdea
     RTS
@@ -8657,7 +8045,7 @@ _label_bank0_c16a:
     LDY #$09
     JSR $8E8D
     LDA #$05
-    JSR $8DCA
+    JSR StopThread
 
     .byte $00, $00, $00, $48, $08, $08, $18, $10, $18, $10, $18
     .byte $10, $18, $10, $20, $20, $20, $28, $28, $28, $30, $30, $38, $38, $40, $40, $00
@@ -8722,7 +8110,7 @@ _label_bank0_c23c:
     LDA $057F
     ROR A
     BCC _label_bank0_c247
-    JSR $8DB4
+    JSR SwitchThreads
     BCS _label_bank0_c23c
 
 _label_bank0_c247:
@@ -8774,7 +8162,7 @@ _label_bank0_c287:
     LDA $05A9
     STA $05A7
     LDA #$30
-    JSR $8D5F
+    JSR StartThread
     LDY #$07
     LDA ($30),Y
     STA $04
@@ -8824,7 +8212,7 @@ _label_bank0_c2ef:
     JSR $C332
 
 _label_bank0_c2fa:
-    JSR $8DB4
+    JSR SwitchThreads
     BCS _label_bank0_c2e1
 
 _label_bank0_c2ff:
@@ -8925,7 +8313,7 @@ _label_bank0_c39d:
     LDA #$00
     STA $05BB
     LDA #$04
-    JSR $8DCA
+    JSR StopThread
     LDA #$01
     ORA $87
     STA $87
@@ -9120,7 +8508,7 @@ _label_bank0_c52c:
     LDA $02
     BNE _label_bank0_c53c
     LDA #$50
-    JSR $8D5F
+    JSR StartThread
     LDA #$40
     STA $02
 
@@ -9169,7 +8557,7 @@ _label_bank0_c578:
     LDY #$16
     JSR $8E8D
     LDA #$04
-    JSR $8DCA
+    JSR StopThread
     LDA #$34
     STA $02
     RTS
@@ -9247,9 +8635,9 @@ _label_bank0_c5ef:
     AND $7C
     STA $7C
     LDA #$14
-    JSR $8D5F
+    JSR StartThread
     LDA #$03
-    JSR $8DCA
+    JSR StopThread
     LDA #$00
     LDY #$A4
 
@@ -9483,7 +8871,7 @@ _label_bank0_c766:
     LDA $06
     AND #$07
     BEQ _label_bank0_c771
-    JSR $8DCA
+    JSR StopThread
 
 _label_bank0_c771:
     DEC $07
@@ -9575,7 +8963,7 @@ _label_bank0_c815:
     LDA $0586
     CMP #$D1
     BCS _label_bank0_c821
-    JSR $8DB4
+    JSR SwitchThreads
     BCS _label_bank0_c815
 
 _label_bank0_c821:
@@ -9728,7 +9116,7 @@ _label_bank0_c913:
     LDA $03E4
     CMP #$C8
     BEQ _label_bank0_c92c
-    JSR $8DB4
+    JSR SwitchThreads
     LDA $042D
     CMP #$02
     BCC _label_bank0_c913
@@ -9779,13 +9167,13 @@ _label_bank0_c966:
     PHA
     JSR $C9BD
     PLA
-    JSR $8D5F
+    JSR StartThread
     LDA #$00
     STA $0429
     STA $057F
     STA $042A
     LDA #$03
-    JSR $8DCA
+    JSR StopThread
 
     .byte $00, $21
     .byte $00, $81, $21, $ea, $48, $1d, $12, $16, $0e, $24, $18, $1f, $0e, $1b, $23, $da
@@ -9972,7 +9360,7 @@ _label_bank0_cae0:
     LDA #$00
     STA $1F
     LDA #$18
-    JSR $8D5F
+    JSR StartThread
 
 _label_bank0_caf0:
     LDA $03E4
@@ -9987,9 +9375,9 @@ _label_bank0_caf7:
     STA $1F
     JSR $CB6F
     LDA #$10
-    JSR $8D5F
+    JSR StartThread
     LDA #$22
-    JSR $8D5F
+    JSR StartThread
     LDX #$01
     STX $0433
     STX $80
@@ -10001,13 +9389,13 @@ _label_bank0_caf7:
     LDX #$54
     STX $042F
     LDA #$15
-    JSR $8D5F
+    JSR StartThread
     LDA #$00
     STA $22
     STA $81
 
 _label_bank0_cb31:
-    JSR $8DB4
+    JSR SwitchThreads
     LDA $03E4
     AND #$30
     BEQ _label_bank0_cb43
@@ -10037,9 +9425,9 @@ _label_bank0_cb5e:
 
 _label_bank0_cb65:
     LDA #$35
-    JSR $8D5F
+    JSR StartThread
     LDA #$02
-    JSR $8DCA
+    JSR StopThread
     JSR $96F0
     LDA #$20
     JSR $CB80

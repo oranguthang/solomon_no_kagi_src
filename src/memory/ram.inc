@@ -8,10 +8,25 @@ TempPointer08 = $0008
 TempPointer0A = $000A
 TempPointer0C = $000C
 TempPointer0E = $000E
+NmiSavedX = $0010
+NmiSavedY = $0011
+PpuUpdateStreamPointer = $001A
+TimerUpdateCount = $0023
 
 ThreadStackPointers = $0012
 ThreadStackPointerCount = 8
+PpuScrollX = $001E
+PpuScrollY = $001F
 ThreadIndex = $0302
+
+PpuCtrlShadow = $0300
+PpuMaskShadow = $0301
+ActiveThreadMask = $0303
+PendingThreadStarts = $041F
+
+WarmBootSignature = $07F0
+WarmBootMarker = $07F4
+WarmBootDefaultState = $07F6
 
 Joypad1Raw = $0082
 Joypad2Raw = $0083
@@ -32,6 +47,7 @@ InventorySlotsHigh = $042E
 InventorySlotsLow = $042F
 FireballLifetimeLo = $0432
 FireballLifetimeHi = $0433
+TimerWarningState = $0434
 TimerDecrementStep = $0435
 TimerDecrementSpeed = $0436
 TimerFraction = $0437

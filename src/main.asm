@@ -23,5 +23,10 @@
 .include "memory/hardware.inc"
 .include "memory/ram.inc"
 
+.include "system/nmi.asm"
+.include "system/startup.asm"
+.include "system/scheduler.asm"
+.include "game/main_thread.asm"
+.include "game/timer.asm"
 .include "preservation/prg.asm"
 .include "graphics/chr.asm"

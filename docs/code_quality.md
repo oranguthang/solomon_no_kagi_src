@@ -13,8 +13,9 @@ Super Mario Bros. preservation projects.
 - `make lint` runs every linter
 - `make test` runs the Python unit-test suite
 - `make quality-check` runs lint and tests without requiring a reference ROM
-- `make release-check` adds byte-identical ROM verification and room-data
-  validation
+- `make release-check` adds byte-identical ROM verification, room-data
+  validation and round trips, semantic reconstruction audit, and scheduler
+  entry/call-site audit
 - `make check` is the full release check
 
 The address-ordered `src/preservation/prg.asm` is intentionally monolithic at

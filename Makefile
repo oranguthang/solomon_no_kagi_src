@@ -13,14 +13,17 @@ ROM := $(BUILD_DIR)/solomons_key.nes
 LABELS := $(BUILD_DIR)/solomons_key.lbl
 MAP := $(BUILD_DIR)/solomons_key.map
 DEBUG := $(BUILD_DIR)/solomons_key.dbg
-SOURCE_FILES := src/main.asm src/preservation/prg.asm src/graphics/chr.asm \
-	src/memory/hardware.inc src/memory/ram.inc
+SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/startup.asm \
+	src/system/scheduler.asm src/game/main_thread.asm src/game/timer.asm \
+	src/preservation/prg.asm \
+	src/graphics/chr.asm src/memory/hardware.inc src/memory/ram.inc
 
 .PHONY: all build split verify verify-reference verify-built verify-header \
 	verify-prg verify-chr verify-payload verify-rom verify-assets check-assets \
 	rom-info rom-info-reference rom-info-built format format-check lint lint-asm \
 	lint-source lint-project test quality-check check release-check rooms \
-	validate-rooms clean
+	validate-rooms roundtrip-formats reconstruction-status reconstruction-audit \
+	scheduler-report scheduler-audit clean
 
 all: verify
 
@@ -102,9 +105,25 @@ rooms: $(ROM)
 validate-rooms: $(ROM)
 	$(PYTHON) scripts/room_data.py --image "$(ROM)" --validate
 
+roundtrip-formats: $(ROM)
+	$(PYTHON) scripts/room_data.py --image "$(ROM)" --roundtrip
+
+reconstruction-status:
+	$(PYTHON) scripts/reconstruction_status.py report
+
+reconstruction-audit: $(ROM)
+	$(PYTHON) scripts/reconstruction_status.py audit --map "$(MAP)" --labels "$(LABELS)"
+
+scheduler-report: $(ROM)
+	$(PYTHON) scripts/scheduler_data.py report --image "$(ROM)"
+
+scheduler-audit: $(ROM)
+	$(PYTHON) scripts/scheduler_data.py audit --image "$(ROM)"
+
 quality-check: lint test
 
-release-check: quality-check verify validate-rooms
+release-check: quality-check verify validate-rooms roundtrip-formats \
+	reconstruction-audit scheduler-audit
 
 check: release-check
 

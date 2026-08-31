@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "reference_prg_size": 32768,
+  "original_labels": [
+    "NMI",
+    "Reset"
+  ],
+  "modules": [
+    {
+      "id": "nmi",
+      "path": "src/system/nmi.asm",
+      "segment": "PRG_NMI",
+      "start": "0x8000",
+      "end": "0x80fe",
+      "status": "semantic",
+      "required_labels": [
+        "NMI",
+        "NmiRestoreRegisters",
+        "ChrBankSelectValues",
+        "WritePpuScroll"
+      ]
+    },
+    {
+      "id": "scheduler",
+      "path": "src/system/scheduler.asm",
+      "segment": "PRG_SCHEDULER",
+      "start": "0x8d5f",
+      "end": "0x8e46",
+      "status": "semantic",
+      "required_labels": [
+        "StartThread",
+        "SwitchThreads",
+        "StopThread",
+        "IdleThreadLoop",
+        "InitialThreadStackPointers",
+        "ThreadEntryTableBases"
+      ]
+    },
+    {
+      "id": "startup",
+      "path": "src/system/startup.asm",
+      "segment": "PRG_STARTUP",
+      "start": "0x8c00",
+      "end": "0x8d5e",
+      "status": "semantic",
+      "required_labels": [
+        "Reset",
+        "WaitForFirstVBlank",
+        "HideAllSpritesLoop",
+        "InitializeThreadStacks",
+        "StartupWarmBootSignature",
+        "InitializeNametable"
+      ]
+    },
+    {
+      "id": "main_gameplay_thread",
+      "path": "src/game/main_thread.asm",
+      "segment": "PRG_MAIN_THREAD",
+      "start": "0xa000",
+      "end": "0xa04b",
+      "status": "semantic",
+      "required_labels": [
+        "MainGameplayThread",
+        "ContinueMainGameplayThread"
+      ]
+    },
+    {
+      "id": "timer",
+      "path": "src/game/timer.asm",
+      "segment": "PRG_TIMER",
+      "start": "0xa15f",
+      "end": "0xa225",
+      "status": "semantic",
+      "required_labels": [
+        "DecrementTimer",
+        "DecrementTimerByOne",
+        "CommitTimerDisplayUpdate",
+        "UpdateTimerWarningState"
+      ]
+    }
+  ],
+  "thresholds": {
+    "minimum_semantic_modules": 5,
+    "minimum_documented_prg_bytes": 1113,
+    "minimum_provenance_entries": 54,
+    "maximum_preservation_lines": 11424,
+    "maximum_generated_labels": 771,
+    "maximum_raw_control_flow_targets": 603
+  }
+}

@@ -26,13 +26,22 @@ the iNES header, PRG, CHR, headerless payload, full image, and extracted CHR.
 | `check-assets` | alias for `verify-assets` |
 | `verify` | aggregate of every target above |
 | `rom-info` | print and validate identities for original and built images |
-| `release-check` | lint, tests, complete verification, room decoding |
+| `roundtrip-formats` | losslessly decode/encode all room records and pointer tables |
+| `scheduler-audit` | check scheduler stacks, static entries, and StartThread call counts |
+| `release-check` | lint, tests, verification, room round trips, reconstruction and scheduler audits |
 | `check` | alias for `release-check` |
 
 Focused region targets deliberately compare only their named output region.
 For example, `verify-prg` can prove that a source-only PRG reconstruction is
 correct even while investigating a separate CHR problem. `verify` remains the
 release gate and accepts no differences anywhere.
+
+`make reconstruction-audit` complements byte identity by checking accepted
+semantic module ranges against the linker map and provenance-ledger addresses
+against the ld65 label file. Byte comparison proves output fidelity; this
+separate audit proves that reported reconstruction progress matches the built
+artifacts. `make scheduler-audit` separately binds packed `StartThread` codes
+and their RTS-derived entry addresses to a reviewed manifest.
 
 ## Failure diagnostics
 

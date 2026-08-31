@@ -26,6 +26,41 @@ class RoomDataTests(unittest.TestCase):
         self.assertTrue(rows[0][0])
         self.assertTrue(rows[0][15])
         self.assertEqual(sum(map(sum, rows)), 2)
+        self.assertEqual(room_data.encode_bitplane(room_data.true_positions(rows)), data)
+
+    def test_enemy_stream_round_trip(self) -> None:
+        prg = bytearray(32_768)
+        offset = 0x1000
+        cpu_address = offset + 0x8000
+        prg[room_data.ENEMY_POINTER_TABLE] = cpu_address & 0xFF
+        prg[room_data.ENEMY_POINTER_TABLE + room_data.ROOM_COUNT] = cpu_address >> 8
+        encoded = bytes((0x20, 0x04, 0xB5, 0x07, 0x31, 0x00))
+        prg[offset : offset + len(encoded)] = encoded
+        decoded = room_data.decode_enemies(bytes(prg), 0)
+        self.assertEqual(room_data.encode_enemies(decoded), encoded)
+
+    def test_item_stream_round_trip_preserves_rle_commands(self) -> None:
+        prg = bytearray(32_768)
+        offset = 0x1100
+        cpu_address = offset + 0x8000
+        prg[room_data.ITEM_POINTER_TABLE] = cpu_address & 0xFF
+        prg[room_data.ITEM_POINTER_TABLE + room_data.ROOM_COUNT] = cpu_address >> 8
+        encoded = bytes(
+            (
+                1, 2, 3, 4, 0x8F, 0x21, 0x32, 0x43, 0x54, 0x65,
+                0xC1, 0x22, 0x76, 0x87,
+                0xF0, 0x98,
+            )
+        )
+        prg[offset : offset + len(encoded)] = encoded
+        decoded = room_data.decode_items(bytes(prg), 0)
+        self.assertEqual(decoded["commands"][0]["kind"], "repeat")
+        self.assertEqual(room_data.encode_items(decoded), encoded)
+
+    def test_split_pointer_round_trip(self) -> None:
+        offsets = [0x0100, 0x1234, 0x7FFF]
+        encoded = room_data.encode_split_pointers(offsets)
+        self.assertEqual(encoded, bytes((0x00, 0x34, 0xFF, 0x81, 0x92, 0xFF)))
 
     def test_extracts_prg_from_ines(self) -> None:
         header = b"NES\x1a" + bytes((2, 4, 0x30, 0)) + bytes(8)

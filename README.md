@@ -14,6 +14,13 @@ evidence, and small tested tools for decoded game data.
   entrypoint; CHR is a private generated asset and is not stored in Git.
 - Confirmed NES registers and high-confidence RAM aliases are separated into
   `src/memory/`.
+- Five semantic PRG modules own NMI (`$8000-$80FE`), reset/startup
+  (`$8C00-$8D5E`), the cooperative scheduler (`$8D5F-$8E46`), and the main
+  gameplay thread (`$A000-$A04B`), plus countdown timer arithmetic and warning
+  transitions (`$A15F-$A225`).
+- `make reconstruction-status` reports monotonic cleanup metrics, while
+  `make reconstruction-audit` binds module ranges and renamed labels to linker
+  output.
 - `scripts/room_data.py` decodes the block planes, enemy streams, item streams,
   and ten-byte metadata headers for all 53 room records.
 - Architecture, RAM, room formats, provenance, naming policy, and unknowns are
@@ -91,6 +98,11 @@ make lint        # validate assembly style, repository, and source contracts
 make lint-source # validate manifests, includes, and tracked-binary policy
 make test        # run Python unit tests
 make quality-check # lint and test without requiring a reference ROM
+make reconstruction-status # report semantic coverage and remaining raw source
+make reconstruction-audit # validate module ranges, provenance, and thresholds
+make scheduler-report # decode scheduler stack and entry tables as JSON
+make scheduler-audit # check entries and StartThread call inventory
+make roundtrip-formats # decode and re-encode all 53 room-data records
 make release-check # complete static, test, identity, and room-data gate
 make check       # alias for release-check
 make rooms       # decode all 53 rooms as JSON
@@ -114,13 +126,22 @@ python scripts/room_data.py --image build/native/solomons_key.nes --room 1 --pre
 assets/manifest.json       exact reference identity
 bin/                       local ca65/ld65 toolchain and license
 config/linker/cnrom.cfg    complete iNES/PRG/CHR linker layout
+config/reconstruction.json machine-checked module inventory and progress floors
+config/scheduler_entries.json reviewed scheduler-entry inventory
 docs/                      architecture and reverse-engineering notes
 scripts/project.py         split, verify, lint, and safe build helpers
 scripts/asm_style.py       shared ca65 formatter and style checker
 scripts/verify_rom.py      original/build/asset comparison and ROM reports
 scripts/room_data.py       room-format decoder
+scripts/reconstruction_status.py semantic coverage and provenance audit
+scripts/scheduler_data.py scheduler-table decoder and source-call audit
 src/main.asm               assembly entrypoint and iNES header
-src/preservation/prg.asm   address-ordered 32 KiB PRG source
+src/system/nmi.asm         semantic `$8000-$80FE` vertical-blank module
+src/system/startup.asm     reset, warm-boot state, PPU and thread bootstrap
+src/system/scheduler.asm   eight-context cooperative stack scheduler
+src/game/main_thread.asm   context-three gameplay service loop
+src/game/timer.asm         countdown arithmetic and warning-state transitions
+src/preservation/prg.asm   remaining address-ordered PRG source
 src/graphics/chr.asm       `.incbin` wrapper for ignored generated CHR
 src/memory/                hardware and RAM symbol registries
 tests/                     tooling and codec tests

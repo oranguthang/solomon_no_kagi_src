@@ -33,3 +33,10 @@ the known headered SHA-1 `18102689fd35c7d531a5e6241b06b748accab2f6`.
 
 Local clones used during research live beneath ignored `references/` and are
 not part of the project history.
+
+## Semantic rename ledger
+
+`docs/provenance/label_renames.json` records every accepted ROM-label rename
+with its linked address, previous identifier, confidence, and concise evidence.
+`make reconstruction-audit` rejects duplicate entries, missing evidence,
+missing source labels, and any disagreement with the ld65 label file.

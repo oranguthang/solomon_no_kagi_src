@@ -1,0 +1,494 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "address": "0x80de",
+      "previous": "_label_bank0_80de",
+      "current": "NmiRestoreRegisters",
+      "confidence": "confirmed",
+      "evidence": [
+        "All incoming branches converge on restoring X, Y, A, and returning with RTI."
+      ]
+    },
+    {
+      "address": "0x80ef",
+      "previous": "$80EF",
+      "current": "ChrBankSelectValues",
+      "confidence": "high",
+      "evidence": [
+        "The NMI masks an index to 0-3, loads one of four values, and writes it to the CNROM cartridge range."
+      ]
+    },
+    {
+      "address": "0x80f3",
+      "previous": "$80F3",
+      "current": "WritePpuScroll",
+      "confidence": "confirmed",
+      "evidence": [
+        "The routine resets the PPU latch through PPU_STATUS and performs the two required PPU_SCROLL writes."
+      ]
+    },
+    {
+      "address": "0x8d5f",
+      "previous": "$8D5F",
+      "current": "StartThread",
+      "confidence": "high",
+      "evidence": [
+        "The routine marks a context active, resets its SP, copies an entry return address onto that stack, and selects it when requested."
+      ]
+    },
+    {
+      "address": "0x8d6b",
+      "previous": "_label_bank0_8d6b",
+      "current": "BuildThreadMask",
+      "confidence": "confirmed",
+      "evidence": [
+        "The loop rotates one set bit to the requested thread index before ORing ActiveThreadMask."
+      ]
+    },
+    {
+      "address": "0x8d9e",
+      "previous": "_label_bank0_8d9e",
+      "current": "CopyThreadEntryAddress",
+      "confidence": "confirmed",
+      "evidence": [
+        "The loop copies exactly two entry-address bytes to the selected hardware-stack partition."
+      ]
+    },
+    {
+      "address": "0x8db4",
+      "previous": "$8DB4",
+      "current": "SwitchThreads",
+      "confidence": "confirmed",
+      "evidence": [
+        "The routine saves SP by ThreadIndex, advances the index modulo eight, restores the selected SP, and returns into that context."
+      ]
+    },
+    {
+      "address": "0x8dc5",
+      "previous": "_label_bank0_8dc5",
+      "current": "SelectThreadContext",
+      "confidence": "confirmed",
+      "evidence": [
+        "This block loads the selected context's saved stack pointer and executes TXS."
+      ]
+    },
+    {
+      "address": "0x8dc8",
+      "previous": "_label_bank0_8dc8",
+      "current": "FinishStartThread",
+      "confidence": "high",
+      "evidence": [
+        "All StartThread completion paths converge here to set carry and return."
+      ]
+    },
+    {
+      "address": "0x8dca",
+      "previous": "$8DCA",
+      "current": "StopThread",
+      "confidence": "high",
+      "evidence": [
+        "The routine resets a context SP, installs IdleThreadLoop as its return target, and clears its active-mask bit."
+      ]
+    },
+    {
+      "address": "0x8dec",
+      "previous": "_label_bank0_8dec",
+      "current": "StopOtherThread",
+      "confidence": "high",
+      "evidence": [
+        "The current-context-only stack restoration is skipped here before clearing the requested context's mask bit."
+      ]
+    },
+    {
+      "address": "0x8df0",
+      "previous": "_label_bank0_8df0",
+      "current": "BuildInactiveThreadMask",
+      "confidence": "confirmed",
+      "evidence": [
+        "The loop rotates a zero through $FF to clear exactly one ActiveThreadMask bit."
+      ]
+    },
+    {
+      "address": "0x8dfc",
+      "previous": "_label_bank0_8dfc",
+      "current": "IdleThreadLoop",
+      "confidence": "confirmed",
+      "evidence": [
+        "Stopped and initially unused stack partitions return here and repeatedly yield through SwitchThreads."
+      ]
+    },
+    {
+      "address": "0x8e01",
+      "previous": "$8E01",
+      "current": "InitialThreadStackPointers",
+      "confidence": "confirmed",
+      "evidence": [
+        "StartThread and StopThread copy one of eight page-one stack offsets from this table into ThreadStackPointers."
+      ]
+    },
+    {
+      "address": "0x8e09",
+      "previous": "$8E09",
+      "current": "ThreadEntryTableBases",
+      "confidence": "high",
+      "evidence": [
+        "StartThread indexes this split set of per-context base pointers and adds twice the encoded entry selector."
+      ]
+    },
+    {
+      "address": "0x8c0a",
+      "previous": "_label_bank0_8c0a",
+      "current": "WaitForFirstVBlank",
+      "confidence": "confirmed",
+      "evidence": [
+        "Reset polls PPU_STATUS until its vblank flag becomes set."
+      ]
+    },
+    {
+      "address": "0x8c0f",
+      "previous": "_label_bank0_8c0f",
+      "current": "WaitForSecondVBlank",
+      "confidence": "confirmed",
+      "evidence": [
+        "A second consecutive PPU_STATUS polling loop waits for the next vblank before RAM initialization."
+      ]
+    },
+    {
+      "address": "0x8c1d",
+      "previous": "_label_bank0_8c1d",
+      "current": "ClearRamPageLoop",
+      "confidence": "confirmed",
+      "evidence": [
+        "The outer loop selects descending internal-RAM pages through the high pointer byte."
+      ]
+    },
+    {
+      "address": "0x8c1f",
+      "previous": "_label_bank0_8c1f",
+      "current": "ClearRamByteLoop",
+      "confidence": "confirmed",
+      "evidence": [
+        "The inner loop stores zero through an indirect pointer while decrementing the page offset."
+      ]
+    },
+    {
+      "address": "0x8c47",
+      "previous": "_label_bank0_8c47",
+      "current": "HideAllSpritesLoop",
+      "confidence": "confirmed",
+      "evidence": [
+        "The loop writes offscreen Y value $F8 to every fourth byte of OAM page $02."
+      ]
+    },
+    {
+      "address": "0x8c6b",
+      "previous": "_label_bank0_8c6b",
+      "current": "WaitForNmiWarmup",
+      "confidence": "high",
+      "evidence": [
+        "Reset enables NMI immediately before this loop and waits until a counter reaches two."
+      ]
+    },
+    {
+      "address": "0x8c79",
+      "previous": "_label_bank0_8c79",
+      "current": "WaitForChrBankSwitch",
+      "confidence": "high",
+      "evidence": [
+        "The loop writes a CNROM bank value in cartridge space and probes CHR through PPU_DATA until the expected bank-visible byte changes."
+      ]
+    },
+    {
+      "address": "0x8ca2",
+      "previous": "_label_bank0_8ca2",
+      "current": "CheckWarmBootSignature",
+      "confidence": "confirmed",
+      "evidence": [
+        "The loop compares four ROM signature bytes with internal RAM $07F0-$07F3."
+      ]
+    },
+    {
+      "address": "0x8caf",
+      "previous": "_label_bank0_8caf",
+      "current": "InitializeWarmBootState",
+      "confidence": "confirmed",
+      "evidence": [
+        "A signature mismatch enters the block that copies the signature and default state into internal RAM."
+      ]
+    },
+    {
+      "address": "0x8cb1",
+      "previous": "_label_bank0_8cb1",
+      "current": "CopyWarmBootSignature",
+      "confidence": "confirmed",
+      "evidence": [
+        "The four-iteration loop copies StartupWarmBootSignature to WarmBootSignature."
+      ]
+    },
+    {
+      "address": "0x8cbc",
+      "previous": "_label_bank0_8cbc",
+      "current": "CopyWarmBootDefaultState",
+      "confidence": "confirmed",
+      "evidence": [
+        "The eight-iteration loop copies StartupWarmBootDefaultState to WarmBootDefaultState."
+      ]
+    },
+    {
+      "address": "0x8cca",
+      "previous": "_label_bank0_8cca",
+      "current": "InitializeThreadStacks",
+      "confidence": "confirmed",
+      "evidence": [
+        "This block seeds the eight stack partitions and constructs idle return frames before calling StartThread."
+      ]
+    },
+    {
+      "address": "0x8cce",
+      "previous": "_label_bank0_8cce",
+      "current": "InitializeThreadStackPointerLoop",
+      "confidence": "confirmed",
+      "evidence": [
+        "The loop stores stack offsets separated by $20 bytes in ThreadStackPointers."
+      ]
+    },
+    {
+      "address": "0x8ce4",
+      "previous": "_label_bank0_8ce4",
+      "current": "InitializeIdleThreadFrames",
+      "confidence": "confirmed",
+      "evidence": [
+        "The loop writes IdleThreadLoop minus one as an RTS return address into unused stack partitions."
+      ]
+    },
+    {
+      "address": "0x8d04",
+      "previous": "_label_bank0_8d04",
+      "current": "StartPendingThreads",
+      "confidence": "high",
+      "evidence": [
+        "This outer loop scans four pending start bytes and yields through SwitchThreads between passes."
+      ]
+    },
+    {
+      "address": "0x8d06",
+      "previous": "_label_bank0_8d06",
+      "current": "StartPendingThread",
+      "confidence": "high",
+      "evidence": [
+        "A nonzero pending value is cleared and passed directly to StartThread."
+      ]
+    },
+    {
+      "address": "0x8d18",
+      "previous": "_label_bank0_8d18",
+      "current": "NextPendingThread",
+      "confidence": "confirmed",
+      "evidence": [
+        "The block decrements the pending-thread index and continues the four-entry scan."
+      ]
+    },
+    {
+      "address": "0x8d20",
+      "previous": "$8D20",
+      "current": "StartupChrBankSelectValue",
+      "confidence": "high",
+      "evidence": [
+        "Reset loads this byte and writes it back to its cartridge address immediately before probing CHR through the PPU."
+      ]
+    },
+    {
+      "address": "0x8d21",
+      "previous": "$8D21",
+      "current": "StartupWarmBootSignature",
+      "confidence": "confirmed",
+      "evidence": [
+        "Reset compares these four bytes with WarmBootSignature and restores them after a mismatch."
+      ]
+    },
+    {
+      "address": "0x8d25",
+      "previous": "$8D25",
+      "current": "StartupWarmBootDefaultState",
+      "confidence": "confirmed",
+      "evidence": [
+        "Reset copies these eight bytes to WarmBootDefaultState after a signature mismatch."
+      ]
+    },
+    {
+      "address": "0x8d2d",
+      "previous": "$8D2D",
+      "current": "InitializeNametable",
+      "confidence": "confirmed",
+      "evidence": [
+        "Reset calls the routine with PPU bases $2000 and $2800; it writes blank tile $24 followed by zero attributes."
+      ]
+    },
+    {
+      "address": "0x8d43",
+      "previous": "_label_bank0_8d43",
+      "current": "FillNametableTiles",
+      "confidence": "confirmed",
+      "evidence": [
+        "The nested loop writes blank tile $24 to PPU_DATA."
+      ]
+    },
+    {
+      "address": "0x8d4f",
+      "previous": "_label_bank0_8d4f",
+      "current": "FillNametableAttributes",
+      "confidence": "confirmed",
+      "evidence": [
+        "The final 64-byte loop writes zero to PPU_DATA after the tile fill."
+      ]
+    },
+    {
+      "address": "0xa000",
+      "previous": "$A000",
+      "current": "MainGameplayThread",
+      "confidence": "confirmed",
+      "evidence": [
+        "Scheduler code $30 selects context 3 entry 0; its stored RTS address is $9FFF, so execution begins at $A000.",
+        "The routine repeatedly invokes gameplay services, yields four times through SwitchThreads, handles FairiesQueued, and jumps back to $A000."
+      ]
+    },
+    {
+      "address": "0xa049",
+      "previous": "_label_bank0_a049",
+      "current": "ContinueMainGameplayThread",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both branches that skip or finish queued-fairy handling converge here before the unconditional jump to MainGameplayThread."
+      ]
+    },
+    {
+      "address": "0xa15f",
+      "previous": "$A15F",
+      "current": "DecrementTimer",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map identifies this entry as DecrementTimer.",
+        "The routine consumes TimerUpdateCount and performs decimal subtraction over TimerDigit10 through TimerDigit10000."
+      ]
+    },
+    {
+      "address": "0xa177",
+      "previous": "_label_bank0_a177",
+      "current": "ProcessPendingTimerTicks",
+      "confidence": "confirmed",
+      "evidence": [
+        "NextTimerTick branches here while the copied TimerUpdateCount remains nonzero."
+      ]
+    },
+    {
+      "address": "0xa183",
+      "previous": "$A183",
+      "current": "DecrementTimerByOne",
+      "confidence": "high",
+      "evidence": [
+        "Bisqwit's map identifies this secondary entry as DecrementTimerByOne.",
+        "The code advances from TimerFraction to TimerDigit10 and subtracts the configured step."
+      ]
+    },
+    {
+      "address": "0xa18e",
+      "previous": "_label_bank0_a18e",
+      "current": "BorrowFromNextTimerDigit",
+      "confidence": "confirmed",
+      "evidence": [
+        "The loop advances to the next decimal digit and subtracts the outstanding borrow with SBC #$00."
+      ]
+    },
+    {
+      "address": "0xa195",
+      "previous": "_label_bank0_a195",
+      "current": "WrapTimerDigitAfterBorrow",
+      "confidence": "confirmed",
+      "evidence": [
+        "An underflowed decimal digit is wrapped by adding ten before borrow propagation continues."
+      ]
+    },
+    {
+      "address": "0xa1a1",
+      "previous": "_label_bank0_a1a1",
+      "current": "ClearLowerTimerDigits",
+      "confidence": "confirmed",
+      "evidence": [
+        "The loop writes zero to the three lower timer digit addresses $0438-$043A."
+      ]
+    },
+    {
+      "address": "0xa1a7",
+      "previous": "_label_bank0_a1a7",
+      "current": "StoreChangedTimerDigit",
+      "confidence": "confirmed",
+      "evidence": [
+        "The block stores the changed digit and sets bit 7 of TimerDecrementStep as a display-dirty flag."
+      ]
+    },
+    {
+      "address": "0xa1b1",
+      "previous": "_label_bank0_a1b1",
+      "current": "NextTimerTick",
+      "confidence": "confirmed",
+      "evidence": [
+        "The block decrements the pending tick counter and loops while more timer updates remain."
+      ]
+    },
+    {
+      "address": "0xa1b5",
+      "previous": "_label_bank0_a1b5",
+      "current": "CommitTimerDisplayUpdate",
+      "confidence": "high",
+      "evidence": [
+        "When the dirty bit is set and no PPU stream is pending, the block invokes the timer-display builder at $A238."
+      ]
+    },
+    {
+      "address": "0xa1d2",
+      "previous": "_label_bank0_a1d2",
+      "current": "UpdateTimerWarningState",
+      "confidence": "high",
+      "evidence": [
+        "The block compares the two high decimal digits against one of four thresholds and tests warning-state bit $10."
+      ]
+    },
+    {
+      "address": "0xa207",
+      "previous": "_label_bank0_a207",
+      "current": "LeaveTimerWarningRange",
+      "confidence": "high",
+      "evidence": [
+        "This threshold branch queues the alternate PPU stream and subsequently clears warning-state bit $10."
+      ]
+    },
+    {
+      "address": "0xa21a",
+      "previous": "_label_bank0_a21a",
+      "current": "QueueTimerWarningUpdate",
+      "confidence": "high",
+      "evidence": [
+        "Both warning-exit variants converge here with a selected queue value before calling the queue helper at $8E8D."
+      ]
+    },
+    {
+      "address": "0xa222",
+      "previous": "_label_bank0_a222",
+      "current": "StoreTimerWarningState",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both threshold transition paths converge on storing the updated bit field to TimerWarningState."
+      ]
+    },
+    {
+      "address": "0xa225",
+      "previous": "_label_bank0_a225",
+      "current": "FinishTimerUpdate",
+      "confidence": "confirmed",
+      "evidence": [
+        "All paths that skip or complete threshold handling return through this RTS."
+      ]
+    }
+  ]
+}

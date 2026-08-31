@@ -62,5 +62,11 @@ Normal items are `(type, position)` pairs. `$C0-$DF` encode one repeated type:
 `$00` and `$E0-$EF` terminate the stream and encode the tileset. `$F0-$FB`
 encode a constellation plus one position and also terminate the stream.
 
-The tested decoder is `scripts/room_data.py`. Its JSON keeps raw type values so
-that naming uncertainty does not corrupt the lossless structural result.
+The tested codec is `scripts/room_data.py`. Its JSON keeps raw type values and
+the original item command grouping so that naming uncertainty or RLE expansion
+does not corrupt the lossless structural result.
+
+`make roundtrip-formats` decodes and re-encodes all 53 block-plane records,
+enemy streams, item metadata/command streams, and both 53-entry split-pointer
+tables. It compares every encoded result directly with the built PRG and is
+part of `make release-check`.
