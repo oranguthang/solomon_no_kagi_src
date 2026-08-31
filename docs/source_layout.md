@@ -23,6 +23,11 @@ The free enemy-slot allocator owns `$B42A-$B445`.
 Their split record-pool pointer tables own `$B446-$B491`.
 The adjacent enemy-slot deactivation helper owns `$B492-$B4B5`.
 Current selected-enemy deactivation owns `$B4B6-$B4C3`.
+Timer item effects own `$C628-$C697`.
+Inventory, fairy, fireball-lifetime, and score item entries own `$C698-$C70F`.
+Item score tables and the shared auxiliary-effect initializer own
+`$C710-$C73A`.
+Shared decimal score addition owns `$C73B-$C755`.
 Non-Dana object state maintenance owns `$CA3C-$CA6D`, split into two sweep
 routines around the shared pointer resolver.
 `src/preservation/prg.asm` owns the unresolved ranges
@@ -71,7 +76,13 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_ENEMY_POINTER_TABLES` | split object/AI record pointer tables | 76 |
 | `PRG_ENEMY_DEACTIVATION` | parallel-record enemy slot retirement | 36 |
 | `PRG_CURRENT_ENEMY_DEACTIVATION` | selected enemy-record retirement | 14 |
-| `PRG_BANK_0` | unresolved `$B4C4-$CA3B` range | 5,496 |
+| `PRG_BANK_0` | unresolved `$B4C4-$C627` range | 4,452 |
+| `PRG_TIMER_ITEM_EFFECTS` | timer multiplication and fixed-value item handlers | 112 |
+| `PRG_INVENTORY_ITEM_EFFECTS` | inventory, fairy, lifetime, and score item handlers | 120 |
+| `PRG_ITEM_SCORE_TABLES` | collectible score digit and amount lookups | 8 |
+| `PRG_AUXILIARY_EFFECT` | shared auxiliary-object effect initializer | 35 |
+| `PRG_SCORE_ADDITION` | gated unpacked-decimal score addition | 27 |
+| `PRG_POST_SCORE_ADDITION` | unresolved `$C756-$CA3B` range | 742 |
 | `PRG_SET_ACTIVE_OBJECT_STATES` | conditional non-Dana state sweep | 19 |
 | `PRG_LOAD_OBJECT_POINTER` | non-Dana object pointer resolver | 11 |
 | `PRG_DEACTIVATE_NON_DANA_OBJECTS` | whole non-Dana object teardown | 20 |

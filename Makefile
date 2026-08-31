@@ -21,6 +21,10 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	src/game/object_y_clamp.asm \
 	src/game/object_x_left_clamp.asm \
 	src/game/main_thread.asm src/game/timer.asm \
+	src/game/timer_item_effects.asm \
+	src/game/inventory_item_effects.asm \
+	src/data/item_scores.asm src/game/auxiliary_effect.asm \
+	src/game/score.asm \
 	src/game/coordinate_conversion.asm \
 	src/game/timer_display.asm src/game/enemy_movement.asm \
 	src/game/enemy_ai_dispatch.asm \

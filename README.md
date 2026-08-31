@@ -14,7 +14,7 @@ evidence, and small tested tools for decoded game data.
   entrypoint; CHR is a private generated asset and is not stored in Git.
 - Confirmed NES registers and high-confidence RAM aliases are separated into
   `src/memory/`.
-- Thirty semantic PRG modules own NMI (`$8000-$80FE`), controller input
+- Thirty-five semantic PRG modules own NMI (`$8000-$80FE`), controller input
   (`$837D-$83C1`), reset/startup
   (`$8C00-$8D5E`), the cooperative scheduler (`$8D5F-$8E46`), and the main
   gameplay thread (`$A000-$A04B`), plus countdown timer arithmetic and warning
@@ -29,6 +29,11 @@ evidence, and small tested tools for decoded game data.
   the free-slot allocator owns `$B42A-$B445`, their split pointer tables own
   `$B446-$B491`, and slot deactivation owns `$B492-$B4B5`.
   Current-record deactivation follows at `$B4B6-$B4C3`.
+  Timer multiplication and fixed-value item handlers own `$C628-$C697`.
+  Inventory and related item handlers continue through `$C70F`.
+  Item score lookup tables and auxiliary-effect initialization own
+  `$C710-$C73A`.
+  Shared score addition owns `$C73B-$C755`.
   Non-Dana object-pool state and teardown sweeps own `$CA3C-$CA4E` and
   `$CA5A-$CA6D`, around the pointer resolver at `$CA4F-$CA59`.
   Pixel/room-map conversion owns `$918A-$91B8` and all 31 callers use symbols.
@@ -175,6 +180,11 @@ src/game/object_x_left_clamp.asm clamp object X against its left surface
 src/game/coordinate_conversion.asm pixel and packed room-index conversion
 src/game/main_thread.asm   context-three gameplay service loop
 src/game/timer.asm         countdown arithmetic and warning-state transitions
+src/game/timer_item_effects.asm multiply or replace time from collected items
+src/game/inventory_item_effects.asm packed inventory and related item handlers
+src/data/item_scores.asm  collectible score digit and amount lookup tables
+src/game/auxiliary_effect.asm shared auxiliary-object effect initialization
+src/game/score.asm         game-state-gated decimal score addition
 src/game/timer_display.asm NMI update-program builder for timer digits
 src/game/enemy_movement.asm active-enemy movement prepass
 src/game/enemy_ai_dispatch.asm 17-slot per-enemy AI selector

@@ -3,11 +3,15 @@
 ; listing yet. See docs/naming.md for the evidence rule
 
 TempPointer00 = $0000
+InventoryItemSlotPattern = $0000
+InventorySlotMask = $0001
 TempPointer02 = $0002
+RemainingInventorySlots = $0003
 TempPointer04 = $0004
 CoordinateY = $0004
 CoordinateX = $0005
 MapCellIndex = $0004
+TimerDigitSnapshot = $0004
 SpawnYPosition = $0004
 SpawnXPosition = $0005
 SpawnSlotIndex = $0006
@@ -99,6 +103,8 @@ DanaXPosition = DanaObject + ObjectXPositionOffset
 MagicSparkObject = $0593
 FireballObject = $05A7
 AuxiliaryObject = $05BB
+AuxiliaryYPosition = AuxiliaryObject + ObjectYPositionOffset
+AuxiliaryXPosition = AuxiliaryObject + ObjectXPositionOffset
 EnemyObjects = $05CF
 EnemyObjectCount = 17
 ObjectRecordCount = 4 + EnemyObjectCount

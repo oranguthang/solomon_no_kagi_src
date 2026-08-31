@@ -1852,7 +1852,7 @@ _label_bank0_8fe4:
     LDA #$08
     JSR $8FED
     BNE _label_bank0_8fb0
-    JSR $C73B
+    JSR AddScoreByAAtDigitX
     JSR $C403
     LDA #$24
     STA $03F1
@@ -4187,7 +4187,7 @@ _label_bank0_a559:
 
 _label_bank0_a55d:
     JSR LoadCurrentEnemyPosition
-    JSR $C721
+    JSR SpawnAuxiliaryEffectAtCoordinates
     LDY #$0D
     JSR AddSoundEffect
     LDY #$03
@@ -4221,7 +4221,7 @@ _label_bank0_a590:
     ADC #$03
     TAY
     LDA $A5A0,Y
-    JSR $C73B
+    JSR AddScoreByAAtDigitX
     BMI _label_bank0_a584
 
     .byte $01, $02, $05
@@ -4694,7 +4694,7 @@ _label_bank0_a869:
     BCC _label_bank0_a8ab
     INC $86
     JSR LoadCurrentEnemyPosition
-    JSR $C721
+    JSR SpawnAuxiliaryEffectAtCoordinates
     JSR $C4A1
     LDX #$00
     LDA #$43
@@ -7909,7 +7909,7 @@ _label_bank0_c42e:
     LDA #$40
     STA $02
     TXA
-    JSR $C718
+    JSR SpawnAuxiliaryEffectAtMapCell
     CMP #$32
     BCS _label_bank0_c498
     LDY #$0D
@@ -7923,16 +7923,16 @@ _label_bank0_c486:
     BCS _label_bank0_c486
     ADC #$03
     TAY
-    LDA $C710,X
+    LDA ItemBonusScoreDigitIndices,X
     TAX
-    LDA $C715,Y
-    JMP $C73B
+    LDA ItemBonusScoreAmounts,Y
+    JMP AddScoreByAAtDigitX
 
 _label_bank0_c498:
     BNE _label_bank0_c4a1
     LDX #$02
     LDA #$05
-    JSR $C73B
+    JSR AddScoreByAAtDigitX
 
 _label_bank0_c4a1:
     LDY #$06
@@ -7958,7 +7958,7 @@ _label_bank0_c4b6:
     RTS
 
 _label_bank0_c4c2:
-    JSR $C718
+    JSR SpawnAuxiliaryEffectAtMapCell
 
 _label_bank0_c4c5:
     LDY #$40
@@ -8150,202 +8150,7 @@ _label_bank0_c621:
     BNE _label_bank0_c621
     RTS
 
-    LDA $0435
-    ASL A
-    LDA #$04
-    ROR A
-    STA $0435
-    LDX #$00
-    LDY #$04
-    CLC
-
-_label_bank0_c637:
-    LDA $0438,X
-    ADC $0438,X
-    CMP #$0A
-    BCC _label_bank0_c643
-    SBC #$0A
-
-_label_bank0_c643:
-    STA $0438,X
-    INX
-    DEY
-    BNE _label_bank0_c637
-    RTS
-
-    LDA $0435
-    ASL A
-    ASL A
-    ADC $0435
-    STA $0435
-    LDX #$03
-
-_label_bank0_c658:
-    LDA $0438,X
-    STA $04,X
-    DEX
-    BPL _label_bank0_c658
-    JSR $C632
-    JSR $C632
-    LDX #$00
-    LDY #$04
-    CLC
-
-_label_bank0_c66b:
-    LDA $0438,X
-    ADC $04,X
-    CMP #$0A
-    BCC _label_bank0_c676
-    SBC #$0A
-
-_label_bank0_c676:
-    STA $0438,X
-    INX
-    DEY
-    BNE _label_bank0_c66b
-    RTS
-
-    LDA #$01
-    BNE _label_bank0_c68d
-    LDA #$00
-    JSR $C68D
-    LDA #$05
-    STA $043A
-    RTS
-
-_label_bank0_c68d:
-    LDX #$03
-
-_label_bank0_c68f:
-    STA $0438,X
-    LDA #$00
-    DEX
-    BPL _label_bank0_c68f
-    RTS
-
-    LDA $042B
-    CMP #$08
-    BCS _label_bank0_c6a2
-    INC $042B
-
-_label_bank0_c6a2:
-    RTS
-
-    LDA #$55
-    STA $00
-    JMP $C6D5
-    INC $0454
-    RTS
-
-    LDA #$AA
-    STA $00
-    JMP $C6D5
-    LDA #$02
-    LDX #$05
-    JSR $C73B
-    LDA #$04
-    BPL _label_bank0_c6c2
-    LDA #$10
-
-_label_bank0_c6c2:
-    LDX $0433
-    CPX #$02
-    BCS _label_bank0_c6d4
-    ADC $0432
-    STA $0432
-    BCC _label_bank0_c6d4
-    INC $0433
-
-_label_bank0_c6d4:
-    RTS
-
-    LDA $042B
-    STA $03
-    LDX #$01
-
-_label_bank0_c6dc:
-    LDA #$C0
-    STA $01
-    LDY #$04
-
-_label_bank0_c6e2:
-    LDA $01
-    AND $042E,X
-    BEQ _label_bank0_c6f8
-    DEC $03
-    BEQ _label_bank0_c6f7
-    LSR $01
-    LSR $01
-    DEY
-    BNE _label_bank0_c6e2
-    DEX
-    BPL _label_bank0_c6dc
-
-_label_bank0_c6f7:
-    RTS
-
-_label_bank0_c6f8:
-    LDA $01
-    AND $00
-    ORA $042E,X
-    STA $042E,X
-    RTS
-
-    LDX #$05
-    TXA
-
-_label_bank0_c706:
-    JSR $C73B
-    RTS
-
-    LDX #$04
-    LDA #$02
-    BNE _label_bank0_c706
-
-    .byte $05, $04, $03
-    .byte $02, $01, $01, $02, $05
-
-    PHA
-    JSR ConvertMapIndexToPixelCoordinates
-    JSR $C721
-    PLA
-    RTS
-
-    LDA $04
-    STA $05C2
-    LDA $05
-    STA $05C5
-    LDX #$03
-
-_label_bank0_c72d:
-    LDA $C737,X
-    STA $05BB,X
-    DEX
-    BPL _label_bank0_c72d
-    RTS
-
-    .byte $c6, $1c, $ff, $0c
-
-    ROR $78
-    BCS _label_bank0_c741
-    LDA #$00
-
-_label_bank0_c741:
-    ROL $78
-    CLC
-
-_label_bank0_c744:
-    ADC $044A,X
-    CMP #$0A
-    BCC _label_bank0_c74d
-    SBC #$0A
-
-_label_bank0_c74d:
-    STA $044A,X
-    LDA #$00
-    DEX
-    BPL _label_bank0_c744
-    RTS
+.segment "PRG_POST_SCORE_ADDITION"
 
     TXA
     PHA

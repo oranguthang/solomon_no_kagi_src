@@ -22,9 +22,11 @@ range is understood.
 | `$0423-$0425` | three sound-effect request slots | confirmed |
 | `$0428` | zero-based current room index | confirmed |
 | `$0429-$043D` | fireball, inventory, and lifetime state | mixed/high |
+| `$042B` | number of usable two-bit fireball inventory slots, maximum 8 | confirmed |
+| `$042E-$042F` | eight packed two-bit fireball inventory slots | confirmed |
 | `$0434-$043B` | timer warning state, step, fraction, and decimal digits | high |
 | `$0447` | active enemy count produced by the movement prepass | high |
-| `$044A-$0451` | decimal score digits | high |
+| `$044A-$0451` | eight unpacked decimal score digits, most significant first | confirmed |
 | `$0452` | remaining lives | high |
 | `$0453-$0454` | collected and queued fairies | high |
 | `$04F7-$057E` | 17 eight-byte enemy AI records | tentative/high |
@@ -43,3 +45,6 @@ byte 5 carries a signed fractional/directional component. The surface clamp
 aligns byte 7 to 16 pixels and preserves only byte 5's sign bit.
 Record byte 10 is integer X; its left-surface clamp clears fractional byte 9
 and motion byte 8 after aligning X to low nibble `$4`.
+The shared auxiliary record at `$05BB` uses the same confirmed integer Y/X
+offsets. `SpawnAuxiliaryEffectAtCoordinates` writes them from zero-page
+`$04/$05` before replacing object bytes 0 through 3 from a fixed template.

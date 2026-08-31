@@ -196,6 +196,31 @@ until the shared PPU update stream is free. Separate state tracks crossing one
 of four warning thresholds. See `docs/timer.md` for the owned range and current
 evidence boundary.
 
+Four item handlers operate directly on the same unpacked digits. They double
+or multiply the timer by five with decimal carry, or replace it with `10000`
+or `05000`; multiplication discards carry beyond four digits. The two
+multipliers also adjust `TimerDecrementStep`. See
+`docs/timer_item_effects.md`.
+
+Fireball inventory is stored as eight two-bit entries across `$042E-$042F`.
+Bottle handlers fill the first empty usable slot with value 1 or 2, while the
+Scroll Extender raises the usable-slot limit to at most eight. Fairy Bell
+queues a fairy for the gameplay thread, and the two Tzo handlers extend the
+fireball lifetime while its high byte is below 2. See
+`docs/inventory_item_effects.md`.
+
+Score uses eight unpacked decimal digits at `$044A-$0451`. The shared addition
+helper begins at a caller-selected digit and propagates carry toward the most
+significant end. `GameStateFlags` bit 0 gates whether the supplied amount is
+accepted; the flags byte is restored before the digit loop. See
+`docs/score.md`.
+
+Item and enemy paths share one auxiliary object at `$05BB`. One entry converts
+a packed room-map cell to pixels while preserving the caller's item type;
+another accepts coordinates directly. Both install the same four-byte object
+template and integer Y/X fields. The visual meaning remains deliberately
+unassigned pending traces. See `docs/auxiliary_effect.md`.
+
 ## Room pipeline
 
 The room loader combines independent sources:

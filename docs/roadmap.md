@@ -28,11 +28,11 @@ file. The audit is part of `make release-check`.
 Accepted baseline after the first split:
 
 ```text
-semantic modules            30
-documented PRG bytes      2127 / 32768 (6.491%)
-generated address labels   740
-raw control-flow targets   419
-preservation lines       10882
+semantic modules            35
+documented PRG bytes      2429 / 32768 (7.413%)
+generated address labels   721
+raw control-flow targets   403
+preservation lines       10687
 ```
 
 These are non-regression bounds, not a completion claim. As reconstruction
@@ -95,6 +95,14 @@ decrease.
   pools by `DeactivateEnemySlot` in `src/game/enemy_deactivation.asm`;
 - `$B4B6-$B4C3`: eleven enemy behavior tail-calls retire the dispatcher-
   selected slot through `DeactivateCurrentEnemy`;
+- `$C628-$C697`: timer items perform four-digit decimal doubling, fivefold
+  multiplication, and the fixed `10000`/`05000` assignments;
+- `$C698-$C70F`: Scroll Extender, fireball bottles, Fairy Bell, Tzo, and score
+  items operate on the packed inventory and confirmed lifetime/score helpers;
+- `$C710-$C73A`: item score lookup tables and the shared auxiliary-effect
+  initializer are classified as separate data and code modules;
+- `$C73B-$C755`: score addition propagates carry across eight unpacked decimal
+  digits and is gated by `GameStateFlags` bit 0;
 - `$CA3C-$CA6D`: two twenty-record state/teardown sweeps bracket
   `LoadObjectPointer`, all using source-owned plus-one pointer table aliases;
 - split the remaining preservation range into reset/startup, scheduler, room,

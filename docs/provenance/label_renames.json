@@ -1080,6 +1080,378 @@
       ]
     },
     {
+      "address": "0xc628",
+      "previous": "$C628",
+      "current": "ApplyDoubleTimerItem",
+      "confidence": "high",
+      "evidence": [
+        "Bisqwit's map identifies this item handler as multiplying timer speed and remaining time by two.",
+        "The handler replaces the low timer rate with 2, preserves bit 7, and falls into DoubleRemainingTime."
+      ]
+    },
+    {
+      "address": "0xc632",
+      "previous": "$C632",
+      "current": "DoubleRemainingTime",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map identifies this entry as DoubleRemainingTime.",
+        "The four-digit loop adds each unpacked decimal digit to itself and propagates carry toward TimerDigit10000."
+      ]
+    },
+    {
+      "address": "0xc637",
+      "previous": "_label_bank0_c637",
+      "current": "DoubleNextTimerDigit",
+      "confidence": "confirmed",
+      "evidence": [
+        "This is the head of the four-digit decimal doubling loop."
+      ]
+    },
+    {
+      "address": "0xc643",
+      "previous": "_label_bank0_c643",
+      "current": "StoreDoubledTimerDigit",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both the no-carry and decimal-wrap paths converge here to store the doubled digit."
+      ]
+    },
+    {
+      "address": "0xc64b",
+      "previous": "$C64B",
+      "current": "ApplyQuintupleTimerItem",
+      "confidence": "high",
+      "evidence": [
+        "Bisqwit's map identifies this item handler as multiplying timer speed and remaining time by five.",
+        "It saves the timer, doubles the live digits twice, then adds the saved digits to produce five times the original value."
+      ]
+    },
+    {
+      "address": "0xc658",
+      "previous": "_label_bank0_c658",
+      "current": "SaveTimerDigitsForQuintupling",
+      "confidence": "confirmed",
+      "evidence": [
+        "This loop copies all four timer digits to TimerDigitSnapshot before the two doubling calls."
+      ]
+    },
+    {
+      "address": "0xc66b",
+      "previous": "_label_bank0_c66b",
+      "current": "AddOriginalTimerDigit",
+      "confidence": "confirmed",
+      "evidence": [
+        "This four-digit loop adds the saved original timer to the four-times intermediate value."
+      ]
+    },
+    {
+      "address": "0xc676",
+      "previous": "_label_bank0_c676",
+      "current": "StoreQuintupledTimerDigit",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both the no-carry and decimal-wrap paths converge here to store one digit of the fivefold result."
+      ]
+    },
+    {
+      "address": "0xc67e",
+      "previous": "$C67E",
+      "current": "SetTimerTo10000",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map identifies this item handler as setting the timer to 10000.",
+        "It passes 1 to the shared ten-thousands-digit writer, which clears every lower digit."
+      ]
+    },
+    {
+      "address": "0xc682",
+      "previous": "$C682",
+      "current": "SetTimerTo05000",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map identifies this item handler as setting the timer to 05000.",
+        "It clears all digits through SetTimerTenThousandsDigit and writes 5 to TimerDigit1000."
+      ]
+    },
+    {
+      "address": "0xc68d",
+      "previous": "$C68D",
+      "current": "SetTimerTenThousandsDigit",
+      "confidence": "confirmed",
+      "evidence": [
+        "The routine stores its input at TimerDigit10000 and zeroes TimerDigit1000 through TimerDigit10."
+      ]
+    },
+    {
+      "address": "0xc68f",
+      "previous": "_label_bank0_c68f",
+      "current": "StoreTimerTenThousandsAndClearLowerDigits",
+      "confidence": "confirmed",
+      "evidence": [
+        "This descending four-digit loop stores A once at the highest digit, then stores zero in every lower digit."
+      ]
+    },
+    {
+      "address": "0xc698",
+      "previous": "$C698",
+      "current": "IncreaseInventorySlotLimit",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map identifies this entry as the Scroll Extender item handler.",
+        "It increments InventorySlotCount only while the value is below eight."
+      ]
+    },
+    {
+      "address": "0xc6a2",
+      "previous": "_label_bank0_c6a2",
+      "current": "FinishInventorySlotLimitIncrease",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both the at-limit and incremented paths converge on this return."
+      ]
+    },
+    {
+      "address": "0xc6a3",
+      "previous": "$C6A3",
+      "current": "ApplySmallFireballBottleItem",
+      "confidence": "high",
+      "evidence": [
+        "Bisqwit's map identifies this entry as the blue fireball-bottle handler.",
+        "It supplies repeating two-bit value 1 to AddItemToScroll."
+      ]
+    },
+    {
+      "address": "0xc6aa",
+      "previous": "$C6AA",
+      "current": "QueueFairyItem",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map identifies this entry as the Fairy Bell handler.",
+        "The handler increments FairiesQueued, which MainGameplayThread consumes."
+      ]
+    },
+    {
+      "address": "0xc6ae",
+      "previous": "$C6AE",
+      "current": "ApplyLargeFireballBottleItem",
+      "confidence": "high",
+      "evidence": [
+        "Bisqwit's map identifies this entry as the red fireball-bottle handler.",
+        "It supplies repeating two-bit value 2 to AddItemToScroll."
+      ]
+    },
+    {
+      "address": "0xc6b5",
+      "previous": "$C6B5",
+      "current": "ApplyBlueTzoItem",
+      "confidence": "high",
+      "evidence": [
+        "Bisqwit's map identifies this entry as the blue Tzo item handler.",
+        "It submits a score addition and reaches the fireball-lifetime helper with A=$04."
+      ]
+    },
+    {
+      "address": "0xc6c0",
+      "previous": "$C6C0",
+      "current": "ApplyRedTzoItem",
+      "confidence": "high",
+      "evidence": [
+        "Bisqwit's map identifies this entry as the red Tzo item handler.",
+        "It reaches the shared fireball-lifetime helper with A=$10."
+      ]
+    },
+    {
+      "address": "0xc6c2",
+      "previous": "$C6C2",
+      "current": "ExtendFireballLifetime",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map identifies this entry as ExtendFireBallLifeTime.",
+        "The routine conditionally adds A to FireballLifetimeLo and propagates carry to FireballLifetimeHi."
+      ]
+    },
+    {
+      "address": "0xc6d4",
+      "previous": "_label_bank0_c6d4",
+      "current": "FinishFireballLifetimeExtension",
+      "confidence": "confirmed",
+      "evidence": [
+        "The high-byte cutoff and both low-byte addition outcomes converge on this return."
+      ]
+    },
+    {
+      "address": "0xc6d5",
+      "previous": "$C6D5",
+      "current": "AddItemToScroll",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map identifies this entry as AddItemToScroll.",
+        "It scans packed two-bit inventory slots and stores the requested pattern in the first empty usable slot."
+      ]
+    },
+    {
+      "address": "0xc6dc",
+      "previous": "_label_bank0_c6dc",
+      "current": "ScanNextInventoryByte",
+      "confidence": "confirmed",
+      "evidence": [
+        "The block resets the two-bit mask before scanning each of the two inventory bytes."
+      ]
+    },
+    {
+      "address": "0xc6e2",
+      "previous": "_label_bank0_c6e2",
+      "current": "ScanNextInventorySlot",
+      "confidence": "confirmed",
+      "evidence": [
+        "This loop tests one packed slot and shifts the mask right by two before the next test."
+      ]
+    },
+    {
+      "address": "0xc6f7",
+      "previous": "_label_bank0_c6f7",
+      "current": "InventoryCapacityReached",
+      "confidence": "confirmed",
+      "evidence": [
+        "The occupied-slot counter reaches zero here and returns without storing an item."
+      ]
+    },
+    {
+      "address": "0xc6f8",
+      "previous": "_label_bank0_c6f8",
+      "current": "StoreItemInInventorySlot",
+      "confidence": "confirmed",
+      "evidence": [
+        "The block masks one two-bit item value and merges it into the selected empty slot."
+      ]
+    },
+    {
+      "address": "0xc703",
+      "previous": "$C703",
+      "current": "AwardBlueCrystalScore",
+      "confidence": "high",
+      "evidence": [
+        "Bisqwit's map identifies this entry as the Blue Crystal score handler.",
+        "It selects score digit index 5 and uses the same value as the addition before calling the shared score routine."
+      ]
+    },
+    {
+      "address": "0xc706",
+      "previous": "$C706",
+      "current": "AwardItemScoreAndReturn",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map identifies this entry as the item path into AddScoreByAAtDigitX.",
+        "Both adjacent score handlers converge on the shared call and return."
+      ]
+    },
+    {
+      "address": "0xc70a",
+      "previous": "$C70A",
+      "current": "AwardType04Or06Score",
+      "confidence": "high",
+      "evidence": [
+        "Bisqwit's map identifies this shared entry as the score handler for item types $04 and $06.",
+        "It passes A=2 and score digit index 4 to the common item score path."
+      ]
+    },
+    {
+      "address": "0xc710",
+      "previous": "$C710",
+      "current": "ItemBonusScoreDigitIndices",
+      "confidence": "confirmed",
+      "evidence": [
+        "The item-score caller indexes this five-byte table and transfers the result to X before AddScoreByAAtDigitX.",
+        "The following independently indexed amount table fixes the five-byte boundary."
+      ]
+    },
+    {
+      "address": "0xc715",
+      "previous": "$C715",
+      "current": "ItemBonusScoreAmounts",
+      "confidence": "confirmed",
+      "evidence": [
+        "The item-score caller indexes this three-byte table and leaves the result in A for AddScoreByAAtDigitX."
+      ]
+    },
+    {
+      "address": "0xc718",
+      "previous": "$C718",
+      "current": "SpawnAuxiliaryEffectAtMapCell",
+      "confidence": "high",
+      "evidence": [
+        "Both item-acquisition callers supply a packed room-map index in $04 and need their item type in A after the call.",
+        "The wrapper preserves A, converts the index to pixels, and calls SpawnAuxiliaryEffectAtCoordinates."
+      ]
+    },
+    {
+      "address": "0xc721",
+      "previous": "$C721",
+      "current": "SpawnAuxiliaryEffectAtCoordinates",
+      "confidence": "high",
+      "evidence": [
+        "Three callers supply coordinates in $04/$05, including two paths using LoadCurrentEnemyPosition.",
+        "The routine writes those coordinates and a fixed four-byte template to AuxiliaryObject."
+      ]
+    },
+    {
+      "address": "0xc72d",
+      "previous": "_label_bank0_c72d",
+      "current": "CopyAuxiliaryEffectTemplate",
+      "confidence": "confirmed",
+      "evidence": [
+        "This descending loop copies exactly four bytes into AuxiliaryObject offsets 0 through 3."
+      ]
+    },
+    {
+      "address": "0xc737",
+      "previous": "$C737",
+      "current": "AuxiliaryEffectTemplate",
+      "confidence": "confirmed",
+      "evidence": [
+        "The four-byte copy loop is the only reader and writes every byte to the start of AuxiliaryObject."
+      ]
+    },
+    {
+      "address": "0xc73b",
+      "previous": "$C73B",
+      "current": "AddScoreByAAtDigitX",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map identifies this entry as AddScore_byA_toDigitX.",
+        "Six direct callers provide an amount in A and a starting score-digit index in X.",
+        "The routine performs decimal carry across the unpacked ScoreDigits array and uses GameStateFlags bit 0 to gate the requested amount."
+      ]
+    },
+    {
+      "address": "0xc741",
+      "previous": "_label_bank0_c741",
+      "current": "AddPendingScore",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both game-state gate outcomes converge here to restore GameStateFlags before score arithmetic."
+      ]
+    },
+    {
+      "address": "0xc744",
+      "previous": "_label_bank0_c744",
+      "current": "AddNextScoreDigit",
+      "confidence": "confirmed",
+      "evidence": [
+        "This is the head of the decimal carry loop over descending ScoreDigits indices."
+      ]
+    },
+    {
+      "address": "0xc74d",
+      "previous": "_label_bank0_c74d",
+      "current": "StoreScoreDigit",
+      "confidence": "confirmed",
+      "evidence": [
+        "The no-wrap and subtract-ten paths converge here to store one normalized decimal digit."
+      ]
+    },
+    {
       "address": "0xca3c",
       "previous": "$CA3C",
       "current": "SetActiveNonDanaObjectState",

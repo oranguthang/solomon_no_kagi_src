@@ -360,6 +360,95 @@
       ]
     },
     {
+      "id": "timer_item_effects",
+      "path": "src/game/timer_item_effects.asm",
+      "segment": "PRG_TIMER_ITEM_EFFECTS",
+      "start": "0xc628",
+      "end": "0xc697",
+      "status": "semantic",
+      "required_labels": [
+        "ApplyDoubleTimerItem",
+        "DoubleRemainingTime",
+        "DoubleNextTimerDigit",
+        "StoreDoubledTimerDigit",
+        "ApplyQuintupleTimerItem",
+        "SaveTimerDigitsForQuintupling",
+        "AddOriginalTimerDigit",
+        "StoreQuintupledTimerDigit",
+        "SetTimerTo10000",
+        "SetTimerTo05000",
+        "SetTimerTenThousandsDigit",
+        "StoreTimerTenThousandsAndClearLowerDigits"
+      ]
+    },
+    {
+      "id": "inventory_item_effects",
+      "path": "src/game/inventory_item_effects.asm",
+      "segment": "PRG_INVENTORY_ITEM_EFFECTS",
+      "start": "0xc698",
+      "end": "0xc70f",
+      "status": "semantic",
+      "required_labels": [
+        "IncreaseInventorySlotLimit",
+        "FinishInventorySlotLimitIncrease",
+        "ApplySmallFireballBottleItem",
+        "QueueFairyItem",
+        "ApplyLargeFireballBottleItem",
+        "ApplyBlueTzoItem",
+        "ApplyRedTzoItem",
+        "ExtendFireballLifetime",
+        "FinishFireballLifetimeExtension",
+        "AddItemToScroll",
+        "ScanNextInventoryByte",
+        "ScanNextInventorySlot",
+        "InventoryCapacityReached",
+        "StoreItemInInventorySlot",
+        "AwardBlueCrystalScore",
+        "AwardItemScoreAndReturn",
+        "AwardType04Or06Score"
+      ]
+    },
+    {
+      "id": "item_score_tables",
+      "path": "src/data/item_scores.asm",
+      "segment": "PRG_ITEM_SCORE_TABLES",
+      "start": "0xc710",
+      "end": "0xc717",
+      "status": "semantic",
+      "required_labels": [
+        "ItemBonusScoreDigitIndices",
+        "ItemBonusScoreAmounts"
+      ]
+    },
+    {
+      "id": "auxiliary_effect",
+      "path": "src/game/auxiliary_effect.asm",
+      "segment": "PRG_AUXILIARY_EFFECT",
+      "start": "0xc718",
+      "end": "0xc73a",
+      "status": "semantic",
+      "required_labels": [
+        "SpawnAuxiliaryEffectAtMapCell",
+        "SpawnAuxiliaryEffectAtCoordinates",
+        "CopyAuxiliaryEffectTemplate",
+        "AuxiliaryEffectTemplate"
+      ]
+    },
+    {
+      "id": "score_addition",
+      "path": "src/game/score.asm",
+      "segment": "PRG_SCORE_ADDITION",
+      "start": "0xc73b",
+      "end": "0xc755",
+      "status": "semantic",
+      "required_labels": [
+        "AddScoreByAAtDigitX",
+        "AddPendingScore",
+        "AddNextScoreDigit",
+        "StoreScoreDigit"
+      ]
+    },
+    {
       "id": "active_object_states",
       "path": "src/game/active_object_states.asm",
       "segment": "PRG_SET_ACTIVE_OBJECT_STATES",
@@ -397,11 +486,11 @@
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 30,
-    "minimum_documented_prg_bytes": 2127,
-    "minimum_provenance_entries": 119,
-    "maximum_preservation_lines": 10882,
-    "maximum_generated_labels": 740,
-    "maximum_raw_control_flow_targets": 419
+    "minimum_semantic_modules": 35,
+    "minimum_documented_prg_bytes": 2429,
+    "minimum_provenance_entries": 162,
+    "maximum_preservation_lines": 10687,
+    "maximum_generated_labels": 721,
+    "maximum_raw_control_flow_targets": 403
   }
 }
