@@ -1,0 +1,22 @@
+# Unknowns and research queue
+
+1. Map the eight cooperative contexts to stable responsibilities and capture
+   their switch order under low and high object load.
+2. Prove every field of the `$14`-byte object record and the separate eight-byte
+   enemy AI record.
+3. Separate code from embedded tables throughout `$8000-$FFFF`, replacing
+   generated labels with evidence-backed names.
+4. Locate the complete CNROM bank-selection policy and identify which rooms,
+   screens, and object states consume each CHR bank.
+5. Document the exact room-map dimensions and all runtime tile values beginning
+   at `$0304`.
+6. Identify the special-room selectors and data for Solomon Seals, Bomb Jacks,
+   Tecmo Bunnies, and the Pages of Time and Space.
+7. Prove timer service frequency under scheduler load and reproduce known
+   timing volatility with a deterministic emulator scenario.
+8. Map sound command queues, music/SFX pointer tables, and APU ownership.
+9. Compare USA, Japan, and Europe PRG revisions without merging assumptions
+   from one profile into another.
+
+Unknowns stay here until evidence resolves them; they are not silently removed
+when a plausible name appears.

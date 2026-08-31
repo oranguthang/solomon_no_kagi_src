@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "breakpoints": [
+    {"address": "0x8000", "name": "NMI", "kind": "execute", "confidence": "confirmed"},
+    {"address": "0x837d", "name": "ReadJoypads", "kind": "execute", "confidence": "high"},
+    {"address": "0x8c00", "name": "Reset", "kind": "execute", "confidence": "confirmed"},
+    {"address": "0x8db4", "name": "SwitchThreads", "kind": "execute", "confidence": "high"},
+    {"address": "0x8dfc", "name": "DefaultThreadEntry", "kind": "execute", "confidence": "high"},
+    {"address": "0xa000", "name": "MainGameplayLoop", "kind": "execute", "confidence": "high"},
+    {"address": "0xa15f", "name": "DecrementTimer", "kind": "execute", "confidence": "high"},
+    {"address": "0xb42a", "name": "FindFreeEnemySlot", "kind": "execute", "confidence": "high"},
+    {"address": "0xc45b", "name": "CheckMapTileCollisionType", "kind": "execute", "confidence": "high"}
+  ]
+}

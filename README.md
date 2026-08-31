@@ -1,0 +1,148 @@
+# Solomon's Key NES Disassembly
+
+A byte-identical ca65 reconstruction and reverse-engineering workspace for the
+USA NES release of **Solomon's Key** (`NES-KE-USA`). The project follows the
+preservation-first structure of the sibling `smb1_src` repository: a stable
+baseline, explicit ROM identity, reproducible build artifacts, documented
+evidence, and small tested tools for decoded game data.
+
+## Current status
+
+- The complete 65,552-byte iNES image assembles byte-for-byte.
+- `make verify` checks the header, PRG, CHR, complete payload, and complete file.
+- The address-ordered PRG source is included by a small `src/main.asm`
+  entrypoint; CHR is a private generated asset and is not stored in Git.
+- Confirmed NES registers and high-confidence RAM aliases are separated into
+  `src/memory/`.
+- `scripts/room_data.py` decodes the block planes, enemy streams, item streams,
+  and ten-byte metadata headers for all 53 room records.
+- Architecture, RAM, room formats, provenance, naming policy, and unknowns are
+  recorded under `docs/`.
+- Initial Mesen watches and breakpoints live under `config/` with a trace
+  workflow in `docs/debugger_workflow.md`.
+
+The preservation source is not yet a fully semantic modular disassembly.
+Most operands and generated labels still use raw addresses. The byte-identical
+baseline is intentionally frozen first; semantic renames and subsystem splits
+can now proceed behind a permanent verification gate.
+
+## Reference image
+
+The baseline is exactly:
+
+```text
+Solomon's Key (USA)
+File size  65,552 bytes
+File SHA-1 18102689fd35c7d531a5e6241b06b748accab2f6
+ROM CRC32  40684e95 (headerless PRG + CHR)
+Mapper     3 (CNROM), horizontal mirroring
+PRG        32 KiB, loaded at $8000-$FFFF
+CHR        32 KiB, four switchable 8 KiB banks
+```
+
+The full identity contract is in `assets/manifest.json`. ROM files and locally
+extracted assets are ignored by Git.
+
+## Building
+
+On Windows, the repository includes matched ca65/ld65 2.19 executables:
+
+```bash
+make build
+make verify
+```
+
+The build produces the ROM, listing, labels, linker map, and debug records in
+`build/native/`. `make verify` validates the original and built images
+independently against the manifest, then compares the header, PRG, CHR,
+headerless payload, complete file, and extracted CHR asset byte-for-byte.
+Mismatch diagnostics include the first differing file/region offset and a CPU
+address for PRG differences.
+
+Before the first build, place a legally obtained matching image outside Git and
+extract its CHR payload with:
+
+```bash
+make split
+```
+
+The default filename is `Solomon's Key (U) [!].nes`. Override it when needed:
+
+```bash
+make split REFERENCE_ROM="path/to/Solomon's Key (USA).nes"
+```
+
+This validates the complete image plus its header, PRG, and CHR identities,
+then writes only the ignored `assets/generated/chr/solomons_key.chr`. Builds
+fail with a focused instruction if this private asset is absent.
+
+## Useful targets
+
+```bash
+make build       # assemble and link the complete iNES image
+make verify      # complete original-vs-build byte-identity contract
+make verify-prg  # compare only the 32 KiB PRG region
+make verify-chr  # compare only the 32 KiB CHR region in built/original ROMs
+make verify-assets # compare extracted CHR directly with the original
+make rom-info    # print sizes, SHA-1, CRC32, mapper, and mirroring
+make format      # normalize ca65 source and run every linter
+make format-check # check ca65 formatting without changing files
+make lint        # validate assembly style, repository, and source contracts
+make lint-source # validate manifests, includes, and tracked-binary policy
+make test        # run Python unit tests
+make quality-check # lint and test without requiring a reference ROM
+make release-check # complete static, test, identity, and room-data gate
+make check       # alias for release-check
+make rooms       # decode all 53 rooms as JSON
+make validate-rooms # structurally decode every room without JSON output
+make clean       # remove build artifacts only
+```
+
+Focused identity targets also include `verify-reference`, `verify-built`,
+`verify-header`, `verify-payload`, and `verify-rom`. See
+`docs/verification.md` for their exact contracts.
+
+To inspect one room without emitting all room records:
+
+```bash
+python scripts/room_data.py --image build/native/solomons_key.nes --room 1 --pretty
+```
+
+## Repository structure
+
+```text
+assets/manifest.json       exact reference identity
+bin/                       local ca65/ld65 toolchain and license
+config/linker/cnrom.cfg    complete iNES/PRG/CHR linker layout
+docs/                      architecture and reverse-engineering notes
+scripts/project.py         split, verify, lint, and safe build helpers
+scripts/asm_style.py       shared ca65 formatter and style checker
+scripts/verify_rom.py      original/build/asset comparison and ROM reports
+scripts/room_data.py       room-format decoder
+src/main.asm               assembly entrypoint and iNES header
+src/preservation/prg.asm   address-ordered 32 KiB PRG source
+src/graphics/chr.asm       `.incbin` wrapper for ignored generated CHR
+src/memory/                hardware and RAM symbol registries
+tests/                     tooling and codec tests
+```
+
+## Evidence boundary
+
+Names in source and documentation are classified as confirmed,
+high-confidence, tentative, or unknown. A readable name is not treated as
+proof by itself. Static control flow, pointer tables, read/write traces, and
+repeatable runtime scenarios are the intended evidence layers. See
+`docs/naming.md` and `docs/unknowns.md`.
+
+## Upstream material and rights
+
+The preservation listing was imported from
+[rbmichael/solomons_key_disassembly](https://github.com/rbmichael/solomons_key_disassembly),
+which attributes the original disassembly to `ninespaces`. That repository did
+not contain an explicit license when imported. This project therefore does not
+assert a blanket license over the imported listing or game data. Original
+tooling and documentation should be treated separately from third-party and
+copyrighted material. See `docs/provenance.md` for the complete source ledger.
+
+This is an unofficial preservation and research project. Solomon's Key and its
+game data remain property of their respective rights holders.

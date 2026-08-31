@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "watches": [
+    {"address": "0x0012", "size": 8, "name": "ThreadStackPointers", "confidence": "high"},
+    {"address": "0x0082", "size": 2, "name": "JoypadRaw", "confidence": "high"},
+    {"address": "0x0302", "size": 1, "name": "ThreadIndex", "confidence": "high"},
+    {"address": "0x0304", "size": 192, "name": "RoomMapWorkingRange", "confidence": "tentative"},
+    {"address": "0x03e4", "size": 2, "name": "JoypadCached", "confidence": "high"},
+    {"address": "0x0428", "size": 1, "name": "CurrentRoomIndex", "confidence": "confirmed"},
+    {"address": "0x0435", "size": 7, "name": "TimerState", "confidence": "high"},
+    {"address": "0x044a", "size": 8, "name": "ScoreDigits", "confidence": "high"},
+    {"address": "0x0452", "size": 3, "name": "LivesAndFairies", "confidence": "high"},
+    {"address": "0x04f7", "size": 136, "name": "EnemyAiState", "confidence": "tentative"},
+    {"address": "0x057f", "size": 420, "name": "GameplayObjectPool", "confidence": "high"}
+  ]
+}
