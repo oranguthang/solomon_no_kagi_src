@@ -28,11 +28,11 @@ file. The audit is part of `make release-check`.
 Accepted baseline after the first split:
 
 ```text
-semantic modules            41
-documented PRG bytes      2722 / 32768 (8.307%)
-generated address labels   710
-raw control-flow targets   369
-preservation lines       10516
+semantic modules            46
+documented PRG bytes      2970 / 32768 (9.064%)
+generated address labels   706
+raw control-flow targets   340
+preservation lines       10407
 ```
 
 These are non-regression bounds, not a completion claim. As reconstruction
@@ -65,6 +65,12 @@ decrease.
   zero-page bits clear or become set, with all ten callers named;
 - `$918A-$91B8`: both directions of the pixel/packed-room-index conversion are
   isolated in `src/game/coordinate_conversion.asm`, with all 31 calls named;
+- `$96DC-$970A`: thirteen direct PPU transfer boundaries use named begin/end
+  helpers that coordinate update-stream idleness, rendering, and NMI state;
+- `$970B-$97A2`: the room-init path draws the two right columns, two bottom
+  rows, and attribute table surrounding the 30x24 room nametable area;
+- `$97A3-$97C7`: two repeated PPU_DATA writers and their four source patterns
+  are split into separate code/data modules with symbolic pointer operands;
 - `$A000-$A04B`: scheduler context 3's main gameplay service loop and queued
   fairy path are isolated in `src/game/main_thread.asm`;
 - `$A15F-$A225`: countdown arithmetic, decimal borrow propagation, display
@@ -118,6 +124,8 @@ decrease.
   `LoadObjectPointer`, all using source-owned plus-one pointer table aliases;
 - `$CB6F-$CBA5`: three screen-reset paths share a direct PPU helper that fills
   both physical nametables with 960 blank tiles and 64 attribute bytes each;
+- `$CD53-$CD5E`: all ten direct PPU writers share one latch-reset/address
+  helper with an explicit `A:X` input contract;
 - split the remaining preservation range into reset/startup, scheduler, room,
   gameplay/object, rendering, audio, static-data, and vector modules at proven
   code/data boundaries;

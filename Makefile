@@ -23,6 +23,10 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	src/game/room_transition_reset.asm \
 	src/graphics/nametable_clear.asm src/data/nametable_clear.asm \
 	src/graphics/full_nametable_clear.asm \
+	src/graphics/ppu_address.asm \
+	src/graphics/direct_ppu_transfer.asm \
+	src/graphics/ppu_data_writers.asm src/data/repeated_ppu_patterns.asm \
+	src/graphics/room_nametable_frame.asm \
 	src/game/object_y_clamp.asm \
 	src/game/object_x_left_clamp.asm \
 	src/game/main_thread.asm src/game/timer.asm \

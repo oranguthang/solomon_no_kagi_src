@@ -11,17 +11,17 @@ NametableAttributeClearCount = $30
 Clear30x24NametableRegion:
     LDX #NametableClearDescriptorSize * 2
     JSR ClearNametableRegionFromDescriptor
-    JMP $96DC
+    JMP EndDirectPpuTransfer
 
 Clear32x26NametableRegion:
     LDX #NametableClearDescriptorSize
     JSR ClearNametableRegionFromDescriptor
-    JMP $96DC
+    JMP EndDirectPpuTransfer
 
 ClearNametableRegionFromDescriptor:
     TXA
     PHA
-    JSR $96F0
+    JSR BeginDirectPpuTransfer
     PLA
     LDX a:PPU_STATUS
     TAX

@@ -14,7 +14,7 @@ evidence, and small tested tools for decoded game data.
   entrypoint; CHR is a private generated asset and is not stored in Git.
 - Confirmed NES registers and high-confidence RAM aliases are separated into
   `src/memory/`.
-- Forty-one semantic PRG modules own NMI (`$8000-$80FE`), controller input
+- Forty-six semantic PRG modules own NMI (`$8000-$80FE`), controller input
   (`$837D-$83C1`), reset/startup
   (`$8C00-$8D5E`), the cooperative scheduler (`$8D5F-$8E46`), and the main
   gameplay thread (`$A000-$A04B`), plus countdown timer arithmetic and warning
@@ -40,7 +40,12 @@ evidence, and small tested tools for decoded game data.
   Non-Dana object-pool state and teardown sweeps own `$CA3C-$CA4E` and
   `$CA5A-$CA6D`, around the pointer resolver at `$CA4F-$CA59`.
   Full clearing of both physical nametables owns `$CB6F-$CBA5`.
+  The common PPU latch/address writer owns `$CD53-$CD5E`.
   Pixel/room-map conversion owns `$918A-$91B8` and all 31 callers use symbols.
+  Direct CPU-to-PPU transfer state owns `$96DC-$970A` and all 13 boundary calls
+  use symbols.
+  The 30x24 room nametable frame renderer owns `$970B-$97A2`.
+  Repeated PPU writers and four source patterns own `$97A3-$97C7`.
   Object surface clamps own `$8A62-$8AA3`.
   Context 2's pause loop owns `$8E47-$8E8C`, the sound-effect request queue
   owns `$8E8D-$8E9F`, shared PPU-buffer publication owns `$8EA0-$8EA8`, and

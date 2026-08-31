@@ -265,6 +265,24 @@ semantic entry points.
 OAM shadow storage begins at `$0210`; the NMI path performs DMA from page `$02`.
 The logical object pool therefore feeds a separate sprite-composition stage.
 
+Direct CPU-to-PPU transfers are bracketed by `BeginDirectPpuTransfer` and
+`EndDirectPpuTransfer`. The begin side waits until the shared update-stream
+pointer is idle, disables NMI and rendering, and selects one-byte PPU address
+increments. It writes the disabled rendering value only to hardware, leaving
+`PpuMaskShadow` intact. The end side restores render-enable bits in that shadow
+and re-enables NMI; the next NMI commits the shadowed mask. See
+`docs/direct_ppu_transfer.md`.
+
+The adjacent direct writer cluster has separate primitives for repeating a
+four-byte pattern and filling PPU_DATA with one byte. Four source patterns are
+kept in a dedicated data module rather than decoded as instructions. See
+`docs/ppu_data_writers.md`.
+
+Room initialization uses those primitives to frame the 30x24 tile interior.
+`DrawRoomNametableFrame` writes two vertical columns at `$209E/$209F`, two
+bottom rows at `$2380`, and clears all 64 attribute bytes at `$23C0`. See
+`docs/room_nametable_frame.md`.
+
 Room transitions also use a direct PPU clearing path at `$C9BD-$CA32`. Its
 three-byte descriptors select width, a scaled nametable start index, and row
 count. The routine writes blank tile `$24` across each row, advances by one
@@ -275,6 +293,11 @@ A second direct path at `$CB6F-$CBA5` resets both physical nametables. For each
 of `$2000` and `$2800`, it writes 960 blank tile bytes followed by all 64
 attribute bytes. This is separate from the descriptor-driven partial clear and
 from buffered NMI update programs.
+
+Direct writers share `SetPpuAddressAX` at `$CD53`: `A` is the high address
+byte and `X` is the low byte. The helper reads `PPU_STATUS` first to reset the
+address latch, then writes both bytes to `PPU_ADDR`. Ten static callers now use
+that contract by name.
 
 Because gameplay services run through cooperative contexts, timing-sensitive
 behavior must be validated with instruction/frame traces rather than inferred

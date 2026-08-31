@@ -39,7 +39,8 @@ this semantic range and deliberately retain raw addresses pending their own
 reconstruction. The code reads `PPU_STATUS` to reset the address latch, writes
 `PPU_ADDR`, restores `PpuCtrlShadow`, and streams bytes through `PPU_DATA`.
 `NametableClearWidth` is scratch byte `$0002`; the descriptor table has an
-assembly-time size assertion.
+assembly-time size assertion. Direct writes are bracketed by
+`BeginDirectPpuTransfer` and `EndDirectPpuTransfer`.
 
 ## Full two-nametable clear
 
@@ -56,6 +57,6 @@ For each nametable, the compact counter loop writes:
 
 The result covers the complete 32x30 tile plane and its complete 64-byte
 attribute table. All three static callers use the two-nametable wrapper at
-screen-reset boundaries. The external direct-PPU setup/finish helpers at
-`$96F0/$96DC` and the PPU-address helper at `$CD53` remain raw until their own
-ranges are reconstructed.
+screen-reset boundaries. Transfer state uses the reconstructed direct-PPU
+begin/end helpers, while address writes use `SetPpuAddressAX`, with high byte
+in `A` and low byte in `X`.

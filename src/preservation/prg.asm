@@ -1884,7 +1884,7 @@ _label_bank0_900f:
     LDA #$FD
     AND $7C
     STA $7C
-    JSR $970B
+    JSR DrawRoomNametableFrame
     LDA #$30
     AND $78
     BEQ _label_bank0_9045
@@ -2499,7 +2499,7 @@ _label_bank0_9660:
 
     .byte $AD, $1B, $00, $D0, $FB
 
-    JSR $96F0
+    JSR BeginDirectPpuTransfer
     LDA a:PPU_STATUS
     LDA #$D0
 
@@ -2567,113 +2567,9 @@ _label_bank0_96ce:
     TXA
     BCS _label_bank0_966e
     LDA a:PPU_STATUS
-    JMP $96DC
-    LDA #$18
-    ORA $0301
-    STA $0301
-    LDA $0300
-    ORA #$80
-    STA $0300
-    STA a:PPU_CTRL
-    RTS
+    JMP EndDirectPpuTransfer
 
-    LDX #$1B
-    LDA #$FF
-    JSR WaitForMaskedBitsClear
-    LDA $0300
-    AND #$7B
-    STA $0300
-    STA a:PPU_CTRL
-    LDA #$E7
-    AND $0301
-    STA a:PPU_MASK
-    RTS
-
-_label_bank0_970b:
-    LDA $1B
-    BNE _label_bank0_970b
-    JSR $96F0
-    LDA #$20
-    LDX #$9F
-    JSR $CD53
-    LDA $0300
-    ORA #$04
-    STA $0300
-    STA a:PPU_CTRL
-    LDA #$B8
-    STA $00
-    LDA #$97
-    STA $01
-    LDX #$06
-    JSR $97A3
-    LDX #$A4
-    STX a:PPU_DATA
-    DEX
-    STX a:PPU_DATA
-    LDX a:PPU_STATUS
-    LDA #$20
-    LDX #$9E
-    JSR $CD53
-    LDA $0300
-    STA a:PPU_CTRL
-    LDA #$BC
-    STA $00
-    LDA #$97
-    STA $01
-    LDX #$06
-    JSR $97A3
-    LDX a:PPU_STATUS
-    LDA #$23
-    LDX #$80
-    JSR $CD53
-    LDA $0300
-    AND #$FB
-    STA $0300
-    STA a:PPU_CTRL
-    LDA #$C0
-    STA $00
-    LDA #$97
-    STA $01
-    LDX #$08
-    JSR $97A3
-    LDA #$C4
-    STA $00
-    LDA #$97
-    STA $01
-    LDX #$08
-    JSR $97A3
-    LDX a:PPU_STATUS
-    LDA #$23
-    LDX #$C0
-    JSR $CD53
-    LDA $0300
-    STA a:PPU_CTRL
-    LDX #$40
-    LDY #$00
-    JSR $97B1
-    LDX a:PPU_STATUS
-    JMP $96DC
-
-_label_bank0_97a3:
-    LDY #$03
-
-_label_bank0_97a5:
-    LDA ($00),Y
-    STA a:PPU_DATA
-    DEY
-    BPL _label_bank0_97a5
-    DEX
-    BNE _label_bank0_97a3
-    RTS
-
-_label_bank0_97b1:
-    STY a:PPU_DATA
-    DEX
-    BNE _label_bank0_97b1
-    RTS
-
-    .byte $a3, $a6, $a6, $a4, $aa, $a2, $a2, $a0, $a4, $a1, $a1
-    .byte $a0, $a3, $ab, $ab, $aa
+.segment "PRG_POST_PPU_DATA_WRITERS"
 
     LDX $0428
     LDA $EA1C,X
@@ -8623,7 +8519,7 @@ _label_bank0_cc03:
     BPL _label_bank0_cbb5
     STA a:PPU_DATA
     BMI _label_bank0_cc03
-    JSR $96F0
+    JSR BeginDirectPpuTransfer
     LDA #$5F
     STA $00
     LDA #$CD
@@ -8632,7 +8528,7 @@ _label_bank0_cc03:
     LDY #$2F
     LDA #$2B
     LDX #$C9
-    JSR $CD53
+    JSR SetPpuAddressAX
     LDA $0300
     STA a:PPU_CTRL
     LDY #$14
@@ -8643,7 +8539,7 @@ _label_bank0_cc2c:
     DEY
     BPL _label_bank0_cc2c
     LDX a:PPU_STATUS
-    JSR $96DC
+    JSR EndDirectPpuTransfer
     LDX #$09
 
 _label_bank0_cc3d:
@@ -8720,7 +8616,7 @@ _label_bank0_cccd:
     BPL _label_bank0_cccd
     LDA #$05
     JSR $9471
-    JSR $96F0
+    JSR BeginDirectPpuTransfer
     LDA #$FA
     STA $00
     LDA #$CD
@@ -8728,7 +8624,7 @@ _label_bank0_cccd:
     JSR $CBA6
     LDA #$2B
     LDX #$80
-    JSR $CD53
+    JSR SetPpuAddressAX
     LDA $0300
     STA a:PPU_CTRL
     LDA #$DF
@@ -8743,7 +8639,7 @@ _label_bank0_ccf8:
     LDX a:PPU_STATUS
     LDA #$2B
     LDX #$F8
-    JSR $CD53
+    JSR SetPpuAddressAX
     LDX $0300
     STX a:PPU_CTRL
     LDY #$F5
@@ -8756,13 +8652,13 @@ _label_bank0_cd15:
     LDX a:PPU_STATUS
     LDA #$2B
     LDX #$EA
-    JSR $CD53
+    JSR SetPpuAddressAX
     LDX $0300
     STX a:PPU_CTRL
     LDX #$CF
     STX a:PPU_DATA
     LDX #$F0
-    JSR $CD53
+    JSR SetPpuAddressAX
     LDX $0300
     STX a:PPU_CTRL
     LDX #$06
@@ -8773,16 +8669,11 @@ _label_bank0_cd3d:
     DEX
     BPL _label_bank0_cd3d
     LDX a:PPU_STATUS
-    JMP $96DC
+    JMP EndDirectPpuTransfer
 
     .byte $3f, $cc, $cc, $00, $cc, $ff, $3f
 
-    PHA
-    LDA a:PPU_STATUS
-    PLA
-    STA a:PPU_ADDR
-    STX a:PPU_ADDR
-    RTS
+.segment "PRG_POST_SET_PPU_ADDRESS"
 
     .byte $53, $06, $e8, $8f
     .byte $8e, $8e, $8f, $8e, $8e, $8f, $8e, $8e, $8f, $8e, $8e, $8e, $8e, $8f, $8f, $ea

@@ -138,6 +138,56 @@
       ]
     },
     {
+      "id": "direct_ppu_transfer",
+      "path": "src/graphics/direct_ppu_transfer.asm",
+      "segment": "PRG_DIRECT_PPU_TRANSFER",
+      "start": "0x96dc",
+      "end": "0x970a",
+      "status": "semantic",
+      "required_labels": [
+        "EndDirectPpuTransfer",
+        "BeginDirectPpuTransfer"
+      ]
+    },
+    {
+      "id": "room_nametable_frame",
+      "path": "src/graphics/room_nametable_frame.asm",
+      "segment": "PRG_ROOM_NAMETABLE_FRAME",
+      "start": "0x970b",
+      "end": "0x97a2",
+      "status": "semantic",
+      "required_labels": [
+        "DrawRoomNametableFrame"
+      ]
+    },
+    {
+      "id": "ppu_data_writers",
+      "path": "src/graphics/ppu_data_writers.asm",
+      "segment": "PRG_PPU_DATA_WRITERS",
+      "start": "0x97a3",
+      "end": "0x97b7",
+      "status": "semantic",
+      "required_labels": [
+        "WriteRepeatedFourBytePpuPattern",
+        "WriteNextPpuPatternByte",
+        "WriteRepeatedPpuByte"
+      ]
+    },
+    {
+      "id": "repeated_ppu_patterns",
+      "path": "src/data/repeated_ppu_patterns.asm",
+      "segment": "PRG_REPEATED_PPU_PATTERNS",
+      "start": "0x97b8",
+      "end": "0x97c7",
+      "status": "semantic",
+      "required_labels": [
+        "RepeatedPpuPattern0",
+        "RepeatedPpuPattern1",
+        "RepeatedPpuPattern2",
+        "RepeatedPpuPattern3"
+      ]
+    },
+    {
       "id": "masked_ram_wait",
       "path": "src/system/masked_ram_wait.asm",
       "segment": "PRG_MASKED_RAM_WAIT",
@@ -562,14 +612,25 @@
         "WriteFullNametableByte",
         "SelectNametableFillPhase"
       ]
+    },
+    {
+      "id": "ppu_address",
+      "path": "src/graphics/ppu_address.asm",
+      "segment": "PRG_SET_PPU_ADDRESS",
+      "start": "0xcd53",
+      "end": "0xcd5e",
+      "status": "semantic",
+      "required_labels": [
+        "SetPpuAddressAX"
+      ]
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 41,
-    "minimum_documented_prg_bytes": 2722,
-    "minimum_provenance_entries": 181,
-    "maximum_preservation_lines": 10516,
-    "maximum_generated_labels": 710,
-    "maximum_raw_control_flow_targets": 369
+    "minimum_semantic_modules": 46,
+    "minimum_documented_prg_bytes": 2970,
+    "minimum_provenance_entries": 192,
+    "maximum_preservation_lines": 10407,
+    "maximum_generated_labels": 706,
+    "maximum_raw_control_flow_targets": 340
   }
 }

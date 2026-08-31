@@ -10,6 +10,10 @@ update-buffer publication at `$8EA0-$8EA8`, inline appendix dispatch at
 `$8EA9-$8EBF`, cooperative masked-RAM waits at `$9165-$9189`, room-map
 coordinate conversion at `$918A-$91B8`, and the main
 gameplay thread at `$A000-$A04B`.
+The shared direct-PPU transfer guard owns `$96DC-$970A`.
+The room nametable frame renderer owns `$970B-$97A2`.
+Repeated PPU byte writers own `$97A3-$97B7`, followed by their four packed
+patterns at `$97B8-$97C7`.
 Timer logic owns `$A15F-$A225`, and its display builder
 at `$A238-$A273`, followed by the enemy movement prepass at `$A274-$A2DB`.
 The adjacent AI dispatcher owns `$A2DC-$A30B`.
@@ -36,6 +40,7 @@ by its three nine-byte descriptor records at `$CA33-$CA3B`.
 Non-Dana object state maintenance owns `$CA3C-$CA6D`, split into two sweep
 routines around the shared pointer resolver.
 Full clearing of both physical nametables owns `$CB6F-$CBA5`.
+The shared PPU address-latch helper owns `$CD53-$CD5E`.
 `src/preservation/prg.asm` owns the unresolved ranges
 between and after those modules. `src/graphics/chr.asm` includes the ignored CHR payload created by
 `make split`; no CHR bytes are kept in Git.
@@ -61,7 +66,12 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_POST_JUMP_WITH_PARAMS` | unresolved `$8EC0-$9164` range | 677 |
 | `PRG_MASKED_RAM_WAIT` | cooperative masked zero-page condition waits | 37 |
 | `PRG_COORDINATE_CONVERSION` | pixel and packed room-index conversion | 47 |
-| `PRG_POST_COORDINATE_CONVERSION` | unresolved `$91B9-$9FFF` range | 3,655 |
+| `PRG_POST_COORDINATE_CONVERSION` | unresolved `$91B9-$96DB` range | 1,315 |
+| `PRG_DIRECT_PPU_TRANSFER` | rendering-disabled direct PPU transfer guard | 47 |
+| `PRG_ROOM_NAMETABLE_FRAME` | two-column/two-row room frame renderer | 152 |
+| `PRG_PPU_DATA_WRITERS` | repeated four-byte pattern and single-byte writers | 21 |
+| `PRG_REPEATED_PPU_PATTERNS` | four direct-PPU pattern records | 16 |
+| `PRG_POST_PPU_DATA_WRITERS` | unresolved `$97C8-$9FFF` range | 2,104 |
 | `PRG_MAIN_THREAD` | context-three gameplay loop | 76 |
 | `PRG_PRE_TIMER` | unresolved `$A04C-$A15E` range | 275 |
 | `PRG_TIMER` | countdown arithmetic and warning transitions | 199 |
@@ -99,7 +109,9 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_DEACTIVATE_NON_DANA_OBJECTS` | whole non-Dana object teardown | 20 |
 | `PRG_POST_NON_DANA_OBJECT_DEACTIVATION` | unresolved `$CA6E-$CB6E` range | 257 |
 | `PRG_FULL_NAMETABLE_CLEAR` | blank both tile planes and initialize attributes | 55 |
-| `PRG_POST_FULL_NAMETABLE_CLEAR` | unresolved `$CBA6-$FFFF` range | 13,402 |
+| `PRG_POST_FULL_NAMETABLE_CLEAR` | unresolved `$CBA6-$CD52` range | 429 |
+| `PRG_SET_PPU_ADDRESS` | reset the latch and write the A:X PPU address | 12 |
+| `PRG_POST_SET_PPU_ADDRESS` | unresolved `$CD5F-$FFFF` range | 12,961 |
 | `PRG_BANK_1` | generated CHR payload (historical name) | 32,768 |
 
 This unusual naming is documented in `config/linker/cnrom.cfg`. Renaming a

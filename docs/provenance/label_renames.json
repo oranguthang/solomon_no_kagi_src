@@ -571,6 +571,100 @@
       ]
     },
     {
+      "address": "0x96dc",
+      "previous": "$96DC",
+      "current": "EndDirectPpuTransfer",
+      "confidence": "confirmed",
+      "evidence": [
+        "Seven direct-transfer exit paths call or tail-call this entry after finishing PPU_DATA writes.",
+        "The routine restores background/sprite enable bits in PpuMaskShadow and sets the NMI-enable bit in PpuCtrlShadow and PPU_CTRL."
+      ]
+    },
+    {
+      "address": "0x96f0",
+      "previous": "$96F0",
+      "current": "BeginDirectPpuTransfer",
+      "confidence": "confirmed",
+      "evidence": [
+        "Six direct-transfer entry paths call this routine before writing PPU_ADDR or PPU_DATA.",
+        "It waits for the shared PPU update pointer to clear, disables NMI and 32-byte address increment in PpuCtrlShadow, and writes rendering-disabled state to PPU_MASK without changing its shadow."
+      ]
+    },
+    {
+      "address": "0x970b",
+      "previous": "_label_bank0_970b",
+      "current": "DrawRoomNametableFrame",
+      "confidence": "confirmed",
+      "evidence": [
+        "The sole caller is in room initialization immediately before room selection and room-data setup.",
+        "The routine writes two vertical columns from PPU $209E/$209F, two bottom tile rows from $2380, and the full attribute table from $23C0 around the 30x24 room area."
+      ]
+    },
+    {
+      "address": "0x97a3",
+      "previous": "_label_bank0_97a3",
+      "current": "WriteRepeatedFourBytePpuPattern",
+      "confidence": "confirmed",
+      "evidence": [
+        "Four callers provide a pointer in TempPointer00 and a repetition count in X.",
+        "The routine resets Y to 3 for each iteration and writes four source bytes to PPU_DATA."
+      ]
+    },
+    {
+      "address": "0x97a5",
+      "previous": "_label_bank0_97a5",
+      "current": "WriteNextPpuPatternByte",
+      "confidence": "confirmed",
+      "evidence": [
+        "This inner loop reads offsets 3 through 0 from TempPointer00 and writes each value to PPU_DATA."
+      ]
+    },
+    {
+      "address": "0x97b1",
+      "previous": "_label_bank0_97b1",
+      "current": "WriteRepeatedPpuByte",
+      "confidence": "confirmed",
+      "evidence": [
+        "The sole caller supplies byte value zero in Y and count $40 in X; the routine writes Y to PPU_DATA exactly X times."
+      ]
+    },
+    {
+      "address": "0x97b8",
+      "previous": "$97B8",
+      "current": "RepeatedPpuPattern0",
+      "confidence": "confirmed",
+      "evidence": [
+        "The direct PPU renderer loads this address into TempPointer00 before requesting six four-byte repetitions."
+      ]
+    },
+    {
+      "address": "0x97bc",
+      "previous": "$97BC",
+      "current": "RepeatedPpuPattern1",
+      "confidence": "confirmed",
+      "evidence": [
+        "The direct PPU renderer loads this address into TempPointer00 before requesting six four-byte repetitions."
+      ]
+    },
+    {
+      "address": "0x97c0",
+      "previous": "$97C0",
+      "current": "RepeatedPpuPattern2",
+      "confidence": "confirmed",
+      "evidence": [
+        "The direct PPU renderer loads this address into TempPointer00 before requesting eight four-byte repetitions."
+      ]
+    },
+    {
+      "address": "0x97c4",
+      "previous": "$97C4",
+      "current": "RepeatedPpuPattern3",
+      "confidence": "confirmed",
+      "evidence": [
+        "The direct PPU renderer loads this address into TempPointer00 before requesting eight four-byte repetitions."
+      ]
+    },
+    {
       "address": "0xa000",
       "previous": "$A000",
       "current": "MainGameplayThread",
@@ -1682,6 +1776,16 @@
       "confidence": "confirmed",
       "evidence": [
         "The compact X/Y loop writes 192 plus three 256-byte blank-tile chunks, then selects a final 64-byte $FF attribute-table chunk."
+      ]
+    },
+    {
+      "address": "0xcd53",
+      "previous": "$CD53",
+      "current": "SetPpuAddressAX",
+      "confidence": "confirmed",
+      "evidence": [
+        "All ten static callers load a PPU address high byte into A and low byte into X before calling.",
+        "The routine preserves A across a PPU_STATUS read that resets the address latch, then writes A followed by X to PPU_ADDR."
       ]
     }
   ]

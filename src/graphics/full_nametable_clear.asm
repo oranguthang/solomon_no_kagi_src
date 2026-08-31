@@ -11,17 +11,17 @@ NametableAttributeFill = $FF
 NametableFillChunkCounter = $04
 
 ClearBothNametables:
-    JSR $96F0
+    JSR BeginDirectPpuTransfer
     LDA #FirstNametableAddressHigh
     JSR ClearFullNametable
     LDA #SecondNametableAddressHigh
     JSR ClearFullNametable
-    JSR $96DC
+    JSR EndDirectPpuTransfer
     RTS
 
 ClearFullNametable:
     LDX #$00
-    JSR $CD53
+    JSR SetPpuAddressAX
     LDA PpuCtrlShadow
     STA a:PPU_CTRL
     LDA #FullNametableBlankTile
