@@ -219,14 +219,50 @@
         "ObjectRecordPointerHighTable",
         "EnemyObjectPointerHighTable"
       ]
+    },
+    {
+      "id": "enemy_slot_allocation",
+      "path": "src/game/enemy_slot_allocation.asm",
+      "segment": "PRG_FIND_FREE_ENEMY_SLOT",
+      "start": "0xb42a",
+      "end": "0xb445",
+      "status": "semantic",
+      "required_labels": [
+        "FindFreeEnemySlotIndex",
+        "CheckEnemySlotAvailable",
+        "EnemySlotAvailable",
+        "FinishEnemySlotSearch"
+      ]
+    },
+    {
+      "id": "enemy_deactivation",
+      "path": "src/game/enemy_deactivation.asm",
+      "segment": "PRG_ENEMY_DEACTIVATION",
+      "start": "0xb492",
+      "end": "0xb4b5",
+      "status": "semantic",
+      "required_labels": [
+        "DeactivateEnemySlot"
+      ]
+    },
+    {
+      "id": "current_enemy_deactivation",
+      "path": "src/game/current_enemy_deactivation.asm",
+      "segment": "PRG_CURRENT_ENEMY_DEACTIVATION",
+      "start": "0xb4b6",
+      "end": "0xb4c3",
+      "status": "semantic",
+      "required_labels": [
+        "DeactivateCurrentEnemy"
+      ]
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 16,
-    "minimum_documented_prg_bytes": 1696,
-    "minimum_provenance_entries": 88,
-    "maximum_preservation_lines": 11164,
-    "maximum_generated_labels": 757,
-    "maximum_raw_control_flow_targets": 558
+    "minimum_semantic_modules": 19,
+    "minimum_documented_prg_bytes": 1774,
+    "minimum_provenance_entries": 94,
+    "maximum_preservation_lines": 11114,
+    "maximum_generated_labels": 754,
+    "maximum_raw_control_flow_targets": 531
   }
 }

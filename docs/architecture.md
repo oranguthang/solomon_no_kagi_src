@@ -72,6 +72,22 @@ with seventeen AI entries and twenty-one object entries. Four leading object
 entries cover Dana, the magic spark, the fireball, and an auxiliary record;
 the enemy-only table labels begin at the fifth entry.
 
+Allocation scans the AI side first. `FindFreeEnemySlotIndex` walks all
+seventeen AI state records and treats a non-negative byte 0 as available. On
+success it returns carry set, the slot in `X`, and the selected AI pointer in
+`TempPointer04`; exhaustion returns carry clear. Callers then initialize the
+parallel object record with the same index.
+
+`DeactivateEnemySlot` uses those tables to retire both halves of an enemy
+slot atomically: it clears byte 0 in the AI and object records and writes the
+offscreen `$F8` sentinel to object Y. Linked-enemy cleanup paths call this
+service by slot index.
+
+Enemy behavior code uses the smaller `DeactivateCurrentEnemy` variant when
+the dispatcher has already populated `EnemyAiPointer` and
+`EnemyObjectPointer`. Its eleven callers are tail-calls, so retiring the
+selected slot also completes that behavior update.
+
 `UpdateEnemiesMovement` walks these parallel pools through four split pointer
 tables. It advances active AI records using the shared gameplay update count,
 caches direction components relative to Dana, and publishes an active-enemy

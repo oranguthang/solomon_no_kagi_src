@@ -751,6 +751,43 @@
       ]
     },
     {
+      "address": "0xb42a",
+      "previous": "$B42A",
+      "current": "FindFreeEnemySlotIndex",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map identifies this entry as FindFreeEnemySlotIndex.",
+        "Thirteen callers branch on carry and use X plus the returned $04/$05 pointer to initialize a newly allocated enemy record."
+      ]
+    },
+    {
+      "address": "0xb42e",
+      "previous": "_label_bank0_b42e",
+      "current": "CheckEnemySlotAvailable",
+      "confidence": "confirmed",
+      "evidence": [
+        "The loop resolves successive AI records and tests byte 0 until an inactive entry or all seventeen slots have been examined."
+      ]
+    },
+    {
+      "address": "0xb444",
+      "previous": "_label_bank0_b444",
+      "current": "EnemySlotAvailable",
+      "confidence": "confirmed",
+      "evidence": [
+        "Only a non-negative AI state byte reaches this branch, which returns carry set to allocation callers."
+      ]
+    },
+    {
+      "address": "0xb445",
+      "previous": "_label_bank0_b445",
+      "current": "FinishEnemySlotSearch",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both the successful carry-set path and exhausted carry-clear path return here."
+      ]
+    },
+    {
       "address": "0xb446",
       "previous": "$B446",
       "current": "EnemyAiRecordPointerLowTable",
@@ -802,6 +839,26 @@
       "confidence": "confirmed",
       "evidence": [
         "This label is four entries into ObjectRecordPointerHighTable and pairs with the enemy-only low table at $B46C."
+      ]
+    },
+    {
+      "address": "0xb492",
+      "previous": "$B492",
+      "current": "DeactivateEnemySlot",
+      "confidence": "confirmed",
+      "evidence": [
+        "All three call sites pass an enemy slot index obtained from an AI record link field.",
+        "The routine clears byte 0 in both parallel records and writes the offscreen sentinel $F8 to object offset 7."
+      ]
+    },
+    {
+      "address": "0xb4b6",
+      "previous": "$B4B6",
+      "current": "DeactivateCurrentEnemy",
+      "confidence": "confirmed",
+      "evidence": [
+        "Eleven enemy behavior paths tail-call this routine with EnemyAiPointer and EnemyObjectPointer already selecting the current slot.",
+        "The routine clears byte 0 in both selected records and writes the offscreen sentinel $F8 to object offset 7."
       ]
     }
   ]

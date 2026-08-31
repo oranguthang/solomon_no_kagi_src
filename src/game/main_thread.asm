@@ -16,7 +16,7 @@ MainGameplayThread:
     JSR SwitchThreads
     LDA FairiesQueued
     BEQ ContinueMainGameplayThread
-    JSR $B42A
+    JSR FindFreeEnemySlotIndex
     BCC ContinueMainGameplayThread
     DEC FairiesQueued
     LDA #$80

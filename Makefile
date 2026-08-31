@@ -24,7 +24,10 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/startup.asm \
 	src/game/enemy_ai_handlers.asm \
 	src/game/enemy_position.asm \
 	src/game/enemy_pointers.asm \
+	src/game/enemy_slot_allocation.asm \
 	src/data/enemy_record_pointers.asm \
+	src/game/enemy_deactivation.asm \
+	src/game/current_enemy_deactivation.asm \
 	src/preservation/prg.asm \
 	src/graphics/chr.asm src/memory/hardware.inc src/memory/ram.inc
 

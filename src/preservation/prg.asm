@@ -2711,7 +2711,7 @@ _label_bank0_9639:
     STA $07
     INY
     STY $02
-    JSR $B42A
+    JSR FindFreeEnemySlotIndex
     STX $06
     LDA #$80
     STA ($04),Y
@@ -4130,7 +4130,7 @@ _label_bank0_a10f:
 _label_bank0_a116:
     ROL $02
     BCC _label_bank0_a131
-    JSR $B42A
+    JSR FindFreeEnemySlotIndex
     BCC _label_bank0_a131
     TXA
     LDX $03
@@ -4303,7 +4303,7 @@ _label_bank0_a4e3:
     BCC _label_bank0_a4ee
 
 _label_bank0_a4eb:
-    JMP $B4B6
+    JMP DeactivateCurrentEnemy
 
 _label_bank0_a4ee:
     JSR $AD79
@@ -4399,7 +4399,7 @@ _label_bank0_a55d:
     JSR $C4A1
     LDA #$43
     JSR StartThread
-    JMP $B4B6
+    JMP DeactivateCurrentEnemy
 
 _label_bank0_a581:
     JSR $A5A3
@@ -4407,7 +4407,7 @@ _label_bank0_a581:
 _label_bank0_a584:
     LDA #$42
     JSR StartThread
-    JMP $B4B6
+    JMP DeactivateCurrentEnemy
 
 _label_bank0_a58c:
     SBC #$08
@@ -4463,7 +4463,7 @@ _label_bank0_a5d3:
     LDA ($2C),Y
     CMP #$07
     BCC _label_bank0_a5e8
-    JMP $B4B6
+    JMP DeactivateCurrentEnemy
 
 _label_bank0_a5e8:
     JSR $AA57
@@ -4583,7 +4583,7 @@ _label_bank0_a670:
 _label_bank0_a682:
     DEX
     BPL _label_bank0_a664
-    JMP $B4B6
+    JMP DeactivateCurrentEnemy
 
     .byte $e2, $1c, $ff, $00
 
@@ -4615,7 +4615,7 @@ _label_bank0_a6b4:
     LDA ($2C),Y
     CMP #$C0
     BCC _label_bank0_a6df
-    JSR $B42A
+    JSR FindFreeEnemySlotIndex
     BCC _label_bank0_a6df
     TXA
     LDY #$06
@@ -4656,7 +4656,7 @@ _label_bank0_a70a:
     RTS
 
 _label_bank0_a70b:
-    JMP $B4B6
+    JMP DeactivateCurrentEnemy
     LDY #$01
     LDA ($2E),Y
     LSR A
@@ -4806,7 +4806,7 @@ _label_bank0_a7fd:
     RTS
 
 _label_bank0_a7fe:
-    JSR $B42A
+    JSR FindFreeEnemySlotIndex
     BCC _label_bank0_a83f
     LDY #$06
     TXA
@@ -4818,7 +4818,7 @@ _label_bank0_a7fe:
     STA $00
     LDA $05
     STA $01
-    JSR $B42A
+    JSR FindFreeEnemySlotIndex
     LDY #$00
     BCS _label_bank0_a822
     TYA
@@ -4912,7 +4912,7 @@ _label_bank0_a8b9:
 _label_bank0_a8ba:
     CMP #$12
     BCC _label_bank0_a8b9
-    JMP $B4B6
+    JMP DeactivateCurrentEnemy
 
 _label_bank0_a8c1:
     DEY
@@ -5728,7 +5728,7 @@ _label_bank0_add2:
     BCS _label_bank0_ae34
 
 _label_bank0_adf3:
-    JSR $B42A
+    JSR FindFreeEnemySlotIndex
     BCC _label_bank0_ae18
     TXA
     LDY #$06
@@ -5895,7 +5895,7 @@ _label_bank0_af02:
     LDY #$08
     LDA ($2E),Y
     BNE _label_bank0_af5b
-    JSR $B42A
+    JSR FindFreeEnemySlotIndex
     BCC _label_bank0_af5b
     TXA
     LDY #$06
@@ -6074,7 +6074,7 @@ _label_bank0_b034:
     LDA #$40
     AND ($2C),Y
     BNE _label_bank0_b046
-    JMP $B4B6
+    JMP DeactivateCurrentEnemy
 
 _label_bank0_b046:
     LDY #$03
@@ -6105,7 +6105,7 @@ _label_bank0_b06b:
     LDA ($2C),Y
     CMP #$68
     BCC _label_bank0_b097
-    JSR $B42A
+    JSR FindFreeEnemySlotIndex
     BCC _label_bank0_b097
     LDY #$00
     LDA #$80
@@ -6225,7 +6225,7 @@ _label_bank0_b117:
     LDA $0304,Y
     CMP #$F8
     BCC _label_bank0_b130
-    JMP $B4B6
+    JMP DeactivateCurrentEnemy
 
 _label_bank0_b130:
     STY $04
@@ -6251,7 +6251,7 @@ _label_bank0_b149:
     RTS
 
 _label_bank0_b153:
-    JMP $B4B6
+    JMP DeactivateCurrentEnemy
     AND #$0F
     LDX #$FF
 
@@ -6300,7 +6300,7 @@ _label_bank0_b1aa:
     LSR $00
     BCC _label_bank0_b1aa
     LDA ($2C),Y
-    JSR $B492
+    JSR DeactivateEnemySlot
     RTS
     LDY #$03
     LDA ($2E),Y
@@ -6470,7 +6470,7 @@ _label_bank0_b2e6:
     RTS
 
 _label_bank0_b2e7:
-    JSR $B42A
+    JSR FindFreeEnemySlotIndex
     BCC _label_bank0_b328
     LDY #$06
     TXA
@@ -6482,7 +6482,7 @@ _label_bank0_b2e7:
     STA $00
     LDA $05
     STA $01
-    JSR $B42A
+    JSR FindFreeEnemySlotIndex
     LDY #$00
     BCS _label_bank0_b30b
     TYA
@@ -6551,7 +6551,7 @@ _label_bank0_b340:
     RTS
 
 _label_bank0_b368:
-    JMP $B4B6
+    JMP DeactivateCurrentEnemy
     LDY #$08
     LDA #$01
     STA ($2E),Y
@@ -6585,7 +6585,7 @@ _label_bank0_b39b:
 
 _label_bank0_b39c:
     STX $00
-    JSR $B42A
+    JSR FindFreeEnemySlotIndex
     BCC _label_bank0_b37b
     LDY #$06
     TXA
@@ -6661,57 +6661,7 @@ _label_bank0_b41b:
     STA $04
     RTS
 
-    LDX #$00
-    LDY #$00
-
-_label_bank0_b42e:
-    LDA EnemyAiRecordPointerLowTable,X
-    STA $04
-    LDA EnemyAiRecordPointerHighTable,X
-    STA $05
-    LDA ($04),Y
-    BPL _label_bank0_b444
-    INX
-    CPX #$11
-    BCC _label_bank0_b42e
-    CLC
-    BCC _label_bank0_b445
-
-_label_bank0_b444:
-    SEC
-
-_label_bank0_b445:
-    RTS
-
 .segment "PRG_BANK_0"
-
-    TAX
-    LDY #$00
-    LDA EnemyAiRecordPointerLowTable,X
-    STA $04
-    LDA EnemyAiRecordPointerHighTable,X
-    STA $05
-    TYA
-    STA ($04),Y
-    LDA EnemyObjectPointerLowTable,X
-    STA $04
-    LDA EnemyObjectPointerHighTable,X
-    STA $05
-    TYA
-    STA ($04),Y
-    LDY #$07
-    LDA #$F8
-    STA ($04),Y
-    RTS
-
-    LDA #$00
-    TAY
-    STA ($2C),Y
-    STA ($2E),Y
-    LDY #$07
-    LDA #$F8
-    STA ($2E),Y
-    RTS
 
     LDY #$00
     LDA ($2C),Y
@@ -6932,7 +6882,7 @@ _label_bank0_b91a:
 
 _label_bank0_b930:
     JSR SwitchThreads
-    JSR $B42A
+    JSR FindFreeEnemySlotIndex
     BCC _label_bank0_b930
     LDA #$80
     STA ($04),Y
@@ -7749,7 +7699,7 @@ _label_bank0_c104:
     PHA
     LDY #$06
     LDA ($00),Y
-    JSR $B492
+    JSR DeactivateEnemySlot
     PLA
 
 _label_bank0_c13a:
@@ -7757,7 +7707,7 @@ _label_bank0_c13a:
     BCC _label_bank0_c144
     LDY #$07
     LDA ($00),Y
-    JSR $B492
+    JSR DeactivateEnemySlot
 
 _label_bank0_c144:
     LDA #$80
