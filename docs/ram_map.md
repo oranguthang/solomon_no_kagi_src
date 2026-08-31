@@ -10,15 +10,22 @@ range is understood.
 | `$0004-$0005` | room-map conversion Y/index and X calling convention | confirmed |
 | `$0012-$0019` | saved SP values for eight cooperative contexts | high |
 | `$001A-$001B` | NMI-consumed PPU update-stream pointer | confirmed |
+| `$0020-$0027` | independently incremented active-gameplay frame counters | confirmed |
+| `$0021` | standard gameplay delay counter | confirmed |
 | `$0022` | NMI-incremented frame counter used by pause debounce | confirmed |
 | `$0023` | shared pending gameplay/timer update count | high |
 | `$0028` | gameplay flags; transition reset clears bit 2 | high |
+| `$0030-$0031` | current room item/header stream pointer | confirmed |
+| `$0036-$0039` | two resolved Demon Mirror schedule pointers | confirmed |
+| `$003A-$003D` | two resolved Demon Mirror enemy-set pointers | confirmed |
+| `$007C-$007D` | room-state flags and decoded tileset | high |
 | `$0078` | global game-state flags; pause thread modifies bits 1-2 | high |
 | `$0082-$0083` | raw controller values in A/B/Select/Start/Up/Down/Left/Right bit order | confirmed |
 | `$0087` | unidentified state flags; transition reset clears bit 0 | unknown |
 | `$0210-$030F` | OAM shadow buffer, 64 four-byte sprites | high |
 | `$0302` | current scheduler context index | high |
-| `$0304...` | logical room map / tile state | high |
+| `$0304-$03E3` | 16x14 room map: 16x12 interior plus two sentinel rows | confirmed |
+| `$0406-$041E` | constellation position and expanded 24-byte pattern | confirmed |
 | `$03E4-$03E5` | cached controller state with game-state-dependent filtering | confirmed |
 | `$03E6...` | shared RAM PPU update-program buffer | confirmed base |
 | `$0423-$0425` | three sound-effect request slots | confirmed |
@@ -27,6 +34,7 @@ range is understood.
 | `$042B` | number of usable two-bit fireball inventory slots, maximum 8 | confirmed |
 | `$042E-$042F` | eight packed two-bit fireball inventory slots | confirmed |
 | `$0434-$043B` | timer warning state, step, fraction, and decimal digits | high |
+| `$043C-$0446` | room item/mirror runtime state and coordinates | high |
 | `$0447` | active enemy count produced by the movement prepass | high |
 | `$044A-$0451` | eight unpacked decimal score digits, most significant first | confirmed |
 | `$0452` | remaining lives | high |

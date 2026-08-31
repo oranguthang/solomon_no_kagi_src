@@ -34,6 +34,11 @@ Each room has two 24-byte, 16x12 bitplanes: brown/breakable followed by
 white/solid. Rows are stored top-to-bottom, two bytes per row, most-significant
 bit first. If both planes contain a block at one position, the white block wins.
 
+The runtime decoder at `$99F2-$9A6C` traverses source bytes and destination
+cells in reverse order, rotating each byte right. This produces the same
+top-to-bottom, MSB-first logical ordering while filling RoomMap indices
+`$10-$CF`; indices `$00-$0F` and `$D0-$DF` are sentinel rows.
+
 ## Enemy stream
 
 The first byte is the Demonhead/Saramandor lifetime rotated right by three bits.
@@ -61,6 +66,12 @@ Normal items are `(type, position)` pairs. `$C0-$DF` encode one repeated type:
 `count = code - $C0 + 1`, followed by the type and `count` position bytes.
 `$00` and `$E0-$EF` terminate the stream and encode the tileset. `$F0-$FB`
 encode a constellation plus one position and also terminate the stream.
+
+The runtime decoder is reconstructed at `$97C8-$9952`. Its supporting tables
+at `$9953-$99F1` include four 24-byte constellation patterns, twelve low-bit
+modifiers, four timer speeds, 32 special-room positions, and 16 special-room
+item types. The fourth timer-speed byte intentionally overlaps the first
+special-room position at `$99C2`.
 
 The tested codec is `scripts/room_data.py`. Its JSON keeps raw type values and
 the original item command grouping so that naming uncertainty or RLE expansion

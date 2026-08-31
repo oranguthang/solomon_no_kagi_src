@@ -18,6 +18,7 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	src/system/scheduler.asm src/system/pause_thread.asm \
 	src/system/sound_effect_queue.asm \
 	src/system/ppu_update_buffer.asm src/system/jump_with_params.asm \
+	src/system/gameplay_delay_setup.asm \
 	src/system/masked_ram_wait.asm \
 	src/system/secondary_thread_reset.asm \
 	src/game/room_transition_reset.asm \
@@ -27,6 +28,9 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	src/graphics/direct_ppu_transfer.asm \
 	src/graphics/ppu_data_writers.asm src/data/repeated_ppu_patterns.asm \
 	src/graphics/room_nametable_frame.asm \
+	src/game/room_item_decode.asm src/data/room_item_decode.asm \
+	src/game/room_block_decode.asm \
+	src/system/counter_wait.asm \
 	src/game/object_y_clamp.asm \
 	src/game/object_x_left_clamp.asm \
 	src/game/main_thread.asm src/game/timer.asm \

@@ -254,6 +254,17 @@ The 16x12 logical grid is distinct from the PPU nametable and from OAM. Room
 items encode visibility/block modifiers in their type byte, while key/door,
 player start, and Demon Mirror settings live in a ten-byte room header.
 
+`LoadRoomItemsAndMetadata` is now the source-owned runtime consumer of that
+format. It resolves both Demon Mirror schedules and enemy sets, initializes
+door/key/mirror state, decodes normal and repeated item records into `RoomMap`,
+and expands optional constellation metadata. See `docs/room_item_decode.md`.
+
+`InitializeRoomBlockMap` owns the fixed block path. It prepares a 16x14 RAM
+map with `$F8` sentinel rows around the 16x12 playable interior, computes the
+48-byte room record at `$E02C + room*48`, and expands brown then white planes.
+Writing white second implements the documented overlap priority. See
+`docs/room_block_decode.md`.
+
 Gameplay coordinates map onto that grid through a packed nibble index. The
 conversion subtracts a Y=`$10`, X=`$08` pixel origin, uses 16-pixel cells, and
 stores the row in the high nibble and column in the low nibble. The inverse

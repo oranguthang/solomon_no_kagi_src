@@ -7,13 +7,18 @@ surface clamping at `$8A62-$8AA3`, startup at `$8C00-$8D5E`, the scheduler at
 `$8D5F-$8E46`, context 2's pause loop at `$8E47-$8E8C`, sound-effect request
 queuing at `$8E8D-$8E9F`, PPU
 update-buffer publication at `$8EA0-$8EA8`, inline appendix dispatch at
-`$8EA9-$8EBF`, cooperative masked-RAM waits at `$9165-$9189`, room-map
+`$8EA9-$8EBF`, standard gameplay-delay setup at `$915E-$9164`, cooperative
+masked-RAM waits at `$9165-$9189`, room-map
 coordinate conversion at `$918A-$91B8`, and the main
 gameplay thread at `$A000-$A04B`.
 The shared direct-PPU transfer guard owns `$96DC-$970A`.
 The room nametable frame renderer owns `$970B-$97A2`.
 Repeated PPU byte writers own `$97A3-$97B7`, followed by their four packed
 patterns at `$97B8-$97C7`.
+Room item metadata/stream decoding owns `$97C8-$9952`; its runtime lookup
+tables follow at `$9953-$99F1`.
+Runtime room-map initialization and block-plane expansion own `$99F2-$9A6C`.
+The shared cooperative counter wait owns `$9C52-$9C5F`.
 Timer logic owns `$A15F-$A225`, and its display builder
 at `$A238-$A273`, followed by the enemy movement prepass at `$A274-$A2DB`.
 The adjacent AI dispatcher owns `$A2DC-$A30B`.
@@ -63,7 +68,8 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_SOUND_EFFECT_QUEUE` | three-slot sound-effect request producer | 19 |
 | `PRG_PPU_UPDATE_BUFFER` | shared RAM update-program publication | 9 |
 | `PRG_JUMP_WITH_PARAMS` | inline appendix tail dispatcher | 23 |
-| `PRG_POST_JUMP_WITH_PARAMS` | unresolved `$8EC0-$9164` range | 677 |
+| `PRG_POST_JUMP_WITH_PARAMS` | unresolved `$8EC0-$915D` range | 670 |
+| `PRG_GAMEPLAY_DELAY_SETUP` | reset and select gameplay delay counter | 7 |
 | `PRG_MASKED_RAM_WAIT` | cooperative masked zero-page condition waits | 37 |
 | `PRG_COORDINATE_CONVERSION` | pixel and packed room-index conversion | 47 |
 | `PRG_POST_COORDINATE_CONVERSION` | unresolved `$91B9-$96DB` range | 1,315 |
@@ -71,7 +77,12 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_ROOM_NAMETABLE_FRAME` | two-column/two-row room frame renderer | 152 |
 | `PRG_PPU_DATA_WRITERS` | repeated four-byte pattern and single-byte writers | 21 |
 | `PRG_REPEATED_PPU_PATTERNS` | four direct-PPU pattern records | 16 |
-| `PRG_POST_PPU_DATA_WRITERS` | unresolved `$97C8-$9FFF` range | 2,104 |
+| `PRG_ROOM_ITEM_DECODE` | room metadata and compressed item-stream decoder | 395 |
+| `PRG_ROOM_ITEM_DECODE_DATA` | constellation, timer, and special-room tables | 159 |
+| `PRG_ROOM_BLOCK_DECODE` | 16x14 map initialization and 16x12 block expansion | 123 |
+| `PRG_POST_ROOM_BLOCK_DECODE` | unresolved `$9A6D-$9C51` range | 485 |
+| `PRG_COUNTER_WAIT` | cooperative zero-page counter threshold wait | 14 |
+| `PRG_POST_COUNTER_WAIT` | unresolved `$9C60-$9FFF` range | 928 |
 | `PRG_MAIN_THREAD` | context-three gameplay loop | 76 |
 | `PRG_PRE_TIMER` | unresolved `$A04C-$A15E` range | 275 |
 | `PRG_TIMER` | countdown arithmetic and warning transitions | 199 |

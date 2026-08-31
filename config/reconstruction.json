@@ -188,6 +188,97 @@
       ]
     },
     {
+      "id": "room_item_decode",
+      "path": "src/game/room_item_decode.asm",
+      "segment": "PRG_ROOM_ITEM_DECODE",
+      "start": "0x97c8",
+      "end": "0x9952",
+      "status": "semantic",
+      "required_labels": [
+        "LoadRoomItemsAndMetadata",
+        "ResolveNextDemonMirrorSchedule",
+        "ResolveNextDemonMirrorEnemySet",
+        "ClearRoomItemRuntimeByte",
+        "ClearRoomTimerDigits",
+        "StoreRoomDoorTile",
+        "DecodeRoomKeyPosition",
+        "SelectRoomKeyTile",
+        "SelectAlternateKeyTile",
+        "StoreRoomKeyTile",
+        "DecodeDemonMirrorPositions",
+        "PlaceNextDemonMirror",
+        "PlaceNextSpecialRoomItem",
+        "ContinueSpecialRoomItems",
+        "BeginRoomItemStream",
+        "DecodeNextRoomItemCommand",
+        "StoreNextRepeatedRoomItem",
+        "DecodeSingleRoomItem",
+        "StoreSingleRoomItem",
+        "DecodeRoomItemTerminator",
+        "DecodeConstellationMetadata",
+        "CopyNextConstellationByte",
+        "CopyRawConstellationByte",
+        "StoreConstellationByte",
+        "FinishRoomItemDecode"
+      ]
+    },
+    {
+      "id": "room_item_decode_data",
+      "path": "src/data/room_item_decode.asm",
+      "segment": "PRG_ROOM_ITEM_DECODE_DATA",
+      "start": "0x9953",
+      "end": "0x99f1",
+      "status": "semantic",
+      "required_labels": [
+        "ConstellationTilePatterns",
+        "ConstellationTileLowBits",
+        "TimerDecrementSpeedTable",
+        "SpecialRoomItemPositions",
+        "SpecialRoomItemTypes"
+      ]
+    },
+    {
+      "id": "room_block_decode",
+      "path": "src/game/room_block_decode.asm",
+      "segment": "PRG_ROOM_BLOCK_DECODE",
+      "start": "0x99f2",
+      "end": "0x9a6c",
+      "status": "semantic",
+      "required_labels": [
+        "InitializeRoomBlockMap",
+        "FillRoomMapInterior",
+        "FillRoomMapTopBoundary",
+        "FillRoomMapBottomBoundary",
+        "ScaleRoomBlockDataOffset",
+        "ExpandRoomMapBitplane",
+        "LoadNextRoomBlockByte",
+        "DecodeNextRoomBlockBit",
+        "AdvanceRoomBlockBit"
+      ]
+    },
+    {
+      "id": "counter_wait",
+      "path": "src/system/counter_wait.asm",
+      "segment": "PRG_COUNTER_WAIT",
+      "start": "0x9c52",
+      "end": "0x9c5f",
+      "status": "semantic",
+      "required_labels": [
+        "WaitForZeroPageCounterAboveThreshold"
+      ]
+    },
+    {
+      "id": "gameplay_delay_setup",
+      "path": "src/system/gameplay_delay_setup.asm",
+      "segment": "PRG_GAMEPLAY_DELAY_SETUP",
+      "start": "0x915e",
+      "end": "0x9164",
+      "status": "semantic",
+      "required_labels": [
+        "ResetAndSelectGameplayDelayCounter"
+      ]
+    },
+    {
       "id": "masked_ram_wait",
       "path": "src/system/masked_ram_wait.asm",
       "segment": "PRG_MASKED_RAM_WAIT",
@@ -626,11 +717,11 @@
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 46,
-    "minimum_documented_prg_bytes": 2970,
-    "minimum_provenance_entries": 192,
-    "maximum_preservation_lines": 10407,
-    "maximum_generated_labels": 706,
-    "maximum_raw_control_flow_targets": 340
+    "minimum_semantic_modules": 51,
+    "minimum_documented_prg_bytes": 3668,
+    "minimum_provenance_entries": 233,
+    "maximum_preservation_lines": 10046,
+    "maximum_generated_labels": 675,
+    "maximum_raw_control_flow_targets": 311
   }
 }

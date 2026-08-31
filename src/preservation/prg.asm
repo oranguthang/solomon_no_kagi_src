@@ -1786,15 +1786,15 @@ _label_bank0_8f6c:
     INX
     CPX #$05
     BCC _label_bank0_8f6c
-    JSR $915E
+    JSR ResetAndSelectGameplayDelayCounter
     LDA #$40
-    JSR $9C52
+    JSR WaitForZeroPageCounterAboveThreshold
     LDY #$13
     JSR AddSoundEffect
     JSR $8FB0
-    JSR $915E
+    JSR ResetAndSelectGameplayDelayCounter
     LDA #$A0
-    JSR $9C52
+    JSR WaitForZeroPageCounterAboveThreshold
     LDA #$00
     STA $05CF
     STA $05E3
@@ -1904,7 +1904,7 @@ _label_bank0_9042:
     STX $0428
 
 _label_bank0_9045:
-    JSR $99F2
+    JSR InitializeRoomBlockMap
     LDA #$60
     JSR StartThread
     LDA #$00
@@ -1915,20 +1915,20 @@ _label_bank0_9045:
     JSR $9471
     JSR $C3D4
     JSR $91EB
-    JSR $915E
+    JSR ResetAndSelectGameplayDelayCounter
     LDA #$80
-    JSR $9C52
+    JSR WaitForZeroPageCounterAboveThreshold
     LDA #$00
     STA $0593
     JSR Clear30x24NametableRegion
-    JSR $97C8
+    JSR LoadRoomItemsAndMetadata
     LDA #$02
     ORA $7C
     STA $7C
     JSR $91B9
-    JSR $915E
+    JSR ResetAndSelectGameplayDelayCounter
     LDA #$40
-    JSR $9C52
+    JSR WaitForZeroPageCounterAboveThreshold
     JSR $92BC
     LDA #$20
     AND $28
@@ -2048,11 +2048,6 @@ _label_bank0_914f:
     STX $78
     STX $80
     STX $0433
-    RTS
-
-    LDA #$00
-    STA $21
-    LDX #$21
     RTS
 
 .segment "PRG_POST_COORDINATE_CONVERSION"
@@ -2233,9 +2228,9 @@ _label_bank0_9307:
     STA $0593,X
     DEX
     BPL _label_bank0_9307
-    JSR $915E
+    JSR ResetAndSelectGameplayDelayCounter
     LDA #$10
-    JSR $9C52
+    JSR WaitForZeroPageCounterAboveThreshold
     LDA $059D
     ROL A
     LDA #$07
@@ -2243,9 +2238,9 @@ _label_bank0_9307:
     STA $0596
     LDA #$04
     STA $0594
-    JSR $915E
+    JSR ResetAndSelectGameplayDelayCounter
     LDA #$10
-    JMP $9C52
+    JMP WaitForZeroPageCounterAboveThreshold
 
     .byte $00, $00, $78, $78
     .byte $60, $00, $fe, $80, $00, $c0, $1c, $ff, $00, $00, $02, $01, $03
@@ -2569,354 +2564,7 @@ _label_bank0_96ce:
     LDA a:PPU_STATUS
     JMP EndDirectPpuTransfer
 
-.segment "PRG_POST_PPU_DATA_WRITERS"
-
-    LDX $0428
-    LDA $EA1C,X
-    STA $30
-    LDA $EA51,X
-    STA $31
-    LDY #$00
-    STY $00
-    LDX #$00
-
-_label_bank0_97db:
-    LDY $00
-    LDA ($30),Y
-    INC $00
-    TAY
-    LDA $DC00,Y
-    STA $36,X
-    LDA $DC10,Y
-    STA $37,X
-    INX
-    INX
-    CPX #$04
-    BNE _label_bank0_97db
-    LDX #$00
-
-_label_bank0_97f4:
-    LDY $00
-    LDA ($30),Y
-    INC $00
-    TAY
-    LDA $DC20,Y
-    STA $3A,X
-    LDA $DC31,Y
-    STA $3B,X
-    INX
-    INX
-    CPX #$04
-    BNE _label_bank0_97f4
-    LDY $00
-    LDX #$09
-    LDA #$00
-
-_label_bank0_9811:
-    STA $043D,X
-    DEX
-    BPL _label_bank0_9811
-    LDA ($30),Y
-    STA $00
-    AND #$0F
-    TAX
-    LDA $99BF,X
-    STA $0436
-    LDX #$01
-    STX $0435
-    STX $043B
-    DEX
-    STX $0434
-    TXA
-    LDX #$03
-
-_label_bank0_9833:
-    STA $0437,X
-    DEX
-    BNE _label_bank0_9833
-    INY
-    LDA ($30),Y
-    INY
-    TAX
-    BEQ _label_bank0_9853
-    LDA #$02
-    STA $01
-    LDA #$20
-    BIT $28
-    BEQ _label_bank0_984e
-    LDA #$07
-    STA $01
-
-_label_bank0_984e:
-    LDA $01
-    STA $0304,X
-
-_label_bank0_9853:
-    LDA ($30),Y
-    BNE _label_bank0_985b
-    LDA #$35
-    BNE _label_bank0_986e
-
-_label_bank0_985b:
-    TAX
-    LDA #$20
-    BIT $28
-    BNE _label_bank0_9871
-    LDA #$06
-    BIT $00
-    BPL _label_bank0_986a
-    LDA #$46
-
-_label_bank0_986a:
-    BVC _label_bank0_986e
-    LDA #$86
-
-_label_bank0_986e:
-    STA $0304,X
-
-_label_bank0_9871:
-    INY
-    INY
-    LDX #$00
-
-_label_bank0_9875:
-    STX $00
-    LDA ($30),Y
-    INY
-    STA $04
-    TAX
-    LDA #$05
-    STA $0304,X
-    JSR ConvertMapIndexToPixelCoordinates
-    LDX $00
-    LDA $04
-    STA $0441,X
-    LDA $05
-    STA $0443,X
-    INX
-    CPX #$02
-    BNE _label_bank0_9875
-    LDA $0428
-    CMP #$32
-    BNE _label_bank0_98bd
-    JSR $C1E3
-    AND #$1F
-    TAX
-    LDY #$0F
-    STY $00
-
-_label_bank0_98a7:
-    LDY $00
-    LDA $99E2,Y
-    LDY $99C2,X
-    STA $0304,Y
-    DEX
-    BPL _label_bank0_98b7
-    LDX #$1F
-
-_label_bank0_98b7:
-    DEC $00
-    BPL _label_bank0_98a7
-    LDY #$0A
-
-_label_bank0_98bd:
-    LDA #$00
-    STA $043C
-
-_label_bank0_98c2:
-    LDA ($30),Y
-    INY
-    CMP #$E0
-    BCS _label_bank0_9900
-    CMP #$C0
-    BCC _label_bank0_98e5
-    SBC #$C0
-    STA $01
-    LDA ($30),Y
-    STA $00
-    INY
-
-_label_bank0_98d6:
-    LDA ($30),Y
-    INY
-    TAX
-    LDA $00
-    STA $0304,X
-    DEC $01
-    BPL _label_bank0_98d6
-    BMI _label_bank0_98c2
-
-_label_bank0_98e5:
-    STA $00
-    AND #$3F
-    CMP #$2E
-    BCC _label_bank0_98f5
-    LDA $7C
-    ROR A
-    BCC _label_bank0_98f5
-    INY
-    BNE _label_bank0_98c2
-
-_label_bank0_98f5:
-    LDA ($30),Y
-    INY
-    TAX
-    LDA $00
-    STA $0304,X
-    BNE _label_bank0_98c2
-
-_label_bank0_9900:
-    AND #$1F
-    TAX
-    AND #$0C
-    LSR A
-    LSR A
-    STA $7D
-    TXA
-    AND #$10
-    BNE _label_bank0_9913
-    STA $0406
-    BEQ _label_bank0_994c
-
-_label_bank0_9913:
-    TXA
-    AND #$0F
-    TAX
-    LDA $99B3,X
-    STA $00
-    TXA
-    AND #$03
-    TAX
-    INX
-    STX $01
-    TXA
-    ASL A
-    CLC
-    ADC $01
-    ASL A
-    ASL A
-    ASL A
-    TAX
-    DEX
-    LDA ($30),Y
-    STA $0406
-    LDY #$17
-
-_label_bank0_9934:
-    TYA
-    AND #$03
-    BNE _label_bank0_9942
-    LDA $9953,X
-    AND #$FC
-    ORA $00
-    BNE _label_bank0_9945
-
-_label_bank0_9942:
-    LDA $9953,X
-
-_label_bank0_9945:
-    STA $0407,Y
-    DEX
-    DEY
-    BPL _label_bank0_9934
-
-_label_bank0_994c:
-    LDA #$01
-    ORA $7C
-    STA $7C
-    RTS
-
-    .byte $28, $c1, $2a, $c3, $c0, $c5, $c2, $c7, $c4, $29, $c6, $2b, $28, $c9, $2a, $cb
-    .byte $c8, $cd, $ca, $cf, $cc, $29, $ce, $2b, $28, $d1, $2a, $d3, $d0, $d5, $d2, $d7
-    .byte $d4, $29, $d6, $2b, $28, $d9, $2a, $db, $d8, $dd, $da, $df, $dc, $29, $de, $2b
-    .byte $28, $e1, $2a, $e3, $e0, $e5, $e2, $e7, $e4, $29, $e6, $2b, $28, $e9, $2a, $eb
-    .byte $e8, $ed, $ea, $ef, $ec, $29, $ee, $2b, $28, $f1, $2a, $f3, $f0, $f5, $f2, $f7
-    .byte $f4, $29, $f6, $2b, $28, $f9, $2a, $fb, $f8, $fd, $fa, $ff, $fc, $29, $fe, $2b
-    .byte $03, $03, $03, $03, $02, $03, $00, $02, $00, $01, $00, $01, $2d, $22, $19, $22
-    .byte $69, $b2, $2c, $86, $bc, $24, $88, $b4, $2a, $65, $ba, $6c, $87, $62, $3c, $69
-    .byte $a2, $ac, $32, $29, $66, $b5, $25, $b9, $72, $a7, $7c, $67, $37, $84, $8a, $ab
-    .byte $8c, $aa, $88, $91, $ab, $ac, $98, $94, $ac, $aa, $88
-
-    TAX
-    LDA $ABAA
-    LDX #$E0
-    LDA #$10
-
-_label_bank0_99f6:
-    STA $0303,X
-    DEX
-    BNE _label_bank0_99f6
-    LDA #$F8
-    LDX #$0F
-
-_label_bank0_9a00:
-    STA $0304,X
-    DEX
-    BPL _label_bank0_9a00
-    LDX #$10
-
-_label_bank0_9a08:
-    STA $03D3,X
-    DEX
-    BNE _label_bank0_9a08
-    STX $01
-    LDA $0428
-    STA $00
-    ASL A
-    CLC
-    ADC $00
-    STA $00
-    TXA
-    ROL A
-    STA $01
-    LDY #$04
-
-_label_bank0_9a21:
-    ASL $00
-    ROL $01
-    DEY
-    BNE _label_bank0_9a21
-    LDA #$2C
-    ADC $00
-    STA $00
-    LDA #$E0
-    ADC $01
-    STA $01
-    LDA #$90
-    JSR $9A4B
-    CLC
-    LDA #$18
-    ADC $00
-    STA $00
-    LDA #$00
-    ADC $01
-    STA $01
-    LDA #$F8
-    JMP $9A4B
-    STA $02
-    LDX #$CF
-    LDY #$17
-    STY $03
-
-_label_bank0_9a53:
-    LDY $03
-    LDA ($00),Y
-    STA $04
-    LDY #$08
-    LDA $02
-
-_label_bank0_9a5d:
-    ROR $04
-    BCC _label_bank0_9a64
-    STA $0304,X
-
-_label_bank0_9a64:
-    DEX
-    DEY
-    BNE _label_bank0_9a5d
-    DEC $03
-    BPL _label_bank0_9a53
-    RTS
+.segment "PRG_POST_ROOM_BLOCK_DECODE"
 
     LDY #$11
     JSR AddSoundEffect
@@ -3006,9 +2654,9 @@ _label_bank0_9ae8:
     STA $0596
 
 _label_bank0_9afa:
-    JSR $915E
+    JSR ResetAndSelectGameplayDelayCounter
     LDA #$08
-    JSR $9C52
+    JSR WaitForZeroPageCounterAboveThreshold
 
 _label_bank0_9b02:
     JMP $9C3A
@@ -3128,7 +2776,7 @@ _label_bank0_9bce:
 _label_bank0_9bd1:
     LDX #$21
     LDA #$0F
-    JSR $9C52
+    JSR WaitForZeroPageCounterAboveThreshold
     LDA $0593
     BPL _label_bank0_9c19
     LDA $0596
@@ -3161,7 +2809,7 @@ _label_bank0_9c0f:
     JSR AddSoundEffect
     LDX #$21
     LDA #$0F
-    JSR $9C52
+    JSR WaitForZeroPageCounterAboveThreshold
 
 _label_bank0_9c19:
     LDA $057F
@@ -3194,17 +2842,8 @@ _label_bank0_9c48:
     LDA #$01
     JSR StopThread
 
-_label_bank0_9c52:
-    PHA
-    TXA
-    PHA
-    JSR SwitchThreads
-    PLA
-    TAX
-    PLA
-    CMP $00,X
-    BCS _label_bank0_9c52
-    RTS
+.segment "PRG_POST_COUNTER_WAIT"
+
     STY $03
     CMP #$F8
     BCS _label_bank0_9c6b
@@ -6478,7 +6117,7 @@ _label_bank0_b889:
     LDA #$BF
     STA $01
     LDA #$04
-    JSR $9A4B
+    JSR ExpandRoomMapBitplane
     LDA #$20
     STA $88
     JMP $B8CC
@@ -6576,7 +6215,7 @@ _label_bank0_b930:
     LDA #$BF
     STA $01
     LDA #$27
-    JSR $9A4B
+    JSR ExpandRoomMapBitplane
     JMP $B924
     RTS
 
@@ -7242,7 +6881,7 @@ _label_bank0_bdea:
     LDX #$00
     STX $26
     LDX #$26
-    JSR $9C52
+    JSR WaitForZeroPageCounterAboveThreshold
     RTS
 
     STA $02
@@ -7585,7 +7224,7 @@ _label_bank0_c303:
     JSR $C31D
     LDX #$23
     LDA #$06
-    JSR $9C52
+    JSR WaitForZeroPageCounterAboveThreshold
     LDA #$07
     STA $03
     LDY #$05
@@ -7664,7 +7303,7 @@ _label_bank0_c39d:
     LDX #$00
     STX $24
     LDX #$24
-    JSR $9C52
+    JSR WaitForZeroPageCounterAboveThreshold
     LDA #$00
     STA $05BB
     LDA #$04
@@ -8031,7 +7670,7 @@ _label_bank0_c7a0:
     STX $23
     LDX #$23
     LDA #$04
-    JSR $9C52
+    JSR WaitForZeroPageCounterAboveThreshold
     PLA
     CMP #$18
     BCS _label_bank0_c7c3
@@ -8061,7 +7700,7 @@ _label_bank0_c7c3:
     STA $1B
     LDX #$23
     LDA #$64
-    JSR $9C52
+    JSR WaitForZeroPageCounterAboveThreshold
     BCC _label_bank0_c832
     JSR ResetRoomTransitionState
     LDA #$10
@@ -8079,7 +7718,7 @@ _label_bank0_c7c3:
     JSR SetActiveNonDanaObjectState
     LDX #$23
     LDA #$09
-    JSR $9C52
+    JSR WaitForZeroPageCounterAboveThreshold
     LDA #$C0
     STA $057F
     LDA #$C3
@@ -8099,7 +7738,7 @@ _label_bank0_c821:
     STA $23
     LDX #$23
     LDA #$30
-    JSR $9C52
+    JSR WaitForZeroPageCounterAboveThreshold
 
 _label_bank0_c832:
     JSR DeactivateAllNonDanaObjects

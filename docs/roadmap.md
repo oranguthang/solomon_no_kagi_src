@@ -28,11 +28,11 @@ file. The audit is part of `make release-check`.
 Accepted baseline after the first split:
 
 ```text
-semantic modules            46
-documented PRG bytes      2970 / 32768 (9.064%)
-generated address labels   706
-raw control-flow targets   340
-preservation lines       10407
+semantic modules            49
+documented PRG bytes      3647 / 32768 (11.130%)
+generated address labels   675
+raw control-flow targets   334
+preservation lines       10060
 ```
 
 These are non-regression bounds, not a completion claim. As reconstruction
@@ -71,6 +71,10 @@ decrease.
   rows, and attribute table surrounding the 30x24 room nametable area;
 - `$97A3-$97C7`: two repeated PPU_DATA writers and their four source patterns
   are split into separate code/data modules with symbolic pointer operands;
+- `$97C8-$99F1`: the runtime room item/header decoder and its constellation,
+  timer-rate, and special-room lookup tables are source-owned;
+- `$99F2-$9A6C`: room-map initialization computes `E02C + room*48` and expands
+  both 24-byte block planes into the bordered 16x14 runtime map;
 - `$A000-$A04B`: scheduler context 3's main gameplay service loop and queued
   fairy path are isolated in `src/game/main_thread.asm`;
 - `$A15F-$A225`: countdown arithmetic, decimal borrow propagation, display

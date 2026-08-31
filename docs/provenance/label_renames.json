@@ -175,6 +175,17 @@
       ]
     },
     {
+      "address": "0x915e",
+      "previous": "$915E",
+      "current": "ResetAndSelectGameplayDelayCounter",
+      "confidence": "confirmed",
+      "evidence": [
+        "The routine clears zero-page byte $21 and returns its address in X.",
+        "All seven callers immediately load a threshold into A and call WaitForZeroPageCounterAboveThreshold.",
+        "The active gameplay NMI path increments byte $21 once per serviced frame."
+      ]
+    },
+    {
       "address": "0x9165",
       "previous": "$9165",
       "current": "WaitForMaskedBitsClear",
@@ -662,6 +673,290 @@
       "confidence": "confirmed",
       "evidence": [
         "The direct PPU renderer loads this address into TempPointer00 before requesting eight four-byte repetitions."
+      ]
+    },
+    {
+      "address": "0x97c8",
+      "previous": "$97C8",
+      "current": "LoadRoomItemsAndMetadata",
+      "confidence": "confirmed",
+      "evidence": ["The room-init caller invokes this entry after clearing the room area; it resolves the current room's item pointer and consumes the documented header and item stream."]
+    },
+    {
+      "address": "0x97db",
+      "previous": "_label_bank0_97db",
+      "current": "ResolveNextDemonMirrorSchedule",
+      "confidence": "confirmed",
+      "evidence": ["This two-iteration loop resolves header bytes 0-1 through the split schedule pointer tables at $DC00/$DC10."]
+    },
+    {
+      "address": "0x97f4",
+      "previous": "_label_bank0_97f4",
+      "current": "ResolveNextDemonMirrorEnemySet",
+      "confidence": "confirmed",
+      "evidence": ["This two-iteration loop resolves header bytes 2-3 through the split enemy-set pointer tables at $DC20/$DC31."]
+    },
+    {
+      "address": "0x9811",
+      "previous": "_label_bank0_9811",
+      "current": "ClearRoomItemRuntimeByte",
+      "confidence": "confirmed",
+      "evidence": ["The descending loop clears ten runtime bytes at $043D-$0446 before decoding room metadata."]
+    },
+    {
+      "address": "0x9833",
+      "previous": "_label_bank0_9833",
+      "current": "ClearRoomTimerDigits",
+      "confidence": "confirmed",
+      "evidence": ["The loop writes zero to the three displayed timer digits $0438-$043A after initializing timer state."]
+    },
+    {
+      "address": "0x984e",
+      "previous": "_label_bank0_984e",
+      "current": "StoreRoomDoorTile",
+      "confidence": "confirmed",
+      "evidence": ["Both door-tile selection paths converge here and write the selected value to RoomMap at the header's door position."]
+    },
+    {
+      "address": "0x9853",
+      "previous": "_label_bank0_9853",
+      "current": "DecodeRoomKeyPosition",
+      "confidence": "confirmed",
+      "evidence": ["This block reads header byte 6 and selects the no-key fallback or key-position path."]
+    },
+    {
+      "address": "0x985b",
+      "previous": "_label_bank0_985b",
+      "current": "SelectRoomKeyTile",
+      "confidence": "confirmed",
+      "evidence": ["A nonzero header key position reaches this block, which selects key tile variants from gameplay and header flags."]
+    },
+    {
+      "address": "0x986a",
+      "previous": "_label_bank0_986a",
+      "current": "SelectAlternateKeyTile",
+      "confidence": "confirmed",
+      "evidence": ["The header bit-7 paths converge on this bit-6 test before choosing the alternate hidden-key tile."]
+    },
+    {
+      "address": "0x986e",
+      "previous": "_label_bank0_986e",
+      "current": "StoreRoomKeyTile",
+      "confidence": "confirmed",
+      "evidence": ["All key and no-key tile variants converge on this RoomMap store."]
+    },
+    {
+      "address": "0x9871",
+      "previous": "_label_bank0_9871",
+      "current": "DecodeDemonMirrorPositions",
+      "confidence": "confirmed",
+      "evidence": ["This block advances to header bytes 8-9 and initializes a two-entry mirror loop."]
+    },
+    {
+      "address": "0x9875",
+      "previous": "_label_bank0_9875",
+      "current": "PlaceNextDemonMirror",
+      "confidence": "confirmed",
+      "evidence": ["The two-iteration loop writes mirror tile 5 to RoomMap and stores converted Y/X coordinates in parallel arrays."]
+    },
+    {
+      "address": "0x98a7",
+      "previous": "_label_bank0_98a7",
+      "current": "PlaceNextSpecialRoomItem",
+      "confidence": "confirmed",
+      "evidence": ["For room index $32, this loop writes sixteen table-selected item types to table-selected RoomMap positions."]
+    },
+    {
+      "address": "0x98b7",
+      "previous": "_label_bank0_98b7",
+      "current": "ContinueSpecialRoomItems",
+      "confidence": "confirmed",
+      "evidence": ["The block wraps the 32-position index and advances the sixteen-entry special-room placement loop."]
+    },
+    {
+      "address": "0x98bd",
+      "previous": "_label_bank0_98bd",
+      "current": "BeginRoomItemStream",
+      "confidence": "confirmed",
+      "evidence": ["Normal and special-room setup paths converge here before the item command stream begins at header offset ten."]
+    },
+    {
+      "address": "0x98c2",
+      "previous": "_label_bank0_98c2",
+      "current": "DecodeNextRoomItemCommand",
+      "confidence": "confirmed",
+      "evidence": ["This loop reads each command and dispatches normal, $C0-$DF repeated, or $E0+ terminating records."]
+    },
+    {
+      "address": "0x98d6",
+      "previous": "_label_bank0_98d6",
+      "current": "StoreNextRepeatedRoomItem",
+      "confidence": "confirmed",
+      "evidence": ["The loop writes one repeated item type to each following position until the decoded count is exhausted."]
+    },
+    {
+      "address": "0x98e5",
+      "previous": "_label_bank0_98e5",
+      "current": "DecodeSingleRoomItem",
+      "confidence": "confirmed",
+      "evidence": ["Commands below $C0 reach this path, which applies the conditional-item filter before consuming one position."]
+    },
+    {
+      "address": "0x98f5",
+      "previous": "_label_bank0_98f5",
+      "current": "StoreSingleRoomItem",
+      "confidence": "confirmed",
+      "evidence": ["Accepted normal item records write their raw type to RoomMap at the following position byte."]
+    },
+    {
+      "address": "0x9900",
+      "previous": "_label_bank0_9900",
+      "current": "DecodeRoomItemTerminator",
+      "confidence": "confirmed",
+      "evidence": ["Commands $E0 and above terminate the stream here and decode tileset and constellation bits."]
+    },
+    {
+      "address": "0x9913",
+      "previous": "_label_bank0_9913",
+      "current": "DecodeConstellationMetadata",
+      "confidence": "confirmed",
+      "evidence": ["Constellation terminators select a modifier and one of four 24-byte patterns, then consume a position byte."]
+    },
+    {
+      "address": "0x9934",
+      "previous": "_label_bank0_9934",
+      "current": "CopyNextConstellationByte",
+      "confidence": "confirmed",
+      "evidence": ["This 24-byte descending loop expands the selected constellation pattern into RAM."]
+    },
+    {
+      "address": "0x9942",
+      "previous": "_label_bank0_9942",
+      "current": "CopyRawConstellationByte",
+      "confidence": "confirmed",
+      "evidence": ["Three of every four pattern bytes bypass low-bit substitution and are loaded unchanged here."]
+    },
+    {
+      "address": "0x9945",
+      "previous": "_label_bank0_9945",
+      "current": "StoreConstellationByte",
+      "confidence": "confirmed",
+      "evidence": ["Raw and low-bit-adjusted pattern paths converge on this store to the 24-byte constellation buffer."]
+    },
+    {
+      "address": "0x994c",
+      "previous": "_label_bank0_994c",
+      "current": "FinishRoomItemDecode",
+      "confidence": "confirmed",
+      "evidence": ["Both terminator paths set room-state flag bit 0 here and return to room initialization."]
+    },
+    {
+      "address": "0x9953",
+      "previous": "$9953",
+      "current": "ConstellationTilePatterns",
+      "confidence": "confirmed",
+      "evidence": ["The constellation decoder indexes this range as four 24-byte tile patterns."]
+    },
+    {
+      "address": "0x99b3",
+      "previous": "$99B3",
+      "current": "ConstellationTileLowBits",
+      "confidence": "confirmed",
+      "evidence": ["The twelve constellation selectors index these values before they are ORed into every fourth pattern byte."]
+    },
+    {
+      "address": "0x99bf",
+      "previous": "$99BF",
+      "current": "TimerDecrementSpeedTable",
+      "confidence": "confirmed",
+      "evidence": ["The low nibble of room header byte 4 selects a timer speed from this four-byte table."]
+    },
+    {
+      "address": "0x99c2",
+      "previous": "$99C2",
+      "current": "SpecialRoomItemPositions",
+      "confidence": "confirmed",
+      "evidence": ["The room-$32 placement loop wraps a masked index across these 32 encoded map positions."]
+    },
+    {
+      "address": "0x99e2",
+      "previous": "$99E2",
+      "current": "SpecialRoomItemTypes",
+      "confidence": "confirmed",
+      "evidence": ["The room-$32 placement loop consumes these sixteen item type values in descending order."]
+    },
+    {
+      "address": "0x99f2",
+      "previous": "$99F2",
+      "current": "InitializeRoomBlockMap",
+      "confidence": "confirmed",
+      "evidence": ["The room-init caller invokes this entry before item decoding; it initializes 224 RoomMap bytes and expands both 24-byte block planes for CurrentRoomIndex."]
+    },
+    {
+      "address": "0x99f6",
+      "previous": "_label_bank0_99f6",
+      "current": "FillRoomMapInterior",
+      "confidence": "confirmed",
+      "evidence": ["This 224-iteration loop initializes the complete 16x14 RoomMap storage to tile $10."]
+    },
+    {
+      "address": "0x9a00",
+      "previous": "_label_bank0_9a00",
+      "current": "FillRoomMapTopBoundary",
+      "confidence": "confirmed",
+      "evidence": ["The descending sixteen-entry loop overwrites RoomMap indices $0F-$00 with boundary value $F8."]
+    },
+    {
+      "address": "0x9a08",
+      "previous": "_label_bank0_9a08",
+      "current": "FillRoomMapBottomBoundary",
+      "confidence": "confirmed",
+      "evidence": ["This loop overwrites RoomMap indices $DF-$D0 with boundary value $F8."]
+    },
+    {
+      "address": "0x9a21",
+      "previous": "_label_bank0_9a21",
+      "current": "ScaleRoomBlockDataOffset",
+      "confidence": "confirmed",
+      "evidence": ["After multiplying the room index by three, this four-step shift completes the room-index times 48-byte block-record offset."]
+    },
+    {
+      "address": "0x9a4b",
+      "previous": "$9A4B",
+      "current": "ExpandRoomMapBitplane",
+      "confidence": "confirmed",
+      "evidence": ["Four callers supply a 24-byte bitplane pointer and output tile in A; the helper maps 192 bits onto RoomMap indices $CF-$10."]
+    },
+    {
+      "address": "0x9a53",
+      "previous": "_label_bank0_9a53",
+      "current": "LoadNextRoomBlockByte",
+      "confidence": "confirmed",
+      "evidence": ["The outer loop loads bitplane bytes from index 23 down to zero and resets an eight-bit inner count."]
+    },
+    {
+      "address": "0x9a5d",
+      "previous": "_label_bank0_9a5d",
+      "current": "DecodeNextRoomBlockBit",
+      "confidence": "confirmed",
+      "evidence": ["Each iteration rotates one source bit into carry and conditionally writes the caller-supplied tile to RoomMap."]
+    },
+    {
+      "address": "0x9a64",
+      "previous": "_label_bank0_9a64",
+      "current": "AdvanceRoomBlockBit",
+      "confidence": "confirmed",
+      "evidence": ["Both zero and one bit paths converge here to advance the destination and bit/byte counters."]
+    },
+    {
+      "address": "0x9c52",
+      "previous": "$9C52",
+      "current": "WaitForZeroPageCounterAboveThreshold",
+      "confidence": "confirmed",
+      "evidence": [
+        "Sixteen call sites provide an unsigned threshold in A and a zero-page address in X.",
+        "The routine preserves A and X across SwitchThreads and repeats while CMP reports that the selected byte is less than or equal to the threshold.",
+        "Every current caller selects an independently NMI-incremented byte in the $20-$27 range."
       ]
     },
     {

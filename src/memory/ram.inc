@@ -4,6 +4,7 @@
 
 TempPointer00 = $0000
 WaitMaskAddressBase = $0000
+ZeroPageCounterBase = $0000
 InventoryItemSlotPattern = $0000
 InventorySlotMask = $0001
 TempPointer02 = $0002
@@ -35,11 +36,15 @@ GameplayUpdateCount = $0023
 GameplayFlags = $0028
 EnemyAiPointer = $002C
 EnemyObjectPointer = $002E
+RoomItemPointer = $0030
+DemonMirrorSchedulePointers = $0036
+DemonMirrorEnemySetPointers = $003A
 
 ThreadStackPointers = $0012
 ThreadStackPointerCount = 8
 PpuScrollX = $001E
 PpuScrollY = $001F
+GameplayDelayCounter = $0021
 NmiFrameCounter = $0022
 ThreadIndex = $0302
 
@@ -67,6 +72,8 @@ TimerDisplayTerminator = $03ED
 OamBuffer = $0210
 OamBufferSize = $0100
 RoomMap = $0304
+ConstellationPosition = $0406
+ConstellationPattern = $0407
 
 CurrentRoomIndex = $0428
 FireballState = $0429
@@ -86,11 +93,26 @@ TimerDigit10 = $0438
 TimerDigit100 = $0439
 TimerDigit1000 = $043A
 TimerDigit10000 = $043B
+RoomItemRuntimeData = $043C
+DemonMirrorYPositions = $0441
+DemonMirrorXPositions = $0443
 ActiveEnemyCount = $0447
 ScoreDigits = $044A
 RemainingLives = $0452
 FairiesCollected = $0453
 FairiesQueued = $0454
+
+RoomItemStreamOffset = $0000
+RoomItemScratch = $0000
+RoomKeyStatusAndTimerRate = $0000
+RoomItemRepeatCount = $0001
+RoomDoorTile = $0001
+RoomBlockDataPointer = $0000
+RoomBlockTile = $0002
+RoomBlockByteIndex = $0003
+RoomBlockBits = $0004
+RoomStateFlags = $007C
+RoomTileset = $007D
 
 EnemyAiState = $04F7
 EnemyAiStateStride = 8
