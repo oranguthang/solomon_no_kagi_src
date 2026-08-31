@@ -1752,7 +1752,7 @@ _label_bank0_8f34:
     AND #$BF
     STA $28
     JSR $9340
-    JSR $C9BD
+    JSR Clear30x24NametableRegion
     LDA #$03
     STA $7D
     LDX #$01
@@ -1798,7 +1798,7 @@ _label_bank0_8f6c:
     LDA #$00
     STA $05CF
     STA $05E3
-    JSR $C9BD
+    JSR Clear30x24NametableRegion
     LDY #$18
     JSR AddSoundEffect
     LDA #$15
@@ -1920,7 +1920,7 @@ _label_bank0_9045:
     JSR $9C52
     LDA #$00
     STA $0593
-    JSR $C9BD
+    JSR Clear30x24NametableRegion
     JSR $97C8
     LDA #$02
     ORA $7C
@@ -6920,7 +6920,7 @@ _label_bank0_bb07:
     JSR $C60E
     LDA #$40
     JSR $BE13
-    JSR $C9C5
+    JSR Clear32x26NametableRegion
     LDA #$03
     STA $7D
 
@@ -8120,7 +8120,7 @@ _label_bank0_c621:
 
 .segment "PRG_POST_SECONDARY_THREAD_RESET"
 
-    JSR $C9A7
+    JSR ResetRoomTransitionState
     LDA $0582
     AND #$01
     ORA #$20
@@ -8156,7 +8156,7 @@ _label_bank0_c7c3:
     LDA #$1E
     STA $0301
     STA a:PPU_MASK
-    JSR $C9BD
+    JSR Clear30x24NametableRegion
     LDA #$03
     STA $7D
     LDA #$85
@@ -8167,7 +8167,7 @@ _label_bank0_c7c3:
     LDA #$64
     JSR $9C52
     BCC _label_bank0_c832
-    JSR $C9A7
+    JSR ResetRoomTransitionState
     LDA #$10
     ORA $28
     STA $28
@@ -8207,7 +8207,7 @@ _label_bank0_c821:
 
 _label_bank0_c832:
     JSR DeactivateAllNonDanaObjects
-    JSR $C9BD
+    JSR Clear30x24NametableRegion
     JSR $C60E
     LDA #$10
     ORA $7C
@@ -8395,7 +8395,7 @@ _label_bank0_c964:
 _label_bank0_c966:
     STX $0452
     PHA
-    JSR $C9BD
+    JSR Clear30x24NametableRegion
     PLA
     JSR StartThread
     LDA #$00
@@ -8410,83 +8410,6 @@ _label_bank0_c966:
     .byte $42, $c0, $f0, $f0, $00, $21, $e9, $4a, $22, $18, $1e, $1b, $24, $10, $0d, $1f
     .byte $24, $24, $24, $00
 
-    LDX #$03
-    JSR ResetOtherSecondaryThreads
-    LDA $28
-    AND #$BB
-    STA $28
-    LDA #$00
-    STA $042A
-    LDY #$03
-    JSR AddSoundEffect
-    RTS
-
-    LDX #$06
-    JSR $C9CD
-    JMP $96DC
-    LDX #$03
-    JSR $C9CD
-    JMP $96DC
-    TXA
-    PHA
-    JSR $96F0
-    PLA
-    LDX a:PPU_STATUS
-    TAX
-    LDA $CA33,X
-    INX
-    STA $02
-    LDA $CA33,X
-    INX
-    STA $00
-    LDY $CA33,X
-
-_label_bank0_c9e6:
-    LDA $00
-    ASL A
-    ROL $01
-    ASL A
-    ROL $01
-    TAX
-    LDA $01
-    AND #$03
-    ORA #$20
-    STA a:PPU_ADDR
-    STX a:PPU_ADDR
-    LDA $0300
-    STA a:PPU_CTRL
-    LDX $02
-    LDA #$24
-
-_label_bank0_ca05:
-    STA a:PPU_DATA
-    DEX
-    BNE _label_bank0_ca05
-    LDA #$08
-    CLC
-    ADC $00
-    STA $00
-    DEY
-    BNE _label_bank0_c9e6
-    LDA #$23
-    STA a:PPU_ADDR
-    LDA #$C8
-    STA a:PPU_ADDR
-    LDA $0300
-    STA a:PPU_CTRL
-    LDX #$30
-    LDA #$00
-
-_label_bank0_ca29:
-    STA a:PPU_DATA
-    DEX
-    BNE _label_bank0_ca29
-    LDX a:PPU_STATUS
-    RTS
-
-    JSR $1A00
-    JSR $1A20
-    ASL $1820,X
 .segment "PRG_POST_NON_DANA_OBJECT_DEACTIVATION"
 
     LDX #$01
@@ -8505,7 +8428,7 @@ _label_bank0_ca29:
     BPL _label_bank0_cab9
 
 _label_bank0_ca8c:
-    JSR $CB6F
+    JSR ClearBothNametables
     LDX #$0D
 
 _label_bank0_ca91:
@@ -8543,7 +8466,7 @@ _label_bank0_cab9:
     STA $7D
     LDA #$00
     STA $28
-    JSR $CB6F
+    JSR ClearBothNametables
     JSR $CCCD
     JSR $CC0D
     LDA #$00
@@ -8570,7 +8493,7 @@ _label_bank0_caf7:
     BNE _label_bank0_caf7
     LDA #$00
     STA $1F
-    JSR $CB6F
+    JSR ClearBothNametables
     LDA #$10
     JSR StartThread
     LDA #$22
@@ -8625,36 +8548,8 @@ _label_bank0_cb65:
     JSR StartThread
     LDA #$02
     JSR StopThread
-    JSR $96F0
-    LDA #$20
-    JSR $CB80
-    LDA #$28
-    JSR $CB80
-    JSR $96DC
-    RTS
+.segment "PRG_POST_FULL_NAMETABLE_CLEAR"
 
-    LDX #$00
-    JSR $CD53
-    LDA $0300
-    STA a:PPU_CTRL
-    LDA #$24
-    LDY #$C0
-    LDX #$04
-
-_label_bank0_cb91:
-    STA a:PPU_DATA
-    DEY
-    BNE _label_bank0_cb91
-    DEX
-    BPL _label_bank0_cb9e
-    LDX a:PPU_STATUS
-    RTS
-
-_label_bank0_cb9e:
-    BNE _label_bank0_cb91
-    LDY #$40
-    LDA #$FF
-    BMI _label_bank0_cb91
     LDY a:PPU_STATUS
     LDY #$00
     STY $02

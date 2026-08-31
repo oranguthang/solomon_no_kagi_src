@@ -1517,6 +1517,80 @@
       ]
     },
     {
+      "address": "0xc9a7",
+      "previous": "$C9A7",
+      "current": "ResetRoomTransitionState",
+      "confidence": "high",
+      "evidence": [
+        "Both callers are inside the scene-transition flow that starts at $C78A.",
+        "The helper resets other secondary contexts, clears two gameplay flag bits and FireballActive, and queues one sound effect."
+      ]
+    },
+    {
+      "address": "0xc9bd",
+      "previous": "$C9BD",
+      "current": "Clear30x24NametableRegion",
+      "confidence": "confirmed",
+      "evidence": [
+        "Six static callers select descriptor offset 6, whose record clears 30 columns from PPU $2080 for 24 rows."
+      ]
+    },
+    {
+      "address": "0xc9c5",
+      "previous": "$C9C5",
+      "current": "Clear32x26NametableRegion",
+      "confidence": "confirmed",
+      "evidence": [
+        "The sole static caller selects descriptor offset 3, whose record clears 32 columns from PPU $2080 for 26 rows."
+      ]
+    },
+    {
+      "address": "0xc9cd",
+      "previous": "$C9CD",
+      "current": "ClearNametableRegionFromDescriptor",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both public wrappers pass an X offset into the adjacent width, start-index, and row-count descriptor table."
+      ]
+    },
+    {
+      "address": "0xc9e6",
+      "previous": "_label_bank0_c9e6",
+      "current": "ClearNextNametableRow",
+      "confidence": "confirmed",
+      "evidence": [
+        "This loop derives a PPU address from the descriptor start index, writes one row, adds 8 to the index, and repeats for the descriptor row count."
+      ]
+    },
+    {
+      "address": "0xca05",
+      "previous": "_label_bank0_ca05",
+      "current": "WriteBlankNametableTile",
+      "confidence": "confirmed",
+      "evidence": [
+        "This width-counted loop writes blank tile $24 through PPU_DATA."
+      ]
+    },
+    {
+      "address": "0xca29",
+      "previous": "_label_bank0_ca29",
+      "current": "ClearNametableAttributeByte",
+      "confidence": "confirmed",
+      "evidence": [
+        "This 48-iteration loop writes zero through PPU_DATA after setting PPU_ADDR to $23C8."
+      ]
+    },
+    {
+      "address": "0xca33",
+      "previous": "$CA33",
+      "current": "NametableClearDescriptors",
+      "confidence": "confirmed",
+      "evidence": [
+        "The preceding routine indexes these nine bytes as three width, start-index, and row-count records.",
+        "Treating the range as data removes false disassembly into JSR $1A00, JSR $1A20, and ASL $1820,X."
+      ]
+    },
+    {
       "address": "0xca3c",
       "previous": "$CA3C",
       "current": "SetActiveNonDanaObjectState",
@@ -1571,6 +1645,43 @@
       "confidence": "confirmed",
       "evidence": [
         "This loop head resolves each descending non-Dana index before clearing and moving the record offscreen."
+      ]
+    },
+    {
+      "address": "0xcb6f",
+      "previous": "$CB6F",
+      "current": "ClearBothNametables",
+      "confidence": "confirmed",
+      "evidence": [
+        "All three callers use this helper at screen reset boundaries.",
+        "It invokes the adjacent full-nametable writer with PPU address high bytes $20 and $28, covering both physical nametables under horizontal mirroring."
+      ]
+    },
+    {
+      "address": "0xcb80",
+      "previous": "$CB80",
+      "current": "ClearFullNametable",
+      "confidence": "confirmed",
+      "evidence": [
+        "The caller supplies a PPU address high byte and this routine supplies low byte zero before writing 960 blank tile bytes and 64 attribute bytes."
+      ]
+    },
+    {
+      "address": "0xcb91",
+      "previous": "_label_bank0_cb91",
+      "current": "WriteFullNametableByte",
+      "confidence": "confirmed",
+      "evidence": [
+        "This loop writes the accumulator to PPU_DATA until the current Y-sized chunk is exhausted."
+      ]
+    },
+    {
+      "address": "0xcb9e",
+      "previous": "_label_bank0_cb9e",
+      "current": "SelectNametableFillPhase",
+      "confidence": "confirmed",
+      "evidence": [
+        "The compact X/Y loop writes 192 plus three 256-byte blank-tile chunks, then selects a final 64-byte $FF attribute-table chunk."
       ]
     }
   ]

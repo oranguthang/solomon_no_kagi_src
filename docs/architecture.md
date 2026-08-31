@@ -71,6 +71,11 @@ secondary context in `X`. It stops every other context from 1 through 7 while
 leaving context 0 and the caller alive, then clears the four pending-start
 slots and two transition flags. See `docs/secondary_thread_reset.md`.
 
+The larger room-transition scene invokes `ResetRoomTransitionState` on two
+paths. It retains context 3, clears gameplay flag bits 6 and 2, disables the
+active fireball, and submits sound command 3. See
+`docs/room_transition_reset.md`.
+
 ## Inline appendix dispatch
 
 `JumpWithParams` implements a second important control-flow convention. A
@@ -259,6 +264,18 @@ semantic entry points.
 
 OAM shadow storage begins at `$0210`; the NMI path performs DMA from page `$02`.
 The logical object pool therefore feeds a separate sprite-composition stage.
+
+Room transitions also use a direct PPU clearing path at `$C9BD-$CA32`. Its
+three-byte descriptors select width, a scaled nametable start index, and row
+count. The routine writes blank tile `$24` across each row, advances by one
+32-byte nametable row, and finally clears 48 attribute bytes at
+`$23C8-$23F7`. See `docs/nametable_clear.md`.
+
+A second direct path at `$CB6F-$CBA5` resets both physical nametables. For each
+of `$2000` and `$2800`, it writes 960 blank tile bytes followed by all 64
+attribute bytes. This is separate from the descriptor-driven partial clear and
+from buffered NMI update programs.
+
 Because gameplay services run through cooperative contexts, timing-sensitive
 behavior must be validated with instruction/frame traces rather than inferred
 from an idealized fixed update order.

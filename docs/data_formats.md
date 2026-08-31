@@ -70,3 +70,19 @@ does not corrupt the lossless structural result.
 enemy streams, item metadata/command streams, and both 53-entry split-pointer
 tables. It compares every encoded result directly with the built PRG and is
 part of `make release-check`.
+
+## Nametable clear descriptors
+
+The three records at CPU `$CA33-$CA3B` are independent of room streams. Each
+record is `(width, start_index, row_count)`. The direct PPU clear routine maps
+the start index to `$2000 + start_index * 4`; adding 8 to the index after each
+row advances the PPU address by 32 bytes.
+
+| Offset | Width | Start index | First PPU address | Rows |
+| ---: | ---: | ---: | ---: | ---: |
+| 0 | 32 | `$00` | `$2000` | 26 |
+| 3 | 32 | `$20` | `$2080` | 26 |
+| 6 | 30 | `$20` | `$2080` | 24 |
+
+The source keeps the records in `src/data/nametable_clear.asm` and asserts the
+three-record extent at assembly time.

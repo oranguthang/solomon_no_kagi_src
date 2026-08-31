@@ -14,7 +14,7 @@ evidence, and small tested tools for decoded game data.
   entrypoint; CHR is a private generated asset and is not stored in Git.
 - Confirmed NES registers and high-confidence RAM aliases are separated into
   `src/memory/`.
-- Thirty-seven semantic PRG modules own NMI (`$8000-$80FE`), controller input
+- Forty-one semantic PRG modules own NMI (`$8000-$80FE`), controller input
   (`$837D-$83C1`), reset/startup
   (`$8C00-$8D5E`), the cooperative scheduler (`$8D5F-$8E46`), and the main
   gameplay thread (`$A000-$A04B`), plus countdown timer arithmetic and warning
@@ -35,8 +35,11 @@ evidence, and small tested tools for decoded game data.
   `$C710-$C73A`.
   Shared score addition owns `$C73B-$C755`.
   Secondary-context transition reset owns `$C756-$C789`.
+  Shared room-transition state reset owns `$C9A7-$C9BC`.
+  Direct PPU nametable clearing and its descriptor table own `$C9BD-$CA3B`.
   Non-Dana object-pool state and teardown sweeps own `$CA3C-$CA4E` and
   `$CA5A-$CA6D`, around the pointer resolver at `$CA4F-$CA59`.
+  Full clearing of both physical nametables owns `$CB6F-$CBA5`.
   Pixel/room-map conversion owns `$918A-$91B8` and all 31 callers use symbols.
   Object surface clamps own `$8A62-$8AA3`.
   Context 2's pause loop owns `$8E47-$8E8C`, the sound-effect request queue
@@ -179,6 +182,7 @@ src/system/ppu_update_buffer.asm publish shared RAM program to NMI
 src/system/jump_with_params.asm inline appendix tail-dispatch ABI
 src/system/masked_ram_wait.asm cooperative masked zero-page waits
 src/system/secondary_thread_reset.asm stop other contexts during transitions
+src/game/room_transition_reset.asm shared transition context and state reset
 src/game/object_y_clamp.asm align object Y to a 16-pixel surface
 src/game/object_x_left_clamp.asm clamp object X against its left surface
 src/game/coordinate_conversion.asm pixel and packed room-index conversion

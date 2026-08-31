@@ -28,11 +28,11 @@ file. The audit is part of `make release-check`.
 Accepted baseline after the first split:
 
 ```text
-semantic modules            37
-documented PRG bytes      2518 / 32768 (7.684%)
-generated address labels   715
-raw control-flow targets   387
-preservation lines       10621
+semantic modules            41
+documented PRG bytes      2722 / 32768 (8.307%)
+generated address labels   710
+raw control-flow targets   369
+preservation lines       10516
 ```
 
 These are non-regression bounds, not a completion claim. As reconstruction
@@ -107,8 +107,17 @@ decrease.
   digits and is gated by `GameStateFlags` bit 0;
 - `$C756-$C789`: six transition paths stop all other secondary contexts and
   clear the pending-start area through one shared reset helper;
+- `$C9A7-$C9BC`: the larger `$C78A` transition scene shares one context,
+  gameplay-flag, fireball, and sound reset helper across two paths;
+- `$C9BD-$CA32`: two public wrappers select descriptor-driven direct PPU
+  nametable clears, followed by their three records at `$CA33-$CA3B`;
+- classifying `$CA33-$CA3B` as descriptor data removed three false decoded
+  instructions and their four apparent control-flow targets from the legacy
+  preservation inventory;
 - `$CA3C-$CA6D`: two twenty-record state/teardown sweeps bracket
   `LoadObjectPointer`, all using source-owned plus-one pointer table aliases;
+- `$CB6F-$CBA5`: three screen-reset paths share a direct PPU helper that fills
+  both physical nametables with 960 blank tiles and 64 attribute bytes each;
 - split the remaining preservation range into reset/startup, scheduler, room,
   gameplay/object, rendering, audio, static-data, and vector modules at proven
   code/data boundaries;

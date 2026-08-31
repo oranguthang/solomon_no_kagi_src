@@ -20,6 +20,9 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	src/system/ppu_update_buffer.asm src/system/jump_with_params.asm \
 	src/system/masked_ram_wait.asm \
 	src/system/secondary_thread_reset.asm \
+	src/game/room_transition_reset.asm \
+	src/graphics/nametable_clear.asm src/data/nametable_clear.asm \
+	src/graphics/full_nametable_clear.asm \
 	src/game/object_y_clamp.asm \
 	src/game/object_x_left_clamp.asm \
 	src/game/main_thread.asm src/game/timer.asm \

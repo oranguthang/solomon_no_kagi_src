@@ -7,6 +7,7 @@ WaitMaskAddressBase = $0000
 InventoryItemSlotPattern = $0000
 InventorySlotMask = $0001
 TempPointer02 = $0002
+NametableClearWidth = $0002
 RemainingInventorySlots = $0003
 TempPointer04 = $0004
 CoordinateY = $0004

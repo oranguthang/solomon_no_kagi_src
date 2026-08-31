@@ -30,8 +30,12 @@ Item score tables and the shared auxiliary-effect initializer own
 `$C710-$C73A`.
 Shared decimal score addition owns `$C73B-$C755`.
 Secondary-context transition reset owns `$C756-$C789`.
+The shared room-transition state reset owns `$C9A7-$C9BC`.
+Descriptor-driven direct PPU nametable clearing owns `$C9BD-$CA32`, followed
+by its three nine-byte descriptor records at `$CA33-$CA3B`.
 Non-Dana object state maintenance owns `$CA3C-$CA6D`, split into two sweep
 routines around the shared pointer resolver.
+Full clearing of both physical nametables owns `$CB6F-$CBA5`.
 `src/preservation/prg.asm` owns the unresolved ranges
 between and after those modules. `src/graphics/chr.asm` includes the ignored CHR payload created by
 `make split`; no CHR bytes are kept in Git.
@@ -86,11 +90,16 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_AUXILIARY_EFFECT` | shared auxiliary-object effect initializer | 35 |
 | `PRG_SCORE_ADDITION` | gated unpacked-decimal score addition | 27 |
 | `PRG_SECONDARY_THREAD_RESET` | stop other secondary contexts for transitions | 52 |
-| `PRG_POST_SECONDARY_THREAD_RESET` | unresolved `$C78A-$CA3B` range | 690 |
+| `PRG_POST_SECONDARY_THREAD_RESET` | unresolved transition flow `$C78A-$C9A6` | 541 |
+| `PRG_ROOM_TRANSITION_RESET` | shared transition context/flag/fireball reset | 22 |
+| `PRG_NAMETABLE_CLEAR` | descriptor-driven tile and attribute clearing | 118 |
+| `PRG_NAMETABLE_CLEAR_DATA` | three width/start/row-count descriptors | 9 |
 | `PRG_SET_ACTIVE_OBJECT_STATES` | conditional non-Dana state sweep | 19 |
 | `PRG_LOAD_OBJECT_POINTER` | non-Dana object pointer resolver | 11 |
 | `PRG_DEACTIVATE_NON_DANA_OBJECTS` | whole non-Dana object teardown | 20 |
-| `PRG_POST_NON_DANA_OBJECT_DEACTIVATION` | unresolved `$CA6E-$FFFF` range | 13,714 |
+| `PRG_POST_NON_DANA_OBJECT_DEACTIVATION` | unresolved `$CA6E-$CB6E` range | 257 |
+| `PRG_FULL_NAMETABLE_CLEAR` | blank both tile planes and initialize attributes | 55 |
+| `PRG_POST_FULL_NAMETABLE_CLEAR` | unresolved `$CBA6-$FFFF` range | 13,402 |
 | `PRG_BANK_1` | generated CHR payload (historical name) | 32,768 |
 
 This unusual naming is documented in `config/linker/cnrom.cfg`. Renaming a

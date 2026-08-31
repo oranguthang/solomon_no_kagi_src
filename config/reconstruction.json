@@ -476,6 +476,44 @@
       ]
     },
     {
+      "id": "room_transition_reset",
+      "path": "src/game/room_transition_reset.asm",
+      "segment": "PRG_ROOM_TRANSITION_RESET",
+      "start": "0xc9a7",
+      "end": "0xc9bc",
+      "status": "semantic",
+      "required_labels": [
+        "ResetRoomTransitionState"
+      ]
+    },
+    {
+      "id": "nametable_clear",
+      "path": "src/graphics/nametable_clear.asm",
+      "segment": "PRG_NAMETABLE_CLEAR",
+      "start": "0xc9bd",
+      "end": "0xca32",
+      "status": "semantic",
+      "required_labels": [
+        "Clear30x24NametableRegion",
+        "Clear32x26NametableRegion",
+        "ClearNametableRegionFromDescriptor",
+        "ClearNextNametableRow",
+        "WriteBlankNametableTile",
+        "ClearNametableAttributeByte"
+      ]
+    },
+    {
+      "id": "nametable_clear_data",
+      "path": "src/data/nametable_clear.asm",
+      "segment": "PRG_NAMETABLE_CLEAR_DATA",
+      "start": "0xca33",
+      "end": "0xca3b",
+      "status": "semantic",
+      "required_labels": [
+        "NametableClearDescriptors"
+      ]
+    },
+    {
       "id": "active_object_states",
       "path": "src/game/active_object_states.asm",
       "segment": "PRG_SET_ACTIVE_OBJECT_STATES",
@@ -510,14 +548,28 @@
         "DeactivateAllNonDanaObjects",
         "DeactivateNextNonDanaObject"
       ]
+    },
+    {
+      "id": "full_nametable_clear",
+      "path": "src/graphics/full_nametable_clear.asm",
+      "segment": "PRG_FULL_NAMETABLE_CLEAR",
+      "start": "0xcb6f",
+      "end": "0xcba5",
+      "status": "semantic",
+      "required_labels": [
+        "ClearBothNametables",
+        "ClearFullNametable",
+        "WriteFullNametableByte",
+        "SelectNametableFillPhase"
+      ]
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 37,
-    "minimum_documented_prg_bytes": 2518,
-    "minimum_provenance_entries": 169,
-    "maximum_preservation_lines": 10621,
-    "maximum_generated_labels": 715,
-    "maximum_raw_control_flow_targets": 387
+    "minimum_semantic_modules": 41,
+    "minimum_documented_prg_bytes": 2722,
+    "minimum_provenance_entries": 181,
+    "maximum_preservation_lines": 10516,
+    "maximum_generated_labels": 710,
+    "maximum_raw_control_flow_targets": 369
   }
 }
