@@ -29,8 +29,8 @@ MainGameplayThread:
     JSR $91A3
     LDA #$1C
     STA $07
-    JSR $A3D7
-    JSR $A3F8
+    JSR InitializeEnemy
+    JSR ConfigureEnemyType
 
 ContinueMainGameplayThread:
     JMP MainGameplayThread

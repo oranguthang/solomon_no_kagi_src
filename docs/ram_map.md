@@ -6,6 +6,7 @@ range is understood.
 | Address / range | Working meaning | Confidence |
 | --- | --- | --- |
 | `$0000-$000F` | temporary pointers and scratch values | high |
+| `$0004-$0007` | spawn Y, X, slot index, and type calling convention | high |
 | `$0012-$0019` | saved SP values for eight cooperative contexts | high |
 | `$001A-$001B` | NMI-consumed PPU update-stream pointer | confirmed |
 | `$0023` | shared pending gameplay/timer update count | high |

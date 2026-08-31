@@ -28,11 +28,11 @@ file. The audit is part of `make release-check`.
 Accepted baseline after the first split:
 
 ```text
-semantic modules             9
-documented PRG bytes      1376 / 32768 (4.199%)
-generated address labels   761
-raw control-flow targets   597
-preservation lines       11276
+semantic modules            12
+documented PRG bytes      1522 / 32768 (4.645%)
+generated address labels   757
+raw control-flow targets   588
+preservation lines       11195
 ```
 
 These are non-regression bounds, not a completion claim. As reconstruction
@@ -59,6 +59,12 @@ decrease.
   in `src/game/enemy_ai_dispatch.asm`;
 - `$A3A4-$A3D6`: fireball lifetime comparison, expiration, and delayed object
   cleanup are isolated in `src/game/fireball_lifetime.asm`;
+- `$A3D7-$A3F7`: parallel AI/object slot initialization and coordinate setup
+  are isolated in `src/game/enemy_initialization.asm`;
+- `$A3F8-$A44D`: spawn-type decoding and conditional object/AI configuration
+  are isolated in `src/game/enemy_type_configuration.asm`;
+- `$A44E-$A468`: the directly indexed 27-byte enemy-type flag table is
+  isolated in `src/data/enemy_types.asm`;
 - split the remaining preservation range into reset/startup, scheduler, room,
   gameplay/object, rendering, audio, static-data, and vector modules at proven
   code/data boundaries;

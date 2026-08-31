@@ -78,6 +78,22 @@ expired when its 16-bit counter passes the configured lifetime; the object is
 retired only after a short low-counter grace interval. This state transition is
 isolated from the later object initialization and rendering helpers.
 
+Allocated enemy slots use a shared zero-page spawn contract. `InitializeEnemy`
+clears AI-record offsets 1-3 and writes converted coordinates into the matching
+object record before a separate type-specific service configures behavior and
+rendering. This confirms the parallel-record initialization order without yet
+assigning names to every field.
+
+`ConfigureEnemyType` then decodes the spawn type through a compact table,
+configures object state through a shared helper, and conditionally seeds the
+last two bytes of the parallel AI record. Existing slots can also pass through
+this stage without repeating coordinate initialization, so position setup and
+type configuration are intentionally separate services.
+
+The type decoder's compact 27-byte flag table is now source-owned separately
+from executable code. Its size is assembly-asserted, while individual bit
+names remain deferred until all consuming helpers are understood.
+
 ## Countdown timer
 
 The gameplay thread consumes pending timer ticks through `DecrementTimer`.

@@ -636,6 +636,70 @@
       "evidence": [
         "All inactive, unexpired, expiration, and cleanup paths converge on this RTS."
       ]
+    },
+    {
+      "address": "0xa3d7",
+      "previous": "$A3D7",
+      "current": "InitializeEnemy",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map identifies this entry as InitializeEnemy.",
+        "Four call sites supply a slot index and converted Y/X values; the routine clears three AI fields and stores the coordinates in the matching object record."
+      ]
+    },
+    {
+      "address": "0xa3df",
+      "previous": "_label_bank0_a3df",
+      "current": "ClearEnemyAiStateFields",
+      "confidence": "confirmed",
+      "evidence": [
+        "The three-iteration loop writes zero to offsets 1, 2, and 3 of the selected enemy AI record."
+      ]
+    },
+    {
+      "address": "0xa3f8",
+      "previous": "$A3F8",
+      "current": "ConfigureEnemyType",
+      "confidence": "high",
+      "evidence": [
+        "Five call sites provide a spawn slot and type; the routine decodes the type through $A44E and writes configuration into the matching object and optional AI record."
+      ]
+    },
+    {
+      "address": "0xa416",
+      "previous": "_label_bank0_a416",
+      "current": "DecodeEnemyTypeFlags",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both low-bit paths converge here to combine the shifted table value with a selected $C0 or $E0 base."
+      ]
+    },
+    {
+      "address": "0xa431",
+      "previous": "_label_bank0_a431",
+      "current": "ApplyEnemyTypeConfiguration",
+      "confidence": "high",
+      "evidence": [
+        "The decoded variant paths converge here before calling $9D99 and conditionally configuring AI offsets 6 and 7."
+      ]
+    },
+    {
+      "address": "0xa44d",
+      "previous": "_label_bank0_a44d",
+      "current": "FinishEnemyTypeConfiguration",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both the no-AI-field path and the completed AI-field path return through this RTS."
+      ]
+    },
+    {
+      "address": "0xa44e",
+      "previous": "$A44E",
+      "current": "EnemyTypeConfigurationTable",
+      "confidence": "confirmed",
+      "evidence": [
+        "ConfigureEnemyType indexes this 27-byte table with (SpawnType - $18) / 4; room types $80/$81 require final index 26, proving the byte at $A468 belongs to the table."
+      ]
     }
   ]
 }

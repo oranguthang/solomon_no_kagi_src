@@ -5,6 +5,10 @@
 TempPointer00 = $0000
 TempPointer02 = $0002
 TempPointer04 = $0004
+SpawnYPosition = $0004
+SpawnXPosition = $0005
+SpawnSlotIndex = $0006
+SpawnType = $0007
 TempPointer08 = $0008
 TempPointer0A = $000A
 TempPointer0C = $000C

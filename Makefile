@@ -18,6 +18,9 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/startup.asm \
 	src/game/timer_display.asm src/game/enemy_movement.asm \
 	src/game/enemy_ai_dispatch.asm \
 	src/game/fireball_lifetime.asm \
+	src/game/enemy_initialization.asm \
+	src/game/enemy_type_configuration.asm \
+	src/data/enemy_types.asm \
 	src/preservation/prg.asm \
 	src/graphics/chr.asm src/memory/hardware.inc src/memory/ram.inc
 

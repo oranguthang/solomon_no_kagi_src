@@ -131,14 +131,51 @@
         "CheckInactiveFireballCleanup",
         "FinishFireballLifetimeUpdate"
       ]
+    },
+    {
+      "id": "enemy_initialization",
+      "path": "src/game/enemy_initialization.asm",
+      "segment": "PRG_ENEMY_INITIALIZATION",
+      "start": "0xa3d7",
+      "end": "0xa3f7",
+      "status": "semantic",
+      "required_labels": [
+        "InitializeEnemy",
+        "ClearEnemyAiStateFields"
+      ]
+    },
+    {
+      "id": "enemy_type_configuration",
+      "path": "src/game/enemy_type_configuration.asm",
+      "segment": "PRG_ENEMY_TYPE_CONFIGURATION",
+      "start": "0xa3f8",
+      "end": "0xa44d",
+      "status": "semantic",
+      "required_labels": [
+        "ConfigureEnemyType",
+        "DecodeEnemyTypeFlags",
+        "ApplyEnemyTypeConfiguration",
+        "FinishEnemyTypeConfiguration"
+      ]
+    },
+    {
+      "id": "enemy_type_data",
+      "path": "src/data/enemy_types.asm",
+      "segment": "PRG_ENEMY_TYPE_DATA",
+      "start": "0xa44e",
+      "end": "0xa468",
+      "status": "semantic",
+      "required_labels": [
+        "EnemyTypeConfigurationTable"
+      ]
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 9,
-    "minimum_documented_prg_bytes": 1376,
-    "minimum_provenance_entries": 70,
-    "maximum_preservation_lines": 11276,
-    "maximum_generated_labels": 761,
-    "maximum_raw_control_flow_targets": 597
+    "minimum_semantic_modules": 12,
+    "minimum_documented_prg_bytes": 1522,
+    "minimum_provenance_entries": 77,
+    "maximum_preservation_lines": 11195,
+    "maximum_generated_labels": 757,
+    "maximum_raw_control_flow_targets": 588
   }
 }

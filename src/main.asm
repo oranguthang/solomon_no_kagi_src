@@ -32,5 +32,8 @@
 .include "game/enemy_movement.asm"
 .include "game/enemy_ai_dispatch.asm"
 .include "game/fireball_lifetime.asm"
+.include "game/enemy_initialization.asm"
+.include "game/enemy_type_configuration.asm"
+.include "data/enemy_types.asm"
 .include "preservation/prg.asm"
 .include "graphics/chr.asm"

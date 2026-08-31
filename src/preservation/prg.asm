@@ -2720,8 +2720,8 @@ _label_bank0_9639:
     INC $02
     STA $04
     JSR $91A3
-    JSR $A3D7
-    JSR $A3F8
+    JSR InitializeEnemy
+    JSR ConfigureEnemyType
     LDY $02
     BNE _label_bank0_9639
 
@@ -4032,7 +4032,7 @@ _label_bank0_a06d:
 
 _label_bank0_a080:
     STA $07
-    JSR $A3F8
+    JSR ConfigureEnemyType
 
 _label_bank0_a085:
     ASL $02
@@ -4052,7 +4052,7 @@ _label_bank0_a08e:
 
 _label_bank0_a0a1:
     STA $07
-    JSR $A3F8
+    JSR ConfigureEnemyType
 
 _label_bank0_a0a6:
     RTS
@@ -4157,7 +4157,7 @@ _label_bank0_a131:
     STA $04
     LDA $0443,X
     STA $05
-    JSR $A3D7
+    JSR InitializeEnemy
     LDA #$04
     STA $05
     LDA #$C6
@@ -4269,88 +4269,7 @@ _label_bank0_a389:
     .byte $20
 
 .segment "PRG_BANK_0"
-    LDA $06
-    JSR $B296
-    LDY #$00
-    TYA
-
-_label_bank0_a3df:
-    INY
-    STA ($00),Y
-    CPY #$03
-    BNE _label_bank0_a3df
-    LDA $06
-    JSR $B28A
-    LDY #$07
-    LDA $04
-    STA ($00),Y
-    LDY #$0A
-    LDA $05
-    STA ($00),Y
-    RTS
-
-    LDA $06
-    JSR $B28A
-    LDA $07
-    STA $05
-    AND #$03
-    TAX
-    LDA $05
-    SEC
-    SBC #$18
-    LSR A
-    LSR A
-    TAY
-    LDA $A44E,Y
-    LDY #$E0
-    LSR A
-    BCC _label_bank0_a416
-    LDY #$C0
-
-_label_bank0_a416:
-    STY $04
-    TAY
-    ASL A
-    AND #$06
-    ORA $04
-    STA $04
-    TYA
-    LSR A
-    LSR A
-    LSR A
-    PHA
-    BCS _label_bank0_a431
-    LDA #$80
-    LDY #$05
-    STA ($00),Y
-    TXA
-    ORA #$18
-    TAX
-
-_label_bank0_a431:
-    TXA
-    JSR $9D99
-    PLA
-    LSR A
-    BCC _label_bank0_a44d
-    LDA $06
-    JSR $B296
-    LDA $07
-    AND #$03
-    LDY #$06
-    STA ($00),Y
-    INY
-    EOR #$02
-    AND #$02
-    STA ($00),Y
-
-_label_bank0_a44d:
-    RTS
-
-    .byte $0b, $0a, $09, $08, $19
-    .byte $19, $09, $09, $09, $09, $09, $09, $09, $09, $00, $00, $00, $00, $00, $00, $00
-    .byte $00, $00, $00, $00, $00
-    .byte $06, $4a, $4a, $20, $a9, $8e, $b3, $a4, $dd, $a5, $40
+    .byte $4a, $4a, $20, $a9, $8e, $b3, $a4, $dd, $a5, $40
     .byte $a8, $fb, $b0, $8c, $a6, $69, $aa, $6d, $aa, $37, $ad, $37, $ad, $37, $ad, $37
     .byte $ad, $37, $ad, $37, $ad, $37, $ad, $37, $ad, $48, $b3, $48, $b3, $48, $b3, $78
     .byte $b1, $78, $b1, $78, $b1, $8a, $a7, $8a, $a7, $51, $ae, $51, $ae, $5c, $af, $5c
@@ -7059,8 +6978,8 @@ _label_bank0_b930:
     JSR $91A3
     LDA #$18
     STA $07
-    JSR $A3D7
-    JSR $A3F8
+    JSR InitializeEnemy
+    JSR ConfigureEnemyType
     RTS
 
     RTS
