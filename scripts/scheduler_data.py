@@ -121,7 +121,35 @@ def load_manifest(path: Path) -> dict[str, Any]:
     return value
 
 
-def validate_report(report: dict[str, object], manifest: dict[str, Any]) -> list[str]:
+def compare_entry(
+    actual: dict[str, int],
+    expected: dict[str, Any],
+    description: str,
+) -> list[str]:
+    errors: list[str] = []
+    code = int(str(expected.get("code")), 0)
+    for field in (
+        "context",
+        "selector",
+        "base",
+        "pointer_address",
+        "return_address",
+        "entry",
+    ):
+        expected_value = int(str(expected.get(field)), 0)
+        if actual[field] != expected_value:
+            errors.append(
+                f"{description} ${code:02X} {field} differs: "
+                f"got ${actual[field]:X}, expected ${expected_value:X}"
+            )
+    return errors
+
+
+def validate_report(
+    report: dict[str, object],
+    manifest: dict[str, Any],
+    prg: bytes | None = None,
+) -> list[str]:
     errors: list[str] = []
     expected_stacks = manifest.get("initial_stack_pointers")
     if report["initial_stack_pointers"] != expected_stacks:
@@ -141,20 +169,7 @@ def validate_report(report: dict[str, object], manifest: dict[str, Any]) -> list
         if actual is None:
             errors.append(f"expected static thread code is absent from source: ${code:02X}")
             continue
-        for field in (
-            "context",
-            "selector",
-            "base",
-            "pointer_address",
-            "return_address",
-            "entry",
-        ):
-            expected_value = int(str(expected.get(field)), 0)
-            if actual[field] != expected_value:
-                errors.append(
-                    f"thread code ${code:02X} {field} differs: "
-                    f"got ${actual[field]:X}, expected ${expected_value:X}"
-                )
+        errors.extend(compare_entry(actual, expected, "thread code"))
     extra_codes = set(actual_entries) - expected_codes
     if extra_codes:
         errors.append(
@@ -173,6 +188,25 @@ def validate_report(report: dict[str, object], manifest: dict[str, Any]) -> list
             f"dynamic StartThread call count differs: got {report['dynamic_call_count']}, "
             f"expected {expected_dynamic}"
         )
+    reviewed_entries = manifest.get("reviewed_dynamic_entries", [])
+    if not isinstance(reviewed_entries, list):
+        errors.append("reviewed_dynamic_entries must be a list")
+    elif reviewed_entries and prg is None:
+        errors.append("PRG is required to validate reviewed dynamic entries")
+    elif prg is not None:
+        reviewed_codes: set[int] = set()
+        for expected in reviewed_entries:
+            code = int(str(expected.get("code")), 0)
+            if code in reviewed_codes:
+                errors.append(f"duplicate reviewed dynamic thread code: ${code:02X}")
+                continue
+            reviewed_codes.add(code)
+            try:
+                actual = decode_thread_code(prg, code)
+            except RoomDataError as exc:
+                errors.append(f"cannot decode reviewed dynamic thread code ${code:02X}: {exc}")
+                continue
+            errors.extend(compare_entry(actual, expected, "reviewed dynamic thread code"))
     return errors
 
 
@@ -191,7 +225,8 @@ def main() -> int:
             print(json.dumps(report, indent=2, sort_keys=True))
             return 0
         manifest_path = args.manifest or root / "config" / "scheduler_entries.json"
-        errors = validate_report(report, load_manifest(manifest_path))
+        manifest = load_manifest(manifest_path)
+        errors = validate_report(report, manifest, prg)
     except (OSError, ValueError, KeyError, json.JSONDecodeError, RoomDataError) as exc:
         print(f"[ERROR] {exc}", file=sys.stderr)
         return 1
@@ -200,10 +235,13 @@ def main() -> int:
             print(f"[ERROR] {error}", file=sys.stderr)
         print(f"[FAIL] Scheduler data audit found {len(errors)} error(s)", file=sys.stderr)
         return 1
+    reviewed_count = len(manifest.get("reviewed_dynamic_entries", []))
+    reviewed_noun = "entry" if reviewed_count == 1 else "entries"
     print(
         f"[OK] Scheduler tables: {len(report['entries'])} static codes, "
         f"{report['static_call_count']} immediate calls, "
-        f"{report['dynamic_call_count']} dynamic calls"
+        f"{report['dynamic_call_count']} dynamic calls, "
+        f"{reviewed_count} reviewed dynamic {reviewed_noun}"
     )
     return 0
 

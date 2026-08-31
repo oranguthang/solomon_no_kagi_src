@@ -27,7 +27,7 @@ the iNES header, PRG, CHR, headerless payload, full image, and extracted CHR.
 | `verify` | aggregate of every target above |
 | `rom-info` | print and validate identities for original and built images |
 | `roundtrip-formats` | losslessly decode/encode all room records and pointer tables |
-| `scheduler-audit` | check scheduler stacks, static entries, and StartThread call counts |
+| `scheduler-audit` | check stacks, static/reviewed dynamic entries, and call counts |
 | `enemy-ai-audit` | check all 28 inline enemy-AI handler pointers |
 | `release-check` | lint, tests, verification, room round trips, reconstruction, scheduler, and AI audits |
 | `check` | alias for `release-check` |
@@ -42,7 +42,8 @@ semantic module ranges against the linker map and provenance-ledger addresses
 against the ld65 label file. Byte comparison proves output fidelity; this
 separate audit proves that reported reconstruction progress matches the built
 artifacts. `make scheduler-audit` separately binds packed `StartThread` codes
-and their RTS-derived entry addresses to a reviewed manifest.
+and their RTS-derived entry addresses to a reviewed manifest, including known
+targets reached through dynamically selected codes.
 `make enemy-ai-audit` applies the same reviewed-manifest contract to the
 inline `JumpWithParams` handler appendix.
 

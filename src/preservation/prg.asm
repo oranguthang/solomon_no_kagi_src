@@ -1778,53 +1778,6 @@ _label_bank0_8bb8:
     .byte $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $ff, $00, $ff
     .byte $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00
 
-.segment "PRG_PRE_MAIN_THREAD"
-
-    LDY #$0C
-    JSR AddSoundEffect
-    LDX #$00
-    STX $22
-    INX
-
-_label_bank0_8e51:
-    JSR $8E84
-    LDA $22
-    CMP #$28
-    BCC _label_bank0_8e51
-    LDA #$04
-    ORA $78
-    STA $78
-
-_label_bank0_8e60:
-    JSR $8E84
-    TXA
-    BNE _label_bank0_8e60
-
-_label_bank0_8e66:
-    LDA $03E4
-    AND #$10
-    BEQ _label_bank0_8e66
-    TAX
-
-_label_bank0_8e6e:
-    JSR $8E84
-    TXA
-    BNE _label_bank0_8e6e
-    LDA #$F9
-    AND $78
-    STA $78
-    LDY #$0E
-    JSR AddSoundEffect
-    LDA #$02
-    JSR StopThread
-    LDA $03E4
-    AND #$10
-    BNE _label_bank0_8e8c
-    TAX
-
-_label_bank0_8e8c:
-    RTS
-
 .segment "PRG_POST_JUMP_WITH_PARAMS"
 
     .byte $3f, $00, $5f

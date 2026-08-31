@@ -119,7 +119,9 @@ ThreadEntryTableBases:
     .byte $3b, $8e, $43, $8e, $45, $8e, $1d, $90
     .byte $79, $9b, $6c, $9a, $04, $9b, $e3, $8e
     .byte $20, $90, $51, $c8, $6d, $ca, $09, $cb
-    .byte $9e, $8e, $46, $8e, $2a, $cb, $ff, $9f
+    .byte $9e, $8e
+    .addr PauseGameThread - 1
+    .byte $2a, $cb, $ff, $9f
     .byte $e6, $c7, $86, $c5, $89, $c7, $3b, $c2
     .byte $31, $c8, $94, $c3, $85, $c3, $97, $c3
     .byte $88, $c3, $ff, $c0, $ff, $b7

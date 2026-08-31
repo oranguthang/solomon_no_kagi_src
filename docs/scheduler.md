@@ -50,6 +50,10 @@ static codes occur in 18 immediate call sites, plus three calls whose A value
 is selected dynamically. See `docs/scheduler_entries.md` for the complete
 context/selector/return/entry table and the important RTS-plus-one convention.
 
+One dynamically selected target is independently identified: context 2
+selector 1, packed code `$21`, stores `$8E46` and enters `PauseGameThread` at
+`$8E47`. The semantic pointer is emitted as `PauseGameThread - 1` in the table.
+
 ## Remaining evidence work
 
 The mechanics and static entry targets above are confirmed by instruction flow

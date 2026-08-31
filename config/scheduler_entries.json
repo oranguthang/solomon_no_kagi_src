@@ -3,6 +3,17 @@
   "initial_stack_pointers": [252, 220, 188, 156, 124, 92, 60, 28],
   "static_call_count": 18,
   "dynamic_call_count": 3,
+  "reviewed_dynamic_entries": [
+    {
+      "code": "0x21",
+      "context": "0x2",
+      "selector": "0x1",
+      "base": "0x8e29",
+      "pointer_address": "0x8e2b",
+      "return_address": "0x8e46",
+      "entry": "0x8e47"
+    }
+  ],
   "static_entries": [
     {
       "code": "0x10",

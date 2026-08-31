@@ -2,10 +2,11 @@
 
 `src/main.asm` owns the CPU selection, iNES header, hardware/RAM registries, and
 address-ordered includes. Semantic system modules own NMI at `$8000-$80FE`,
-startup at `$8C00-$8D5E`, the scheduler at `$8D5F-$8E46`, sound-effect request
-queuing at `$8E8D-$8E9F`, PPU update-buffer publication at `$8EA0-$8EA8`,
-inline appendix dispatch at `$8EA9-$8EBF`, room-map coordinate conversion at
-`$918A-$91B8`, and the main gameplay thread at `$A000-$A04B`.
+startup at `$8C00-$8D5E`, the scheduler at `$8D5F-$8E46`, context 2's pause
+loop at `$8E47-$8E8C`, sound-effect request queuing at `$8E8D-$8E9F`, PPU
+update-buffer publication at `$8EA0-$8EA8`, inline appendix dispatch at
+`$8EA9-$8EBF`, room-map coordinate conversion at `$918A-$91B8`, and the main
+gameplay thread at `$A000-$A04B`.
 Timer logic owns `$A15F-$A225`, and its display builder
 at `$A238-$A273`, followed by the enemy movement prepass at `$A274-$A2DB`.
 The adjacent AI dispatcher owns `$A2DC-$A30B`.
@@ -33,7 +34,7 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_PRE_STARTUP` | unresolved `$80FF-$8BFF` range | 2,817 |
 | `PRG_STARTUP` | reset and startup module | 351 |
 | `PRG_SCHEDULER` | cooperative scheduler and entry tables | 232 |
-| `PRG_PRE_MAIN_THREAD` | unresolved `$8E47-$8E8C` range | 70 |
+| `PRG_PAUSE_THREAD` | context-two pause and Start debounce loop | 70 |
 | `PRG_SOUND_EFFECT_QUEUE` | three-slot sound-effect request producer | 19 |
 | `PRG_PPU_UPDATE_BUFFER` | shared RAM update-program publication | 9 |
 | `PRG_JUMP_WITH_PARAMS` | inline appendix tail dispatcher | 23 |

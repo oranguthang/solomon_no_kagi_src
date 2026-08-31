@@ -218,6 +218,7 @@ def command_lint(_args: argparse.Namespace) -> None:
         "docs/fireball_lifetime.md",
         "docs/main_gameplay_thread.md",
         "docs/nmi.md",
+        "docs/pause_thread.md",
         "docs/scheduler.md",
         "docs/scheduler_entries.md",
         "docs/startup.md",
@@ -231,6 +232,7 @@ def command_lint(_args: argparse.Namespace) -> None:
         "scripts/verify_rom.py",
         "src/main.asm",
         "src/system/nmi.asm",
+        "src/system/pause_thread.asm",
         "src/system/scheduler.asm",
         "src/system/startup.asm",
         "src/game/main_thread.asm",
@@ -294,6 +296,11 @@ def command_lint(_args: argparse.Namespace) -> None:
         "src/system/ppu_update_buffer.asm": (
             '.segment "PRG_PPU_UPDATE_BUFFER"',
             "PublishPpuUpdateBuffer:",
+        ),
+        "src/system/pause_thread.asm": (
+            '.segment "PRG_PAUSE_THREAD"',
+            "PauseGameThread:",
+            "ClearStartLatchWhenReleased:",
         ),
         "src/system/sound_effect_queue.asm": (
             '.segment "PRG_SOUND_EFFECT_QUEUE"',

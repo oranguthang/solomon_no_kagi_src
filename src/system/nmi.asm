@@ -120,7 +120,7 @@ _label_bank0_80ca:
     JMP $80CF
 
 _label_bank0_80cd:
-    INC $22
+    INC NmiFrameCounter
     JSR $84CE
     JSR $837D
     LDA $78

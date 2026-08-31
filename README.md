@@ -14,7 +14,7 @@ evidence, and small tested tools for decoded game data.
   entrypoint; CHR is a private generated asset and is not stored in Git.
 - Confirmed NES registers and high-confidence RAM aliases are separated into
   `src/memory/`.
-- Twenty-three semantic PRG modules own NMI (`$8000-$80FE`), reset/startup
+- Twenty-four semantic PRG modules own NMI (`$8000-$80FE`), reset/startup
   (`$8C00-$8D5E`), the cooperative scheduler (`$8D5F-$8E46`), and the main
   gameplay thread (`$A000-$A04B`), plus countdown timer arithmetic and warning
   transitions (`$A15F-$A225`), its HUD update builder (`$A238-$A273`), and
@@ -29,9 +29,9 @@ evidence, and small tested tools for decoded game data.
   `$B446-$B491`, and slot deactivation owns `$B492-$B4B5`.
   Current-record deactivation follows at `$B4B6-$B4C3`.
   Pixel/room-map conversion owns `$918A-$91B8` and all 31 callers use symbols.
-  The sound-effect request queue owns `$8E8D-$8E9F`, shared PPU-buffer
-  publication owns `$8EA0-$8EA8`, and the inline appendix dispatcher is
-  source-owned at `$8EA9-$8EBF`.
+  Context 2's pause loop owns `$8E47-$8E8C`, the sound-effect request queue
+  owns `$8E8D-$8E9F`, shared PPU-buffer publication owns `$8EA0-$8EA8`, and
+  the inline appendix dispatcher is source-owned at `$8EA9-$8EBF`.
 - `make reconstruction-status` reports monotonic cleanup metrics, while
   `make reconstruction-audit` binds module ranges and renamed labels to linker
   output.
@@ -115,7 +115,7 @@ make quality-check # lint and test without requiring a reference ROM
 make reconstruction-status # report semantic coverage and remaining raw source
 make reconstruction-audit # validate module ranges, provenance, and thresholds
 make scheduler-report # decode scheduler stack and entry tables as JSON
-make scheduler-audit # check entries and StartThread call inventory
+make scheduler-audit # check static/reviewed dynamic entries and call inventory
 make enemy-ai-report # decode the 28-entry AI handler appendix
 make enemy-ai-audit # compare every handler pointer with its reviewed manifest
 make enemy-pointer-report # decode the split object/AI record pointer tables
@@ -161,6 +161,7 @@ src/main.asm               assembly entrypoint and iNES header
 src/system/nmi.asm         semantic `$8000-$80FE` vertical-blank module
 src/system/startup.asm     reset, warm-boot state, PPU and thread bootstrap
 src/system/scheduler.asm   eight-context cooperative stack scheduler
+src/system/pause_thread.asm context-two Start-button pause loop
 src/system/sound_effect_queue.asm three-slot sound command producer
 src/system/ppu_update_buffer.asm publish shared RAM program to NMI
 src/system/jump_with_params.asm inline appendix tail-dispatch ABI

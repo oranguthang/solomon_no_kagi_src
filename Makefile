@@ -14,7 +14,8 @@ LABELS := $(BUILD_DIR)/solomons_key.lbl
 MAP := $(BUILD_DIR)/solomons_key.map
 DEBUG := $(BUILD_DIR)/solomons_key.dbg
 SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/startup.asm \
-	src/system/scheduler.asm src/system/sound_effect_queue.asm \
+	src/system/scheduler.asm src/system/pause_thread.asm \
+	src/system/sound_effect_queue.asm \
 	src/system/ppu_update_buffer.asm src/system/jump_with_params.asm \
 	src/game/main_thread.asm src/game/timer.asm \
 	src/game/coordinate_conversion.asm \

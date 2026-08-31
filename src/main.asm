@@ -26,6 +26,7 @@
 .include "system/nmi.asm"
 .include "system/startup.asm"
 .include "system/scheduler.asm"
+.include "system/pause_thread.asm"
 .include "system/sound_effect_queue.asm"
 .include "system/ppu_update_buffer.asm"
 .include "system/jump_with_params.asm"

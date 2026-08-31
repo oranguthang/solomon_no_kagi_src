@@ -344,6 +344,70 @@
       ]
     },
     {
+      "address": "0x8e47",
+      "previous": "$8E47",
+      "current": "PauseGameThread",
+      "confidence": "confirmed",
+      "evidence": [
+        "Scheduler code $21 selects context 2 slot $8E2B containing table word $8E46 and therefore enters this routine at $8E47 through the scheduler's RTS-plus-one convention.",
+        "The routine debounces Start, sets and clears pause-state flags, queues distinct pause/resume sounds, and stops context 2 when resuming."
+      ]
+    },
+    {
+      "address": "0x8e51",
+      "previous": "_label_bank0_8e51",
+      "current": "WaitForPauseDebounce",
+      "confidence": "confirmed",
+      "evidence": [
+        "This loop samples the Start latch until the NMI-incremented frame counter reaches $28."
+      ]
+    },
+    {
+      "address": "0x8e60",
+      "previous": "_label_bank0_8e60",
+      "current": "WaitForInitialStartRelease",
+      "confidence": "confirmed",
+      "evidence": [
+        "After setting the pause flag, this loop continues until the Start-release helper clears X."
+      ]
+    },
+    {
+      "address": "0x8e66",
+      "previous": "_label_bank0_8e66",
+      "current": "WaitForResumeStartPress",
+      "confidence": "confirmed",
+      "evidence": [
+        "The loop reads Joypad1Cached and exits only when JOY_BUTTON_START is nonzero."
+      ]
+    },
+    {
+      "address": "0x8e6e",
+      "previous": "_label_bank0_8e6e",
+      "current": "WaitForResumeStartRelease",
+      "confidence": "confirmed",
+      "evidence": [
+        "This second release loop prevents the resume press from remaining latched before pause flags are cleared."
+      ]
+    },
+    {
+      "address": "0x8e84",
+      "previous": "$8E84",
+      "current": "ClearStartLatchWhenReleased",
+      "confidence": "confirmed",
+      "evidence": [
+        "The helper preserves a nonzero X while cached Start remains pressed and clears X with TAX once Start is released."
+      ]
+    },
+    {
+      "address": "0x8e8c",
+      "previous": "_label_bank0_8e8c",
+      "current": "FinishStartLatchUpdate",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both the still-pressed and released helper paths converge on this RTS."
+      ]
+    },
+    {
       "address": "0x8e8d",
       "previous": "$8E8D",
       "current": "AddSoundEffect",

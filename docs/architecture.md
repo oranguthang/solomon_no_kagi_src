@@ -49,6 +49,11 @@ context/entry selector; `StopThread` resets a context to the idle continuation
 and clears its active bit. See `docs/scheduler.md`,
 `docs/scheduler_entries.md`, and `docs/main_gameplay_thread.md`.
 
+Context 2 selector 1 is now identified as `PauseGameThread`. Scheduler code
+`$21` enters `$8E47`, enforces a `$28`-NMI-tick debounce, waits for distinct
+Start release/press/release phases, then stops context 2 on resume. See
+`docs/pause_thread.md`.
+
 ## Inline appendix dispatch
 
 `JumpWithParams` implements a second important control-flow convention. A

@@ -7,9 +7,10 @@ is always the stored word plus one.
 
 `scripts/scheduler_data.py` extracts these tables from the built PRG and scans
 the assembly source for immediate `StartThread` calls. `make scheduler-audit`
-compares the decoded result with `config/scheduler_entries.json`; any new code,
-changed pointer, stack partition, or static/dynamic call count must be reviewed
-before the manifest is updated.
+compares the decoded result with `config/scheduler_entries.json`, including
+entries independently reviewed behind dynamically selected calls. Any new
+code, changed pointer, stack partition, or static/dynamic call count must be
+reviewed before the manifest is updated.
 
 The currently referenced static entries are:
 
@@ -36,3 +37,9 @@ There are 18 immediate calls using those 16 distinct codes and three calls
 whose accumulator value is selected dynamically. Dynamic calls are recorded
 as a count because static source inspection cannot prove their runtime values.
 
+One additional table slot is independently reconstructed even though its
+caller selects the code dynamically:
+
+| Code | Context | Selector | Base | Slot | Stored return | Entry |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `$21` | 2 | 1 | `$8E29` | `$8E2B` | `$8E46` | `PauseGameThread` (`$8E47`) |

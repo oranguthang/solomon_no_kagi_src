@@ -98,6 +98,70 @@ class SchedulerDataTests(unittest.TestCase):
         errors = validate_report(report, manifest)
         self.assertTrue(any("entry differs" in error for error in errors))
 
+    def test_audit_accepts_reviewed_dynamic_entry(self) -> None:
+        prg = bytearray(32_768)
+        table_base = 0x9000
+        base_offset = prg_offset(THREAD_ENTRY_TABLE_BASES + 4)
+        prg[base_offset : base_offset + 2] = bytes((0x00, 0x90))
+        pointer_offset = prg_offset(table_base + 2)
+        prg[pointer_offset : pointer_offset + 2] = bytes((0x46, 0x8E))
+        reviewed = {
+            "code": 0x21,
+            "context": 2,
+            "selector": 1,
+            "base": table_base,
+            "pointer_address": table_base + 2,
+            "return_address": 0x8E46,
+            "entry": 0x8E47,
+        }
+        report = {
+            "initial_stack_pointers": [0xFC],
+            "static_call_count": 0,
+            "dynamic_call_count": 1,
+            "entries": [],
+        }
+        manifest = {
+            "initial_stack_pointers": [0xFC],
+            "static_call_count": 0,
+            "dynamic_call_count": 1,
+            "static_entries": [],
+            "reviewed_dynamic_entries": [reviewed],
+        }
+        self.assertEqual(validate_report(report, manifest, bytes(prg)), [])
+
+    def test_audit_rejects_changed_reviewed_dynamic_entry(self) -> None:
+        prg = bytearray(32_768)
+        table_base = 0x9000
+        base_offset = prg_offset(THREAD_ENTRY_TABLE_BASES + 4)
+        prg[base_offset : base_offset + 2] = bytes((0x00, 0x90))
+        pointer_offset = prg_offset(table_base + 2)
+        prg[pointer_offset : pointer_offset + 2] = bytes((0x45, 0x8E))
+        report = {
+            "initial_stack_pointers": [0xFC],
+            "static_call_count": 0,
+            "dynamic_call_count": 1,
+            "entries": [],
+        }
+        manifest = {
+            "initial_stack_pointers": [0xFC],
+            "static_call_count": 0,
+            "dynamic_call_count": 1,
+            "static_entries": [],
+            "reviewed_dynamic_entries": [{
+                "code": 0x21,
+                "context": 2,
+                "selector": 1,
+                "base": table_base,
+                "pointer_address": table_base + 2,
+                "return_address": 0x8E46,
+                "entry": 0x8E47,
+            }],
+        }
+        errors = validate_report(report, manifest, bytes(prg))
+        self.assertTrue(
+            any("reviewed dynamic thread code $21 return_address differs" in error for error in errors)
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

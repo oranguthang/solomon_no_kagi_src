@@ -10,7 +10,9 @@ range is understood.
 | `$0004-$0005` | room-map conversion Y/index and X calling convention | confirmed |
 | `$0012-$0019` | saved SP values for eight cooperative contexts | high |
 | `$001A-$001B` | NMI-consumed PPU update-stream pointer | confirmed |
+| `$0022` | NMI-incremented frame counter used by pause debounce | confirmed |
 | `$0023` | shared pending gameplay/timer update count | high |
+| `$0078` | global game-state flags; pause thread modifies bits 1-2 | high |
 | `$0082-$0083` | raw controller values | high |
 | `$0210-$030F` | OAM shadow buffer, 64 four-byte sprites | high |
 | `$0302` | current scheduler context index | high |

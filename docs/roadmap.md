@@ -28,11 +28,11 @@ file. The audit is part of `make release-check`.
 Accepted baseline after the first split:
 
 ```text
-semantic modules            23
-documented PRG bytes      1872 / 32768 (5.713%)
-generated address labels   752
-raw control-flow targets   439
-preservation lines       11045
+semantic modules            24
+documented PRG bytes      1942 / 32768 (5.927%)
+generated address labels   747
+raw control-flow targets   436
+preservation lines       10998
 ```
 
 These are non-regression bounds, not a completion claim. As reconstruction
@@ -47,6 +47,8 @@ decrease.
   bootstrap are isolated in `src/system/startup.asm`;
 - `$8D5F-$8E46`: the eight-context cooperative scheduler and its initial
   stack/entry tables are isolated in `src/system/scheduler.asm`;
+- `$8E47-$8E8C`: context 2 selector 1's Start-button pause/debounce loop is
+  isolated in `src/system/pause_thread.asm`;
 - `$8E8D-$8E9F`: the three-slot sound-effect request producer is isolated in
   `src/system/sound_effect_queue.asm`, with all 34 calls named;
 - `$8EA0-$8EA8`: the shared RAM PPU update-program publisher is isolated in

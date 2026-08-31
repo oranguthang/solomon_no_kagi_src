@@ -37,6 +37,23 @@
       ]
     },
     {
+      "id": "pause_thread",
+      "path": "src/system/pause_thread.asm",
+      "segment": "PRG_PAUSE_THREAD",
+      "start": "0x8e47",
+      "end": "0x8e8c",
+      "status": "semantic",
+      "required_labels": [
+        "PauseGameThread",
+        "WaitForPauseDebounce",
+        "WaitForInitialStartRelease",
+        "WaitForResumeStartPress",
+        "WaitForResumeStartRelease",
+        "ClearStartLatchWhenReleased",
+        "FinishStartLatchUpdate"
+      ]
+    },
+    {
       "id": "sound_effect_queue",
       "path": "src/system/sound_effect_queue.asm",
       "segment": "PRG_SOUND_EFFECT_QUEUE",
@@ -305,11 +322,11 @@
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 23,
-    "minimum_documented_prg_bytes": 1872,
-    "minimum_provenance_entries": 101,
-    "maximum_preservation_lines": 11045,
-    "maximum_generated_labels": 752,
-    "maximum_raw_control_flow_targets": 439
+    "minimum_semantic_modules": 24,
+    "minimum_documented_prg_bytes": 1942,
+    "minimum_provenance_entries": 108,
+    "maximum_preservation_lines": 10998,
+    "maximum_generated_labels": 747,
+    "maximum_raw_control_flow_targets": 436
   }
 }

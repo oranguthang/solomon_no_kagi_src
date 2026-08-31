@@ -27,6 +27,7 @@ ThreadStackPointers = $0012
 ThreadStackPointerCount = 8
 PpuScrollX = $001E
 PpuScrollY = $001F
+NmiFrameCounter = $0022
 ThreadIndex = $0302
 
 PpuCtrlShadow = $0300
@@ -42,6 +43,7 @@ WarmBootDefaultState = $07F6
 
 Joypad1Raw = $0082
 Joypad2Raw = $0083
+GameStateFlags = $0078
 Joypad1Cached = $03E4
 Joypad2Cached = $03E5
 PpuUpdateBuffer = $03E6
