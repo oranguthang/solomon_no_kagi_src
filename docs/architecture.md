@@ -60,6 +60,17 @@ Context 2 selector 1 is now identified as `PauseGameThread`. Scheduler code
 Start release/press/release phases, then stops context 2 on resume. See
 `docs/pause_thread.md`.
 
+Two shared condition waits extend the scheduler ABI. A caller supplies a mask
+and zero-page address, then `WaitForMaskedBitsClear` or
+`WaitForMaskedBitsSet` repeatedly yields until the requested RAM condition is
+true. Arguments are saved within the current context's stack partition across
+every switch. See `docs/masked_ram_wait.md`.
+
+Scene-transition paths use `ResetOtherSecondaryThreads` with the current
+secondary context in `X`. It stops every other context from 1 through 7 while
+leaving context 0 and the caller alive, then clears the four pending-start
+slots and two transition flags. See `docs/secondary_thread_reset.md`.
+
 ## Inline appendix dispatch
 
 `JumpWithParams` implements a second important control-flow convention. A

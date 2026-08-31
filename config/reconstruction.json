@@ -138,6 +138,19 @@
       ]
     },
     {
+      "id": "masked_ram_wait",
+      "path": "src/system/masked_ram_wait.asm",
+      "segment": "PRG_MASKED_RAM_WAIT",
+      "start": "0x9165",
+      "end": "0x9189",
+      "status": "semantic",
+      "required_labels": [
+        "WaitForMaskedBitsClear",
+        "FinishMaskedRamWait",
+        "WaitForMaskedBitsSet"
+      ]
+    },
+    {
       "id": "startup",
       "path": "src/system/startup.asm",
       "segment": "PRG_STARTUP",
@@ -449,6 +462,20 @@
       ]
     },
     {
+      "id": "secondary_thread_reset",
+      "path": "src/system/secondary_thread_reset.asm",
+      "segment": "PRG_SECONDARY_THREAD_RESET",
+      "start": "0xc756",
+      "end": "0xc789",
+      "status": "semantic",
+      "required_labels": [
+        "ResetOtherSecondaryThreads",
+        "StopNextSecondaryThread",
+        "AdvanceSecondaryThreadReset",
+        "ClearPendingThreadStart"
+      ]
+    },
+    {
       "id": "active_object_states",
       "path": "src/game/active_object_states.asm",
       "segment": "PRG_SET_ACTIVE_OBJECT_STATES",
@@ -486,11 +513,11 @@
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 35,
-    "minimum_documented_prg_bytes": 2429,
-    "minimum_provenance_entries": 162,
-    "maximum_preservation_lines": 10687,
-    "maximum_generated_labels": 721,
-    "maximum_raw_control_flow_targets": 403
+    "minimum_semantic_modules": 37,
+    "minimum_documented_prg_bytes": 2518,
+    "minimum_provenance_entries": 169,
+    "maximum_preservation_lines": 10621,
+    "maximum_generated_labels": 715,
+    "maximum_raw_control_flow_targets": 387
   }
 }

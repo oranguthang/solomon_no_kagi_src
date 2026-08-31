@@ -175,6 +175,34 @@
       ]
     },
     {
+      "address": "0x9165",
+      "previous": "$9165",
+      "current": "WaitForMaskedBitsClear",
+      "confidence": "confirmed",
+      "evidence": [
+        "Ten direct wait-helper call sites provide a mask in A and zero-page address in X.",
+        "This entry yields through SwitchThreads while the masked RAM value is nonzero."
+      ]
+    },
+    {
+      "address": "0x9176",
+      "previous": "_label_bank0_9176",
+      "current": "FinishMaskedRamWait",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both condition-satisfied paths converge here to discard saved X, restore A, and return."
+      ]
+    },
+    {
+      "address": "0x9179",
+      "previous": "$9179",
+      "current": "WaitForMaskedBitsSet",
+      "confidence": "confirmed",
+      "evidence": [
+        "This entry is the inverse condition: it exits when the masked RAM value is nonzero and otherwise yields through SwitchThreads."
+      ]
+    },
+    {
       "address": "0x8a62",
       "previous": "$8A62",
       "current": "ObjectClampYCoordinateToSurface",
@@ -1449,6 +1477,43 @@
       "confidence": "confirmed",
       "evidence": [
         "The no-wrap and subtract-ten paths converge here to store one normalized decimal digit."
+      ]
+    },
+    {
+      "address": "0xc756",
+      "previous": "$C756",
+      "current": "ResetOtherSecondaryThreads",
+      "confidence": "high",
+      "evidence": [
+        "Six transition callers pass their own secondary context index in X.",
+        "The routine stops every other context from 1 through 7, clears PendingThreadStarts, and resets two transition flags."
+      ]
+    },
+    {
+      "address": "0xc766",
+      "previous": "_label_bank0_c766",
+      "current": "StopNextSecondaryThread",
+      "confidence": "confirmed",
+      "evidence": [
+        "This loop advances the saved index modulo eight, skips index 0, and passes each other index to StopThread."
+      ]
+    },
+    {
+      "address": "0xc771",
+      "previous": "_label_bank0_c771",
+      "current": "AdvanceSecondaryThreadReset",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both the skipped index-zero path and a completed StopThread call converge here to count one of seven advances."
+      ]
+    },
+    {
+      "address": "0xc779",
+      "previous": "_label_bank0_c779",
+      "current": "ClearPendingThreadStart",
+      "confidence": "confirmed",
+      "evidence": [
+        "This four-iteration descending loop writes zero to PendingThreadStarts offsets 3 through 0."
       ]
     },
     {

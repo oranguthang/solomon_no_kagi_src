@@ -7,7 +7,8 @@ surface clamping at `$8A62-$8AA3`, startup at `$8C00-$8D5E`, the scheduler at
 `$8D5F-$8E46`, context 2's pause loop at `$8E47-$8E8C`, sound-effect request
 queuing at `$8E8D-$8E9F`, PPU
 update-buffer publication at `$8EA0-$8EA8`, inline appendix dispatch at
-`$8EA9-$8EBF`, room-map coordinate conversion at `$918A-$91B8`, and the main
+`$8EA9-$8EBF`, cooperative masked-RAM waits at `$9165-$9189`, room-map
+coordinate conversion at `$918A-$91B8`, and the main
 gameplay thread at `$A000-$A04B`.
 Timer logic owns `$A15F-$A225`, and its display builder
 at `$A238-$A273`, followed by the enemy movement prepass at `$A274-$A2DB`.
@@ -28,6 +29,7 @@ Inventory, fairy, fireball-lifetime, and score item entries own `$C698-$C70F`.
 Item score tables and the shared auxiliary-effect initializer own
 `$C710-$C73A`.
 Shared decimal score addition owns `$C73B-$C755`.
+Secondary-context transition reset owns `$C756-$C789`.
 Non-Dana object state maintenance owns `$CA3C-$CA6D`, split into two sweep
 routines around the shared pointer resolver.
 `src/preservation/prg.asm` owns the unresolved ranges
@@ -52,7 +54,8 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_SOUND_EFFECT_QUEUE` | three-slot sound-effect request producer | 19 |
 | `PRG_PPU_UPDATE_BUFFER` | shared RAM update-program publication | 9 |
 | `PRG_JUMP_WITH_PARAMS` | inline appendix tail dispatcher | 23 |
-| `PRG_POST_JUMP_WITH_PARAMS` | unresolved `$8EC0-$9189` range | 714 |
+| `PRG_POST_JUMP_WITH_PARAMS` | unresolved `$8EC0-$9164` range | 677 |
+| `PRG_MASKED_RAM_WAIT` | cooperative masked zero-page condition waits | 37 |
 | `PRG_COORDINATE_CONVERSION` | pixel and packed room-index conversion | 47 |
 | `PRG_POST_COORDINATE_CONVERSION` | unresolved `$91B9-$9FFF` range | 3,655 |
 | `PRG_MAIN_THREAD` | context-three gameplay loop | 76 |
@@ -82,7 +85,8 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_ITEM_SCORE_TABLES` | collectible score digit and amount lookups | 8 |
 | `PRG_AUXILIARY_EFFECT` | shared auxiliary-object effect initializer | 35 |
 | `PRG_SCORE_ADDITION` | gated unpacked-decimal score addition | 27 |
-| `PRG_POST_SCORE_ADDITION` | unresolved `$C756-$CA3B` range | 742 |
+| `PRG_SECONDARY_THREAD_RESET` | stop other secondary contexts for transitions | 52 |
+| `PRG_POST_SECONDARY_THREAD_RESET` | unresolved `$C78A-$CA3B` range | 690 |
 | `PRG_SET_ACTIVE_OBJECT_STATES` | conditional non-Dana state sweep | 19 |
 | `PRG_LOAD_OBJECT_POINTER` | non-Dana object pointer resolver | 11 |
 | `PRG_DEACTIVATE_NON_DANA_OBJECTS` | whole non-Dana object teardown | 20 |

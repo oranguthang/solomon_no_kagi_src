@@ -28,11 +28,11 @@ file. The audit is part of `make release-check`.
 Accepted baseline after the first split:
 
 ```text
-semantic modules            35
-documented PRG bytes      2429 / 32768 (7.413%)
-generated address labels   721
-raw control-flow targets   403
-preservation lines       10687
+semantic modules            37
+documented PRG bytes      2518 / 32768 (7.684%)
+generated address labels   715
+raw control-flow targets   387
+preservation lines       10621
 ```
 
 These are non-regression bounds, not a completion claim. As reconstruction
@@ -61,6 +61,8 @@ decrease.
   `src/system/ppu_update_buffer.asm`, with all 16 calls named;
 - `$8EA9-$8EBF`: the stack-consuming inline appendix tail dispatcher is
   isolated in `src/system/jump_with_params.asm`, with all 11 calls named;
+- `$9165-$9189`: inverse cooperative waits yield until selected masked
+  zero-page bits clear or become set, with all ten callers named;
 - `$918A-$91B8`: both directions of the pixel/packed-room-index conversion are
   isolated in `src/game/coordinate_conversion.asm`, with all 31 calls named;
 - `$A000-$A04B`: scheduler context 3's main gameplay service loop and queued
@@ -103,6 +105,8 @@ decrease.
   initializer are classified as separate data and code modules;
 - `$C73B-$C755`: score addition propagates carry across eight unpacked decimal
   digits and is gated by `GameStateFlags` bit 0;
+- `$C756-$C789`: six transition paths stop all other secondary contexts and
+  clear the pending-start area through one shared reset helper;
 - `$CA3C-$CA6D`: two twenty-record state/teardown sweeps bracket
   `LoadObjectPointer`, all using source-owned plus-one pointer table aliases;
 - split the remaining preservation range into reset/startup, scheduler, room,

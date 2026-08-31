@@ -14,7 +14,7 @@ evidence, and small tested tools for decoded game data.
   entrypoint; CHR is a private generated asset and is not stored in Git.
 - Confirmed NES registers and high-confidence RAM aliases are separated into
   `src/memory/`.
-- Thirty-five semantic PRG modules own NMI (`$8000-$80FE`), controller input
+- Thirty-seven semantic PRG modules own NMI (`$8000-$80FE`), controller input
   (`$837D-$83C1`), reset/startup
   (`$8C00-$8D5E`), the cooperative scheduler (`$8D5F-$8E46`), and the main
   gameplay thread (`$A000-$A04B`), plus countdown timer arithmetic and warning
@@ -34,6 +34,7 @@ evidence, and small tested tools for decoded game data.
   Item score lookup tables and auxiliary-effect initialization own
   `$C710-$C73A`.
   Shared score addition owns `$C73B-$C755`.
+  Secondary-context transition reset owns `$C756-$C789`.
   Non-Dana object-pool state and teardown sweeps own `$CA3C-$CA4E` and
   `$CA5A-$CA6D`, around the pointer resolver at `$CA4F-$CA59`.
   Pixel/room-map conversion owns `$918A-$91B8` and all 31 callers use symbols.
@@ -41,6 +42,7 @@ evidence, and small tested tools for decoded game data.
   Context 2's pause loop owns `$8E47-$8E8C`, the sound-effect request queue
   owns `$8E8D-$8E9F`, shared PPU-buffer publication owns `$8EA0-$8EA8`, and
   the inline appendix dispatcher is source-owned at `$8EA9-$8EBF`.
+  Cooperative masked-RAM waits own `$9165-$9189`.
 - `make reconstruction-status` reports monotonic cleanup metrics, while
   `make reconstruction-audit` binds module ranges and renamed labels to linker
   output.
@@ -175,6 +177,8 @@ src/system/pause_thread.asm context-two Start-button pause loop
 src/system/sound_effect_queue.asm three-slot sound command producer
 src/system/ppu_update_buffer.asm publish shared RAM program to NMI
 src/system/jump_with_params.asm inline appendix tail-dispatch ABI
+src/system/masked_ram_wait.asm cooperative masked zero-page waits
+src/system/secondary_thread_reset.asm stop other contexts during transitions
 src/game/object_y_clamp.asm align object Y to a 16-pixel surface
 src/game/object_x_left_clamp.asm clamp object X against its left surface
 src/game/coordinate_conversion.asm pixel and packed room-index conversion

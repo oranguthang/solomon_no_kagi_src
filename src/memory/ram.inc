@@ -3,6 +3,7 @@
 ; listing yet. See docs/naming.md for the evidence rule
 
 TempPointer00 = $0000
+WaitMaskAddressBase = $0000
 InventoryItemSlotPattern = $0000
 InventorySlotMask = $0001
 TempPointer02 = $0002
@@ -15,7 +16,9 @@ TimerDigitSnapshot = $0004
 SpawnYPosition = $0004
 SpawnXPosition = $0005
 SpawnSlotIndex = $0006
+ThreadStopIndex = $0006
 SpawnType = $0007
+RemainingThreadStops = $0007
 TempPointer08 = $0008
 ControllerPortSample = $0008
 ControllerShiftRegister = $0009
@@ -28,6 +31,7 @@ NmiSavedX = $0010
 NmiSavedY = $0011
 PpuUpdateStreamPointer = $001A
 GameplayUpdateCount = $0023
+GameplayFlags = $0028
 EnemyAiPointer = $002C
 EnemyObjectPointer = $002E
 

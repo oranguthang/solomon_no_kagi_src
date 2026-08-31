@@ -18,6 +18,8 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	src/system/scheduler.asm src/system/pause_thread.asm \
 	src/system/sound_effect_queue.asm \
 	src/system/ppu_update_buffer.asm src/system/jump_with_params.asm \
+	src/system/masked_ram_wait.asm \
+	src/system/secondary_thread_reset.asm \
 	src/game/object_y_clamp.asm \
 	src/game/object_x_left_clamp.asm \
 	src/game/main_thread.asm src/game/timer.asm \

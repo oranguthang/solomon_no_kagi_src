@@ -12,8 +12,10 @@ range is understood.
 | `$001A-$001B` | NMI-consumed PPU update-stream pointer | confirmed |
 | `$0022` | NMI-incremented frame counter used by pause debounce | confirmed |
 | `$0023` | shared pending gameplay/timer update count | high |
+| `$0028` | gameplay flags; transition reset clears bit 2 | high |
 | `$0078` | global game-state flags; pause thread modifies bits 1-2 | high |
 | `$0082-$0083` | raw controller values in A/B/Select/Start/Up/Down/Left/Right bit order | confirmed |
+| `$0087` | unidentified state flags; transition reset clears bit 0 | unknown |
 | `$0210-$030F` | OAM shadow buffer, 64 four-byte sprites | high |
 | `$0302` | current scheduler context index | high |
 | `$0304...` | logical room map / tile state | high |

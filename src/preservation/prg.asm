@@ -1703,10 +1703,10 @@ _label_bank0_8bb8:
     .byte $00
 
     LDX #$01
-    JSR $C756
+    JSR ResetOtherSecondaryThreads
     LDA #$FF
     LDX #$1B
-    JSR $9165
+    JSR WaitForMaskedBitsClear
     JSR BuildTimerDisplayUpdate
     LDX #$08
 
@@ -2055,38 +2055,6 @@ _label_bank0_914f:
     LDX #$21
     RTS
 
-_label_bank0_9165:
-    PHA
-    TAY
-    TXA
-    PHA
-    TYA
-    AND $00,X
-    BEQ _label_bank0_9176
-    JSR SwitchThreads
-    PLA
-    TAX
-    PLA
-    BCS _label_bank0_9165
-
-_label_bank0_9176:
-    PLA
-    PLA
-    RTS
-
-_label_bank0_9179:
-    PHA
-    TAY
-    TXA
-    PHA
-    TYA
-    AND $00,X
-    BNE _label_bank0_9176
-    JSR SwitchThreads
-    PLA
-    TAX
-    PLA
-    BCS _label_bank0_9179
 .segment "PRG_POST_COORDINATE_CONVERSION"
 
     LDY #$05
@@ -2121,7 +2089,7 @@ _label_bank0_91ea:
 
     LDA #$FF
     LDX #$1B
-    JSR $9165
+    JSR WaitForMaskedBitsClear
     LDX #$1A
 
 _label_bank0_91f4:
@@ -2611,7 +2579,7 @@ _label_bank0_96ce:
 
     LDX #$1B
     LDA #$FF
-    JSR $9165
+    JSR WaitForMaskedBitsClear
     LDA $0300
     AND #$7B
     STA $0300
@@ -3974,7 +3942,7 @@ _label_bank0_a131:
 .segment "PRG_PRE_FIREBALL_LIFETIME"
     LDA #$FF
     LDX #$1B
-    JSR $9165
+    JSR WaitForMaskedBitsClear
     LDA #$E6
     STA $00
     LDA #$03
@@ -6855,7 +6823,7 @@ _label_bank0_ba5d:
     STA $02
     JSR SetActiveNonDanaObjectState
     LDX #$06
-    JSR $C756
+    JSR ResetOtherSecondaryThreads
     LSR $78
     ASL $78
     LDA #$08
@@ -7437,7 +7405,7 @@ _label_bank0_bfc5:
 
     LDA #$02
     LDX #$7C
-    JSR $9179
+    JSR WaitForMaskedBitsSet
     RTS
 
     .byte $41, $51, $61, $71, $81, $4d, $5d, $6d, $7d, $8d, $46, $48
@@ -7828,7 +7796,7 @@ _label_bank0_c39d:
     JMP $C3E7
     LDA #$FF
     LDX #$1B
-    JMP $9165
+    JMP WaitForMaskedBitsClear
     JSR $C3E0
     LDX #$04
 
@@ -8056,7 +8024,7 @@ _label_bank0_c578:
     LDA #$80
     STA $057F
     LDX #$03
-    JSR $C756
+    JSR ResetOtherSecondaryThreads
     LDY #$15
     JSR AddSoundEffect
     INC $85
@@ -8150,41 +8118,7 @@ _label_bank0_c621:
     BNE _label_bank0_c621
     RTS
 
-.segment "PRG_POST_SCORE_ADDITION"
-
-    TXA
-    PHA
-    LDA #$02
-    LDX #$78
-    JSR $9165
-    PLA
-    STA $06
-    LDA #$07
-    STA $07
-
-_label_bank0_c766:
-    INC $06
-    LDA $06
-    AND #$07
-    BEQ _label_bank0_c771
-    JSR StopThread
-
-_label_bank0_c771:
-    DEC $07
-    BNE _label_bank0_c766
-    LDX #$03
-    LDA #$00
-
-_label_bank0_c779:
-    STA $041F,X
-    DEX
-    BPL _label_bank0_c779
-    LDA $28
-    AND #$FB
-    STA $28
-    LSR $87
-    ASL $87
-    RTS
+.segment "PRG_POST_SECONDARY_THREAD_RESET"
 
     JSR $C9A7
     LDA $0582
@@ -8394,7 +8328,7 @@ _label_bank0_c8d4:
     JSR $9471
     LDA #$FF
     LDX #$1B
-    JSR $9165
+    JSR WaitForMaskedBitsClear
     LDX #$0E
 
 _label_bank0_c8fb:
@@ -8477,7 +8411,7 @@ _label_bank0_c966:
     .byte $24, $24, $24, $00
 
     LDX #$03
-    JSR $C756
+    JSR ResetOtherSecondaryThreads
     LDA $28
     AND #$BB
     STA $28
@@ -8556,7 +8490,7 @@ _label_bank0_ca29:
 .segment "PRG_POST_NON_DANA_OBJECT_DEACTIVATION"
 
     LDX #$01
-    JSR $C756
+    JSR ResetOtherSecondaryThreads
     LDY #$18
     JSR AddSoundEffect
     LDA #$EF
@@ -8600,7 +8534,7 @@ _label_bank0_cab2:
 
 _label_bank0_cab9:
     LDX #$01
-    JSR $C756
+    JSR ResetOtherSecondaryThreads
     LDY #$18
     JSR AddSoundEffect
     LDA #$EF
@@ -8834,7 +8768,7 @@ _label_bank0_cc4b:
     JSR PublishPpuUpdateBuffer
     LDA #$FF
     LDX #$1B
-    JSR $9165
+    JSR WaitForMaskedBitsClear
     LDX #$02
 
 _label_bank0_cc60:
@@ -8866,7 +8800,7 @@ _label_bank0_cc7a:
     JSR PublishPpuUpdateBuffer
     LDA #$FF
     LDX #$1B
-    JSR $9165
+    JSR WaitForMaskedBitsClear
     LDX $07F4
     JSR $92A9
     STX $03E9

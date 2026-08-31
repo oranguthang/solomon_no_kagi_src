@@ -33,6 +33,8 @@
 .include "system/sound_effect_queue.asm"
 .include "system/ppu_update_buffer.asm"
 .include "system/jump_with_params.asm"
+.include "system/masked_ram_wait.asm"
+.include "system/secondary_thread_reset.asm"
 .include "game/coordinate_conversion.asm"
 .include "game/main_thread.asm"
 .include "game/timer.asm"
