@@ -26,7 +26,7 @@ MainGameplayThread:
     LDY #$05
     LDA ($30),Y
     STA $04
-    JSR $91A3
+    JSR ConvertMapIndexToPixelCoordinates
     LDA #$1C
     STA $07
     JSR InitializeEnemy

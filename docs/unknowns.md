@@ -14,7 +14,8 @@
    Tecmo Bunnies, and the Pages of Time and Space.
 7. Prove timer service frequency under scheduler load and reproduce known
    timing volatility with a deterministic emulator scenario.
-8. Map sound command queues, music/SFX pointer tables, and APU ownership.
+8. Reconstruct the sound-request consumer, command priorities, music/SFX
+   pointer tables, and APU ownership.
 9. Compare USA, Japan, and Europe PRG revisions without merging assumptions
    from one profile into another.
 

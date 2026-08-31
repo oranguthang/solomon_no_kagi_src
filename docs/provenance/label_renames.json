@@ -344,6 +344,74 @@
       ]
     },
     {
+      "address": "0x8e8d",
+      "previous": "$8E8D",
+      "current": "AddSoundEffect",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map identifies this entry as AddSoundEffect.",
+        "All 34 callers provide a command in Y; the routine stores that command in one of the three bytes at $0423-$0425."
+      ]
+    },
+    {
+      "address": "0x8e92",
+      "previous": "_label_bank0_8e92",
+      "current": "FindSoundEffectQueueSlot",
+      "confidence": "confirmed",
+      "evidence": [
+        "This loop scans queue slots from index 2 downward and exits when it finds a zero byte or reaches fallback slot 0."
+      ]
+    },
+    {
+      "address": "0x8e9a",
+      "previous": "_label_bank0_8e9a",
+      "current": "StoreSoundEffectRequest",
+      "confidence": "confirmed",
+      "evidence": [
+        "The block restores the caller's Y value from the stack and stores it at $0423 plus the selected queue index."
+      ]
+    },
+    {
+      "address": "0x8ea0",
+      "previous": "$8EA0",
+      "current": "PublishPpuUpdateBuffer",
+      "confidence": "confirmed",
+      "evidence": [
+        "The routine writes the literal address $03E6 to the shared PPU update-stream pointer at $001A-$001B.",
+        "Sixteen callers first construct an update program in the common $03E6 RAM buffer, then call or tail-call this entry."
+      ]
+    },
+    {
+      "address": "0x8ea9",
+      "previous": "$8EA9",
+      "current": "JumpWithParams",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map identifies this entry as JumpWithParams and classifies it as a jump-table routine with an appendix.",
+        "The routine removes its JSR return address, indexes the immediately following little-endian pointer table with A, and tail-jumps through the selected pointer."
+      ]
+    },
+    {
+      "address": "0x918a",
+      "previous": "$918A",
+      "current": "ConvertPixelCoordinatesToMapIndex",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map identifies this entry as ConvertPixelCoordinatesToMapIndex.",
+        "The routine removes the room-map pixel origin, divides X by 16, and packs the row and column into the byte used to index RoomMap."
+      ]
+    },
+    {
+      "address": "0x91a3",
+      "previous": "$91A3",
+      "current": "ConvertMapIndexToPixelCoordinates",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map identifies this entry as ConvertMapIndexToPixelCoordinates.",
+        "The routine expands the packed high/low nibbles to 16-pixel coordinates and restores the Y=$10, X=$08 room-map origin."
+      ]
+    },
+    {
       "address": "0xa000",
       "previous": "$A000",
       "current": "MainGameplayThread",

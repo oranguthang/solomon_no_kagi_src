@@ -5,6 +5,9 @@
 TempPointer00 = $0000
 TempPointer02 = $0002
 TempPointer04 = $0004
+CoordinateY = $0004
+CoordinateX = $0005
+MapCellIndex = $0004
 SpawnYPosition = $0004
 SpawnXPosition = $0005
 SpawnSlotIndex = $0006
@@ -30,6 +33,8 @@ PpuCtrlShadow = $0300
 PpuMaskShadow = $0301
 ActiveThreadMask = $0303
 PendingThreadStarts = $041F
+SoundEffectQueue = $0423
+SoundEffectQueueSize = 3
 
 WarmBootSignature = $07F0
 WarmBootMarker = $07F4
@@ -39,7 +44,8 @@ Joypad1Raw = $0082
 Joypad2Raw = $0083
 Joypad1Cached = $03E4
 Joypad2Cached = $03E5
-TimerDisplayUpdateBuffer = $03E6
+PpuUpdateBuffer = $03E6
+TimerDisplayUpdateBuffer = PpuUpdateBuffer
 TimerDisplayDigits = $03E9
 TimerDisplayTerminator = $03ED
 

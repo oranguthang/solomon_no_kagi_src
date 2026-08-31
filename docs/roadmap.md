@@ -28,11 +28,11 @@ file. The audit is part of `make release-check`.
 Accepted baseline after the first split:
 
 ```text
-semantic modules            19
-documented PRG bytes      1774 / 32768 (5.414%)
-generated address labels   754
-raw control-flow targets   531
-preservation lines       11114
+semantic modules            23
+documented PRG bytes      1872 / 32768 (5.713%)
+generated address labels   752
+raw control-flow targets   439
+preservation lines       11045
 ```
 
 These are non-regression bounds, not a completion claim. As reconstruction
@@ -47,6 +47,14 @@ decrease.
   bootstrap are isolated in `src/system/startup.asm`;
 - `$8D5F-$8E46`: the eight-context cooperative scheduler and its initial
   stack/entry tables are isolated in `src/system/scheduler.asm`;
+- `$8E8D-$8E9F`: the three-slot sound-effect request producer is isolated in
+  `src/system/sound_effect_queue.asm`, with all 34 calls named;
+- `$8EA0-$8EA8`: the shared RAM PPU update-program publisher is isolated in
+  `src/system/ppu_update_buffer.asm`, with all 16 calls named;
+- `$8EA9-$8EBF`: the stack-consuming inline appendix tail dispatcher is
+  isolated in `src/system/jump_with_params.asm`, with all 11 calls named;
+- `$918A-$91B8`: both directions of the pixel/packed-room-index conversion are
+  isolated in `src/game/coordinate_conversion.asm`, with all 31 calls named;
 - `$A000-$A04B`: scheduler context 3's main gameplay service loop and queued
   fairy path are isolated in `src/game/main_thread.asm`;
 - `$A15F-$A225`: countdown arithmetic, decimal borrow propagation, display

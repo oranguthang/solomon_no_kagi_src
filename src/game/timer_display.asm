@@ -37,7 +37,7 @@ BlankLeadingTimerZeroes:
     BNE BlankLeadingTimerZeroes
 
 PublishTimerDisplayUpdate:
-    JMP $8EA0
+    JMP PublishPpuUpdateBuffer
 
 TimerDisplayWriterCallTemplate:
     .byte $20, $69, $44

@@ -27,7 +27,7 @@ zero digits are replaced with blank tile `$24`. The OR of all four digits is
 left in scratch byte `$02`, which lets `DecrementTimer` detect an all-zero
 countdown after the builder returns.
 
-The builder tail-calls `$8EA0`, which publishes `$03E6` through the shared PPU
-update pointer. The generic writer at `$4469`, threshold table, warning PPU
-streams, and queue helper remain raw addresses until their containing systems
-are independently reconstructed.
+The builder tail-calls `PublishPpuUpdateBuffer`, which publishes `$03E6`
+through the shared PPU update pointer. The generic writer at `$4469`, threshold
+table, and warning PPU streams remain raw addresses until their containing
+systems are independently reconstructed.

@@ -101,7 +101,7 @@ UpdateTimerWarningState:
     LDA #$A2
     STA PpuUpdateStreamPointer + 1
     LDY #$04
-    JSR $8E8D
+    JSR AddSoundEffect
     LDA #$10
     ORA TimerWarningState
     BNE StoreTimerWarningState
@@ -119,7 +119,7 @@ LeaveTimerWarningRange:
     INY
 
 QueueTimerWarningUpdate:
-    JSR $8E8D
+    JSR AddSoundEffect
     LDA #$EF
     AND TimerWarningState
 

@@ -1781,7 +1781,7 @@ _label_bank0_8bb8:
 .segment "PRG_PRE_MAIN_THREAD"
 
     LDY #$0C
-    JSR $8E8D
+    JSR AddSoundEffect
     LDX #$00
     STX $22
     INX
@@ -1814,7 +1814,7 @@ _label_bank0_8e6e:
     AND $78
     STA $78
     LDY #$0E
-    JSR $8E8D
+    JSR AddSoundEffect
     LDA #$02
     JSR StopThread
     LDA $03E4
@@ -1825,45 +1825,7 @@ _label_bank0_8e6e:
 _label_bank0_8e8c:
     RTS
 
-    PHA
-    TYA
-    PHA
-    LDY #$02
-
-_label_bank0_8e92:
-    LDA $0423,Y
-    BEQ _label_bank0_8e9a
-    DEY
-    BNE _label_bank0_8e92
-
-_label_bank0_8e9a:
-    PLA
-    STA $0423,Y
-    PLA
-    RTS
-
-    LDA #$E6
-    STA $1A
-    LDA #$03
-    STA $1B
-    RTS
-
-    ASL A
-    TAY
-    INY
-    PLA
-    STA $00
-    PLA
-    STA $01
-    LDA ($00),Y
-    PHA
-    INY
-    LDA ($00),Y
-    STA $01
-    PLA
-    STA $00
-; jump engine
-    JMP ($0000)
+.segment "PRG_POST_JUMP_WITH_PARAMS"
 
     .byte $3f, $00, $5f
     .byte $0f, $07, $10, $30, $0f, $07, $27, $30, $0f, $07, $2c, $30, $0f, $07, $27, $38
@@ -1886,7 +1848,7 @@ _label_bank0_8ef5:
     LDY #$05
     LDA ($30),Y
     STA $04
-    JSR $91A3
+    JSR ConvertMapIndexToPixelCoordinates
     LDX #$01
 
 _label_bank0_8f09:
@@ -1958,7 +1920,7 @@ _label_bank0_8f6c:
     LDA #$40
     JSR $9C52
     LDY #$13
-    JSR $8E8D
+    JSR AddSoundEffect
     JSR $8FB0
     JSR $915E
     LDA #$A0
@@ -1968,7 +1930,7 @@ _label_bank0_8f6c:
     STA $05E3
     JSR $C9BD
     LDY #$18
-    JSR $8E8D
+    JSR AddSoundEffect
     LDA #$15
     JSR StartThread
 
@@ -2047,7 +2009,7 @@ _label_bank0_900f:
     BPL _label_bank0_9003
     LDA #$4D
     STA $03E8
-    JMP $8EA0
+    JMP PublishPpuUpdateBuffer
     JSR $9134
     LDA #$FD
     AND $7C
@@ -2155,7 +2117,7 @@ _label_bank0_90d4:
     STX $03F9
     LDA #$4F
     STA $03E8
-    JSR $8EA0
+    JSR PublishPpuUpdateBuffer
     LDA #$C7
     AND $78
     STA $78
@@ -2181,7 +2143,7 @@ _label_bank0_90f8:
     INY
 
 _label_bank0_9111:
-    JSR $8E8D
+    JSR AddSoundEffect
 
 _label_bank0_9114:
     LDA #$30
@@ -2255,38 +2217,7 @@ _label_bank0_9179:
     TAX
     PLA
     BCS _label_bank0_9179
-    LDA $04
-    SEC
-    SBC #$10
-    AND #$F0
-    STA $04
-    LDA $05
-    SEC
-    SBC #$08
-    LSR A
-    LSR A
-    LSR A
-    LSR A
-    CLC
-    ORA $04
-    STA $04
-    TAX
-    RTS
-
-    LDA #$0F
-    AND $04
-    ASL A
-    ASL A
-    ASL A
-    ASL A
-    ADC #$08
-    STA $05
-    LDA #$F0
-    AND $04
-    CLC
-    ADC #$10
-    STA $04
-    RTS
+.segment "PRG_POST_COORDINATE_CONVERSION"
 
     LDY #$05
     LDA ($30),Y
@@ -2337,7 +2268,7 @@ _label_bank0_91f4:
     JSR $92A9
     STA $03FF
     STX $03FE
-    JSR $8EA0
+    JSR PublishPpuUpdateBuffer
     LDA $0428
     CMP #$30
     BCC _label_bank0_9245
@@ -2422,7 +2353,7 @@ _label_bank0_92bb:
     RTS
 
     LDY #$14
-    JSR $8E8D
+    JSR AddSoundEffect
     LDA #$78
     STA $02
     STA $03
@@ -2430,7 +2361,7 @@ _label_bank0_92bb:
     LDA ($30),Y
     PHA
     STA $04
-    JSR $91A3
+    JSR ConvertMapIndexToPixelCoordinates
     JSR $C364
     LDY #$03
 
@@ -2450,7 +2381,7 @@ _label_bank0_92e3:
     JSR $9340
     PLA
     STA $04
-    JSR $91A3
+    JSR ConvertMapIndexToPixelCoordinates
     LDA $04
     STA $0586
     STA $059A
@@ -2719,7 +2650,7 @@ _label_bank0_9639:
     LDA ($2C),Y
     INC $02
     STA $04
-    JSR $91A3
+    JSR ConvertMapIndexToPixelCoordinates
     JSR InitializeEnemy
     JSR ConfigureEnemyType
     LDY $02
@@ -3022,7 +2953,7 @@ _label_bank0_9875:
     TAX
     LDA #$05
     STA $0304,X
-    JSR $91A3
+    JSR ConvertMapIndexToPixelCoordinates
     LDX $00
     LDA $04
     STA $0441,X
@@ -3254,7 +3185,7 @@ _label_bank0_9a64:
     RTS
 
     LDY #$11
-    JSR $8E8D
+    JSR AddSoundEffect
     LDA $0586
     SBC #$08
     STA $04
@@ -3272,7 +3203,7 @@ _label_bank0_9a84:
     ADC #$04
     STA $00
     STA $05
-    JSR $918A
+    JSR ConvertPixelCoordinatesToMapIndex
     TAY
     TAX
     LDA $0304,Y
@@ -3397,7 +3328,7 @@ _label_bank0_9b4e:
     BEQ _label_bank0_9b77
     LSR A
     LDY #$0A
-    JSR $8E8D
+    JSR AddSoundEffect
     LDA #$0C
     BCS _label_bank0_9b68
     LDA #$10
@@ -3439,7 +3370,7 @@ _label_bank0_9ba1:
     ROL $02
     ADC $0589
     STA $05
-    JSR $918A
+    JSR ConvertPixelCoordinatesToMapIndex
     TAY
     LDX #$93
     STX $00
@@ -3458,7 +3389,7 @@ _label_bank0_9ba1:
     LDY #$07
 
 _label_bank0_9bce:
-    JSR $8E8D
+    JSR AddSoundEffect
 
 _label_bank0_9bd1:
     LDX #$21
@@ -3473,7 +3404,7 @@ _label_bank0_9bd1:
     STA $04
     LDA $059D
     STA $05
-    JSR $918A
+    JSR ConvertPixelCoordinatesToMapIndex
     TAX
     LDA $0304,X
     BPL _label_bank0_9c19
@@ -3493,7 +3424,7 @@ _label_bank0_9c02:
     LDY #$08
 
 _label_bank0_9c0f:
-    JSR $8E8D
+    JSR AddSoundEffect
     LDX #$21
     LDA #$0F
     JSR $9C52
@@ -3548,7 +3479,7 @@ _label_bank0_9c52:
 
 _label_bank0_9c6b:
     TAX
-    JSR $91A3
+    JSR ConvertMapIndexToPixelCoordinates
     TXA
     BPL _label_bank0_9c8f
     LDA #$02
@@ -3602,7 +3533,7 @@ _label_bank0_9cad:
 _label_bank0_9cbf:
     RTS
 
-    JSR $91A3
+    JSR ConvertMapIndexToPixelCoordinates
     STY $03
     LDA $04
     LDY #$07
@@ -3941,7 +3872,7 @@ _label_bank0_9e86:
     STA $03ED,X
     LDA #$40
     STA $03F2,X
-    JMP $8EA0
+    JMP PublishPpuUpdateBuffer
     LDA #$08
     STA $05
     LDA $04
@@ -4263,7 +4194,7 @@ _label_bank0_a389:
     BNE _label_bank0_a389
     LDA #$00
     STA ($00),Y
-    JMP $8EA0
+    JMP PublishPpuUpdateBuffer
 
     .byte $b4, $b0, $b1, $4a, $54, $20, $4a, $74
     .byte $20
@@ -4388,7 +4319,7 @@ _label_bank0_a55d:
     JSR LoadCurrentEnemyPosition
     JSR $C721
     LDY #$0D
-    JSR $8E8D
+    JSR AddSoundEffect
     LDY #$03
     LDA ($2E),Y
     CMP #$08
@@ -4588,7 +4519,7 @@ _label_bank0_a682:
     .byte $e2, $1c, $ff, $00
 
     JSR $B341
-    JSR $8EA9
+    JSR JumpWithParams
     LDA $A6,X
     STX $A6,Y
     LDY #$01
@@ -4788,7 +4719,7 @@ _label_bank0_a7dd:
     LDA ($2E),Y
     BNE _label_bank0_a7fd
     JSR $B410
-    JSR $918A
+    JSR ConvertPixelCoordinatesToMapIndex
     TAX
     LDA $0304,X
     BPL _label_bank0_a7fd
@@ -4870,7 +4801,7 @@ _label_bank0_a83f:
 
 _label_bank0_a869:
     JSR $B341
-    JSR $8EA9
+    JSR JumpWithParams
 
     .byte $98, $a9, $a9, $a9
     .byte $fb, $a9, $7d, $a8, $5c, $a5, $5c, $a5, $e4, $a8
@@ -4885,7 +4816,7 @@ _label_bank0_a869:
     ORA ($2E),Y
     STA ($2E),Y
     LDY #$0F
-    JSR $8E8D
+    JSR AddSoundEffect
     LDX $0453
     INX
     LDA #$42
@@ -4926,7 +4857,7 @@ _label_bank0_a8c1:
     LDY #$0A
     LDA ($2E),Y
     STA $05
-    JSR $918A
+    JSR ConvertPixelCoordinatesToMapIndex
     STX $2F
     LDA #$2A
     STA $30
@@ -5268,7 +5199,7 @@ _label_bank0_aacb:
     CLC
     ADC $01,X
     STA $05
-    JSR $918A
+    JSR ConvertPixelCoordinatesToMapIndex
     LDA $0304,X
     ASL A
     ROL $07
@@ -5284,7 +5215,7 @@ _label_bank0_aacb:
     STA $07
     LDA $06
     LDX #$00
-    JSR $8EA9
+    JSR JumpWithParams
 
     .byte $37, $ab, $8b, $ab
     .byte $b0, $ab, $16, $ac, $d2, $ab, $ef, $ac, $77, $ac, $b3, $ac, $f4, $ab, $60, $ac
@@ -5628,7 +5559,7 @@ _label_bank0_acdb:
     .byte $02, $80, $80, $01
 
     JSR $B341
-    JSR $8EA9
+    JSR JumpWithParams
     TAY
     LDA $AD45
     ASL $41AE,X
@@ -5648,7 +5579,7 @@ _label_bank0_acdb:
     LDA $07
     BEQ _label_bank0_ad78
     JSR $B156
-    JSR $918A
+    JSR ConvertPixelCoordinatesToMapIndex
     TAY
     LDA $0304,Y
     CMP #$F8
@@ -5678,7 +5609,7 @@ _label_bank0_ad8b:
     CLC
     ADC $03
     STA $05
-    JSR $918A
+    JSR ConvertPixelCoordinatesToMapIndex
     LDA $0304,X
     ASL A
     ROL $07
@@ -5722,7 +5653,7 @@ _label_bank0_add2:
     BEQ _label_bank0_adf3
     LDA $07
     JSR $B156
-    JSR $918A
+    JSR ConvertPixelCoordinatesToMapIndex
     LDA $0304,X
     CMP #$F8
     BCS _label_bank0_ae34
@@ -5790,7 +5721,7 @@ _label_bank0_ae50:
     RTS
 
     JSR $B341
-    JSR $8EA9
+    JSR JumpWithParams
 
     .byte $65, $ae, $08, $b0, $70, $af, $5c, $a5, $b2, $ae, $e2, $ae
     .byte $8f, $b1
@@ -5822,7 +5753,7 @@ _label_bank0_ae80:
     LDX #$01
     JSR $B19E
     JSR $B410
-    JSR $918A
+    JSR ConvertPixelCoordinatesToMapIndex
     TAX
     LDA $0304,X
     STA $00
@@ -5944,7 +5875,7 @@ _label_bank0_af5b:
     RTS
 
     JSR $B341
-    JSR $8EA9
+    JSR JumpWithParams
 
     .byte $7b
     .byte $af, $08, $b0, $70, $af, $5c, $a5, $5c, $a5, $55, $b0, $5c, $a5
@@ -6028,7 +5959,7 @@ _label_bank0_afab:
     LDA $03
     JSR $9D99
     LDY #$17
-    JSR $8E8D
+    JSR AddSoundEffect
 
 _label_bank0_b001:
     RTS
@@ -6199,7 +6130,7 @@ _label_bank0_b0fa:
     RTS
 
     JSR $B341
-    JSR $8EA9
+    JSR JumpWithParams
 
     .byte $07, $b1
     .byte $4a, $b1, $18, $b1
@@ -6220,7 +6151,7 @@ _label_bank0_b117:
     LDA $07
     BEQ _label_bank0_b149
     JSR $B156
-    JSR $918A
+    JSR ConvertPixelCoordinatesToMapIndex
     TAY
     LDA $0304,Y
     CMP #$F8
@@ -6275,7 +6206,7 @@ _label_bank0_b15a:
 
     JSR $B4C4
     JSR $B341
-    JSR $8EA9
+    JSR JumpWithParams
 
     .byte $5f, $b3
     .byte $a2, $b2, $70, $af, $b5, $b1, $5c, $a5, $b6, $b2, $8f, $b1
@@ -6379,7 +6310,7 @@ _label_bank0_b225:
     STA ($2E),Y
     STA $02
     LDY #$0B
-    JSR $8E8D
+    JSR AddSoundEffect
     LDY #$07
     LDA ($2C),Y
     JSR LoadEnemyObjectPointer
@@ -6405,7 +6336,7 @@ _label_bank0_b25a:
     TXA
     JSR $9D99
     JSR $B410
-    JSR $918A
+    JSR ConvertPixelCoordinatesToMapIndex
     TAX
     LDA $0304,X
     BPL _label_bank0_b289
@@ -6455,7 +6386,7 @@ _label_bank0_b2c8:
     LDA ($2E),Y
     BNE _label_bank0_b328
     JSR $B410
-    JSR $918A
+    JSR ConvertPixelCoordinatesToMapIndex
     TAX
     LDA $0304,X
     BPL _label_bank0_b2e6
@@ -6539,7 +6470,7 @@ _label_bank0_b340:
 
     JSR $B4C4
     JSR $B341
-    JSR $8EA9
+    JSR JumpWithParams
 
     .byte $5f, $b3
     .byte $6b, $b3, $70, $af, $5c, $a5, $5c, $a5, $7c, $b3, $5c, $a5
@@ -6572,7 +6503,7 @@ _label_bank0_b37b:
     ROR A
     BCS _label_bank0_b3e2
     JSR $B410
-    JSR $918A
+    JSR ConvertPixelCoordinatesToMapIndex
     TAX
     LDA $0304,X
     BMI _label_bank0_b39c
@@ -6894,7 +6825,7 @@ _label_bank0_b930:
     STX $06
     LDA $88
     STA $04
-    JSR $91A3
+    JSR ConvertMapIndexToPixelCoordinates
     LDA #$18
     STA $07
     JSR InitializeEnemy
@@ -6973,7 +6904,7 @@ _label_bank0_b9c5:
     STA $04
     LDA $05D9
     STA $05
-    JSR $918A
+    JSR ConvertPixelCoordinatesToMapIndex
     CPX #$AD
     BNE _label_bank0_b9f7
     LDA #$90
@@ -7007,7 +6938,7 @@ _label_bank0_ba0b:
     STA $04
     LDA $0589
     STA $05
-    JSR $918A
+    JSR ConvertPixelCoordinatesToMapIndex
     LDA #$90
     CPX #$57
     BEQ _label_bank0_ba2b
@@ -7094,7 +7025,7 @@ _label_bank0_ba98:
     STA $03
     LDA #$67
     STA $04
-    JSR $91A3
+    JSR ConvertMapIndexToPixelCoordinates
     JSR $C364
     LDA $07
     JSR LoadEnemyAiPointer
@@ -7114,7 +7045,7 @@ _label_bank0_bace:
     LDA #$80
     STA $057F
     LDY #$14
-    JSR $8E8D
+    JSR AddSoundEffect
 
 _label_bank0_bae9:
     LDA #$10
@@ -7141,7 +7072,7 @@ _label_bank0_bb07:
     CMP #$43
     BCC _label_bank0_bae9
     LDY #$18
-    JSR $8E8D
+    JSR AddSoundEffect
     LDA #$67
     LDX #$35
     JSR $BE1D
@@ -7166,7 +7097,7 @@ _label_bank0_bb35:
     STA $03F6
     LDA #$00
     STA $03F9
-    JSR $8EA0
+    JSR PublishPpuUpdateBuffer
     LDA #$EF
     STA $1F
     LDA #$D0
@@ -7188,7 +7119,7 @@ _label_bank0_bb61:
     AND $7C
     BEQ _label_bank0_bbb7
     LDY #$13
-    JSR $8E8D
+    JSR AddSoundEffect
     LDX #$09
     STX $30
 
@@ -7224,7 +7155,7 @@ _label_bank0_bb92:
 
 _label_bank0_bbb7:
     LDY #$19
-    JSR $8E8D
+    JSR AddSoundEffect
     LDA #$C0
     AND $78
     BEQ _label_bank0_bc15
@@ -7291,7 +7222,7 @@ _label_bank0_bc20:
     LDA #$07
     JSR $9471
     LDY #$1A
-    JSR $8E8D
+    JSR AddSoundEffect
     LDA #$80
     JSR $BE13
     LDA #$1F
@@ -7372,7 +7303,7 @@ _label_bank0_bca3:
     DEX
     BPL _label_bank0_bca3
     LDY #$18
-    JSR $8E8D
+    JSR AddSoundEffect
     LDA #$04
     AND $7C
     BEQ _label_bank0_bcee
@@ -7409,7 +7340,7 @@ _label_bank0_bcdd:
     STA $03E6,X
     DEX
     BPL _label_bank0_bcdd
-    JSR $8EA0
+    JSR PublishPpuUpdateBuffer
     DEC $02
     BPL _label_bank0_bcbc
 
@@ -7457,7 +7388,7 @@ _label_bank0_bd24:
     INY
     LDA $BEAE,Y
     STA $03E6
-    JSR $8EA0
+    JSR PublishPpuUpdateBuffer
     BNE _label_bank0_bcfd
 
 _label_bank0_bd37:
@@ -7471,13 +7402,13 @@ _label_bank0_bd3b:
     LDX $2A
     LDA $BD94,X
     STA $03F6
-    JSR $8EA0
+    JSR PublishPpuUpdateBuffer
     DEC $2A
     BPL _label_bank0_bd3b
     LDA #$00
     STA $03E4
     LDY #$10
-    JSR $8E8D
+    JSR AddSoundEffect
 
 _label_bank0_bd5c:
     LDA $82
@@ -7733,7 +7664,7 @@ _label_bank0_c16a:
     DEC $02
     BPL _label_bank0_c104
     LDY #$09
-    JSR $8E8D
+    JSR AddSoundEffect
     LDA #$05
     JSR StopThread
 
@@ -7856,7 +7787,7 @@ _label_bank0_c287:
     LDY #$07
     LDA ($30),Y
     STA $04
-    JSR $91A3
+    JSR ConvertMapIndexToPixelCoordinates
     LDA $04
     STA $02
     STA $05C2
@@ -7872,7 +7803,7 @@ _label_bank0_c2c3:
     STA $05BB,Y
     DEY
     BPL _label_bank0_c2c3
-    JSR $91A3
+    JSR ConvertMapIndexToPixelCoordinates
     JSR $C364
     DEC $03
     LDX #$03
@@ -8011,7 +7942,7 @@ _label_bank0_c39d:
     STA $04
     LDA $05C5
     STA $05
-    JSR $918A
+    JSR ConvertPixelCoordinatesToMapIndex
     LDA #$10
     STA $0304,X
     STX $02
@@ -8022,7 +7953,7 @@ _label_bank0_c39d:
     RTS
 
     JSR $C403
-    JSR $8EA0
+    JSR PublishPpuUpdateBuffer
     JSR $A30C
     JMP $C3E7
     LDA #$FF
@@ -8038,7 +7969,7 @@ _label_bank0_c3ec:
     BPL _label_bank0_c3ec
     LDA $0453
     STA $03E9
-    JMP $8EA0
+    JMP PublishPpuUpdateBuffer
 
     .byte $20, $71, $40, $00, $00
 
@@ -8085,7 +8016,7 @@ _label_bank0_c42e:
     LDA $0589
     ADC #$08
     STA $05
-    JSR $918A
+    JSR ConvertPixelCoordinatesToMapIndex
     LDA #$00
     STA $02
     LDA $0304,X
@@ -8112,7 +8043,7 @@ _label_bank0_c42e:
     CMP #$32
     BCS _label_bank0_c498
     LDY #$0D
-    JSR $8E8D
+    JSR AddSoundEffect
     SBC #$24
     LDX #$FF
 
@@ -8135,7 +8066,7 @@ _label_bank0_c498:
 
 _label_bank0_c4a1:
     LDY #$06
-    JSR $8E8D
+    JSR AddSoundEffect
     INC $0452
     LDA #$00
     STA $05C0
@@ -8163,9 +8094,9 @@ _label_bank0_c4c5:
     LDY #$40
     STY $02
     LDY #$0D
-    JSR $8E8D
+    JSR AddSoundEffect
     SBC #$05
-    JSR $8EA9
+    JSR JumpWithParams
 
     .byte $63, $c5, $87, $c5, $03, $c7, $a3, $c6, $0a, $c7, $c0, $c6, $0a, $c7, $ae, $c6
     .byte $98, $c6, $aa, $c6, $b5, $c4, $28, $c6, $4b, $c6, $7e, $c6, $82, $c6, $a3, $c6
@@ -8245,7 +8176,7 @@ _label_bank0_c54e:
 
 _label_bank0_c578:
     LDY #$16
-    JSR $8E8D
+    JSR AddSoundEffect
     LDA #$04
     JSR StopThread
     LDA #$34
@@ -8257,7 +8188,7 @@ _label_bank0_c578:
     LDX #$03
     JSR $C756
     LDY #$15
-    JSR $8E8D
+    JSR AddSoundEffect
     INC $85
     LDA #$40
     AND $28
@@ -8505,7 +8436,7 @@ _label_bank0_c706:
     .byte $02, $01, $01, $02, $05
 
     PHA
-    JSR $91A3
+    JSR ConvertMapIndexToPixelCoordinates
     JSR $C721
     PLA
     RTS
@@ -8783,7 +8714,7 @@ _label_bank0_c8d4:
     STX $042B
     STX $7D
     LDY #$05
-    JSR $8E8D
+    JSR AddSoundEffect
     LDA #$06
     JSR $9471
     LDA #$FF
@@ -8800,7 +8731,7 @@ _label_bank0_c8fb:
     JSR $92A9
     STX $03F2
     STA $03F3
-    JSR $8EA0
+    JSR PublishPpuUpdateBuffer
 
 _label_bank0_c913:
     LDA $03E4
@@ -8822,7 +8753,7 @@ _label_bank0_c92c:
     AND $7C
     STA $7C
     LDY #$18
-    JSR $8E8D
+    JSR AddSoundEffect
     LDX #$07
     LDA #$00
 
@@ -8878,7 +8809,7 @@ _label_bank0_c966:
     LDA #$00
     STA $042A
     LDY #$03
-    JSR $8E8D
+    JSR AddSoundEffect
     RTS
 
     LDX #$06
@@ -8985,7 +8916,7 @@ _label_bank0_ca5c:
     LDX #$01
     JSR $C756
     LDY #$18
-    JSR $8E8D
+    JSR AddSoundEffect
     LDA #$EF
     STA $1F
     LDA #$03
@@ -9029,7 +8960,7 @@ _label_bank0_cab9:
     LDX #$01
     JSR $C756
     LDY #$18
-    JSR $8E8D
+    JSR AddSoundEffect
     LDA #$EF
     STA $1F
     LDA #$03
@@ -9258,7 +9189,7 @@ _label_bank0_cc4b:
     STA $03E6,X
     DEX
     BPL _label_bank0_cc4b
-    JSR $8EA0
+    JSR PublishPpuUpdateBuffer
     LDA #$FF
     LDX #$1B
     JSR $9165
@@ -9290,7 +9221,7 @@ _label_bank0_cc7a:
     BNE _label_bank0_cc6e
     STY $03F0
     STY $03F1
-    JSR $8EA0
+    JSR PublishPpuUpdateBuffer
     LDA #$FF
     LDX #$1B
     JSR $9165
@@ -9307,7 +9238,7 @@ _label_bank0_cc9f:
     BPL _label_bank0_cc9f
     INX
     STX $03EB
-    JMP $8EA0
+    JMP PublishPpuUpdateBuffer
 
     .byte $f5, $f5, $f5, $f5
     .byte $f7, $ff, $ff, $ff, $56, $5a, $5a, $5a, $77, $ff, $ff, $ff, $6f, $af, $af, $af

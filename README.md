@@ -14,7 +14,7 @@ evidence, and small tested tools for decoded game data.
   entrypoint; CHR is a private generated asset and is not stored in Git.
 - Confirmed NES registers and high-confidence RAM aliases are separated into
   `src/memory/`.
-- Nineteen semantic PRG modules own NMI (`$8000-$80FE`), reset/startup
+- Twenty-three semantic PRG modules own NMI (`$8000-$80FE`), reset/startup
   (`$8C00-$8D5E`), the cooperative scheduler (`$8D5F-$8E46`), and the main
   gameplay thread (`$A000-$A04B`), plus countdown timer arithmetic and warning
   transitions (`$A15F-$A225`), its HUD update builder (`$A238-$A273`), and
@@ -28,6 +28,10 @@ evidence, and small tested tools for decoded game data.
   the free-slot allocator owns `$B42A-$B445`, their split pointer tables own
   `$B446-$B491`, and slot deactivation owns `$B492-$B4B5`.
   Current-record deactivation follows at `$B4B6-$B4C3`.
+  Pixel/room-map conversion owns `$918A-$91B8` and all 31 callers use symbols.
+  The sound-effect request queue owns `$8E8D-$8E9F`, shared PPU-buffer
+  publication owns `$8EA0-$8EA8`, and the inline appendix dispatcher is
+  source-owned at `$8EA9-$8EBF`.
 - `make reconstruction-status` reports monotonic cleanup metrics, while
   `make reconstruction-audit` binds module ranges and renamed labels to linker
   output.
@@ -157,6 +161,10 @@ src/main.asm               assembly entrypoint and iNES header
 src/system/nmi.asm         semantic `$8000-$80FE` vertical-blank module
 src/system/startup.asm     reset, warm-boot state, PPU and thread bootstrap
 src/system/scheduler.asm   eight-context cooperative stack scheduler
+src/system/sound_effect_queue.asm three-slot sound command producer
+src/system/ppu_update_buffer.asm publish shared RAM program to NMI
+src/system/jump_with_params.asm inline appendix tail-dispatch ABI
+src/game/coordinate_conversion.asm pixel and packed room-index conversion
 src/game/main_thread.asm   context-three gameplay service loop
 src/game/timer.asm         countdown arithmetic and warning-state transitions
 src/game/timer_display.asm NMI update-program builder for timer digits

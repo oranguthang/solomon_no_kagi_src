@@ -17,6 +17,12 @@ registers, commits OAM page `$02`, selects one of four CNROM CHR banks through
 CPU registers. `WritePpuScroll` resets the PPU write latch by reading
 `PPU_STATUS`, then performs the X and Y writes to `PPU_SCROLL`.
 
+Foreground producers build compact PPU update programs in the shared RAM
+buffer at `$03E6`. `PublishPpuUpdateBuffer` points `$001A-$001B` at that
+buffer; the NMI path uses the pointer's high byte to decide whether to invoke
+the still-unreconstructed update consumer at `$8B7F`. Sixteen producer sites
+now share the publication symbol. See `docs/ppu_update_buffer.md`.
+
 ## Cooperative scheduler
 
 The strongest unusual architectural feature is an eight-context cooperative
@@ -42,6 +48,26 @@ RTS enters `$A000`. `StartThread` builds this continuation from a packed
 context/entry selector; `StopThread` resets a context to the idle continuation
 and clears its active bit. See `docs/scheduler.md`,
 `docs/scheduler_entries.md`, and `docs/main_gameplay_thread.md`.
+
+## Inline appendix dispatch
+
+`JumpWithParams` implements a second important control-flow convention. A
+selector in `A` chooses a little-endian handler pointer stored immediately
+after the caller's `JSR`. The routine removes that JSR return address from the
+hardware stack and jumps to the selected handler, so the handler's `RTS`
+returns from the dispatching routine rather than falling into the appendix.
+This convention drives eleven jump tables, including the 28-entry enemy AI
+table.
+
+## Sound-effect requests
+
+Gameplay producers submit a sound-effect command in `Y` through
+`AddSoundEffect`. The routine preserves `A` and places the command in the
+three-byte `$0423-$0425` request area. It prefers the first empty slot while
+searching indices 2 and 1; index 0 is overwritten as the fallback when both
+higher slots are occupied. This producer-side behavior is proven, while the
+consumer, command meanings, priority rules, music data, and APU driver remain
+to be reconstructed. See `docs/sound_effect_queue.md`.
 
 ## Runtime objects
 
@@ -155,6 +181,12 @@ room index
 The 16x12 logical grid is distinct from the PPU nametable and from OAM. Room
 items encode visibility/block modifiers in their type byte, while key/door,
 player start, and Demon Mirror settings live in a ten-byte room header.
+
+Gameplay coordinates map onto that grid through a packed nibble index. The
+conversion subtracts a Y=`$10`, X=`$08` pixel origin, uses 16-pixel cells, and
+stores the row in the high nibble and column in the low nibble. The inverse
+conversion is source-owned alongside it, and all 31 consumers use the two
+semantic entry points.
 
 ## Rendering and timing
 

@@ -5,7 +5,7 @@
 DispatchEnemyAiHandler:
     LSR A
     LSR A
-    JSR $8EA9
+    JSR JumpWithParams
 
 EnemyAiHandlerTable:
     .addr $A4B3, $A5DD, $A840, $B0FB

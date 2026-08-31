@@ -37,6 +37,53 @@
       ]
     },
     {
+      "id": "sound_effect_queue",
+      "path": "src/system/sound_effect_queue.asm",
+      "segment": "PRG_SOUND_EFFECT_QUEUE",
+      "start": "0x8e8d",
+      "end": "0x8e9f",
+      "status": "semantic",
+      "required_labels": [
+        "AddSoundEffect",
+        "FindSoundEffectQueueSlot",
+        "StoreSoundEffectRequest"
+      ]
+    },
+    {
+      "id": "ppu_update_buffer",
+      "path": "src/system/ppu_update_buffer.asm",
+      "segment": "PRG_PPU_UPDATE_BUFFER",
+      "start": "0x8ea0",
+      "end": "0x8ea8",
+      "status": "semantic",
+      "required_labels": [
+        "PublishPpuUpdateBuffer"
+      ]
+    },
+    {
+      "id": "jump_with_params",
+      "path": "src/system/jump_with_params.asm",
+      "segment": "PRG_JUMP_WITH_PARAMS",
+      "start": "0x8ea9",
+      "end": "0x8ebf",
+      "status": "semantic",
+      "required_labels": [
+        "JumpWithParams"
+      ]
+    },
+    {
+      "id": "coordinate_conversion",
+      "path": "src/game/coordinate_conversion.asm",
+      "segment": "PRG_COORDINATE_CONVERSION",
+      "start": "0x918a",
+      "end": "0x91b8",
+      "status": "semantic",
+      "required_labels": [
+        "ConvertPixelCoordinatesToMapIndex",
+        "ConvertMapIndexToPixelCoordinates"
+      ]
+    },
+    {
       "id": "startup",
       "path": "src/system/startup.asm",
       "segment": "PRG_STARTUP",
@@ -258,11 +305,11 @@
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 19,
-    "minimum_documented_prg_bytes": 1774,
-    "minimum_provenance_entries": 94,
-    "maximum_preservation_lines": 11114,
-    "maximum_generated_labels": 754,
-    "maximum_raw_control_flow_targets": 531
+    "minimum_semantic_modules": 23,
+    "minimum_documented_prg_bytes": 1872,
+    "minimum_provenance_entries": 101,
+    "maximum_preservation_lines": 11045,
+    "maximum_generated_labels": 752,
+    "maximum_raw_control_flow_targets": 439
   }
 }

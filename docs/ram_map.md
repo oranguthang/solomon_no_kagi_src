@@ -7,6 +7,7 @@ range is understood.
 | --- | --- | --- |
 | `$0000-$000F` | temporary pointers and scratch values | high |
 | `$0004-$0007` | spawn Y, X, slot index, and type calling convention | high |
+| `$0004-$0005` | room-map conversion Y/index and X calling convention | confirmed |
 | `$0012-$0019` | saved SP values for eight cooperative contexts | high |
 | `$001A-$001B` | NMI-consumed PPU update-stream pointer | confirmed |
 | `$0023` | shared pending gameplay/timer update count | high |
@@ -15,6 +16,8 @@ range is understood.
 | `$0302` | current scheduler context index | high |
 | `$0304...` | logical room map / tile state | high |
 | `$03E4-$03E5` | cached controller state | high |
+| `$03E6...` | shared RAM PPU update-program buffer | confirmed base |
+| `$0423-$0425` | three sound-effect request slots | confirmed |
 | `$0428` | zero-based current room index | confirmed |
 | `$0429-$043D` | fireball, inventory, and lifetime state | mixed/high |
 | `$0434-$043B` | timer warning state, step, fraction, and decimal digits | high |
