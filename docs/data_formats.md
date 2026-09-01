@@ -45,6 +45,12 @@ The first byte is the Demonhead/Saramandor lifetime rotated right by three bits.
 Rotate it left by three to decode. Remaining records are `(type, position)`
 pairs terminated by type `$00`.
 
+`LoadRoomEnemies` resolves the current room through the split tables at CPU
+`$DCEC/$DD21`. It stores the packed lifetime threshold across `$0426-$0427`,
+then allocates one runtime enemy slot per pair. The position byte is converted
+to pixel coordinates before `InitializeEnemy` and `ConfigureEnemyType` fill
+the parallel object and AI records.
+
 ## Item metadata and stream
 
 Every item stream begins with ten bytes:

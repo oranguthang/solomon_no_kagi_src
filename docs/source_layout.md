@@ -15,6 +15,8 @@ coordinate conversion at `$918A-$91B8`, static PPU update publication at
 `$9471-$9487`, its split pointer tables at `$9488-$94AB`, and all 18 static
 update streams at `$94AC-$961A`. The main
 gameplay thread at `$A000-$A04B`.
+The adjacent room-enemy stream loader owns `$961B-$9660`.
+Direct rendering of the 16x12 RoomMap interior owns `$9661-$96DB`.
 The shared direct-PPU transfer guard owns `$96DC-$970A`.
 The room nametable frame renderer owns `$970B-$97A2`.
 Repeated PPU byte writers own `$97A3-$97B7`, followed by their four packed
@@ -82,7 +84,8 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_STATIC_PPU_UPDATE_QUEUE` | blocking indexed static-stream producer | 23 |
 | `PRG_STATIC_PPU_UPDATE_POINTERS` | split pointers for 18 static streams | 36 |
 | `PRG_STATIC_PPU_UPDATE_STREAMS` | 18 compact PPU command programs | 367 |
-| `PRG_POST_STATIC_PPU_UPDATE_DATA` | unresolved `$961B-$96DB` range | 193 |
+| `PRG_ROOM_ENEMY_LOAD` | current-room enemy stream to runtime slots | 70 |
+| `PRG_ROOM_MAP_RENDER` | direct 16x12 room-map nametable rendering | 123 |
 | `PRG_DIRECT_PPU_TRANSFER` | rendering-disabled direct PPU transfer guard | 47 |
 | `PRG_ROOM_NAMETABLE_FRAME` | two-column/two-row room frame renderer | 152 |
 | `PRG_PPU_DATA_WRITERS` | repeated four-byte pattern and single-byte writers | 21 |

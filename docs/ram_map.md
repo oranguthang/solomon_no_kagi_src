@@ -15,6 +15,7 @@ range is understood.
 | `$0022` | NMI-incremented frame counter used by pause debounce | confirmed |
 | `$0023` | shared pending gameplay/timer update count | high |
 | `$0028` | gameplay flags; transition reset clears bit 2 | high |
+| `$002C-$002D` | current room enemy stream pointer during room loading | confirmed |
 | `$0030-$0031` | current room item/header stream pointer | confirmed |
 | `$0036-$0039` | two resolved Demon Mirror schedule pointers | confirmed |
 | `$003A-$003D` | two resolved Demon Mirror enemy-set pointers | confirmed |
@@ -29,6 +30,7 @@ range is understood.
 | `$03E4-$03E5` | cached controller state with game-state-dependent filtering | confirmed |
 | `$03E6...` | shared RAM PPU update-program buffer | confirmed base |
 | `$0423-$0425` | three sound-effect request slots | confirmed |
+| `$0426-$0427` | split enemy spawn-lifetime threshold | high |
 | `$0428` | zero-based current room index | confirmed |
 | `$0429-$043D` | fireball, inventory, and lifetime state | mixed/high |
 | `$042B` | number of usable two-bit fireball inventory slots, maximum 8 | confirmed |

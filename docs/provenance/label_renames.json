@@ -843,6 +843,86 @@
       "evidence": ["Split pointer index 13 resolves here; the audited decoder round-trips the stream through its $961A terminator."]
     },
     {
+      "address": "0x961b",
+      "previous": "$961B",
+      "current": "LoadRoomEnemies",
+      "confidence": "confirmed",
+      "evidence": [
+        "The room-initialization caller invokes this entry after room metadata and block setup.",
+        "The routine resolves CurrentRoomIndex through the documented 53-entry enemy pointer tables, decodes the lifetime byte, and consumes type/position pairs."
+      ]
+    },
+    {
+      "address": "0x9639",
+      "previous": "_label_bank0_9639",
+      "current": "DecodeNextRoomEnemy",
+      "confidence": "confirmed",
+      "evidence": [
+        "Each loop iteration allocates an AI slot, converts one packed position, and invokes InitializeEnemy and ConfigureEnemyType for the decoded type."
+      ]
+    },
+    {
+      "address": "0x9660",
+      "previous": "_label_bank0_9660",
+      "current": "FinishRoomEnemyLoad",
+      "confidence": "confirmed",
+      "evidence": ["The zero enemy-type terminator branches directly to this return."]
+    },
+    {
+      "address": "0x9661",
+      "previous": "$9661",
+      "current": "DrawRoomMapToNametable",
+      "confidence": "confirmed",
+      "evidence": [
+        "The room-initialization caller enters here after loading enemies and before publishing the final room update buffer.",
+        "The routine waits for the PPU stream slot, enters direct-transfer mode, traverses every RoomMap interior cell, and tail-calls EndDirectPpuTransfer."
+      ]
+    },
+    {
+      "address": "0x966e",
+      "previous": "_label_bank0_966e",
+      "current": "DrawNextRoomMapCell",
+      "confidence": "confirmed",
+      "evidence": ["The descending $D0-$11 traversal skips low-nibble-zero sentinels and maps the remaining 192 positions to RoomMap $CF-$10."]
+    },
+    {
+      "address": "0x96a4",
+      "previous": "_label_bank0_96a4",
+      "current": "SelectRoomMapTileClass",
+      "confidence": "confirmed",
+      "evidence": ["All four RoomMap value ranges converge here with their decoded class in X before calling the cell update builder."]
+    },
+    {
+      "address": "0x96ab",
+      "previous": "_label_bank0_96ab",
+      "current": "WriteNextRoomCellPpuChunk",
+      "confidence": "confirmed",
+      "evidence": ["Completed two-byte data pairs return here to begin another address/data chunk from PpuUpdateBuffer."]
+    },
+    {
+      "address": "0x96ad",
+      "previous": "_label_bank0_96ad",
+      "current": "WriteRoomCellPpuAddress",
+      "confidence": "confirmed",
+      "evidence": ["This fixed two-iteration loop copies a high/low address pair from PpuUpdateBuffer to PPU_ADDR."]
+    },
+    {
+      "address": "0x96c0",
+      "previous": "_label_bank0_96c0",
+      "current": "WriteRoomCellPpuData",
+      "confidence": "confirmed",
+      "evidence": ["This loop copies a two-byte data pair to PPU_DATA or exits the cell on a zero marker."
+      ]
+    },
+    {
+      "address": "0x96ce",
+      "previous": "_label_bank0_96ce",
+      "current": "AdvanceRoomMapCell",
+      "confidence": "confirmed",
+      "evidence": ["Sentinel positions and completed cell buffers converge here to decrement the packed map position and finish through EndDirectPpuTransfer."
+      ]
+    },
+    {
       "address": "0x970b",
       "previous": "_label_bank0_970b",
       "current": "DrawRoomNametableFrame",

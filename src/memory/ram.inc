@@ -3,13 +3,18 @@
 ; listing yet. See docs/naming.md for the evidence rule
 
 TempPointer00 = $0000
+RoomRenderMapIndex = $0000
 WaitMaskAddressBase = $0000
 ZeroPageCounterBase = $0000
 InventoryItemSlotPattern = $0000
 InventorySlotMask = $0001
+RoomRenderTileClass = $0001
 TempPointer02 = $0002
+RoomRenderAttributeByte = $0002
+RoomEnemyStreamOffset = $0002
 NametableClearWidth = $0002
 RemainingInventorySlots = $0003
+RoomRenderPpuAddressLow = $0003
 TempPointer04 = $0004
 CoordinateY = $0004
 CoordinateX = $0005
@@ -35,6 +40,7 @@ PpuUpdateStreamPointer = $001A
 GameplayUpdateCount = $0023
 GameplayFlags = $0028
 EnemyAiPointer = $002C
+RoomEnemyPointer = $002C
 EnemyObjectPointer = $002E
 RoomItemPointer = $0030
 DemonMirrorSchedulePointers = $0036
@@ -75,6 +81,8 @@ RoomMap = $0304
 ConstellationPosition = $0406
 ConstellationPattern = $0407
 
+EnemySpawnLifetimeThresholdLo = $0426
+EnemySpawnLifetimeThresholdHi = $0427
 CurrentRoomIndex = $0428
 FireballState = $0429
 FireballActive = $042A

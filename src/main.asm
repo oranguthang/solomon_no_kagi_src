@@ -39,6 +39,8 @@
 .include "system/secondary_thread_reset.asm"
 .include "graphics/static_ppu_update_queue.asm"
 .include "data/static_ppu_update_streams.asm"
+.include "game/room_enemy_load.asm"
+.include "graphics/room_map_render.asm"
 .include "game/room_transition_reset.asm"
 .include "graphics/nametable_clear.asm"
 .include "data/nametable_clear.asm"

@@ -339,6 +339,36 @@
       ]
     },
     {
+      "id": "room_enemy_load",
+      "path": "src/game/room_enemy_load.asm",
+      "segment": "PRG_ROOM_ENEMY_LOAD",
+      "start": "0x961b",
+      "end": "0x9660",
+      "status": "semantic",
+      "required_labels": [
+        "LoadRoomEnemies",
+        "DecodeNextRoomEnemy",
+        "FinishRoomEnemyLoad"
+      ]
+    },
+    {
+      "id": "room_map_render",
+      "path": "src/graphics/room_map_render.asm",
+      "segment": "PRG_ROOM_MAP_RENDER",
+      "start": "0x9661",
+      "end": "0x96db",
+      "status": "semantic",
+      "required_labels": [
+        "DrawRoomMapToNametable",
+        "DrawNextRoomMapCell",
+        "SelectRoomMapTileClass",
+        "WriteNextRoomCellPpuChunk",
+        "WriteRoomCellPpuAddress",
+        "WriteRoomCellPpuData",
+        "AdvanceRoomMapCell"
+      ]
+    },
+    {
       "id": "gameplay_delay_setup",
       "path": "src/system/gameplay_delay_setup.asm",
       "segment": "PRG_GAMEPLAY_DELAY_SETUP",
@@ -788,11 +818,11 @@
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 55,
-    "minimum_documented_prg_bytes": 4193,
-    "minimum_provenance_entries": 264,
-    "maximum_preservation_lines": 9942,
-    "maximum_generated_labels": 666,
-    "maximum_raw_control_flow_targets": 298
+    "minimum_semantic_modules": 57,
+    "minimum_documented_prg_bytes": 4386,
+    "minimum_provenance_entries": 274,
+    "maximum_preservation_lines": 9830,
+    "maximum_generated_labels": 658,
+    "maximum_raw_control_flow_targets": 296
   }
 }

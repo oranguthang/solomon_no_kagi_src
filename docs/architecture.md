@@ -36,6 +36,11 @@ one of 18 indices in `A`; the routine cooperatively waits for the current
 stream to finish, then publishes the indexed split-table pointer. See
 `docs/static_ppu_update_queue.md`.
 
+Room initialization also has a direct rendering path.
+`DrawRoomMapToNametable` traverses the 192 interior `RoomMap` cells, obtains
+per-cell address/data chunks, and sends them while rendering and NMI are
+disabled by the shared direct-transfer guard. See `docs/room_map_render.md`.
+
 ## Cooperative scheduler
 
 The strongest unusual architectural feature is an eight-context cooperative

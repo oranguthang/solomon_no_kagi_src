@@ -1876,14 +1876,14 @@ _label_bank0_9045:
     JSR $C2A6
 
 _label_bank0_9091:
-    JSR $961B
+    JSR LoadRoomEnemies
     LDA #$AF
     AND $28
     STA $28
-    JSR $9661
+    JSR DrawRoomMapToNametable
 
 _label_bank0_909d:
-    LDA $1B
+    LDA PpuUpdateStreamPointer + 1
     BNE _label_bank0_909d
     LDX #$12
 
@@ -2347,118 +2347,6 @@ _label_bank0_944b:
     .byte $00, $06
     .byte $0c, $13, $19, $1f, $25, $2b, $31, $37, $3d, $42, $48, $4d, $52, $57, $5b, $60
     .byte $63, $68, $6b, $6f, $72, $74, $77, $79, $7b, $7c, $7e, $7f, $7f, $7f
-
-.segment "PRG_POST_STATIC_PPU_UPDATE_DATA"
-
-    LDX $0428
-    LDA $DCEC,X
-    STA $2C
-    LDA $DD21,X
-    STA $2D
-    LDY #$00
-    LDA ($2C),Y
-    INY
-    TAX
-    AND #$E0
-    STA $0426
-    TXA
-    AND #$1F
-    STA $0427
-
-_label_bank0_9639:
-    LDA ($2C),Y
-    BEQ _label_bank0_9660
-    STA $07
-    INY
-    STY $02
-    JSR FindFreeEnemySlotIndex
-    STX $06
-    LDA #$80
-    STA ($04),Y
-    LDY $02
-    LDA ($2C),Y
-    INC $02
-    STA $04
-    JSR ConvertMapIndexToPixelCoordinates
-    JSR InitializeEnemy
-    JSR ConfigureEnemyType
-    LDY $02
-    BNE _label_bank0_9639
-
-_label_bank0_9660:
-    RTS
-
-    .byte $AD, $1B, $00, $D0, $FB
-
-    JSR BeginDirectPpuTransfer
-    LDA a:PPU_STATUS
-    LDA #$D0
-
-_label_bank0_966e:
-    PHA
-    TAX
-    AND #$0F
-    BEQ _label_bank0_96ce
-    DEX
-    STX $00
-    JSR $9F01
-    STA $03
-    LDY #$23
-    STY a:PPU_ADDR
-    STA a:PPU_ADDR
-    LDA a:PPU_DATA
-    LDA a:PPU_DATA
-    STA $02
-    LDX $00
-    LDA $0304,X
-    LDX #$03
-    CMP #$F8
-    BCS _label_bank0_96a4
-    CMP #$80
-    LDX #$00
-    BCS _label_bank0_96a4
-    LDX #$10
-    CMP #$40
-    BCS _label_bank0_96a4
-    TAX
-
-_label_bank0_96a4:
-    STX $01
-    JSR $9E21
-    LDX #$00
-
-_label_bank0_96ab:
-    LDY #$02
-
-_label_bank0_96ad:
-    LDA $03E6,X
-    INX
-    STA a:PPU_ADDR
-    DEY
-    BNE _label_bank0_96ad
-    LDA $0300
-    STA a:PPU_CTRL
-    INX
-    LDY #$02
-
-_label_bank0_96c0:
-    LDA $03E6,X
-    BEQ _label_bank0_96ce
-    INX
-    STA a:PPU_DATA
-    DEY
-    BNE _label_bank0_96c0
-    BEQ _label_bank0_96ab
-
-_label_bank0_96ce:
-    PLA
-    TAX
-    DEX
-    CPX #$11
-    TXA
-    BCS _label_bank0_966e
-    LDA a:PPU_STATUS
-    JMP EndDirectPpuTransfer
 
 .segment "PRG_POST_ROOM_BLOCK_DECODE"
 

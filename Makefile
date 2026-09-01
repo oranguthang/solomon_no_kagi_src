@@ -32,6 +32,8 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	src/game/room_block_decode.asm \
 	src/system/counter_wait.asm \
 	src/graphics/static_ppu_update_queue.asm src/data/static_ppu_update_streams.asm \
+	src/game/room_enemy_load.asm \
+	src/graphics/room_map_render.asm \
 	src/game/object_y_clamp.asm \
 	src/game/object_x_left_clamp.asm \
 	src/graphics/ppu_update_stream.asm \
