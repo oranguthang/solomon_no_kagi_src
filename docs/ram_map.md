@@ -40,7 +40,11 @@ range is understood.
 | `$042B` | number of usable two-bit fireball inventory slots, maximum 8 | confirmed |
 | `$042E-$042F` | eight packed two-bit fireball inventory slots | confirmed |
 | `$0434-$043B` | timer warning state, step, fraction, and decimal digits | high |
-| `$043C-$0446` | room item/mirror runtime state and coordinates | high |
+| `$043C-$043D` | NMI-incremented Demon Mirror spawn timer | confirmed |
+| `$043E` | Demon Mirror phase/loop state and two pending bits | confirmed |
+| `$043F-$0440` | independent Demon Mirror enemy-set stream offsets | confirmed |
+| `$0441-$0444` | two Demon Mirror Y/X coordinate pairs | confirmed |
+| `$0445-$0446` | allocated enemy slots for the two Demon Mirrors | confirmed |
 | `$0447` | active enemy count produced by the movement prepass | high |
 | `$044A-$0451` | eight unpacked decimal score digits, most significant first | confirmed |
 | `$0452` | remaining lives | high |

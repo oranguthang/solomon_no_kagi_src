@@ -33,8 +33,9 @@ Fireball inventory is eight two-bit values packed into `$042E-$042F`. The cast
 entry shifts that pair twice, moving the consumed value into the accumulator:
 zero cancels the spawn, while the two nonzero encodings select the fireball
 configuration written to the record at `$05A7`. Position and facing are
-derived from Dana's saved action pose. The final initializer at `$A30C`
-remains unnamed until its full range is reconstructed.
+derived from Dana's saved action pose. After activation, the action calls
+`BuildFireballInventoryDisplayUpdate` to redraw both packed-inventory HUD
+rows. See `docs/fireball_inventory_display.md`.
 
 ## Block magic
 

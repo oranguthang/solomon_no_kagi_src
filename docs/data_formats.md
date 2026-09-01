@@ -16,6 +16,21 @@ iNES file. Runtime pointers address the same bytes at CPU `$8000-$FFFF`.
 Pointer tables store all low bytes first and all high bytes second. A runtime
 pointer is converted to a PRG offset by subtracting `$8000`.
 
+## Demon Mirror schedules and enemy sets
+
+Each spawn schedule is eight bytes. Bytes 0-3 provide 32 initial MSB-first
+trigger bits; bytes 4-7 provide the 32-bit looping half. The runtime derives
+one phase every 64 NMI ticks and latches the looping half after the initial
+phases have completed.
+
+Enemy sets are variable-length byte streams. Values below `$90` are enemy
+types. A control byte `$90+n` replaces that mirror's stream cursor with `n`,
+allowing a suffix or the complete set to loop without a separate terminator.
+The two mirrors keep independent cursors.
+
+The exact consumer is reconstructed at `$A04C-$A15E`; see
+`docs/demon_mirror_runtime.md`.
+
 ## Coordinates
 
 One byte stores a grid coordinate:

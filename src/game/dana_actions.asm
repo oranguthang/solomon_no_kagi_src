@@ -172,7 +172,7 @@ ActivateFireball:
     STA FireballObject
     ASL A
     STA FireballActive
-    JSR $A30C
+    JSR BuildFireballInventoryDisplayUpdate
 
 FinishFireballCast:
     JMP FinishDanaCasting

@@ -104,14 +104,21 @@ decrease.
   non-code filler rather than disassembled instructions;
 - `$A000-$A04B`: scheduler context 3's main gameplay service loop and queued
   fairy path are isolated in `src/game/main_thread.asm`;
+- `$A04C-$A15E`: both Demon Mirror schedules, capacity gating, placeholder
+  allocation, cyclic enemy-set decoding, delayed activation, and coordinate
+  initialization are isolated as four runtime modules;
 - `$A15F-$A225`: countdown arithmetic, decimal borrow propagation, display
   dirty state, and threshold transitions are isolated in `src/game/timer.asm`;
+- `$A226-$A237`: the overlapping four-entry BCD threshold table and two timer
+  warning PPU streams are isolated with their shared `$A22C` byte preserved;
 - `$A238-$A273`: timer digit formatting and NMI update-program construction
   are isolated in `src/game/timer_display.asm`;
 - `$A274-$A2DB`: the 17-slot active-enemy movement prepass is isolated in
   `src/game/enemy_movement.asm`;
 - `$A2DC-$A30B`: the eligibility scan and per-enemy AI dispatch are isolated
   in `src/game/enemy_ai_dispatch.asm`;
+- `$A30C-$A3A3`: the two-row fireball-inventory HUD producer, two-bit slot
+  decoding, tile mapping, and reverse-copy command headers are source-owned;
 - `$A3A4-$A3D6`: fireball lifetime comparison, expiration, and delayed object
   cleanup are isolated in `src/game/fireball_lifetime.asm`;
 - `$A3D7-$A3F7`: parallel AI/object slot initialization and coordinate setup
@@ -134,6 +141,8 @@ decrease.
   pools by `DeactivateEnemySlot` in `src/game/enemy_deactivation.asm`;
 - `$B4B6-$B4C3`: eleven enemy behavior tail-calls retire the dispatcher-
   selected slot through `DeactivateCurrentEnemy`;
+- `$C3D4-$C42D`: the serialized score/inventory/fairy HUD refresh, fairy PPU
+  template, and seven-digit leading-zero score formatter are source-owned;
 - `$C628-$C697`: timer items perform four-digit decimal doubling, fivefold
   multiplication, and the fixed `10000`/`05000` assignments;
 - `$C698-$C70F`: Scroll Extender, fireball bottles, Fairy Bell, Tzo, and score

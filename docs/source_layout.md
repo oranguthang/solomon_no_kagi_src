@@ -20,8 +20,7 @@ coordinate conversion at `$918A-$91B8`, and initial door/key publication,
 intro UI, room-entry animation, and sine-driven transition objects at
 `$91B9-$9470`. Static PPU update publication starts at
 `$9471-$9487`, its split pointer tables at `$9488-$94AB`, and all 18 static
-update streams at `$94AC-$961A`. The main
-gameplay thread at `$A000-$A04B`.
+update streams at `$94AC-$961A`.
 The adjacent room-enemy stream loader owns `$961B-$9660`.
 Direct rendering of the 16x12 RoomMap interior owns `$9661-$96DB`.
 The shared direct-PPU transfer guard owns `$96DC-$970A`.
@@ -39,9 +38,14 @@ coordinate/object overlap predicate at `$9DB1-$9DCF`.
 The cooperative single-cell PPU producer owns `$9DD0-$9EDF`, its nametable and
 attribute address helpers own `$9EE0-$9F22`, and classified filler occupies
 `$9F23-$9FFF` immediately before the main gameplay thread.
-Timer logic owns `$A15F-$A225`, and its display builder
-at `$A238-$A273`, followed by the enemy movement prepass at `$A274-$A2DB`.
-The adjacent AI dispatcher owns `$A2DC-$A30B`.
+The context-three main loop owns `$A000-$A04B`; the complete Demon Mirror
+schedule, allocation, initialization, enemy-set loop, and delayed activation
+runtime continues through `$A15E`.
+Timer logic owns `$A15F-$A225`, its overlapping threshold/PPU-stream data owns
+`$A226-$A237`, and its display builder owns `$A238-$A273`, followed by the
+enemy movement prepass at `$A274-$A2DB`.
+The adjacent AI dispatcher owns `$A2DC-$A30B`. The packed fireball-inventory
+HUD builder and its tables own `$A30C-$A3A3`.
 Fireball lifetime and delayed cleanup own `$A3A4-$A3D6`.
 Enemy slot position/state initialization follows at `$A3D7-$A3F7`.
 Type-specific object/AI configuration owns `$A3F8-$A44D`.
@@ -53,6 +57,9 @@ The free enemy-slot allocator owns `$B42A-$B445`.
 Their split record-pool pointer tables own `$B446-$B491`.
 The adjacent enemy-slot deactivation helper owns `$B492-$B4B5`.
 Current selected-enemy deactivation owns `$B4B6-$B4C3`.
+The gameplay HUD coordinator, fairy-count template, and score formatter own
+`$C3D4-$C42D`; the shared return and overlapping score header begin the
+remaining raw range at `$C42E`.
 Timer item effects own `$C628-$C697`.
 Inventory, fairy, fireball-lifetime, and score item entries own `$C698-$C70F`.
 Item score tables and the shared auxiliary-effect initializer own
@@ -141,13 +148,17 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_ROOM_MAP_PPU_ADDRESS` | packed cell to nametable/attribute address helpers | 67 |
 | `PRG_MAIN_THREAD_PADDING` | classified non-code filler before `$A000` | 221 |
 | `PRG_MAIN_THREAD` | context-three gameplay loop | 76 |
-| `PRG_PRE_TIMER` | unresolved `$A04C-$A15E` range | 275 |
+| `PRG_DEMON_MIRROR_ACTIVATION` | delayed enemy-set decoding and type activation | 91 |
+| `PRG_DEMON_MIRROR_SCHEDULE` | two MSB-first spawn schedule samplers | 105 |
+| `PRG_DEMON_MIRROR_SPAWN` | two-placeholder enemy-slot allocation | 52 |
+| `PRG_DEMON_MIRROR_INITIALIZATION` | mirror-coordinate object initialization | 27 |
 | `PRG_TIMER` | countdown arithmetic and warning transitions | 199 |
-| `PRG_PRE_TIMER_DISPLAY` | unresolved timer tables `$A226-$A237` | 18 |
+| `PRG_TIMER_WARNING_DATA` | overlapping BCD thresholds and warning PPU streams | 18 |
 | `PRG_TIMER_DISPLAY` | timer HUD update-program builder | 60 |
 | `PRG_ENEMY_MOVEMENT` | active-enemy movement prepass | 104 |
 | `PRG_ENEMY_AI_DISPATCH` | 17-slot enemy AI selector | 48 |
-| `PRG_PRE_FIREBALL_LIFETIME` | unresolved `$A30C-$A3A3` range | 152 |
+| `PRG_FIREBALL_INVENTORY_DISPLAY` | two-row packed fireball HUD producer | 143 |
+| `PRG_FIREBALL_INVENTORY_DISPLAY_DATA` | fireball HUD tiles and reversed headers | 9 |
 | `PRG_FIREBALL_LIFETIME` | fireball expiration and cleanup | 51 |
 | `PRG_ENEMY_INITIALIZATION` | enemy slot coordinates and AI reset | 33 |
 | `PRG_ENEMY_TYPE_CONFIGURATION` | spawn-type object/AI configuration | 86 |
@@ -161,7 +172,11 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_ENEMY_POINTER_TABLES` | split object/AI record pointer tables | 76 |
 | `PRG_ENEMY_DEACTIVATION` | parallel-record enemy slot retirement | 36 |
 | `PRG_CURRENT_ENEMY_DEACTIVATION` | selected enemy-record retirement | 14 |
-| `PRG_BANK_0` | unresolved `$B4C4-$C627` range | 4,452 |
+| `PRG_BANK_0` | unresolved `$B4C4-$C3D3` range | 3,856 |
+| `PRG_GAMEPLAY_HUD` | serialized score, inventory, and fairy HUD refresh | 42 |
+| `PRG_GAMEPLAY_HUD_DATA` | collected-fairy PPU update template | 5 |
+| `PRG_SCORE_DISPLAY` | leading-zero score display formatter | 43 |
+| `PRG_POST_HUD_DISPLAY` | unresolved `$C42E-$C627` range | 506 |
 | `PRG_TIMER_ITEM_EFFECTS` | timer multiplication and fixed-value item handlers | 112 |
 | `PRG_INVENTORY_ITEM_EFFECTS` | inventory, fairy, lifetime, and score item handlers | 120 |
 | `PRG_ITEM_SCORE_TABLES` | collectible score digit and amount lookups | 8 |

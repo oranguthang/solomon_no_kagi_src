@@ -15,8 +15,16 @@ digits changed.
 When the PPU update stream is free, the routine calls
 `BuildTimerDisplayUpdate` at `$A238`. If that builder reports an all-zero timer, scheduler code
 `$33` is started. The final part compares the two high timer digits with a
-four-entry threshold table at `$A229`, queues one of two PPU update streams,
-and toggles bit 4 of `TimerWarningState` as the threshold is crossed.
+four-entry BCD threshold table at `$A229`, queues one of two PPU update
+streams, and toggles bit 4 of `TimerWarningState` as the threshold is crossed.
+The thresholds are `$02`, `$04`, `$10`, and `$23`.
+
+`src/data/timer_warning.asm` owns `$A226-$A237`. The fourth threshold byte at
+`$A22C` is deliberately shared with `EnterTimerWarningPpuUpdate`: the two
+six-byte streams write two literal bytes at PPU `$23C2`, using `$F0,$30` on
+entry and `$A0,$20` on exit. The three bytes at `$A226-$A228` duplicate the
+`$20,$69,$44` timer HUD command header, but their consumer has not yet been
+proved, so the source keeps the conservative `PreTimerWarningTableBytes` name.
 
 ## Display update builder
 
@@ -28,6 +36,6 @@ left in scratch byte `$02`, which lets `DecrementTimer` detect an all-zero
 countdown after the builder returns.
 
 The builder tail-calls `PublishPpuUpdateBuffer`, which publishes `$03E6`
-through the shared PPU update pointer. The generic writer at `$4469`, threshold
-table, and warning PPU streams remain raw addresses until their containing
-systems are independently reconstructed.
+through the shared PPU update pointer. The `$20,$69,$44` bytes decode as a
+literal five-tile command targeting PPU `$2069`; their instruction-like
+appearance as `JSR $4469` is incidental.

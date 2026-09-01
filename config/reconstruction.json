@@ -1025,6 +1025,62 @@
       ]
     },
     {
+      "id": "demon_mirror_activation",
+      "path": "src/game/demon_mirror_activation.asm",
+      "segment": "PRG_DEMON_MIRROR_ACTIVATION",
+      "start": "0xa04c",
+      "end": "0xa0a6",
+      "status": "semantic",
+      "required_labels": [
+        "ActivatePendingDemonMirrorEnemies",
+        "ReadFirstDemonMirrorEnemyType",
+        "ConfigureFirstDemonMirrorEnemy",
+        "ActivateSecondDemonMirror",
+        "ReadSecondDemonMirrorEnemyType",
+        "ConfigureSecondDemonMirrorEnemy",
+        "FinishDemonMirrorActivation"
+      ]
+    },
+    {
+      "id": "demon_mirror_schedule",
+      "path": "src/game/demon_mirror_schedule.asm",
+      "segment": "PRG_DEMON_MIRROR_SCHEDULE",
+      "start": "0xa0a7",
+      "end": "0xa10f",
+      "status": "semantic",
+      "required_labels": [
+        "UpdateDemonMirrorSpawnSchedule",
+        "SelectFirstDemonMirrorScheduleBit",
+        "SelectSecondDemonMirrorScheduleBit",
+        "CheckDemonMirrorSpawnCapacity",
+        "FinishDemonMirrorScheduleUpdate"
+      ]
+    },
+    {
+      "id": "demon_mirror_spawn",
+      "path": "src/game/demon_mirror_spawn.asm",
+      "segment": "PRG_DEMON_MIRROR_SPAWN",
+      "start": "0xa110",
+      "end": "0xa143",
+      "status": "semantic",
+      "required_labels": [
+        "SpawnScheduledDemonMirrorObjects",
+        "SpawnNextScheduledDemonMirror",
+        "AdvanceDemonMirrorSpawn"
+      ]
+    },
+    {
+      "id": "demon_mirror_initialization",
+      "path": "src/game/demon_mirror_initialization.asm",
+      "segment": "PRG_DEMON_MIRROR_INITIALIZATION",
+      "start": "0xa144",
+      "end": "0xa15e",
+      "status": "semantic",
+      "required_labels": [
+        "InitializeDemonMirrorObject"
+      ]
+    },
+    {
       "id": "timer",
       "path": "src/game/timer.asm",
       "segment": "PRG_TIMER",
@@ -1036,6 +1092,20 @@
         "DecrementTimerByOne",
         "CommitTimerDisplayUpdate",
         "UpdateTimerWarningState"
+      ]
+    },
+    {
+      "id": "timer_warning_data",
+      "path": "src/data/timer_warning.asm",
+      "segment": "PRG_TIMER_WARNING_DATA",
+      "start": "0xa226",
+      "end": "0xa237",
+      "status": "semantic",
+      "required_labels": [
+        "PreTimerWarningTableBytes",
+        "TimerWarningThresholds",
+        "EnterTimerWarningPpuUpdate",
+        "LeaveTimerWarningPpuUpdate"
       ]
     },
     {
@@ -1076,6 +1146,39 @@
         "RunEnemyAiDispatcher",
         "CheckNextEnemyAiSlot",
         "NextEnemyAiSlot"
+      ]
+    },
+    {
+      "id": "fireball_inventory_display",
+      "path": "src/graphics/fireball_inventory_display.asm",
+      "segment": "PRG_FIREBALL_INVENTORY_DISPLAY",
+      "start": "0xa30c",
+      "end": "0xa39a",
+      "status": "semantic",
+      "required_labels": [
+        "BuildFireballInventoryDisplayUpdate",
+        "CopyFireballInventoryTopRowHeader",
+        "BuildFireballInventoryTopRow",
+        "FillUnusedFireballInventorySlots",
+        "FillNextUnusedFireballInventorySlot",
+        "BlankRemainingFireballInventoryCells",
+        "CopyFireballInventoryBottomRowHeader",
+        "BuildFireballInventoryBottomRow",
+        "FillFireballInventoryBottomRowTail",
+        "FillNextFireballInventoryBottomCell"
+      ]
+    },
+    {
+      "id": "fireball_inventory_display_data",
+      "path": "src/data/fireball_inventory_display.asm",
+      "segment": "PRG_FIREBALL_INVENTORY_DISPLAY_DATA",
+      "start": "0xa39b",
+      "end": "0xa3a3",
+      "status": "semantic",
+      "required_labels": [
+        "FireballInventoryTopTileByValue",
+        "FireballInventoryTopRowHeaderReversed",
+        "FireballInventoryBottomRowHeaderReversed"
       ]
     },
     {
@@ -1216,6 +1319,46 @@
       "status": "semantic",
       "required_labels": [
         "DeactivateCurrentEnemy"
+      ]
+    },
+    {
+      "id": "gameplay_hud",
+      "path": "src/graphics/gameplay_hud.asm",
+      "segment": "PRG_GAMEPLAY_HUD",
+      "start": "0xc3d4",
+      "end": "0xc3fd",
+      "status": "semantic",
+      "required_labels": [
+        "RefreshGameplayHud",
+        "WaitForPpuUpdateStreamIdle",
+        "BuildAndPublishFairyCountDisplay",
+        "CopyFairyCountDisplayTemplate"
+      ]
+    },
+    {
+      "id": "gameplay_hud_data",
+      "path": "src/data/gameplay_hud.asm",
+      "segment": "PRG_GAMEPLAY_HUD_DATA",
+      "start": "0xc3fe",
+      "end": "0xc402",
+      "status": "semantic",
+      "required_labels": [
+        "FairyCountDisplayPpuUpdateTemplate"
+      ]
+    },
+    {
+      "id": "score_display",
+      "path": "src/graphics/score_display.asm",
+      "segment": "PRG_SCORE_DISPLAY",
+      "start": "0xc403",
+      "end": "0xc42d",
+      "status": "semantic",
+      "required_labels": [
+        "BuildScoreDisplayUpdate",
+        "CopyScoreDisplayHeader",
+        "FormatScoreDisplayDigits",
+        "MarkScoreDisplayNonzero",
+        "StoreScoreDisplayDigit"
       ]
     },
     {
@@ -1422,11 +1565,11 @@
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 93,
-    "minimum_documented_prg_bytes": 8476,
-    "minimum_provenance_entries": 518,
-    "maximum_preservation_lines": 7536,
-    "maximum_generated_labels": 488,
-    "maximum_raw_control_flow_targets": 224
+    "minimum_semantic_modules": 103,
+    "minimum_documented_prg_bytes": 9011,
+    "minimum_provenance_entries": 561,
+    "maximum_preservation_lines": 7222,
+    "maximum_generated_labels": 462,
+    "maximum_raw_control_flow_targets": 207
   }
 }

@@ -45,6 +45,16 @@ one of 18 indices in `A`; the routine cooperatively waits for the current
 stream to finish, then publishes the indexed split-table pointer. See
 `docs/static_ppu_update_queue.md`.
 
+The timer warning state publishes two smaller ROM-resident streams directly.
+The fireball-inventory HUD instead assembles adjacent `$2054` and `$2074`
+literal rows in the shared RAM buffer from eight packed two-bit slots. See
+`docs/timer.md` and `docs/fireball_inventory_display.md`.
+
+`RefreshGameplayHud` serializes three producers through that single buffer:
+score at `$2060`, fireball inventory, then the collected-fairy byte at `$2071`.
+The score builder intentionally returns without publishing so room-bonus code
+can append timer digits to the same update program. See `docs/gameplay_hud.md`.
+
 Room initialization also has a direct rendering path.
 `DrawRoomMapToNametable` traverses the 192 interior `RoomMap` cells, obtains
 per-cell address/data chunks, and sends them while rendering and NMI are
@@ -222,6 +232,13 @@ The following `RunEnemyAiDispatcher` pass resolves the same parallel pointers,
 applies two object-record eligibility tests, and invokes a per-enemy handler.
 Keeping selection separate from behavior matches the two-stage movement/AI
 pipeline visible in `MainGameplayThread`.
+
+Before those movement/AI passes, `MainGameplayThread` services both Demon
+Mirrors. A six-bit phase derived from the NMI frame counter samples two
+MSB-first bit schedules, allocates placeholder enemy records, then later
+configures each saved slot from an independently looping enemy-set stream.
+Schedule state, stream offsets, coordinates, and slots occupy the contiguous
+`$043C-$0446` runtime block. See `docs/demon_mirror_runtime.md`.
 
 The fireball uses a separate two-phase lifetime service. An active fireball is
 expired when its 16-bit counter passes the configured lifetime; the object is

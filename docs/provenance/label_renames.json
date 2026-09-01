@@ -4599,6 +4599,393 @@
       "evidence": [
         "The 32 monotonically increasing values from $00 to $7F are indexed by a reflected six-bit phase and used as transition orbit magnitudes."
       ]
+    },
+    {
+      "address": "0xa04c",
+      "previous": "$A04C",
+      "current": "ActivatePendingDemonMirrorEnemies",
+      "confidence": "confirmed",
+      "evidence": [
+        "The main gameplay thread calls this after schedule sampling; pending bits 6-7 select the two resolved Demon Mirror enemy-set pointers and stored mirror enemy slots before ConfigureEnemyType."
+      ]
+    },
+    {
+      "address": "0xa06d",
+      "previous": "_label_bank0_a06d",
+      "current": "ReadFirstDemonMirrorEnemyType",
+      "confidence": "confirmed",
+      "evidence": [
+        "This loop indexes the first resolved enemy-set stream and treats values $90+ as a replacement stream offset before accepting an enemy type."
+      ]
+    },
+    {
+      "address": "0xa080",
+      "previous": "_label_bank0_a080",
+      "current": "ConfigureFirstDemonMirrorEnemy",
+      "confidence": "confirmed",
+      "evidence": [
+        "The accepted first-set byte is stored as SpawnType and applied to the slot previously saved for mirror index 1."
+      ]
+    },
+    {
+      "address": "0xa085",
+      "previous": "_label_bank0_a085",
+      "current": "ActivateSecondDemonMirror",
+      "confidence": "confirmed",
+      "evidence": [
+        "The second pending bit selects the slot saved for mirror index 0 and the second resolved enemy-set pointer."
+      ]
+    },
+    {
+      "address": "0xa08e",
+      "previous": "_label_bank0_a08e",
+      "current": "ReadSecondDemonMirrorEnemyType",
+      "confidence": "confirmed",
+      "evidence": [
+        "This loop indexes the second enemy-set stream, advances its independent offset, and follows the same $90-based loop marker contract."
+      ]
+    },
+    {
+      "address": "0xa0a1",
+      "previous": "_label_bank0_a0a1",
+      "current": "ConfigureSecondDemonMirrorEnemy",
+      "confidence": "confirmed",
+      "evidence": [
+        "The accepted second-set byte becomes SpawnType for the slot saved for mirror index 0."
+      ]
+    },
+    {
+      "address": "0xa0a6",
+      "previous": "_label_bank0_a0a6",
+      "current": "FinishDemonMirrorActivation",
+      "confidence": "confirmed",
+      "evidence": [
+        "No-pending, early-phase, single-mirror, and both-mirror activation paths converge on this return."
+      ]
+    },
+    {
+      "address": "0xa0a7",
+      "previous": "$A0A7",
+      "current": "UpdateDemonMirrorSpawnSchedule",
+      "confidence": "confirmed",
+      "evidence": [
+        "The main thread calls this before activation; it derives a six-bit phase from the NMI-incremented $043C-$043D counter and samples matching bits from both eight-byte Demon Mirror schedules."
+      ]
+    },
+    {
+      "address": "0xa0e9",
+      "previous": "_label_bank0_a0e9",
+      "current": "SelectFirstDemonMirrorScheduleBit",
+      "confidence": "confirmed",
+      "evidence": [
+        "The low three phase bits select one bit from the first schedule byte chosen by phase divided by eight."
+      ]
+    },
+    {
+      "address": "0xa0f6",
+      "previous": "_label_bank0_a0f6",
+      "current": "SelectSecondDemonMirrorScheduleBit",
+      "confidence": "confirmed",
+      "evidence": [
+        "The same phase byte/bit coordinates select the trigger from the second resolved schedule pointer."
+      ]
+    },
+    {
+      "address": "0xa108",
+      "previous": "$A108",
+      "current": "CheckDemonMirrorSpawnCapacity",
+      "confidence": "confirmed",
+      "evidence": [
+        "A clear schedule bit returns carry clear; a set bit compares ActiveEnemyCount with 14 so a trigger is retained only while the pool has capacity."
+      ]
+    },
+    {
+      "address": "0xa10f",
+      "previous": "_label_bank0_a10f",
+      "current": "FinishDemonMirrorScheduleUpdate",
+      "confidence": "confirmed",
+      "evidence": [
+        "Pending, unchanged-phase, clear-bit, capacity-rejected, and completed schedule paths converge on this return."
+      ]
+    },
+    {
+      "address": "0xa110",
+      "previous": "$A110",
+      "current": "SpawnScheduledDemonMirrorObjects",
+      "confidence": "confirmed",
+      "evidence": [
+        "Packed results from both schedule checks enter here; the routine allocates one placeholder slot per set bit and repacks only successful allocations into DemonMirrorSpawnState bits 6-7."
+      ]
+    },
+    {
+      "address": "0xa116",
+      "previous": "_label_bank0_a116",
+      "current": "SpawnNextScheduledDemonMirror",
+      "confidence": "confirmed",
+      "evidence": [
+        "The two-iteration loop tests one packed mirror trigger, allocates a free enemy slot, marks its AI record active, saves the slot by mirror index, and initializes its placeholder object."
+      ]
+    },
+    {
+      "address": "0xa131",
+      "previous": "_label_bank0_a131",
+      "current": "AdvanceDemonMirrorSpawn",
+      "confidence": "confirmed",
+      "evidence": [
+        "Clear-trigger, allocation-failure, and successful placeholder paths converge before advancing to the next mirror and repacking successful pending bits."
+      ]
+    },
+    {
+      "address": "0xa144",
+      "previous": "$A144",
+      "current": "InitializeDemonMirrorObject",
+      "confidence": "confirmed",
+      "evidence": [
+        "The spawn loop calls this with X as mirror index and SpawnSlotIndex selected; it copies the matching decoded mirror Y/X, initializes that enemy slot, and assigns object state $C6, type $04, and action $0C."
+      ]
+    },
+    {
+      "address": "0xa226",
+      "previous": "$A226",
+      "current": "PreTimerWarningTableBytes",
+      "confidence": "tentative",
+      "evidence": [
+        "These three bytes immediately precede TimerWarningThresholds and duplicate the $20,$69,$44 command header used by the timer HUD builder; no direct consumer of this copy has been proved."
+      ]
+    },
+    {
+      "address": "0xa229",
+      "previous": "$A229",
+      "current": "TimerWarningThresholds",
+      "confidence": "confirmed",
+      "evidence": [
+        "UpdateTimerWarningState indexes four consecutive BCD values here with TimerWarningState bits 0-1 and compares them against the two highest countdown digits."
+      ]
+    },
+    {
+      "address": "0xa22c",
+      "previous": "$A22C",
+      "current": "EnterTimerWarningPpuUpdate",
+      "confidence": "confirmed",
+      "evidence": [
+        "The below-threshold transition publishes this address and the PPU stream decoder reads a two-byte literal command for $23C2 followed by a zero terminator."
+      ]
+    },
+    {
+      "address": "0xa232",
+      "previous": "$A232",
+      "current": "LeaveTimerWarningPpuUpdate",
+      "confidence": "confirmed",
+      "evidence": [
+        "The warning-exit transition publishes this address and the PPU stream decoder reads the alternate two-byte literal command for $23C2 followed by a zero terminator."
+      ]
+    },
+    {
+      "address": "0xa30c",
+      "previous": "$A30C",
+      "current": "BuildFireballInventoryDisplayUpdate",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both callers use this after inventory setup or consumption; it decodes InventorySlotsHigh/Low into two complete PPU commands in the shared RAM buffer and tail-calls PublishPpuUpdateBuffer."
+      ]
+    },
+    {
+      "address": "0xa329",
+      "previous": "_label_bank0_a329",
+      "current": "CopyFireballInventoryTopRowHeader",
+      "confidence": "confirmed",
+      "evidence": [
+        "The three-iteration reverse copy emits $20,$54,$4A, a literal 11-byte PPU command header for address $2054."
+      ]
+    },
+    {
+      "address": "0xa33d",
+      "previous": "_label_bank0_a33d",
+      "current": "BuildFireballInventoryTopRow",
+      "confidence": "confirmed",
+      "evidence": [
+        "Each pass emits one top-row tile and shifts the packed inventory pair twice to decode the next two-bit value."
+      ]
+    },
+    {
+      "address": "0xa358",
+      "previous": "_label_bank0_a358",
+      "current": "FillUnusedFireballInventorySlots",
+      "confidence": "confirmed",
+      "evidence": [
+        "The zero-slot branch selects tile $B4 before filling the unused portion of InventorySlotCount."
+      ]
+    },
+    {
+      "address": "0xa35a",
+      "previous": "_label_bank0_a35a",
+      "current": "FillNextUnusedFireballInventorySlot",
+      "confidence": "confirmed",
+      "evidence": [
+        "The loop writes tile $B4 while decrementing both remaining row width and remaining usable inventory capacity."
+      ]
+    },
+    {
+      "address": "0xa365",
+      "previous": "_label_bank0_a365",
+      "current": "BlankRemainingFireballInventoryCells",
+      "confidence": "confirmed",
+      "evidence": [
+        "After usable capacity is exhausted, the loop fills the rest of the fixed-width top command with blank tile $24."
+      ]
+    },
+    {
+      "address": "0xa36e",
+      "previous": "_label_bank0_a36e",
+      "current": "CopyFireballInventoryBottomRowHeader",
+      "confidence": "confirmed",
+      "evidence": [
+        "The three-iteration reverse copy emits $20,$74,$4A, a literal 11-byte PPU command header for address $2074."
+      ]
+    },
+    {
+      "address": "0xa378",
+      "previous": "_label_bank0_a378",
+      "current": "BuildFireballInventoryBottomRow",
+      "confidence": "confirmed",
+      "evidence": [
+        "The loop rereads negative top-row tiles from PpuUpdateBuffer + 3, adds two to each, and appends the derived bottom-row tile."
+      ]
+    },
+    {
+      "address": "0xa386",
+      "previous": "_label_bank0_a386",
+      "current": "FillFireballInventoryBottomRowTail",
+      "confidence": "confirmed",
+      "evidence": [
+        "The first nonnegative top-row cell switches to the $B7 tail fill and backs up one destination position before filling."
+      ]
+    },
+    {
+      "address": "0xa389",
+      "previous": "_label_bank0_a389",
+      "current": "FillNextFireballInventoryBottomCell",
+      "confidence": "confirmed",
+      "evidence": [
+        "The loop fills bottom-row cells with $B7 until its source scan reaches $20, the high byte of the following PPU command header."
+      ]
+    },
+    {
+      "address": "0xa39b",
+      "previous": "$A39B",
+      "current": "FireballInventoryTopTileByValue",
+      "confidence": "confirmed",
+      "evidence": [
+        "The top-row decoder indexes this table with two-bit inventory values; encodings 1 and 2 select tiles $B0 and $B1, while byte zero is the explicit $B4 unused-slot tile."
+      ]
+    },
+    {
+      "address": "0xa39e",
+      "previous": "$A39E",
+      "current": "FireballInventoryTopRowHeaderReversed",
+      "confidence": "confirmed",
+      "evidence": [
+        "A descending-X copy emits these bytes in reverse as the $2054 literal-11 PPU command header."
+      ]
+    },
+    {
+      "address": "0xa3a1",
+      "previous": "$A3A1",
+      "current": "FireballInventoryBottomRowHeaderReversed",
+      "confidence": "confirmed",
+      "evidence": [
+        "A descending-X copy emits these bytes in reverse as the $2074 literal-11 PPU command header."
+      ]
+    },
+    {
+      "address": "0xc3d4",
+      "previous": "$C3D4",
+      "current": "RefreshGameplayHud",
+      "confidence": "confirmed",
+      "evidence": [
+        "The routine builds and publishes score, packed fireball-inventory, and collected-fairy updates in sequence, with each later producer waiting for the prior stream to finish."
+      ]
+    },
+    {
+      "address": "0xc3e0",
+      "previous": "$C3E0",
+      "current": "WaitForPpuUpdateStreamIdle",
+      "confidence": "confirmed",
+      "evidence": [
+        "The tail-call to WaitForMaskedBitsClear uses mask $FF and X=$1B, the high byte of PpuUpdateStreamPointer."
+      ]
+    },
+    {
+      "address": "0xc3e7",
+      "previous": "$C3E7",
+      "current": "BuildAndPublishFairyCountDisplay",
+      "confidence": "confirmed",
+      "evidence": [
+        "After waiting for the shared stream slot, this routine copies a one-byte PPU update template, replaces its payload with FairiesCollected, and publishes the buffer."
+      ]
+    },
+    {
+      "address": "0xc3ec",
+      "previous": "_label_bank0_c3ec",
+      "current": "CopyFairyCountDisplayTemplate",
+      "confidence": "confirmed",
+      "evidence": [
+        "The five-iteration indexed copy transfers the complete FairyCountDisplayPpuUpdateTemplate into PpuUpdateBuffer."
+      ]
+    },
+    {
+      "address": "0xc3fe",
+      "previous": "$C3FE",
+      "current": "FairyCountDisplayPpuUpdateTemplate",
+      "confidence": "confirmed",
+      "evidence": [
+        "The bytes decode as one literal PPU write at $2071, a replaceable payload byte, and a zero stream terminator."
+      ]
+    },
+    {
+      "address": "0xc403",
+      "previous": "$C403",
+      "current": "BuildScoreDisplayUpdate",
+      "confidence": "confirmed",
+      "evidence": [
+        "The routine waits for the shared stream slot, copies the $2060 literal-eight header, formats seven ScoreDigits with leading blanks, and appends a fixed zero plus terminator without publishing."
+      ]
+    },
+    {
+      "address": "0xc408",
+      "previous": "_label_bank0_c408",
+      "current": "CopyScoreDisplayHeader",
+      "confidence": "confirmed",
+      "evidence": [
+        "The three-iteration indexed copy preserves the overlapping bytes at $C42F-$C431 as the score PPU command header."
+      ]
+    },
+    {
+      "address": "0xc415",
+      "previous": "_label_bank0_c415",
+      "current": "FormatScoreDisplayDigits",
+      "confidence": "confirmed",
+      "evidence": [
+        "The seven-iteration loop copies ScoreDigits in ascending order and uses carry to distinguish leading zeroes from zeroes after the first nonzero digit."
+      ]
+    },
+    {
+      "address": "0xc420",
+      "previous": "_label_bank0_c420",
+      "current": "MarkScoreDisplayNonzero",
+      "confidence": "confirmed",
+      "evidence": [
+        "A nonzero score digit sets carry so subsequent zero digits are preserved instead of replaced with blank tile $24."
+      ]
+    },
+    {
+      "address": "0xc421",
+      "previous": "_label_bank0_c421",
+      "current": "StoreScoreDisplayDigit",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both blanked and significant digit paths converge on storing the next tile at PpuUpdateBuffer + 3 before advancing the seven-digit loop."
+      ]
     }
   ]
 }

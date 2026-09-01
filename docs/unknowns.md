@@ -20,14 +20,13 @@
    pointer tables, and APU ownership.
 9. Compare USA, Japan, and Europe PRG revisions without merging assumptions
    from one profile into another.
-10. Resolve the remaining Dana action dependency at `$A30C`, and prove the
-    exact meanings of Dana record bytes 3 and 5 plus fireball setup bytes
-    `$0430-$0431`. The map interaction and cell-update dependencies are now
-    documented in `docs/map_interactions.md` and
-    `docs/room_map_cell_update.md`.
-11. Resolve the remaining room-transition coordinate and buffer helpers at
-    `$C364`, `$C3D4`, `$C2A6`, and `$C403`, then replace their raw calls from
-    the now source-owned `$8EC0-$9470` pipeline.
+10. Prove the exact meanings of Dana record bytes 3 and 5 plus fireball setup
+    bytes `$0430-$0431`. The former `$A30C` dependency is now reconstructed as
+    the packed fireball-inventory HUD builder.
+11. Resolve the remaining room-transition coordinate helpers at `$C364` and
+    `$C2A6`, then replace their raw calls from the now source-owned
+    `$8EC0-$9470` pipeline. The HUD helpers at `$C3D4` and `$C403` are now
+    reconstructed.
 
 Unknowns stay here until evidence resolves them; they are not silently removed
 when a plausible name appears.

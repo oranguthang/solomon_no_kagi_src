@@ -59,7 +59,11 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	src/graphics/ppu_update_stream.asm \
 	src/graphics/ppu_attribute_read.asm \
 	src/data/pre_startup_padding.asm \
-	src/game/main_thread.asm src/game/timer.asm \
+	src/game/main_thread.asm \
+	src/game/demon_mirror_activation.asm \
+	src/game/demon_mirror_schedule.asm src/game/demon_mirror_spawn.asm \
+	src/game/demon_mirror_initialization.asm src/game/timer.asm \
+	src/data/timer_warning.asm \
 	src/game/timer_item_effects.asm \
 	src/game/inventory_item_effects.asm \
 	src/data/item_scores.asm src/game/auxiliary_effect.asm \
@@ -67,6 +71,8 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	src/game/coordinate_conversion.asm \
 	src/game/timer_display.asm src/game/enemy_movement.asm \
 	src/game/enemy_ai_dispatch.asm \
+	src/graphics/fireball_inventory_display.asm \
+	src/data/fireball_inventory_display.asm \
 	src/game/fireball_lifetime.asm \
 	src/game/enemy_initialization.asm \
 	src/game/enemy_type_configuration.asm \
@@ -81,6 +87,8 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	src/game/active_object_states.asm \
 	src/game/object_pointer.asm \
 	src/game/non_dana_object_deactivation.asm \
+	src/graphics/gameplay_hud.asm src/data/gameplay_hud.asm \
+	src/graphics/score_display.asm \
 	src/preservation/prg.asm \
 	src/graphics/chr.asm src/memory/hardware.inc src/memory/ram.inc
 

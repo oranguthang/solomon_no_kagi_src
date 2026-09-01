@@ -797,271 +797,6 @@ _label_bank0_8638:
     SEC
     RTS
 
-.segment "PRG_PRE_TIMER"
-    LDX $043E
-    CPX #$40
-    BCC _label_bank0_a0a6
-    LDA $043C
-    AND #$3F
-    CMP #$18
-    BCC _label_bank0_a0a6
-    TXA
-    AND #$3F
-    STA $043E
-    STX $02
-    ASL $02
-    BCC _label_bank0_a085
-    LDA $0446
-    STA $06
-
-_label_bank0_a06d:
-    LDY $043F
-    LDA ($3A),Y
-    INC $043F
-    CMP #$90
-    BCC _label_bank0_a080
-    SBC #$90
-    STA $043F
-    BCS _label_bank0_a06d
-
-_label_bank0_a080:
-    STA $07
-    JSR ConfigureEnemyType
-
-_label_bank0_a085:
-    ASL $02
-    BCC _label_bank0_a0a6
-    LDA $0445
-    STA $06
-
-_label_bank0_a08e:
-    LDY $0440
-    INC $0440
-    LDA ($3C),Y
-    CMP #$90
-    BCC _label_bank0_a0a1
-    SBC #$90
-    STA $0440
-    BCS _label_bank0_a08e
-
-_label_bank0_a0a1:
-    STA $07
-    JSR ConfigureEnemyType
-
-_label_bank0_a0a6:
-    RTS
-
-    LDA $043D
-    ASL A
-    ASL A
-    AND #$3C
-    STA $00
-    LDA $043C
-    ROL A
-    ROL A
-    ROL A
-    AND #$03
-    ORA $00
-    TAX
-    LDA $043E
-    STA $01
-    AND #$1F
-    STA $00
-    LDA #$C0
-    AND $01
-    BNE _label_bank0_a10f
-    TXA
-    AND #$1F
-    CMP $00
-    BEQ _label_bank0_a10f
-    STX $00
-    LDA #$20
-    AND $01
-    ORA $00
-    STA $043E
-    TAY
-    AND #$07
-    STA $00
-    TAX
-    TYA
-    LSR A
-    LSR A
-    LSR A
-    TAY
-    LDA ($36),Y
-
-_label_bank0_a0e9:
-    ASL A
-    DEX
-    BPL _label_bank0_a0e9
-    JSR $A108
-    ROL $01
-    LDX $00
-    LDA ($38),Y
-
-_label_bank0_a0f6:
-    ASL A
-    DEX
-    BPL _label_bank0_a0f6
-    JSR $A108
-    LDA $01
-    ROR A
-    ROR A
-    AND #$C0
-    BEQ _label_bank0_a10f
-    JMP $A110
-    BCC _label_bank0_a10f
-    LDA #$0E
-    CMP $0447
-
-_label_bank0_a10f:
-    RTS
-
-    STA $02
-    LDX #$01
-    STX $03
-
-_label_bank0_a116:
-    ROL $02
-    BCC _label_bank0_a131
-    JSR FindFreeEnemySlotIndex
-    BCC _label_bank0_a131
-    TXA
-    LDX $03
-    STA $0445,X
-    STA $06
-    LDA #$80
-    LDY #$00
-    STA ($04),Y
-    JSR $A144
-    SEC
-
-_label_bank0_a131:
-    DEC $03
-    BPL _label_bank0_a116
-    ROR $02
-    ROR $02
-    LDA $043E
-    AND #$3F
-    ORA $02
-    STA $043E
-    RTS
-
-    LDA $0441,X
-    STA $04
-    LDA $0443,X
-    STA $05
-    JSR InitializeEnemy
-    LDA #$04
-    STA $05
-    LDA #$C6
-    STA $04
-    LDA #$0C
-    JSR InitializeObjectStateHeader
-    RTS
-
-.segment "PRG_PRE_TIMER_DISPLAY"
-    .byte $20, $69, $44, $02, $04, $10, $23, $c2, $41, $f0, $30, $00, $23
-    .byte $c2, $41, $a0, $20, $00
-
-.segment "PRG_PRE_FIREBALL_LIFETIME"
-    LDA #$FF
-    LDX #$1B
-    JSR WaitForMaskedBitsClear
-    LDA #$E6
-    STA $00
-    LDA #$03
-    STA $01
-    LDY #$00
-    LDA $042E
-    STA $04
-    LDA $042F
-    STA $05
-    LDX #$02
-
-_label_bank0_a329:
-    LDA $A39E,X
-    STA ($00),Y
-    INY
-    DEX
-    BPL _label_bank0_a329
-    LDA $042B
-    STA $02
-    LDA #$0A
-    STA $03
-    LDA #$A5
-
-_label_bank0_a33d:
-    STA ($00),Y
-    INY
-    ASL $04
-    ROL $05
-    ROL A
-    ASL $04
-    ROL $05
-    ROL A
-    AND #$03
-    BEQ _label_bank0_a358
-    DEC $02
-    DEC $03
-    TAX
-    LDA $A39B,X
-    BNE _label_bank0_a33d
-
-_label_bank0_a358:
-    LDA #$B4
-
-_label_bank0_a35a:
-    STA ($00),Y
-    INY
-    DEC $03
-    DEC $02
-    BPL _label_bank0_a35a
-    LDA #$24
-
-_label_bank0_a365:
-    STA ($00),Y
-    INY
-    DEC $03
-    BNE _label_bank0_a365
-    LDX #$02
-
-_label_bank0_a36e:
-    LDA $A3A1,X
-    STA ($00),Y
-    INY
-    DEX
-    BPL _label_bank0_a36e
-    INX
-
-_label_bank0_a378:
-    LDA $03E9,X
-    BPL _label_bank0_a386
-    INX
-    CLC
-    ADC #$02
-    STA ($00),Y
-    INY
-    BNE _label_bank0_a378
-
-_label_bank0_a386:
-    DEY
-    LDA #$B7
-
-_label_bank0_a389:
-    STA ($00),Y
-    INY
-    LDA $03E9,X
-    INX
-    CMP #$20
-    BNE _label_bank0_a389
-    LDA #$00
-    STA ($00),Y
-    JMP PublishPpuUpdateBuffer
-
-    .byte $b4, $b0, $b1, $4a, $54, $20, $4a, $74
-    .byte $20
-
 .segment "PRG_PRE_ENEMY_POINTERS"
     LDY #$03
     LDA ($2E),Y
@@ -4782,11 +4517,11 @@ _label_bank0_c370:
     JSR $C3B0
     LDA #$C0
     STA $05C0
-    JSR $C3D4
+    JSR RefreshGameplayHud
     LDA #$40
     BNE _label_bank0_c39d
     JSR $C3B0
-    JSR $C3D4
+    JSR RefreshGameplayHud
     LDA #$12
 
 _label_bank0_c39d:
@@ -4815,64 +4550,15 @@ _label_bank0_c39d:
     ASL $87
     RTS
 
-    JSR $C403
-    JSR PublishPpuUpdateBuffer
-    JSR $A30C
-    JMP $C3E7
-    LDA #$FF
-    LDX #$1B
-    JMP WaitForMaskedBitsClear
-    JSR $C3E0
-    LDX #$04
-
-_label_bank0_c3ec:
-    LDA $C3FE,X
-    STA $03E6,X
-    DEX
-    BPL _label_bank0_c3ec
-    LDA $0453
-    STA $03E9
-    JMP PublishPpuUpdateBuffer
-
-    .byte $20, $71, $40, $00, $00
-
-    JSR $C3E0
-    LDX #$02
-
-_label_bank0_c408:
-    LDA $C42F,X
-    STA $03E6,X
-    DEX
-    BPL _label_bank0_c408
-    CLC
-    INX
-    LDY #$07
-
-_label_bank0_c415:
-    LDA $044A,X
-    BNE _label_bank0_c420
-    BCS _label_bank0_c421
-    LDA #$24
-    BPL _label_bank0_c421
-
-_label_bank0_c420:
-    SEC
-
-_label_bank0_c421:
-    STA $03E9,X
-    INX
-    DEY
-    BNE _label_bank0_c415
-    STY $03F0
-    STY $03F1
-
-_label_bank0_c42e:
+.segment "PRG_POST_HUD_DISPLAY"
+ReturnFromHudOrItemUpdate:
     RTS
 
+ScoreDisplayPpuCommandHeader:
     JSR $4760
     LDA $0582
     CMP #$1C
-    BCS _label_bank0_c42e
+    BCS ReturnFromHudOrItemUpdate
     LDA $0586
     ADC #$08
     STA $04
@@ -4885,7 +4571,7 @@ _label_bank0_c42e:
     LDA $0304,X
     JSR $C45B
     LDA $02
-    BEQ _label_bank0_c42e
+    BEQ ReturnFromHudOrItemUpdate
     JMP $8D5F
     CMP #$38
     BCS _label_bank0_c4b5
@@ -5677,7 +5363,7 @@ _label_bank0_cc3d:
     INX
     CPX #$0C
     BCC _label_bank0_cc3d
-    JSR $C403
+    JSR BuildScoreDisplayUpdate
     LDX #$02
 
 _label_bank0_cc4b:

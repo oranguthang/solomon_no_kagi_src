@@ -57,10 +57,10 @@ inventory slots, clears the eight decimal score digits and adjacent state
 flags, then seeds `GameStateFlags`, `$0080`, and the high fireball-lifetime
 byte with one.
 
-The former raw dependencies at `$91EB`, `$91B9`, `$92BC`, and `$9340` are now
+The former raw dependencies at `$91EB`, `$91B9`, `$92BC`, `$9340`, `$C3D4`,
+and `$C403` are now
 source-owned as `PrepareRoomIntro`, `PublishRoomDoorAndKeyUpdates`,
-`RunRoomEntryAnimation`, and `RunTransitionObjectOrbit`. Calls at `$C364`,
-`$C3D4`, `$C2A6`, and `$C403` remain address-based because their exact
-contracts are outside these ranges and are not yet fully proven. Keeping those
-dependencies explicit avoids promoting buffer-building hypotheses into
-accepted names.
+`RunRoomEntryAnimation`, `RunTransitionObjectOrbit`, `RefreshGameplayHud`, and
+`BuildScoreDisplayUpdate`. Calls at `$C364` and `$C2A6` remain address-based
+because their exact contracts are outside these ranges and are not yet fully
+proven.

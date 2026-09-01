@@ -38,7 +38,7 @@ LoadSelectedRoom:
     JSR QueueStaticPpuUpdateStream
     LDA #$01
     JSR QueueStaticPpuUpdateStream
-    JSR $C3D4
+    JSR RefreshGameplayHud
     JSR PrepareRoomIntro
     JSR ResetAndSelectGameplayDelayCounter
     LDA #$80

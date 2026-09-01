@@ -53,5 +53,18 @@ Break at `PrepareRoomIntro` (`$91EB`) across normal and special rooms and save
 the literal `PRINSESS`/` SOLOMON`/` HIDDEN ` strings, and the marker grouping
 against the source tables.
 
+## Demon Mirror trace
+
+Break at `UpdateDemonMirrorSpawnSchedule` (`$A0A7`) and record `$043C-$0447`
+plus both schedule bytes selected through `$0036-$0039`. Verify that a new
+phase appears once per `$40` NMI increments, phases 0-7 consume bits 7-0, and
+state bit 5 remains set after the initial 32 phases.
+
+Break at `SpawnScheduledDemonMirrorObjects` (`$A110`) and
+`ActivatePendingDemonMirrorEnemies` (`$A04C`). Record allocation carry, saved
+slots `$0445-$0446`, stream offsets `$043F-$0440`, and the byte read through
+`$003A-$003D`. A `$90+n` control byte must replace the corresponding stream
+offset without calling `ConfigureEnemyType`.
+
 Runtime findings belong in a focused document or reproducible scenario, while
 unresolved contradictions belong in `docs/unknowns.md`.

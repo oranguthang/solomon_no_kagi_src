@@ -14,7 +14,7 @@ evidence, and small tested tools for decoded game data.
   entrypoint; CHR is a private generated asset and is not stored in Git.
 - Confirmed NES registers and high-confidence RAM aliases are separated into
   `src/memory/`.
-- Ninety-three semantic PRG modules own NMI (`$8000-$80FE`), controller input
+- Ninety-seven semantic PRG modules own NMI (`$8000-$80FE`), controller input
   (`$837D-$83C1`), reset/startup
   (`$8C00-$8D5E`), the cooperative scheduler (`$8D5F-$8E46`), and the main
   gameplay thread (`$A000-$A04B`), plus countdown timer arithmetic and warning
@@ -52,6 +52,8 @@ evidence, and small tested tools for decoded game data.
   Shared map/object interactions and overlap checks own `$9C60-$9DCF`.
   Buffered room-cell rendering, its address converters, and classified filler
   own the complete `$9DD0-$9FFF` range.
+  The main context-three loop and complete Demon Mirror schedule, placeholder,
+  cyclic enemy-set, and activation runtime own `$A000-$A15E`.
   Object surface clamps own `$8A62-$8ABF`; the type/action-driven motion and
   animation definition loader follows at `$8AC0-$8B50`.
   The complete 21-record object update, fixed-point motion, RoomMap collision
@@ -245,6 +247,10 @@ src/game/object_collision_response.asm coordinate/motion/action responses
 src/game/object_y_thirteen_clamp.asm clamp object Y to the `$...D` inset
 src/game/coordinate_conversion.asm pixel and packed room-index conversion
 src/game/main_thread.asm   context-three gameplay service loop
+src/game/demon_mirror_schedule.asm two eight-byte spawn schedules
+src/game/demon_mirror_spawn.asm allocate scheduled mirror placeholders
+src/game/demon_mirror_activation.asm cyclic enemy-set activation
+src/game/demon_mirror_initialization.asm mirror coordinate/object setup
 src/game/timer.asm         countdown arithmetic and warning-state transitions
 src/game/timer_item_effects.asm multiply or replace time from collected items
 src/game/inventory_item_effects.asm packed inventory and related item handlers

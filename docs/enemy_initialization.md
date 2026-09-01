@@ -14,6 +14,8 @@ clears offsets 1-3, then `$B28A` resolves the matching `$14`-byte object record
 and receives Y/X at offsets 7 and 10. These two helpers and their split pointer
 tables remain raw until their own data/code module is reconstructed.
 
-One call site at `$A144` uses only this position/state initialization before a
-separate rendering call, while room actors, fairies, and the `$B930` spawn path
-continue directly into the type-specific `$A3F8` service.
+`InitializeDemonMirrorObject` at `$A144` uses only this position/state helper
+while building a placeholder with state `$C6`, type `$04`, and action `$0C`;
+the later activation pass applies `ConfigureEnemyType`. Room actors, fairies,
+and the `$B930` spawn path continue directly into the type-specific `$A3F8`
+service.

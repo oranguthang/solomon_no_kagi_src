@@ -90,15 +90,15 @@ UpdateTimerWarningState:
     ASL A
     ASL A
     ORA TimerDigit1000
-    CMP $A229,X
+    CMP TimerWarningThresholds,X
     BCS LeaveTimerWarningRange
     TYA
     BNE FinishTimerUpdate
     LDA PpuUpdateStreamPointer + 1
     BNE FinishTimerUpdate
-    LDA #$2C
+    LDA #<EnterTimerWarningPpuUpdate
     STA PpuUpdateStreamPointer
-    LDA #$A2
+    LDA #>EnterTimerWarningPpuUpdate
     STA PpuUpdateStreamPointer + 1
     LDY #$04
     JSR AddSoundEffect
@@ -109,9 +109,9 @@ UpdateTimerWarningState:
 LeaveTimerWarningRange:
     TYA
     BEQ FinishTimerUpdate
-    LDA #$32
+    LDA #<LeaveTimerWarningPpuUpdate
     STA PpuUpdateStreamPointer
-    LDA #$A2
+    LDA #>LeaveTimerWarningPpuUpdate
     STA PpuUpdateStreamPointer + 1
     LDY #$01
     LDA FireballState

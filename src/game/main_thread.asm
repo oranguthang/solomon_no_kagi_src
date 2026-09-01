@@ -5,8 +5,8 @@
 MainGameplayThread:
     JSR DecrementTimer
     JSR UpdateEnemiesMovement
-    JSR $A0A7
-    JSR $A04C
+    JSR UpdateDemonMirrorSpawnSchedule
+    JSR ActivatePendingDemonMirrorEnemies
     JSR SwitchThreads
     JSR RunEnemyAiDispatcher
     JSR SwitchThreads

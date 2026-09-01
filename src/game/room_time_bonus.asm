@@ -47,7 +47,7 @@ AddFullTimerBonusChunk:
 
 AddTimerBonusChunkToScore:
     JSR AddScoreByAAtDigitX
-    JSR $C403
+    JSR BuildScoreDisplayUpdate
     LDA #$24
     STA PpuUpdateBuffer + $0B
     CLC

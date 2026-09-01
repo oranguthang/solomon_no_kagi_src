@@ -13,6 +13,9 @@
     {"address": "0x92bc", "name": "RunRoomEntryAnimation", "kind": "execute", "confidence": "high"},
     {"address": "0x9340", "name": "RunTransitionObjectOrbit", "kind": "execute", "confidence": "confirmed"},
     {"address": "0xa000", "name": "MainGameplayLoop", "kind": "execute", "confidence": "high"},
+    {"address": "0xa04c", "name": "ActivatePendingDemonMirrorEnemies", "kind": "execute", "confidence": "confirmed"},
+    {"address": "0xa0a7", "name": "UpdateDemonMirrorSpawnSchedule", "kind": "execute", "confidence": "confirmed"},
+    {"address": "0xa110", "name": "SpawnScheduledDemonMirrorObjects", "kind": "execute", "confidence": "confirmed"},
     {"address": "0xa15f", "name": "DecrementTimer", "kind": "execute", "confidence": "high"},
     {"address": "0xb42a", "name": "FindFreeEnemySlot", "kind": "execute", "confidence": "high"},
     {"address": "0xc45b", "name": "CheckMapTileCollisionType", "kind": "execute", "confidence": "high"}
