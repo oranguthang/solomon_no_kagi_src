@@ -36,5 +36,22 @@ write with the decoded JSON from `scripts/room_data.py --room N`. This separates
 fixed room input from later runtime mutations such as revealed items, broken
 blocks, key state, and door state.
 
+## Room-transition trace
+
+Break at `RoomClearThread` (`$8EE4`) and `SubtractTimerBy8` (`$8FB0`). Capture
+timer digits `$0438-$043B`, score digits `$044A-$0451`, and the shared PPU
+buffer after each credited chunk. The static reconstruction predicts repeated
+chunks of eight followed by one final remainder.
+
+Break at `RunTransitionObjectOrbit` (`$9340`), watch `$04F7-$050F`, and log
+object Y/X writes for indices 0-14 until `GameplayDelayCounter` reaches `$40`.
+The source predicts eight phase units between objects and one position update
+per distinct delay-counter value.
+
+Break at `PrepareRoomIntro` (`$91EB`) across normal and special rooms and save
+`$03E6-$03FF` immediately before publication. This verifies room/life digits,
+the literal `PRINSESS`/` SOLOMON`/` HIDDEN ` strings, and the marker grouping
+against the source tables.
+
 Runtime findings belong in a focused document or reproducible scenario, while
 unresolved contradictions belong in `docs/unknowns.md`.

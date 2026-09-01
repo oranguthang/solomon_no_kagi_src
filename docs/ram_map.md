@@ -32,11 +32,11 @@ range is understood.
 | `$0304-$03E3` | 16x14 room map: 16x12 interior plus two sentinel rows | confirmed |
 | `$0406-$041E` | constellation position and expanded 24-byte pattern | confirmed |
 | `$03E4-$03E5` | cached controller state with game-state-dependent filtering | confirmed |
-| `$03E6...` | shared RAM PPU update-program buffer | confirmed base |
+| `$03E6-$03F9` | shared RAM PPU update-program buffer extent used by room palette loading | confirmed |
 | `$0423-$0425` | three sound-effect request slots | confirmed |
 | `$0426-$0427` | split enemy spawn-lifetime threshold | high |
 | `$0428` | zero-based current room index | confirmed |
-| `$0429-$043D` | fireball, inventory, and lifetime state | mixed/high |
+| `$0429-$043D` | fireball, inventory, and lifetime state; `$0429` temporarily saves the prior room index during special-room loading | mixed/high |
 | `$042B` | number of usable two-bit fireball inventory slots, maximum 8 | confirmed |
 | `$042E-$042F` | eight packed two-bit fireball inventory slots | confirmed |
 | `$0434-$043B` | timer warning state, step, fraction, and decimal digits | high |
@@ -71,3 +71,19 @@ response table at `$8806`; upper bits also participate in the mask-0/F handler.
 The shared auxiliary record at `$05BB` uses the same confirmed integer Y/X
 offsets. `SpawnAuxiliaryEffectAtCoordinates` writes them from zero-page
 `$04/$05` before replacing object bytes 0 through 3 from a fixed template.
+
+During `RoomClearThread`, `$04FB-$0503` receives a nine-byte overlapping
+template spanning the tail of AI record 0 and the head of AI record 1. The
+first four AI bytes are then seeded from converted room coordinates through
+the selector table at `$933C`. Exact per-byte AI meanings remain pending.
+
+`ResetNewGameState` clears `$0079-$007C`, all eight score digits
+`$044A-$0451`, and seeds `$0078`, `$0080`, and `$0433` with one. The room-clear
+presentation writes `$01` or `$05` to `$0080`; its exact long-term ownership
+still requires tracing.
+
+Room-entry and room-clear presentations temporarily use `$04F7-$050F` as 25
+bytes of orbit state. Bytes `$04FB-$04FE` become two little-endian center
+accumulators, `$04FF-$0502` hold a radius accumulator and delta, and `$0503`
+holds the six-bit phase. The same memory returns to enemy-AI ownership after
+the transition clears it.

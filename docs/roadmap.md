@@ -74,10 +74,16 @@ decrease.
   `src/system/ppu_update_buffer.asm`, with all 16 calls named;
 - `$8EA9-$8EBF`: the stack-consuming inline appendix tail dispatcher is
   isolated in `src/system/jump_with_params.asm`, with all 11 calls named;
+- `$8EC0-$915D`: the room palette template, context-one room-clear flow,
+  decimal remaining-time bonus, common room loader, selection tables, and
+  new-game state reset are split into seven source-owned modules;
 - `$9165-$9189`: inverse cooperative waits yield until selected masked
   zero-page bits clear or become set, with all ten callers named;
 - `$918A-$91B8`: both directions of the pixel/packed-room-index conversion are
   isolated in `src/game/coordinate_conversion.asm`, with all 31 calls named;
+- `$91B9-$9470`: initial door/key publication, intro UI and data, two-digit
+  formatting, room-entry placement, the fifteen-object transition orbit,
+  fixed-point scaling, and the quarter-sine table are source-owned;
 - `$96DC-$970A`: thirteen direct PPU transfer boundaries use named begin/end
   helpers that coordinate update-stream idleness, rendering, and NMI state;
 - `$970B-$97A2`: the room-init path draws the two right columns, two bottom

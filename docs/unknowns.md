@@ -25,6 +25,9 @@
     `$0430-$0431`. The map interaction and cell-update dependencies are now
     documented in `docs/map_interactions.md` and
     `docs/room_map_cell_update.md`.
+11. Resolve the remaining room-transition coordinate and buffer helpers at
+    `$C364`, `$C3D4`, `$C2A6`, and `$C403`, then replace their raw calls from
+    the now source-owned `$8EC0-$9470` pipeline.
 
 Unknowns stay here until evidence resolves them; they are not silently removed
 when a plausible name appears.

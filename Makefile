@@ -22,9 +22,20 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	src/system/scheduler.asm src/system/pause_thread.asm \
 	src/system/sound_effect_queue.asm \
 	src/system/ppu_update_buffer.asm src/system/jump_with_params.asm \
+	src/data/room_load_palette.asm src/game/room_clear_thread.asm \
+	src/data/room_clear.asm src/game/room_time_bonus.asm \
+	src/game/room_load_thread.asm src/data/room_load.asm \
+	src/game/new_game_state_reset.asm \
 	src/system/gameplay_delay_setup.asm \
 	src/system/masked_ram_wait.asm \
 	src/system/secondary_thread_reset.asm \
+	src/game/room_door_key_update.asm src/game/room_intro.asm \
+	src/data/room_intro.asm src/game/two_digit_number.asm \
+	src/game/room_entry_animation.asm src/data/room_entry_animation.asm \
+	src/game/transition_object_orbit.asm \
+	src/game/transition_orbit_position.asm \
+	src/game/transition_orbit_scale.asm src/game/quarter_sine.asm \
+	src/data/quarter_sine.asm \
 	src/game/room_transition_reset.asm \
 	src/graphics/nametable_clear.asm src/data/nametable_clear.asm \
 	src/graphics/full_nametable_clear.asm \

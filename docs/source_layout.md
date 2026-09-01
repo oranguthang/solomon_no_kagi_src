@@ -4,8 +4,7 @@
 address-ordered includes. Semantic modules own NMI at `$8000-$80FE`, controller
 sampling at `$837D-$83C1`, the per-frame object update pipeline at
 `$863C-$87DF`, its complete collision-response dispatcher at `$87E0-$8A61`,
-object
-surface clamping at `$8A62-$8ABF`, object motion/animation definition loading
+object surface clamping at `$8A62-$8ABF`, object motion/animation definition loading
 at `$8AC0-$8B50`, NMI-side RoomMap attribute reads at
 `$8B51-$8B7E`, the PPU update bytecode interpreter at `$8B7F-$8BE1`, and
 classified pre-Reset filler at `$8BE2-$8BFF`. Startup begins at `$8C00-$8D5E`,
@@ -14,9 +13,12 @@ and the scheduler at
 Context 2's pause loop is at `$8E47-$8E8C`, sound-effect request
 queuing at `$8E8D-$8E9F`, PPU
 update-buffer publication at `$8EA0-$8EA8`, inline appendix dispatch at
-`$8EA9-$8EBF`, standard gameplay-delay setup at `$915E-$9164`, cooperative
+`$8EA9-$8EBF`, and the complete room-clear/load pipeline at `$8EC0-$915D`.
+Standard gameplay-delay setup follows at `$915E-$9164`, cooperative
 masked-RAM waits at `$9165-$9189`, room-map
-coordinate conversion at `$918A-$91B8`, static PPU update publication at
+coordinate conversion at `$918A-$91B8`, and initial door/key publication,
+intro UI, room-entry animation, and sine-driven transition objects at
+`$91B9-$9470`. Static PPU update publication starts at
 `$9471-$9487`, its split pointer tables at `$9488-$94AB`, and all 18 static
 update streams at `$94AC-$961A`. The main
 gameplay thread at `$A000-$A04B`.
@@ -98,11 +100,27 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_SOUND_EFFECT_QUEUE` | three-slot sound-effect request producer | 19 |
 | `PRG_PPU_UPDATE_BUFFER` | shared RAM update-program publication | 9 |
 | `PRG_JUMP_WITH_PARAMS` | inline appendix tail dispatcher | 23 |
-| `PRG_POST_JUMP_WITH_PARAMS` | unresolved `$8EC0-$915D` range | 670 |
+| `PRG_ROOM_LOAD_PALETTE` | room palette update template | 36 |
+| `PRG_ROOM_CLEAR_THREAD` | context-one room-clear presentation and handoff | 190 |
+| `PRG_ROOM_CLEAR_DATA` | overlapping AI/object templates and X positions | 14 |
+| `PRG_ROOM_TIME_BONUS` | decimal timer-to-score conversion and display update | 110 |
+| `PRG_ROOM_LOAD_THREAD` | new-game/common room loading pipeline | 256 |
+| `PRG_ROOM_LOAD_DATA` | Dana preload, room-group colors, and palette offsets | 22 |
+| `PRG_NEW_GAME_STATE_RESET` | new-game counters, flags, and score reset | 42 |
 | `PRG_GAMEPLAY_DELAY_SETUP` | reset and select gameplay delay counter | 7 |
 | `PRG_MASKED_RAM_WAIT` | cooperative masked zero-page condition waits | 37 |
 | `PRG_COORDINATE_CONVERSION` | pixel and packed room-index conversion | 47 |
-| `PRG_POST_COORDINATE_CONVERSION` | unresolved `$91B9-$9470` range | 696 |
+| `PRG_ROOM_DOOR_KEY_UPDATE` | publish initial door and visible key map cells | 50 |
+| `PRG_ROOM_INTRO` | room/lives HUD, special-room name, marker, and spark setup | 135 |
+| `PRG_ROOM_INTRO_DATA` | compact intro PPU program, spark header, and names | 55 |
+| `PRG_TWO_DIGIT_NUMBER` | blank-padded decimal tens/ones formatter | 19 |
+| `PRG_ROOM_ENTRY_ANIMATION` | Dana placement and timed entry presentation | 115 |
+| `PRG_ROOM_ENTRY_ANIMATION_DATA` | orbit AI and entry-spark state templates | 17 |
+| `PRG_TRANSITION_OBJECT_ORBIT` | `$40`-tick fifteen-object orbit controller | 120 |
+| `PRG_TRANSITION_ORBIT_POSITION` | reflected-sine object coordinate placement | 113 |
+| `PRG_TRANSITION_ORBIT_SCALE` | eight-round orbit component scaler | 23 |
+| `PRG_QUARTER_SINE` | reflected six-bit phase lookup | 17 |
+| `PRG_QUARTER_SINE_DATA` | 32 seven-bit quarter-sine magnitudes | 32 |
 | `PRG_STATIC_PPU_UPDATE_QUEUE` | blocking indexed static-stream producer | 23 |
 | `PRG_STATIC_PPU_UPDATE_POINTERS` | split pointers for 18 static streams | 36 |
 | `PRG_STATIC_PPU_UPDATE_STREAMS` | 18 compact PPU command programs | 367 |

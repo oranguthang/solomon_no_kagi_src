@@ -14,7 +14,7 @@ evidence, and small tested tools for decoded game data.
   entrypoint; CHR is a private generated asset and is not stored in Git.
 - Confirmed NES registers and high-confidence RAM aliases are separated into
   `src/memory/`.
-- Seventy-five semantic PRG modules own NMI (`$8000-$80FE`), controller input
+- Ninety-three semantic PRG modules own NMI (`$8000-$80FE`), controller input
   (`$837D-$83C1`), reset/startup
   (`$8C00-$8D5E`), the cooperative scheduler (`$8D5F-$8E46`), and the main
   gameplay thread (`$A000-$A04B`), plus countdown timer arithmetic and warning
@@ -68,6 +68,11 @@ evidence, and small tested tools for decoded game data.
   Context 2's pause loop owns `$8E47-$8E8C`, the sound-effect request queue
   owns `$8E8D-$8E9F`, shared PPU-buffer publication owns `$8EA0-$8EA8`, and
   the inline appendix dispatcher is source-owned at `$8EA9-$8EBF`.
+  The complete context-one room-clear, remaining-time bonus, room-load,
+  palette-selection, and new-game reset pipeline follows at `$8EC0-$915D`.
+  Pixel/map coordinate conversion and the complete door/key, intro HUD,
+  room-entry animation, fifteen-object orbit, scaled sine lookup, and source
+  table continue through `$9470`.
   Cooperative masked-RAM waits own `$9165-$9189`.
 - `make reconstruction-status` reports monotonic cleanup metrics, while
   `make reconstruction-audit` binds module ranges and renamed labels to linker
@@ -210,6 +215,19 @@ src/system/sound_effect_queue.asm three-slot sound command producer
 src/system/ppu_update_buffer.asm publish shared RAM program to NMI
 src/graphics/ppu_attribute_read.asm NMI RoomMap attribute-byte reader
 src/system/jump_with_params.asm inline appendix tail-dispatch ABI
+src/game/room_clear_thread.asm context-one room completion and handoff
+src/game/room_time_bonus.asm decimal remaining-time score conversion
+src/game/room_load_thread.asm common new-game and room loading pipeline
+src/game/new_game_state_reset.asm initial counters, flags, and score reset
+src/data/room_load_palette.asm mutable room palette update template
+src/data/room_clear.asm overlapping transition AI/object templates
+src/data/room_load.asm Dana preload and room palette selection tables
+src/game/room_door_key_update.asm initial visible room cells
+src/game/room_intro.asm room/lives HUD and special-room names
+src/game/room_entry_animation.asm Dana placement and entry presentation
+src/game/transition_object_orbit.asm timed fifteen-object orbit controller
+src/game/transition_orbit_position.asm sine-scaled orbit positioning
+src/data/quarter_sine.asm 32-entry transition magnitude table
 src/system/masked_ram_wait.asm cooperative masked zero-page waits
 src/system/secondary_thread_reset.asm stop other contexts during transitions
 src/game/room_transition_reset.asm shared transition context and state reset

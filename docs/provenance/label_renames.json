@@ -3852,6 +3852,753 @@
       "evidence": [
         "Three collision paths call this helper; exhaustive arithmetic gives integer Y low nibble $D, clears fraction byte 6, and reduces motion byte 5 to its prior sign bit."
       ]
+    },
+    {
+      "address": "0x8ec0",
+      "previous": "$8EC0",
+      "current": "RoomLoadPaletteTemplate",
+      "confidence": "confirmed",
+      "evidence": [
+        "The room loader copies the command header plus 16 palette bytes from this $3F00 literal-update template into PpuUpdateBuffer before patching colors and publishing it."
+      ]
+    },
+    {
+      "address": "0x8ee4",
+      "previous": "$8EE4",
+      "current": "RoomClearThread",
+      "confidence": "high",
+      "evidence": [
+        "Scheduler selector $14 enters here; the sequence stops secondary work, presents update streams, converts the remaining timer to score, clears its temporary objects, and replaces itself with the room-load selector."
+      ]
+    },
+    {
+      "address": "0x8ef5",
+      "previous": "_label_bank0_8ef5",
+      "current": "CopyRoomClearAiStateTemplate",
+      "confidence": "confirmed",
+      "evidence": [
+        "The nine-iteration reverse loop copies RoomClearAiStateTemplate into EnemyAiState offsets 4 through 12."
+      ]
+    },
+    {
+      "address": "0x8f09",
+      "previous": "_label_bank0_8f09",
+      "current": "CopyRoomClearOriginCoordinates",
+      "confidence": "confirmed",
+      "evidence": [
+        "The two-iteration loop duplicates the converted room-map Y/X pair into scratch bytes and the room-clear AI state."
+      ]
+    },
+    {
+      "address": "0x8f1e",
+      "previous": "_label_bank0_8f1e",
+      "current": "SeedRoomClearAiCoordinates",
+      "confidence": "high",
+      "evidence": [
+        "Four selector bytes at $933C choose zero-page coordinate values that this loop stores into the first four room-clear AI-state bytes."
+      ]
+    },
+    {
+      "address": "0x8f34",
+      "previous": "_label_bank0_8f34",
+      "current": "SelectRoomClearRotationStep",
+      "confidence": "high",
+      "evidence": [
+        "Gameplay flag $40 selects value $01 or $05 for $0080 immediately before the shared $9340 presentation routine consumes that byte as an angular step."
+      ]
+    },
+    {
+      "address": "0x8f47",
+      "previous": "_label_bank0_8f47",
+      "current": "InitializeRoomClearObjects",
+      "confidence": "confirmed",
+      "evidence": [
+        "The two-iteration loop resolves enemy object records 1 and 0, assigns their Y/X positions, and fills object header fields 0 through 3."
+      ]
+    },
+    {
+      "address": "0x8f5f",
+      "previous": "_label_bank0_8f5f",
+      "current": "CopyRoomClearObjectHeader",
+      "confidence": "confirmed",
+      "evidence": [
+        "This reverse loop stores the computed action and predecessor table values into object header offsets 3 through 0."
+      ]
+    },
+    {
+      "address": "0x8f6c",
+      "previous": "_label_bank0_8f6c",
+      "current": "QueueRoomClearMessages",
+      "confidence": "confirmed",
+      "evidence": [
+        "The loop queues static PPU update streams 2, 3, and 4 before the room-clear delay and timer-bonus sequence."
+      ]
+    },
+    {
+      "address": "0x8fa2",
+      "previous": "$8FA2",
+      "current": "RoomClearAiStateTemplate",
+      "confidence": "confirmed",
+      "evidence": [
+        "RoomClearThread copies exactly nine bytes from this address into the first two enemy AI records' overlapping state range."
+      ]
+    },
+    {
+      "address": "0x8faa",
+      "previous": "$8FAA",
+      "current": "RoomClearObjectHeaderPredecessors",
+      "confidence": "confirmed",
+      "evidence": [
+        "The room-clear object initializer indexes these four bytes while filling object header offsets 3 through 0; its first byte is intentionally shared with the AI template tail."
+      ]
+    },
+    {
+      "address": "0x8fae",
+      "previous": "$8FAE",
+      "current": "RoomClearObjectXPositions",
+      "confidence": "confirmed",
+      "evidence": [
+        "Enemy object indices 0 and 1 directly index the two X positions $28 and $C8 during room-clear setup."
+      ]
+    },
+    {
+      "address": "0x8fb0",
+      "previous": "_label_bank0_8fb0",
+      "current": "SubtractTimerBy8",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map identifies $0FB0 as SubtractTimerBy8, and the four-digit decimal borrow loop subtracts eight before adding the same chunk to score digit 6."
+      ]
+    },
+    {
+      "address": "0x8fbc",
+      "previous": "_label_bank0_8fbc",
+      "current": "SubtractTimerBonusDigits",
+      "confidence": "confirmed",
+      "evidence": [
+        "This loop propagates the subtraction carry through the four unpacked decimal timer digits."
+      ]
+    },
+    {
+      "address": "0x8fc1",
+      "previous": "_label_bank0_8fc1",
+      "current": "PropagateTimerBonusBorrow",
+      "confidence": "confirmed",
+      "evidence": [
+        "A borrowed timer digit receives ten and deliberately leaves carry clear for the next decimal digit."
+      ]
+    },
+    {
+      "address": "0x8fc6",
+      "previous": "_label_bank0_8fc6",
+      "current": "StoreTimerBonusDigit",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both borrowed and non-borrowed paths converge to store the current unpacked timer digit."
+      ]
+    },
+    {
+      "address": "0x8fd8",
+      "previous": "_label_bank0_8fd8",
+      "current": "ClearExhaustedTimerDigits",
+      "confidence": "confirmed",
+      "evidence": [
+        "When fewer than eight timer units remain, this loop zeroes all four timer digits before crediting the remainder."
+      ]
+    },
+    {
+      "address": "0x8fe4",
+      "previous": "_label_bank0_8fe4",
+      "current": "AddFullTimerBonusChunk",
+      "confidence": "confirmed",
+      "evidence": [
+        "A successful four-digit subtraction selects amount eight at score digit 6 before repeating while the timer remains nonzero."
+      ]
+    },
+    {
+      "address": "0x8fed",
+      "previous": "$8FED",
+      "current": "AddTimerBonusChunkToScore",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both the full-eight and final-remainder paths converge here with A as the amount and X as score digit 6, then call the shared decimal score adder."
+      ]
+    },
+    {
+      "address": "0x9003",
+      "previous": "_label_bank0_9003",
+      "current": "CopyTimerBonusDisplayDigits",
+      "confidence": "confirmed",
+      "evidence": [
+        "The reverse four-digit loop copies the current timer into the combined score/timer PPU update buffer while blanking only leading zeroes."
+      ]
+    },
+    {
+      "address": "0x900e",
+      "previous": "_label_bank0_900e",
+      "current": "MarkNonzeroTimerBonusDigit",
+      "confidence": "confirmed",
+      "evidence": [
+        "A nonzero timer digit sets carry so lower zero digits remain numeric rather than becoming leading-space tiles."
+      ]
+    },
+    {
+      "address": "0x900f",
+      "previous": "_label_bank0_900f",
+      "current": "StoreTimerBonusDisplayDigit",
+      "confidence": "confirmed",
+      "evidence": [
+        "Numeric digits and substituted $24 blank tiles converge on this PPU-buffer store."
+      ]
+    },
+    {
+      "address": "0x901e",
+      "previous": "$901E",
+      "current": "NewGameRoomLoadThread",
+      "confidence": "confirmed",
+      "evidence": [
+        "Scheduler code $10 enters here, calls ResetNewGameState, and falls through into the common room-load pipeline."
+      ]
+    },
+    {
+      "address": "0x9021",
+      "previous": "$9021",
+      "current": "RoomLoadThread",
+      "confidence": "confirmed",
+      "evidence": [
+        "Scheduler code $15 enters here; the routine rebuilds room map, metadata, enemies, palette, Dana state, then starts gameplay context $30 and stops context 1."
+      ]
+    },
+    {
+      "address": "0x9041",
+      "previous": "_label_bank0_9041",
+      "current": "AdvanceSpecialRoomIndex",
+      "confidence": "high",
+      "evidence": [
+        "Game-state bits $20-$30 select one or two increments from base room index $32 before the selected special room is stored."
+      ]
+    },
+    {
+      "address": "0x9042",
+      "previous": "_label_bank0_9042",
+      "current": "StoreSpecialRoomIndex",
+      "confidence": "confirmed",
+      "evidence": [
+        "All special-room index selection paths converge on this CurrentRoomIndex store."
+      ]
+    },
+    {
+      "address": "0x9045",
+      "previous": "_label_bank0_9045",
+      "current": "LoadSelectedRoom",
+      "confidence": "confirmed",
+      "evidence": [
+        "Normal and special index paths converge here before room block, item, enemy, map-render, and palette initialization."
+      ]
+    },
+    {
+      "address": "0x9091",
+      "previous": "_label_bank0_9091",
+      "current": "LoadRoomEnemyStream",
+      "confidence": "confirmed",
+      "evidence": [
+        "This path calls LoadRoomEnemies, normalizes gameplay flags, and draws the decoded RoomMap to the nametable."
+      ]
+    },
+    {
+      "address": "0x909d",
+      "previous": "_label_bank0_909d",
+      "current": "WaitForRoomMapTransfer",
+      "confidence": "confirmed",
+      "evidence": [
+        "The loop waits until NMI clears PpuUpdateStreamPointer's high byte before reusing the shared update buffer for the room palette."
+      ]
+    },
+    {
+      "address": "0x90a3",
+      "previous": "_label_bank0_90a3",
+      "current": "CopyRoomPaletteTemplate",
+      "confidence": "confirmed",
+      "evidence": [
+        "The reverse loop copies 19 bytes: a $3F00 command, control byte, and 16 palette values from RoomLoadPaletteTemplate into PpuUpdateBuffer."
+      ]
+    },
+    {
+      "address": "0x90c2",
+      "previous": "_label_bank0_90c2",
+      "current": "SelectRoomPaletteGroup",
+      "confidence": "confirmed",
+      "evidence": [
+        "The effective room index is divided by four and used directly to index the 14-entry RoomPaletteColorByRoomGroup table."
+      ]
+    },
+    {
+      "address": "0x90d2",
+      "previous": "_label_bank0_90d2",
+      "current": "ApplyRoomPaletteColor",
+      "confidence": "confirmed",
+      "evidence": [
+        "Normal and high-bit palette selectors converge here with the color byte that will be written four times."
+      ]
+    },
+    {
+      "address": "0x90d4",
+      "previous": "_label_bank0_90d4",
+      "current": "ApplyRoomPaletteColorCopies",
+      "confidence": "confirmed",
+      "evidence": [
+        "Four offsets place the selected room-group color in the corresponding positions of the 16-byte palette update."
+      ]
+    },
+    {
+      "address": "0x90f8",
+      "previous": "_label_bank0_90f8",
+      "current": "InitializeDanaForLoadedRoom",
+      "confidence": "confirmed",
+      "evidence": [
+        "The reverse loop fills Dana object header offsets 3 through 0 from a computed action and the predecessor table before gameplay starts."
+      ]
+    },
+    {
+      "address": "0x9111",
+      "previous": "_label_bank0_9111",
+      "current": "SelectRoomEntrySound",
+      "confidence": "high",
+      "evidence": [
+        "Game-state and saved-room conditions select Y values 1 or 2 before this optional AddSoundEffect call."
+      ]
+    },
+    {
+      "address": "0x9114",
+      "previous": "_label_bank0_9114",
+      "current": "StartLoadedRoomGameplay",
+      "confidence": "confirmed",
+      "evidence": [
+        "The room loader starts scheduler code $30 for MainGameplayThread and then stops its own context 1."
+      ]
+    },
+    {
+      "address": "0x911e",
+      "previous": "$911E",
+      "current": "RoomLoadDanaHeaderPredecessors",
+      "confidence": "confirmed",
+      "evidence": [
+        "InitializeDanaForLoadedRoom indexes these predecessor values while filling Dana object header offsets 3 through 0."
+      ]
+    },
+    {
+      "address": "0x9122",
+      "previous": "$9122",
+      "current": "RoomPaletteColorByRoomGroup",
+      "confidence": "confirmed",
+      "evidence": [
+        "The room loader divides the effective zero-based room index by four and directly indexes this 14-byte color table, covering all 53 rooms."
+      ]
+    },
+    {
+      "address": "0x9130",
+      "previous": "$9130",
+      "current": "RoomPaletteColorOffsets",
+      "confidence": "confirmed",
+      "evidence": [
+        "The four values $01, $05, $09, and $0D are used as offsets into the 16 palette payload bytes in PpuUpdateBuffer."
+      ]
+    },
+    {
+      "address": "0x9134",
+      "previous": "$9134",
+      "current": "ResetNewGameState",
+      "confidence": "confirmed",
+      "evidence": [
+        "The scheduler's new-game entry calls this routine before room loading; it selects room zero, grants three lives and inventory slots, clears score/state ranges, and seeds initial flags."
+      ]
+    },
+    {
+      "address": "0x9148",
+      "previous": "_label_bank0_9148",
+      "current": "ClearNewGameStateFlags",
+      "confidence": "confirmed",
+      "evidence": [
+        "The reverse loop clears zero-page bytes $007C through $0079 while preserving the separately initialized GameStateFlags byte at $0078."
+      ]
+    },
+    {
+      "address": "0x914f",
+      "previous": "_label_bank0_914f",
+      "current": "ClearNewGameScoreDigits",
+      "confidence": "confirmed",
+      "evidence": [
+        "The eight-iteration reverse loop clears the complete unpacked decimal ScoreDigits range $044A-$0451."
+      ]
+    },
+    {
+      "address": "0x91b9",
+      "previous": "$91B9",
+      "current": "PublishRoomDoorAndKeyUpdates",
+      "confidence": "confirmed",
+      "evidence": [
+        "The room loader calls this after metadata decode; it reads header offsets 5 and 6 and publishes the door and conditionally visible key cells through BuildAndPublishRoomMapCellUpdate."
+      ]
+    },
+    {
+      "address": "0x91ca",
+      "previous": "_label_bank0_91ca",
+      "current": "PublishInitialDoorCell",
+      "confidence": "confirmed",
+      "evidence": [
+        "Door-present and no-key paths converge here with tile $02 or $35 and the header's door map index."
+      ]
+    },
+    {
+      "address": "0x91ea",
+      "previous": "_label_bank0_91ea",
+      "current": "FinishRoomDoorAndKeyUpdates",
+      "confidence": "confirmed",
+      "evidence": [
+        "Missing-door, suppressed-key, and completed door/key paths converge on this return."
+      ]
+    },
+    {
+      "address": "0x91eb",
+      "previous": "$91EB",
+      "current": "PrepareRoomIntro",
+      "confidence": "confirmed",
+      "evidence": [
+        "RoomLoadThread calls this before its intro delay; it formats room/life digits, publishes the intro PPU program, selects a room marker and tileset, and initializes the intro spark object."
+      ]
+    },
+    {
+      "address": "0x91f4",
+      "previous": "_label_bank0_91f4",
+      "current": "CopyRoomIntroPpuTemplate",
+      "confidence": "confirmed",
+      "evidence": [
+        "The 27-iteration reverse loop copies the complete RoomIntroPpuTemplate into the shared RAM update buffer."
+      ]
+    },
+    {
+      "address": "0x922b",
+      "previous": "_label_bank0_922b",
+      "current": "CopySpecialRoomName",
+      "confidence": "confirmed",
+      "evidence": [
+        "Special-room index selection converges here with byte offset 0, 8, or 16 into three fixed-width names."
+      ]
+    },
+    {
+      "address": "0x922e",
+      "previous": "_label_bank0_922e",
+      "current": "CopySpecialRoomNameTile",
+      "confidence": "confirmed",
+      "evidence": [
+        "This eight-byte loop copies the selected special-room name into the room-intro PPU payload."
+      ]
+    },
+    {
+      "address": "0x9243",
+      "previous": "_label_bank0_9243",
+      "current": "UseSavedRoomIntroMarker",
+      "confidence": "high",
+      "evidence": [
+        "Special-room paths use the nonzero room index saved at $0429, otherwise current room plus one, before normalizing the intro marker."
+      ]
+    },
+    {
+      "address": "0x9245",
+      "previous": "_label_bank0_9245",
+      "current": "SelectRoomIntroMarker",
+      "confidence": "high",
+      "evidence": [
+        "Normal and special room paths reduce the room index to a four-room group and publish the corresponding marker tile at RoomMap index $49."
+      ]
+    },
+    {
+      "address": "0x9268",
+      "previous": "_label_bank0_9268",
+      "current": "InitializeRoomIntroSpark",
+      "confidence": "confirmed",
+      "evidence": [
+        "The reverse four-byte loop copies RoomIntroSparkHeader into the first four bytes of MagicSparkObject."
+      ]
+    },
+    {
+      "address": "0x9272",
+      "previous": "$9272",
+      "current": "RoomIntroPpuTemplate",
+      "confidence": "confirmed",
+      "evidence": [
+        "PrepareRoomIntro copies all 27 bytes; decoding yields three literal PPU commands for SHRINE, ROOM plus two digits, and a lives glyph plus two digits, followed by a terminator."
+      ]
+    },
+    {
+      "address": "0x928d",
+      "previous": "$928D",
+      "current": "RoomIntroSparkHeader",
+      "confidence": "confirmed",
+      "evidence": [
+        "PrepareRoomIntro directly copies these four bytes into MagicSparkObject header offsets 0 through 3."
+      ]
+    },
+    {
+      "address": "0x9291",
+      "previous": "$9291",
+      "current": "SpecialRoomNameTiles",
+      "confidence": "confirmed",
+      "evidence": [
+        "The intro indexes this 24-byte table at offsets 0, 8, or 16 and copies exactly eight tile codes; the first two decode as the ROM's literal PRINSESS and space-SOLOMON."
+      ]
+    },
+    {
+      "address": "0x92a9",
+      "previous": "$92A9",
+      "current": "FormatTwoDigitNumberTiles",
+      "confidence": "confirmed",
+      "evidence": [
+        "Room number and RemainingLives callers pass a value in X; repeated subtraction returns ones in A and tens in X, replacing zero tens with blank tile $24."
+      ]
+    },
+    {
+      "address": "0x92ac",
+      "previous": "_label_bank0_92ac",
+      "current": "CountTwoDigitTens",
+      "confidence": "confirmed",
+      "evidence": [
+        "Each loop subtracts ten from A and increments the tens count in X."
+      ]
+    },
+    {
+      "address": "0x92b5",
+      "previous": "_label_bank0_92b5",
+      "current": "SelectTwoDigitTensTile",
+      "confidence": "confirmed",
+      "evidence": [
+        "After division by repeated subtraction, a zero tens count is replaced by tile $24."
+      ]
+    },
+    {
+      "address": "0x92bb",
+      "previous": "_label_bank0_92bb",
+      "current": "FinishTwoDigitNumberTiles",
+      "confidence": "confirmed",
+      "evidence": [
+        "Numeric and blank-padded tens outcomes converge on this return with A preserving the ones digit."
+      ]
+    },
+    {
+      "address": "0x92bc",
+      "previous": "$92BC",
+      "current": "RunRoomEntryAnimation",
+      "confidence": "high",
+      "evidence": [
+        "RoomLoadThread calls this after door/key publication; it reads header byte 7, runs the transition orbit, places Dana and the spark at that decoded position, and performs two timed spark-state changes."
+      ]
+    },
+    {
+      "address": "0x92d6",
+      "previous": "_label_bank0_92d6",
+      "current": "SeedRoomEntryAiCoordinates",
+      "confidence": "confirmed",
+      "evidence": [
+        "The four selector offsets reorder the converted room-entry coordinate scratch values into EnemyAiState bytes 0 through 3."
+      ]
+    },
+    {
+      "address": "0x92e3",
+      "previous": "_label_bank0_92e3",
+      "current": "CopyRoomEntryAiStateTemplate",
+      "confidence": "confirmed",
+      "evidence": [
+        "The nine-byte reverse loop copies RoomEntryAiStateTemplate to EnemyAiState offsets 4 through 12 before the orbit runs."
+      ]
+    },
+    {
+      "address": "0x9307",
+      "previous": "_label_bank0_9307",
+      "current": "CopyRoomEntrySparkHeader",
+      "confidence": "confirmed",
+      "evidence": [
+        "The reverse four-byte loop copies RoomEntrySparkHeader to MagicSparkObject offsets 0 through 3."
+      ]
+    },
+    {
+      "address": "0x932f",
+      "previous": "$932F",
+      "current": "RoomEntryAiStateTemplate",
+      "confidence": "confirmed",
+      "evidence": [
+        "RunRoomEntryAnimation copies exactly nine bytes from this address into the transition AI state."
+      ]
+    },
+    {
+      "address": "0x9338",
+      "previous": "$9338",
+      "current": "RoomEntrySparkHeader",
+      "confidence": "confirmed",
+      "evidence": [
+        "RunRoomEntryAnimation copies these four bytes directly into MagicSparkObject header offsets 0 through 3."
+      ]
+    },
+    {
+      "address": "0x933c",
+      "previous": "$933C",
+      "current": "TransitionAiCoordinateSourceOffsets",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both room-clear and room-entry setup use the four values 0, 2, 1, and 3 to reorder zero-page coordinate scratch bytes into EnemyAiState."
+      ]
+    },
+    {
+      "address": "0x9340",
+      "previous": "$9340",
+      "current": "RunTransitionObjectOrbit",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both room-clear and room-entry paths call this routine; it initializes fifteen type-$1C objects, positions them through the sine-based helper for $40 delay ticks, then deactivates them."
+      ]
+    },
+    {
+      "address": "0x9345",
+      "previous": "_label_bank0_9345",
+      "current": "InitializeTransitionOrbitObject",
+      "confidence": "confirmed",
+      "evidence": [
+        "The fifteen-iteration loop resolves non-Dana records 14 through 0 and initializes headers with state $C0, type $1C, cached byte $FF, and action 0."
+      ]
+    },
+    {
+      "address": "0x9363",
+      "previous": "_label_bank0_9363",
+      "current": "WaitForTransitionOrbitFrame",
+      "confidence": "confirmed",
+      "evidence": [
+        "The orbit yields through SwitchThreads, checks the gameplay delay counter against $40, and suppresses duplicate updates within one counter value."
+      ]
+    },
+    {
+      "address": "0x9370",
+      "previous": "_label_bank0_9370",
+      "current": "ClearTransitionOrbitState",
+      "confidence": "confirmed",
+      "evidence": [
+        "On completion this reverse loop clears 25 transition AI bytes, then tail-calls SetActiveNonDanaObjectState with state zero."
+      ]
+    },
+    {
+      "address": "0x937b",
+      "previous": "_label_bank0_937b",
+      "current": "UpdateTransitionOrbitFrame",
+      "confidence": "confirmed",
+      "evidence": [
+        "A newly observed delay-counter value is cached, the fifteen positions are recomputed, and the fixed-point orbit state advances."
+      ]
+    },
+    {
+      "address": "0x9386",
+      "previous": "_label_bank0_9386",
+      "current": "AdvanceTransitionOrbitCenter",
+      "confidence": "high",
+      "evidence": [
+        "Two paired little-endian accumulators at EnemyAiState offsets 4-7 are advanced from delta bytes at offsets 0-3 before their high bytes become the orbit center."
+      ]
+    },
+    {
+      "address": "0x939f",
+      "previous": "_label_bank0_939f",
+      "current": "AdvanceTransitionOrbitRadius",
+      "confidence": "high",
+      "evidence": [
+        "A two-byte accumulator at EnemyAiState offsets 8-9 is advanced by offsets 10-11; its high byte is passed as the scale input to the position routine."
+      ]
+    },
+    {
+      "address": "0x93b8",
+      "previous": "$93B8",
+      "current": "PositionTransitionOrbitObjects",
+      "confidence": "confirmed",
+      "evidence": [
+        "The orbit controller calls this once per changed frame; it iterates non-Dana objects 14 through 0, using sine-derived signed offsets around center bytes $04FD-$04FE."
+      ]
+    },
+    {
+      "address": "0x93c6",
+      "previous": "_label_bank0_93c6",
+      "current": "PositionNextTransitionOrbitObject",
+      "confidence": "confirmed",
+      "evidence": [
+        "Each iteration derives sine and phase-shifted cosine magnitudes, scales them, stores one object's Y/X, and advances phase by eight."
+      ]
+    },
+    {
+      "address": "0x93fb",
+      "previous": "_label_bank0_93fb",
+      "current": "PositionTransitionOrbitY",
+      "confidence": "confirmed",
+      "evidence": [
+        "After phase bit 6 conditionally complements the vertical offset, this path adds the orbit center and stores object Y offset 7."
+      ]
+    },
+    {
+      "address": "0x9414",
+      "previous": "_label_bank0_9414",
+      "current": "PositionTransitionOrbitX",
+      "confidence": "confirmed",
+      "evidence": [
+        "After the phase-shifted sign test conditionally complements the horizontal offset, this path adds the center and stores object X offset 10."
+      ]
+    },
+    {
+      "address": "0x9429",
+      "previous": "$9429",
+      "current": "ScaleTransitionOrbitOffset",
+      "confidence": "high",
+      "evidence": [
+        "The orbit positioner calls this after loading a sine magnitude into $0000 and a radius byte into $0004; eight shift/add rounds return the scaled coordinate component in A and $0000."
+      ]
+    },
+    {
+      "address": "0x9431",
+      "previous": "_label_bank0_9431",
+      "current": "MultiplyTransitionOrbitBytes",
+      "confidence": "confirmed",
+      "evidence": [
+        "This eight-iteration bit loop conditionally adds the sine operand while rotating the radius and product."
+      ]
+    },
+    {
+      "address": "0x9438",
+      "previous": "_label_bank0_9438",
+      "current": "ShiftTransitionOrbitProduct",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both set- and clear-multiplier-bit paths converge on the per-round product rotation."
+      ]
+    },
+    {
+      "address": "0x9440",
+      "previous": "$9440",
+      "current": "LoadQuarterSineMagnitude",
+      "confidence": "confirmed",
+      "evidence": [
+        "The orbit positioner passes a six-bit phase; bit 5 reflects the index around $3F before the routine loads one of 32 monotonic seven-bit magnitudes."
+      ]
+    },
+    {
+      "address": "0x944b",
+      "previous": "_label_bank0_944b",
+      "current": "LoadQuarterSineValue",
+      "confidence": "confirmed",
+      "evidence": [
+        "Direct and reflected phase paths converge on the QuarterSineTable lookup and $0000 result store."
+      ]
+    },
+    {
+      "address": "0x9451",
+      "previous": "$9451",
+      "current": "QuarterSineTable",
+      "confidence": "confirmed",
+      "evidence": [
+        "The 32 monotonically increasing values from $00 to $7F are indexed by a reflected six-bit phase and used as transition orbit magnitudes."
+      ]
     }
   ]
 }

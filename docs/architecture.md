@@ -81,6 +81,21 @@ Context 2 selector 1 is now identified as `PauseGameThread`. Scheduler code
 Start release/press/release phases, then stops context 2 on resume. See
 `docs/pause_thread.md`.
 
+Context 1 owns both Dana actions and room transitions. Scheduler code `$14`
+enters `RoomClearThread`, converts the remaining decimal timer into score, and
+replaces itself with code `$15`. Code `$15` enters `RoomLoadThread`, rebuilds
+the room map, items, enemies, palette, and Dana state, then starts context 3's
+main gameplay loop. Code `$10` enters the same loader through a new-game state
+reset. See `docs/room_transition_pipeline.md`.
+
+The adjacent room-intro pipeline keeps UI, map changes, and presentation
+objects synchronized. It publishes door/key cells through the same one-cell
+RoomMap producer used by gameplay, formats room/life digits into a compact PPU
+program, then runs a `$40`-tick fifteen-object orbit before placing Dana. The
+orbit uses a reflected 32-byte quarter-sine table and an eight-round scaled
+multiply instead of storing full coordinate frames. See
+`docs/room_intro_and_orbit.md`.
+
 Two shared condition waits extend the scheduler ABI. A caller supplies a mask
 and zero-page address, then `WaitForMaskedBitsClear` or
 `WaitForMaskedBitsSet` repeatedly yields until the requested RAM condition is

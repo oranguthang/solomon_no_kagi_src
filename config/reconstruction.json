@@ -348,6 +348,118 @@
       ]
     },
     {
+      "id": "room_load_palette",
+      "path": "src/data/room_load_palette.asm",
+      "segment": "PRG_ROOM_LOAD_PALETTE",
+      "start": "0x8ec0",
+      "end": "0x8ee3",
+      "status": "semantic",
+      "required_labels": [
+        "RoomLoadPaletteTemplate"
+      ]
+    },
+    {
+      "id": "room_clear_thread",
+      "path": "src/game/room_clear_thread.asm",
+      "segment": "PRG_ROOM_CLEAR_THREAD",
+      "start": "0x8ee4",
+      "end": "0x8fa1",
+      "status": "semantic",
+      "required_labels": [
+        "RoomClearThread",
+        "CopyRoomClearAiStateTemplate",
+        "CopyRoomClearOriginCoordinates",
+        "SeedRoomClearAiCoordinates",
+        "SelectRoomClearRotationStep",
+        "InitializeRoomClearObjects",
+        "CopyRoomClearObjectHeader",
+        "QueueRoomClearMessages"
+      ]
+    },
+    {
+      "id": "room_clear_data",
+      "path": "src/data/room_clear.asm",
+      "segment": "PRG_ROOM_CLEAR_DATA",
+      "start": "0x8fa2",
+      "end": "0x8faf",
+      "status": "semantic",
+      "required_labels": [
+        "RoomClearAiStateTemplate",
+        "RoomClearObjectHeaderPredecessors",
+        "RoomClearObjectXPositions"
+      ]
+    },
+    {
+      "id": "room_time_bonus",
+      "path": "src/game/room_time_bonus.asm",
+      "segment": "PRG_ROOM_TIME_BONUS",
+      "start": "0x8fb0",
+      "end": "0x901d",
+      "status": "semantic",
+      "required_labels": [
+        "SubtractTimerBy8",
+        "SubtractTimerBonusDigits",
+        "PropagateTimerBonusBorrow",
+        "StoreTimerBonusDigit",
+        "ClearExhaustedTimerDigits",
+        "AddFullTimerBonusChunk",
+        "AddTimerBonusChunkToScore",
+        "CopyTimerBonusDisplayDigits",
+        "MarkNonzeroTimerBonusDigit",
+        "StoreTimerBonusDisplayDigit"
+      ]
+    },
+    {
+      "id": "room_load_thread",
+      "path": "src/game/room_load_thread.asm",
+      "segment": "PRG_ROOM_LOAD_THREAD",
+      "start": "0x901e",
+      "end": "0x911d",
+      "status": "semantic",
+      "required_labels": [
+        "NewGameRoomLoadThread",
+        "RoomLoadThread",
+        "AdvanceSpecialRoomIndex",
+        "StoreSpecialRoomIndex",
+        "LoadSelectedRoom",
+        "LoadRoomEnemyStream",
+        "WaitForRoomMapTransfer",
+        "CopyRoomPaletteTemplate",
+        "SelectRoomPaletteGroup",
+        "ApplyRoomPaletteColor",
+        "ApplyRoomPaletteColorCopies",
+        "InitializeDanaForLoadedRoom",
+        "SelectRoomEntrySound",
+        "StartLoadedRoomGameplay"
+      ]
+    },
+    {
+      "id": "room_load_data",
+      "path": "src/data/room_load.asm",
+      "segment": "PRG_ROOM_LOAD_DATA",
+      "start": "0x911e",
+      "end": "0x9133",
+      "status": "semantic",
+      "required_labels": [
+        "RoomLoadDanaHeaderPredecessors",
+        "RoomPaletteColorByRoomGroup",
+        "RoomPaletteColorOffsets"
+      ]
+    },
+    {
+      "id": "new_game_state_reset",
+      "path": "src/game/new_game_state_reset.asm",
+      "segment": "PRG_NEW_GAME_STATE_RESET",
+      "start": "0x9134",
+      "end": "0x915d",
+      "status": "semantic",
+      "required_labels": [
+        "ResetNewGameState",
+        "ClearNewGameStateFlags",
+        "ClearNewGameScoreDigits"
+      ]
+    },
+    {
       "id": "coordinate_conversion",
       "path": "src/game/coordinate_conversion.asm",
       "segment": "PRG_COORDINATE_CONVERSION",
@@ -357,6 +469,157 @@
       "required_labels": [
         "ConvertPixelCoordinatesToMapIndex",
         "ConvertMapIndexToPixelCoordinates"
+      ]
+    },
+    {
+      "id": "room_door_key_update",
+      "path": "src/game/room_door_key_update.asm",
+      "segment": "PRG_ROOM_DOOR_KEY_UPDATE",
+      "start": "0x91b9",
+      "end": "0x91ea",
+      "status": "semantic",
+      "required_labels": [
+        "PublishRoomDoorAndKeyUpdates",
+        "PublishInitialDoorCell",
+        "FinishRoomDoorAndKeyUpdates"
+      ]
+    },
+    {
+      "id": "room_intro",
+      "path": "src/game/room_intro.asm",
+      "segment": "PRG_ROOM_INTRO",
+      "start": "0x91eb",
+      "end": "0x9271",
+      "status": "semantic",
+      "required_labels": [
+        "PrepareRoomIntro",
+        "CopyRoomIntroPpuTemplate",
+        "CopySpecialRoomName",
+        "CopySpecialRoomNameTile",
+        "UseSavedRoomIntroMarker",
+        "SelectRoomIntroMarker",
+        "InitializeRoomIntroSpark"
+      ]
+    },
+    {
+      "id": "room_intro_data",
+      "path": "src/data/room_intro.asm",
+      "segment": "PRG_ROOM_INTRO_DATA",
+      "start": "0x9272",
+      "end": "0x92a8",
+      "status": "semantic",
+      "required_labels": [
+        "RoomIntroPpuTemplate",
+        "RoomIntroSparkHeader",
+        "SpecialRoomNameTiles"
+      ]
+    },
+    {
+      "id": "two_digit_number",
+      "path": "src/game/two_digit_number.asm",
+      "segment": "PRG_TWO_DIGIT_NUMBER",
+      "start": "0x92a9",
+      "end": "0x92bb",
+      "status": "semantic",
+      "required_labels": [
+        "FormatTwoDigitNumberTiles",
+        "CountTwoDigitTens",
+        "SelectTwoDigitTensTile",
+        "FinishTwoDigitNumberTiles"
+      ]
+    },
+    {
+      "id": "room_entry_animation",
+      "path": "src/game/room_entry_animation.asm",
+      "segment": "PRG_ROOM_ENTRY_ANIMATION",
+      "start": "0x92bc",
+      "end": "0x932e",
+      "status": "semantic",
+      "required_labels": [
+        "RunRoomEntryAnimation",
+        "SeedRoomEntryAiCoordinates",
+        "CopyRoomEntryAiStateTemplate",
+        "CopyRoomEntrySparkHeader"
+      ]
+    },
+    {
+      "id": "room_entry_animation_data",
+      "path": "src/data/room_entry_animation.asm",
+      "segment": "PRG_ROOM_ENTRY_ANIMATION_DATA",
+      "start": "0x932f",
+      "end": "0x933f",
+      "status": "semantic",
+      "required_labels": [
+        "RoomEntryAiStateTemplate",
+        "RoomEntrySparkHeader",
+        "TransitionAiCoordinateSourceOffsets"
+      ]
+    },
+    {
+      "id": "transition_object_orbit",
+      "path": "src/game/transition_object_orbit.asm",
+      "segment": "PRG_TRANSITION_OBJECT_ORBIT",
+      "start": "0x9340",
+      "end": "0x93b7",
+      "status": "semantic",
+      "required_labels": [
+        "RunTransitionObjectOrbit",
+        "InitializeTransitionOrbitObject",
+        "WaitForTransitionOrbitFrame",
+        "ClearTransitionOrbitState",
+        "UpdateTransitionOrbitFrame",
+        "AdvanceTransitionOrbitCenter",
+        "AdvanceTransitionOrbitRadius"
+      ]
+    },
+    {
+      "id": "transition_orbit_position",
+      "path": "src/game/transition_orbit_position.asm",
+      "segment": "PRG_TRANSITION_ORBIT_POSITION",
+      "start": "0x93b8",
+      "end": "0x9428",
+      "status": "semantic",
+      "required_labels": [
+        "PositionTransitionOrbitObjects",
+        "PositionNextTransitionOrbitObject",
+        "PositionTransitionOrbitY",
+        "PositionTransitionOrbitX"
+      ]
+    },
+    {
+      "id": "transition_orbit_scale",
+      "path": "src/game/transition_orbit_scale.asm",
+      "segment": "PRG_TRANSITION_ORBIT_SCALE",
+      "start": "0x9429",
+      "end": "0x943f",
+      "status": "semantic",
+      "required_labels": [
+        "ScaleTransitionOrbitOffset",
+        "MultiplyTransitionOrbitBytes",
+        "ShiftTransitionOrbitProduct"
+      ]
+    },
+    {
+      "id": "quarter_sine",
+      "path": "src/game/quarter_sine.asm",
+      "segment": "PRG_QUARTER_SINE",
+      "start": "0x9440",
+      "end": "0x9450",
+      "status": "semantic",
+      "required_labels": [
+        "LoadQuarterSineMagnitude",
+        "LoadQuarterSineValue"
+      ]
+    },
+    {
+      "id": "quarter_sine_data",
+      "path": "src/data/quarter_sine.asm",
+      "segment": "PRG_QUARTER_SINE_DATA",
+      "start": "0x9451",
+      "end": "0x9470",
+      "status": "semantic",
+      "required_labels": [
+        "QuarterSineTable"
       ]
     },
     {
@@ -1159,11 +1422,11 @@
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 75,
-    "minimum_documented_prg_bytes": 7110,
-    "minimum_provenance_entries": 435,
-    "maximum_preservation_lines": 8249,
-    "maximum_generated_labels": 544,
-    "maximum_raw_control_flow_targets": 240
+    "minimum_semantic_modules": 93,
+    "minimum_documented_prg_bytes": 8476,
+    "minimum_provenance_entries": 518,
+    "maximum_preservation_lines": 7536,
+    "maximum_generated_labels": 488,
+    "maximum_raw_control_flow_targets": 224
   }
 }
