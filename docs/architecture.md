@@ -283,6 +283,26 @@ stores the row in the high nibble and column in the low nibble. The inverse
 conversion is source-owned alongside it, and all 31 consumers use the two
 semantic entry points.
 
+## Dana action threads
+
+Three context-1 scheduler selectors enter independent Dana actions for a head
+collision, fireball casting, and block magic. Their table entries are stored
+as symbol-minus-one addresses for the scheduler's synthetic RTS frame. The
+actions share the room-map coordinate converter, magic-spark object, gameplay
+delay counter, and a final path that stops context 1.
+
+The fireball path consumes one packed two-bit inventory value. The block path
+chooses creation or removal from the sign of the target `RoomMap` value; the
+head-collision path selects between the two cells covered by Dana's width.
+See `docs/dana_actions.md` for the entry mapping and remaining unknown fields.
+
+The adjacent map-interaction layer converts packed target cells to object
+coordinates, normalizes runtime tile flags, initializes the first four object
+bytes, and checks block creation against the fireball and all enemy records.
+Its coordinate/object predicate returns carry clear for overlap, making the
+carry part of the pointer-stride calculation in the enemy scan. See
+`docs/map_interactions.md`.
+
 ## Rendering and timing
 
 OAM shadow storage begins at `$0210`; the NMI path performs DMA from page `$02`.

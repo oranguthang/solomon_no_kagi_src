@@ -8,6 +8,7 @@ range is understood.
 | `$0000-$000F` | temporary pointers and scratch values | high |
 | `$0004-$0007` | spawn Y, X, slot index, and type calling convention | high |
 | `$0004-$0005` | room-map conversion Y/index and X calling convention | confirmed |
+| `$0000-$0006` | map-interaction object pointer, direction/update bytes, Y/X, and overlap pointer | high |
 | `$0012-$0019` | saved SP values for eight cooperative contexts | high |
 | `$001A-$001B` | NMI-consumed PPU update-stream pointer | confirmed |
 | `$0020-$0027` | independently incremented active-gameplay frame counters | confirmed |
@@ -20,6 +21,7 @@ range is understood.
 | `$0036-$0039` | two resolved Demon Mirror schedule pointers | confirmed |
 | `$003A-$003D` | two resolved Demon Mirror enemy-set pointers | confirmed |
 | `$007C-$007D` | room-state flags and decoded tileset | high |
+| `$007E-$007F` | block-cast and head-collision target map indices | high |
 | `$0078` | global game-state flags; pause thread modifies bits 1-2 | high |
 | `$0082-$0083` | raw controller values in A/B/Select/Start/Up/Down/Left/Right bit order | confirmed |
 | `$0087` | unidentified state flags; transition reset clears bit 0 | unknown |

@@ -19,6 +19,10 @@
    pointer tables, and APU ownership.
 9. Compare USA, Japan, and Europe PRG revisions without merging assumptions
    from one profile into another.
+10. Resolve the remaining Dana action dependencies at `$9DD0` and `$A30C`, and
+    prove the exact meanings of Dana record bytes 3 and 5 plus fireball setup
+    bytes `$0430-$0431`. The former `$9C60/$9CC0` dependencies are documented
+    in `docs/map_interactions.md`.
 
 Unknowns stay here until evidence resolves them; they are not silently removed
 when a plausible name appears.

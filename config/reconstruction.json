@@ -276,6 +276,46 @@
       ]
     },
     {
+      "id": "dana_actions",
+      "path": "src/game/dana_actions.asm",
+      "segment": "PRG_DANA_ACTIONS",
+      "start": "0x9a6d",
+      "end": "0x9c51",
+      "status": "semantic",
+      "required_labels": [
+        "HandleDanaHeadCollision",
+        "EncodeHeadCollisionSide",
+        "ReadSecondHeadCollisionCell",
+        "SelectNonzeroHeadCollisionCell",
+        "TestFirstHeadCollisionCell",
+        "SelectSecondHeadCollisionCell",
+        "StoreHeadCollisionTarget",
+        "SpawnHeadCollisionSpark",
+        "WaitAfterHeadCollision",
+        "FinishHeadCollisionAction",
+        "CastFireballFromInventory",
+        "StoreFireballCastPose",
+        "PositionFireballHorizontally",
+        "PositionFireballVertically",
+        "ConsumeNextFireballInventorySlot",
+        "ActivateFireball",
+        "FinishFireballCast",
+        "CastOrRemoveBlock",
+        "SelectBlockCastVerticalOffset",
+        "SelectBlockCastHorizontalOffset",
+        "CreateBlockAtTarget",
+        "QueueBlockCastSound",
+        "WaitForBlockCast",
+        "RemoveBlockAtTarget",
+        "QueueBlockRemovalSound",
+        "FinishDanaCasting",
+        "FinishBlockCast",
+        "RestoreDanaHorizontalPosition",
+        "FinishDanaAction",
+        "DeactivateMagicSpark"
+      ]
+    },
+    {
       "id": "counter_wait",
       "path": "src/system/counter_wait.asm",
       "segment": "PRG_COUNTER_WAIT",
@@ -284,6 +324,53 @@
       "status": "semantic",
       "required_labels": [
         "WaitForZeroPageCounterAboveThreshold"
+      ]
+    },
+    {
+      "id": "map_interactions",
+      "path": "src/game/map_interactions.asm",
+      "segment": "PRG_MAP_INTERACTIONS",
+      "start": "0x9c60",
+      "end": "0x9db0",
+      "status": "semantic",
+      "required_labels": [
+        "ApplyMapTileInteractionToObject",
+        "ClassifyMapInteractionTile",
+        "OffsetMapInteractionX",
+        "SelectMapInteractionXOffset",
+        "StoreMapInteractionCoordinates",
+        "InitializeMapInteractionObject",
+        "FinishMapInteraction",
+        "TryCreateBlockAtMapCell",
+        "CheckBlockCreationOccupancy",
+        "CheckNextEnemyForBlockOverlap",
+        "HandleEnemyBlockOverlap",
+        "PositionBlockSparkFromEnemy",
+        "SelectBlockSparkDirection",
+        "InitializeBlockSpark",
+        "FinishBlockedBlockCreation",
+        "PositionBlockSparkFromFireball",
+        "SelectBlockSparkXCoordinate",
+        "CopyBlockSparkCoordinate",
+        "InitializeBlockedBlockSpark",
+        "CreateBlockInRoomMap",
+        "NormalizeBlockSourceTile",
+        "AdvanceRoomMapTileVariant",
+        "InitializeObjectStateHeader",
+        "SkipObjectActionByte",
+        "FinishObjectStateHeaderInitialization"
+      ]
+    },
+    {
+      "id": "coordinate_object_overlap",
+      "path": "src/game/coordinate_object_overlap.asm",
+      "segment": "PRG_COORDINATE_OBJECT_OVERLAP",
+      "start": "0x9db1",
+      "end": "0x9dcf",
+      "status": "semantic",
+      "required_labels": [
+        "CheckCoordinateOverlapWithObject",
+        "FinishCoordinateObjectOverlapCheck"
       ]
     },
     {
@@ -818,11 +905,11 @@
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 57,
-    "minimum_documented_prg_bytes": 4386,
-    "minimum_provenance_entries": 274,
-    "maximum_preservation_lines": 9830,
-    "maximum_generated_labels": 658,
-    "maximum_raw_control_flow_targets": 296
+    "minimum_semantic_modules": 60,
+    "minimum_documented_prg_bytes": 5239,
+    "minimum_provenance_entries": 331,
+    "maximum_preservation_lines": 9316,
+    "maximum_generated_labels": 612,
+    "maximum_raw_control_flow_targets": 273
   }
 }

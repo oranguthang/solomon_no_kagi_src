@@ -43,7 +43,7 @@ DecodeEnemyTypeFlags:
 
 ApplyEnemyTypeConfiguration:
     TXA
-    JSR $9D99
+    JSR InitializeObjectStateHeader
     PLA
     LSR A
     BCC FinishEnemyTypeConfiguration

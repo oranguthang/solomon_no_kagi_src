@@ -24,7 +24,11 @@ patterns at `$97B8-$97C7`.
 Room item metadata/stream decoding owns `$97C8-$9952`; its runtime lookup
 tables follow at `$9953-$99F1`.
 Runtime room-map initialization and block-plane expansion own `$99F2-$9A6C`.
+Dana's three cooperative head-collision, fireball, and block-magic actions own
+`$9A6D-$9C51`.
 The shared cooperative counter wait owns `$9C52-$9C5F`.
+Shared RoomMap/object interactions own `$9C60-$9DB0`, followed by the
+coordinate/object overlap predicate at `$9DB1-$9DCF`.
 Timer logic owns `$A15F-$A225`, and its display builder
 at `$A238-$A273`, followed by the enemy movement prepass at `$A274-$A2DB`.
 The adjacent AI dispatcher owns `$A2DC-$A30B`.
@@ -93,9 +97,11 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_ROOM_ITEM_DECODE` | room metadata and compressed item-stream decoder | 395 |
 | `PRG_ROOM_ITEM_DECODE_DATA` | constellation, timer, and special-room tables | 159 |
 | `PRG_ROOM_BLOCK_DECODE` | 16x14 map initialization and 16x12 block expansion | 123 |
-| `PRG_POST_ROOM_BLOCK_DECODE` | unresolved `$9A6D-$9C51` range | 485 |
+| `PRG_DANA_ACTIONS` | cooperative head collision, fireball, and block magic | 485 |
 | `PRG_COUNTER_WAIT` | cooperative zero-page counter threshold wait | 14 |
-| `PRG_POST_COUNTER_WAIT` | unresolved `$9C60-$9FFF` range | 928 |
+| `PRG_MAP_INTERACTIONS` | RoomMap mutation and object interaction setup | 337 |
+| `PRG_COORDINATE_OBJECT_OVERLAP` | active-object coordinate overlap predicate | 31 |
+| `PRG_POST_COUNTER_WAIT` | unresolved `$9DD0-$9FFF` range | 560 |
 | `PRG_MAIN_THREAD` | context-three gameplay loop | 76 |
 | `PRG_PRE_TIMER` | unresolved `$A04C-$A15E` range | 275 |
 | `PRG_TIMER` | countdown arithmetic and warning transitions | 199 |

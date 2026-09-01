@@ -2403,6 +2403,519 @@
         "All ten static callers load a PPU address high byte into A and low byte into X before calling.",
         "The routine preserves A across a PPU_STATUS read that resets the address latch, then writes A followed by X to PPU_ADDR."
       ]
+    },
+    {
+      "address": "0x9a6d",
+      "previous": "$9A6D",
+      "current": "HandleDanaHeadCollision",
+      "confidence": "high",
+      "evidence": [
+        "Bisqwit's map identifies this context-1 entry as Dana's probable ceiling-hit action; the routine samples Dana Y minus 8 and tests the two RoomMap cells spanning the sprite width."
+      ]
+    },
+    {
+      "address": "0x9a84",
+      "previous": "_label_bank0_9a84",
+      "current": "EncodeHeadCollisionSide",
+      "confidence": "confirmed",
+      "evidence": [
+        "This path stores the side bit derived from Dana X before accumulating the sign bits of both candidate map cells."
+      ]
+    },
+    {
+      "address": "0x9aac",
+      "previous": "_label_bank0_9aac",
+      "current": "ReadSecondHeadCollisionCell",
+      "confidence": "confirmed",
+      "evidence": [
+        "The code reads RoomMap at the adjusted X index and rotates that cell's sign bit into the two-cell collision mask."
+      ]
+    },
+    {
+      "address": "0x9ac2",
+      "previous": "_label_bank0_9ac2",
+      "current": "SelectNonzeroHeadCollisionCell",
+      "confidence": "confirmed",
+      "evidence": [
+        "This branch converts the nonzero X candidate index to A before the common target store."
+      ]
+    },
+    {
+      "address": "0x9ac5",
+      "previous": "_label_bank0_9ac5",
+      "current": "TestFirstHeadCollisionCell",
+      "confidence": "confirmed",
+      "evidence": [
+        "A second rotate tests the remaining candidate bit before selecting the first or second map index."
+      ]
+    },
+    {
+      "address": "0x9ac9",
+      "previous": "_label_bank0_9ac9",
+      "current": "SelectSecondHeadCollisionCell",
+      "confidence": "confirmed",
+      "evidence": [
+        "This one-instruction path selects the Y-held candidate map index."
+      ]
+    },
+    {
+      "address": "0x9aca",
+      "previous": "_label_bank0_9aca",
+      "current": "StoreHeadCollisionTarget",
+      "confidence": "confirmed",
+      "evidence": [
+        "The selected packed map index is stored at $7F and immediately used to classify the contacted RoomMap tile."
+      ]
+    },
+    {
+      "address": "0x9ae8",
+      "previous": "_label_bank0_9ae8",
+      "current": "SpawnHeadCollisionSpark",
+      "confidence": "high",
+      "evidence": [
+        "This path supplies the MagicSparkObject pointer and selected cell to the shared $9C60 initializer, then writes spark state 9."
+      ]
+    },
+    {
+      "address": "0x9afa",
+      "previous": "_label_bank0_9afa",
+      "current": "WaitAfterHeadCollision",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both modified-tile paths converge here to reset the gameplay delay and cooperatively wait until it exceeds 8."
+      ]
+    },
+    {
+      "address": "0x9b02",
+      "previous": "_label_bank0_9b02",
+      "current": "FinishHeadCollisionAction",
+      "confidence": "confirmed",
+      "evidence": [
+        "Every terminal head-collision branch converges on this tail jump to the shared context-1 action cleanup."
+      ]
+    },
+    {
+      "address": "0x9b05",
+      "previous": "$9B05",
+      "current": "CastFireballFromInventory",
+      "confidence": "high",
+      "evidence": [
+        "Bisqwit's map identifies this entry as Dana's B-button action; it consumes one packed fireball inventory value and configures FireballObject."
+      ]
+    },
+    {
+      "address": "0x9b17",
+      "previous": "_label_bank0_9b17",
+      "current": "StoreFireballCastPose",
+      "confidence": "high",
+      "evidence": [
+        "This path records the pose class and facing bit derived from Dana's saved action pose before positioning the projectile."
+      ]
+    },
+    {
+      "address": "0x9b28",
+      "previous": "_label_bank0_9b28",
+      "current": "PositionFireballHorizontally",
+      "confidence": "confirmed",
+      "evidence": [
+        "The selected signed offset is added to DanaXPosition and stored in the fireball record's integer X field."
+      ]
+    },
+    {
+      "address": "0x9b44",
+      "previous": "_label_bank0_9b44",
+      "current": "PositionFireballVertically",
+      "confidence": "confirmed",
+      "evidence": [
+        "The pose-dependent vertical offset is added to DanaYPosition and stored in the fireball record's integer Y field."
+      ]
+    },
+    {
+      "address": "0x9b4e",
+      "previous": "_label_bank0_9b4e",
+      "current": "ConsumeNextFireballInventorySlot",
+      "confidence": "confirmed",
+      "evidence": [
+        "Two iterations shift the packed inventory pair and rotate the outgoing two-bit slot into A."
+      ]
+    },
+    {
+      "address": "0x9b68",
+      "previous": "_label_bank0_9b68",
+      "current": "ActivateFireball",
+      "confidence": "confirmed",
+      "evidence": [
+        "This path stores the selected fireball configuration, marks FireballObject and FireballActive, and invokes its initializer."
+      ]
+    },
+    {
+      "address": "0x9b77",
+      "previous": "_label_bank0_9b77",
+      "current": "FinishFireballCast",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both the unavailable-projectile and completed-activation paths tail-jump here to the common casting continuation."
+      ]
+    },
+    {
+      "address": "0x9b7a",
+      "previous": "$9B7A",
+      "current": "CastOrRemoveBlock",
+      "confidence": "high",
+      "evidence": [
+        "Bisqwit's map identifies this entry as Dana's A-button action; it computes a target RoomMap cell and branches between block creation and removal by the tile sign."
+      ]
+    },
+    {
+      "address": "0x9b8e",
+      "previous": "_label_bank0_9b8e",
+      "current": "SelectBlockCastVerticalOffset",
+      "confidence": "confirmed",
+      "evidence": [
+        "The pose-selected offset is added to DanaYPosition to produce the block target Y coordinate."
+      ]
+    },
+    {
+      "address": "0x9ba1",
+      "previous": "_label_bank0_9ba1",
+      "current": "SelectBlockCastHorizontalOffset",
+      "confidence": "confirmed",
+      "evidence": [
+        "The facing-selected offset is added to DanaXPosition before packed map-index conversion."
+      ]
+    },
+    {
+      "address": "0x9bbb",
+      "previous": "$9BBB",
+      "current": "CreateBlockAtTarget",
+      "confidence": "high",
+      "evidence": [
+        "Bisqwit's map calls this point DoCastBrick; it invokes $9CC0 for a nonnegative target tile and then monitors MagicSparkObject state."
+      ]
+    },
+    {
+      "address": "0x9bce",
+      "previous": "_label_bank0_9bce",
+      "current": "QueueBlockCastSound",
+      "confidence": "confirmed",
+      "evidence": [
+        "The two creation-result sound selections converge on this AddSoundEffect call."
+      ]
+    },
+    {
+      "address": "0x9bd1",
+      "previous": "_label_bank0_9bd1",
+      "current": "WaitForBlockCast",
+      "confidence": "confirmed",
+      "evidence": [
+        "This path waits for GameplayDelayCounter to exceed $0F before inspecting the final magic-spark and map state."
+      ]
+    },
+    {
+      "address": "0x9c02",
+      "previous": "_label_bank0_9c02",
+      "current": "RemoveBlockAtTarget",
+      "confidence": "confirmed",
+      "evidence": [
+        "Negative target tiles branch here; the path calls the shared spark initializer and selects a removal sound from the tile class."
+      ]
+    },
+    {
+      "address": "0x9c0f",
+      "previous": "_label_bank0_9c0f",
+      "current": "QueueBlockRemovalSound",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both removal tile classes converge on this AddSoundEffect call before the shared casting wait."
+      ]
+    },
+    {
+      "address": "0x9c12",
+      "previous": "$9C12",
+      "current": "FinishDanaCasting",
+      "confidence": "high",
+      "evidence": [
+        "Bisqwit's map identifies this entry as FinishDanaCasting; fireball and both block paths converge here before Dana state restoration."
+      ]
+    },
+    {
+      "address": "0x9c19",
+      "previous": "_label_bank0_9c19",
+      "current": "FinishBlockCast",
+      "confidence": "confirmed",
+      "evidence": [
+        "All post-wait block branches converge here to restore Dana's record state and coordinates."
+      ]
+    },
+    {
+      "address": "0x9c2f",
+      "previous": "_label_bank0_9c2f",
+      "current": "RestoreDanaHorizontalPosition",
+      "confidence": "confirmed",
+      "evidence": [
+        "This path applies the facing-dependent signed X adjustment to DanaXPosition before restoring record byte 5."
+      ]
+    },
+    {
+      "address": "0x9c3a",
+      "previous": "$9C3A",
+      "current": "FinishDanaAction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The head-collision and casting paths converge here to filter cached input, clear MagicSparkObject, and stop scheduler context 1."
+      ]
+    },
+    {
+      "address": "0x9c48",
+      "previous": "_label_bank0_9c48",
+      "current": "DeactivateMagicSpark",
+      "confidence": "confirmed",
+      "evidence": [
+        "This terminal path clears MagicSparkObject byte 0 and immediately stops context 1."
+      ]
+    },
+    {
+      "address": "0x9c60",
+      "previous": "$9C60",
+      "current": "ApplyMapTileInteractionToObject",
+      "confidence": "high",
+      "evidence": [
+        "Six external callers provide a map tile in A, its packed cell in Y/$04, direction bits in $02, and an object pointer in $00; the routine normalizes the tile and initializes the object's coordinates and header."
+      ]
+    },
+    {
+      "address": "0x9c6b",
+      "previous": "_label_bank0_9c6b",
+      "current": "ClassifyMapInteractionTile",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both normalized and $F8-$FF tile paths converge here before the original tile value controls coordinate offsets and action state."
+      ]
+    },
+    {
+      "address": "0x9c81",
+      "previous": "_label_bank0_9c81",
+      "current": "OffsetMapInteractionX",
+      "confidence": "confirmed",
+      "evidence": [
+        "This path rotates direction bit 0 into carry and selects one of two signed X offsets."
+      ]
+    },
+    {
+      "address": "0x9c8a",
+      "previous": "_label_bank0_9c8a",
+      "current": "SelectMapInteractionXOffset",
+      "confidence": "confirmed",
+      "evidence": [
+        "The selected $08 or $F7 value is added to the converted cell X coordinate."
+      ]
+    },
+    {
+      "address": "0x9c8f",
+      "previous": "_label_bank0_9c8f",
+      "current": "StoreMapInteractionCoordinates",
+      "confidence": "confirmed",
+      "evidence": [
+        "This block writes the resulting Y and X values to object-record offsets 7 and 10."
+      ]
+    },
+    {
+      "address": "0x9cad",
+      "previous": "_label_bank0_9cad",
+      "current": "InitializeMapInteractionObject",
+      "confidence": "confirmed",
+      "evidence": [
+        "Tile-sign-dependent action values converge on the shared object-header initializer at this point."
+      ]
+    },
+    {
+      "address": "0x9cbf",
+      "previous": "_label_bank0_9cbf",
+      "current": "FinishMapInteraction",
+      "confidence": "confirmed",
+      "evidence": [
+        "Negative source tiles return here instead of queuing a RoomMap cell redraw."
+      ]
+    },
+    {
+      "address": "0x9cc0",
+      "previous": "$9CC0",
+      "current": "TryCreateBlockAtMapCell",
+      "confidence": "high",
+      "evidence": [
+        "Dana's block-cast path calls this entry for a nonnegative target; it tests fireball/enemy occupancy, initializes the magic-spark record, and writes the created block into RoomMap when unoccupied."
+      ]
+    },
+    {
+      "address": "0x9ce1",
+      "previous": "_label_bank0_9ce1",
+      "current": "CheckBlockCreationOccupancy",
+      "confidence": "confirmed",
+      "evidence": [
+        "The eligible target-tile paths converge here and begin overlap testing with FireballObject followed by the enemy pool."
+      ]
+    },
+    {
+      "address": "0x9cf8",
+      "previous": "_label_bank0_9cf8",
+      "current": "CheckNextEnemyForBlockOverlap",
+      "confidence": "confirmed",
+      "evidence": [
+        "This seventeen-iteration loop checks one enemy record and advances the pointer by the $14-byte object stride."
+      ]
+    },
+    {
+      "address": "0x9d0e",
+      "previous": "_label_bank0_9d0e",
+      "current": "HandleEnemyBlockOverlap",
+      "confidence": "confirmed",
+      "evidence": [
+        "An enemy overlap branches here to mark an eligible enemy or position the block effect from its coordinates."
+      ]
+    },
+    {
+      "address": "0x9d1d",
+      "previous": "_label_bank0_9d1d",
+      "current": "PositionBlockSparkFromEnemy",
+      "confidence": "high",
+      "evidence": [
+        "This path copies the overlapping enemy's integer Y and adjusted X into the destination effect object."
+      ]
+    },
+    {
+      "address": "0x9d2d",
+      "previous": "_label_bank0_9d2d",
+      "current": "SelectBlockSparkDirection",
+      "confidence": "high",
+      "evidence": [
+        "Direction bit 0 selects the signed horizontal offset applied to the enemy X coordinate before effect initialization."
+      ]
+    },
+    {
+      "address": "0x9d3f",
+      "previous": "_label_bank0_9d3f",
+      "current": "InitializeBlockSpark",
+      "confidence": "high",
+      "evidence": [
+        "Enemy-, fireball-, and tile-dependent block paths converge here on InitializeObjectStateHeader for the destination effect record."
+      ]
+    },
+    {
+      "address": "0x9d42",
+      "previous": "_label_bank0_9d42",
+      "current": "FinishBlockedBlockCreation",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both an already-marked enemy and a newly initialized blocked-cast effect return through this instruction."
+      ]
+    },
+    {
+      "address": "0x9d43",
+      "previous": "_label_bank0_9d43",
+      "current": "PositionBlockSparkFromFireball",
+      "confidence": "high",
+      "evidence": [
+        "A fireball overlap enters here to copy object offsets 7 and 10 into the destination effect record."
+      ]
+    },
+    {
+      "address": "0x9d49",
+      "previous": "_label_bank0_9d49",
+      "current": "SelectBlockSparkXCoordinate",
+      "confidence": "confirmed",
+      "evidence": [
+        "The second iteration changes the copied object field from integer Y to integer X."
+      ]
+    },
+    {
+      "address": "0x9d4b",
+      "previous": "_label_bank0_9d4b",
+      "current": "CopyBlockSparkCoordinate",
+      "confidence": "confirmed",
+      "evidence": [
+        "This two-iteration loop copies the selected coordinate field between the overlap object and destination effect record."
+      ]
+    },
+    {
+      "address": "0x9d52",
+      "previous": "_label_bank0_9d52",
+      "current": "InitializeBlockedBlockSpark",
+      "confidence": "high",
+      "evidence": [
+        "This path selects the common $C6/$04 header values and action byte 8 before entering block-spark initialization."
+      ]
+    },
+    {
+      "address": "0x9d5e",
+      "previous": "_label_bank0_9d5e",
+      "current": "CreateBlockInRoomMap",
+      "confidence": "confirmed",
+      "evidence": [
+        "After all occupancy checks fail, this path reads the saved target cell and stores a negative tile value back into RoomMap."
+      ]
+    },
+    {
+      "address": "0x9d6a",
+      "previous": "_label_bank0_9d6a",
+      "current": "NormalizeBlockSourceTile",
+      "confidence": "confirmed",
+      "evidence": [
+        "Tile classes below and above $40 converge here before bit 7 is set for the created block."
+      ]
+    },
+    {
+      "address": "0x9d7c",
+      "previous": "$9D7C",
+      "current": "AdvanceRoomMapTileVariant",
+      "confidence": "confirmed",
+      "evidence": [
+        "For values $08-$0F, the routine preserves bits 2-3, increments the low two-bit variant modulo four, writes RoomMap, and queues a redraw."
+      ]
+    },
+    {
+      "address": "0x9d99",
+      "previous": "$9D99",
+      "current": "InitializeObjectStateHeader",
+      "confidence": "confirmed",
+      "evidence": [
+        "Eleven static calls, eight external and three within the map-interaction module, supply an object pointer in $00, first two values in $04/$05, and an optional byte-3 value in A; byte 2 is always set to $FF."
+      ]
+    },
+    {
+      "address": "0x9da1",
+      "previous": "_label_bank0_9da1",
+      "current": "SkipObjectActionByte",
+      "confidence": "confirmed",
+      "evidence": [
+        "Negative A skips the byte-3 store and converges here on unconditional initialization of bytes 2 through 0."
+      ]
+    },
+    {
+      "address": "0x9db0",
+      "previous": "_label_bank0_9db0",
+      "current": "FinishObjectStateHeaderInitialization",
+      "confidence": "confirmed",
+      "evidence": [
+        "The object-header initializer and out-of-range tile-variant path share this return."
+      ]
+    },
+    {
+      "address": "0x9db1",
+      "previous": "$9DB1",
+      "current": "CheckCoordinateOverlapWithObject",
+      "confidence": "confirmed",
+      "evidence": [
+        "The block occupancy scan provides a pointer in $06 and Y/X in $04/$05; inactive records or out-of-window coordinates return carry set, while both in-range comparisons leave carry clear."
+      ]
+    },
+    {
+      "address": "0x9dcf",
+      "previous": "_label_bank0_9dcf",
+      "current": "FinishCoordinateObjectOverlapCheck",
+      "confidence": "confirmed",
+      "evidence": [
+        "Inactive, horizontally separated, and completed vertical comparison paths all return through this instruction with carry as the overlap result."
+      ]
     }
   ]
 }

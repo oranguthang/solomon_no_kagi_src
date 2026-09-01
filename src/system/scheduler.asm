@@ -117,7 +117,10 @@ InitialThreadStackPointers:
 ThreadEntryTableBases:
     .byte $17, $8e, $17, $8e, $29, $8e, $2f, $8e
     .byte $3b, $8e, $43, $8e, $45, $8e, $1d, $90
-    .byte $79, $9b, $6c, $9a, $04, $9b, $e3, $8e
+    .addr CastOrRemoveBlock - 1
+    .addr HandleDanaHeadCollision - 1
+    .addr CastFireballFromInventory - 1
+    .byte $e3, $8e
     .byte $20, $90, $51, $c8, $6d, $ca, $09, $cb
     .byte $9e, $8e
     .addr PauseGameThread - 1

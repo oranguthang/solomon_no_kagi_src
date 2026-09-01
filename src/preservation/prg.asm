@@ -2198,7 +2198,7 @@ _label_bank0_9345:
     LDA #$1C
     STA $05
     LDA #$00
-    JSR $9D99
+    JSR InitializeObjectStateHeader
     DEX
     BPL _label_bank0_9345
     LDA #$00
@@ -2348,521 +2348,7 @@ _label_bank0_944b:
     .byte $0c, $13, $19, $1f, $25, $2b, $31, $37, $3d, $42, $48, $4d, $52, $57, $5b, $60
     .byte $63, $68, $6b, $6f, $72, $74, $77, $79, $7b, $7c, $7e, $7f, $7f, $7f
 
-.segment "PRG_POST_ROOM_BLOCK_DECODE"
-
-    LDY #$11
-    JSR AddSoundEffect
-    LDA $0586
-    SBC #$08
-    STA $04
-    LDX $0589
-    TXA
-    LDY #$00
-    AND #$08
-    BNE _label_bank0_9a84
-    INY
-
-_label_bank0_9a84:
-    STY $01
-    TXA
-    CLC
-    ADC #$04
-    STA $00
-    STA $05
-    JSR ConvertPixelCoordinatesToMapIndex
-    TAY
-    TAX
-    LDA $0304,Y
-    ROL A
-    ROL $01
-    CLC
-    LDA #$F8
-    ADC $00
-    STA $00
-    CLC
-    LDA #$09
-    ADC $00
-    EOR $00
-    AND #$F0
-    BEQ _label_bank0_9aac
-    INX
-
-_label_bank0_9aac:
-    LDA $0304,X
-    ROL A
-    ROL $01
-    LDA #$03
-    AND $01
-    BEQ _label_bank0_9b02
-    ROR $01
-    LDA #$02
-    AND $01
-    BEQ _label_bank0_9ac5
-    BCC _label_bank0_9ac9
-
-_label_bank0_9ac2:
-    TXA
-    BNE _label_bank0_9aca
-
-_label_bank0_9ac5:
-    ROR $01
-    BCC _label_bank0_9ac2
-
-_label_bank0_9ac9:
-    TYA
-
-_label_bank0_9aca:
-    STA $7F
-    TAY
-    LDA $0304,Y
-    CMP #$F8
-    BCS _label_bank0_9b02
-    CMP #$C8
-    BCS _label_bank0_9ae8
-    ORA #$40
-    STA $0304,Y
-    STY $02
-    LDA #$01
-    STA $03
-    JSR $9DD0
-    BNE _label_bank0_9afa
-
-_label_bank0_9ae8:
-    LDX #$93
-    STX $00
-    LDX #$05
-    STX $01
-    STY $04
-    JSR $9C60
-    LDA #$09
-    STA $0596
-
-_label_bank0_9afa:
-    JSR ResetAndSelectGameplayDelayCounter
-    LDA #$08
-    JSR WaitForZeroPageCounterAboveThreshold
-
-_label_bank0_9b02:
-    JMP $9C3A
-    LDY #$00
-    STY $21
-    LDA $05A7
-    BMI _label_bank0_9b77
-    LDA $2A
-    CMP #$18
-    LDX #$02
-    BCC _label_bank0_9b17
-    INX
-
-_label_bank0_9b17:
-    STX $0431
-    STA $00
-    AND #$01
-    STA $0430
-    LSR A
-    LDA #$04
-    BCS _label_bank0_9b28
-    LDA #$FB
-
-_label_bank0_9b28:
-    ADC $0589
-    STA $05B1
-    LDA $00
-    AND #$FC
-    STY $05AA
-    STY $05A9
-    STY $042C
-    STY $042D
-    CMP #$10
-    BNE _label_bank0_9b44
-    LDY #$02
-
-_label_bank0_9b44:
-    TYA
-    CLC
-    ADC $0586
-    STA $05AE
-    LDX #$02
-
-_label_bank0_9b4e:
-    ASL $042E
-    ROL $042F
-    ROL A
-    DEX
-    BNE _label_bank0_9b4e
-    AND #$03
-    BEQ _label_bank0_9b77
-    LSR A
-    LDY #$0A
-    JSR AddSoundEffect
-    LDA #$0C
-    BCS _label_bank0_9b68
-    LDA #$10
-
-_label_bank0_9b68:
-    STA $05A8
-    LDA #$C0
-    STA $05A7
-    ASL A
-    STA $042A
-    JSR $A30C
-
-_label_bank0_9b77:
-    JMP $9C12
-    LDA #$00
-    STA $21
-    STA $02
-    LDA $2A
-    LDX #$08
-    AND #$FC
-    CMP #$10
-    BNE _label_bank0_9b8e
-    LDX #$18
-    INC $02
-
-_label_bank0_9b8e:
-    STX $04
-    LDA $0586
-    CLC
-    ADC $04
-    STA $04
-    LDA $2A
-    ROR A
-    LDA #$15
-    BCC _label_bank0_9ba1
-    LDA #$FB
-
-_label_bank0_9ba1:
-    ROL $02
-    ADC $0589
-    STA $05
-    JSR ConvertPixelCoordinatesToMapIndex
-    TAY
-    LDX #$93
-    STX $00
-    LDX #$05
-    STX $01
-    LDA $0304,Y
-    STY $7E
-    BMI _label_bank0_9c02
-    JSR $9CC0
-    LDA $0593
-    BPL _label_bank0_9bd1
-    LDY #$12
-    LDA $0596
-    CMP #$02
-    BCS _label_bank0_9bce
-    LDY #$07
-
-_label_bank0_9bce:
-    JSR AddSoundEffect
-
-_label_bank0_9bd1:
-    LDX #$21
-    LDA #$0F
-    JSR WaitForZeroPageCounterAboveThreshold
-    LDA $0593
-    BPL _label_bank0_9c19
-    LDA $0596
-    CMP #$02
-    BCS _label_bank0_9c19
-    LDA $059A
-    STA $04
-    LDA $059D
-    STA $05
-    JSR ConvertPixelCoordinatesToMapIndex
-    TAX
-    LDA $0304,X
-    BPL _label_bank0_9c19
-    STX $02
-    LDA #$00
-    STA $03
-    JSR $9DD0
-    BNE _label_bank0_9c19
-
-_label_bank0_9c02:
-    PHA
-    JSR $9C60
-    PLA
-    LDY #$12
-    CMP #$F8
-    BCS _label_bank0_9c0f
-    LDY #$08
-
-_label_bank0_9c0f:
-    JSR AddSoundEffect
-    LDX #$21
-    LDA #$0F
-    JSR WaitForZeroPageCounterAboveThreshold
-
-_label_bank0_9c19:
-    LDA $057F
-    AND #$FE
-    ORA #$20
-    STA $057F
-    LDA $2A
-    STA $0582
-    ROR A
-    LDA #$FC
-    BCC _label_bank0_9c2f
-    LDA #$03
-
-_label_bank0_9c2f:
-    ADC $0589
-    STA $0589
-    LDA $2B
-    STA $0584
-    LDX $03E4
-    TXA
-    AND #$08
-    BNE _label_bank0_9c48
-    TXA
-    AND #$F0
-    STA $03E4
-
-_label_bank0_9c48:
-    LDA #$00
-    STA $0593
-    LDA #$01
-    JSR StopThread
-
 .segment "PRG_POST_COUNTER_WAIT"
-
-    STY $03
-    CMP #$F8
-    BCS _label_bank0_9c6b
-    AND #$3F
-    STA $0304,Y
-
-_label_bank0_9c6b:
-    TAX
-    JSR ConvertMapIndexToPixelCoordinates
-    TXA
-    BPL _label_bank0_9c8f
-    LDA #$02
-    AND $02
-    BEQ _label_bank0_9c81
-    CLC
-    LDA #$F8
-    ADC $04
-    STA $04
-    BCS _label_bank0_9c8f
-
-_label_bank0_9c81:
-    LDA $02
-    ROR A
-    LDY #$08
-    BCS _label_bank0_9c8a
-    LDY #$F7
-
-_label_bank0_9c8a:
-    TYA
-    ADC $05
-    STA $05
-
-_label_bank0_9c8f:
-    LDY #$07
-    LDA $04
-    STA ($00),Y
-    LDY #$0A
-    LDA $05
-    STA ($00),Y
-    LDA #$C6
-    STA $04
-    LDA #$04
-    STA $05
-    CPX #$80
-    LDA #$01
-    BCC _label_bank0_9cad
-    LDA #$04
-    ORA $02
-
-_label_bank0_9cad:
-    JSR $9D99
-    LDY $03
-    STX $03
-    TXA
-    BMI _label_bank0_9cbf
-    STY $02
-    STY $0581
-    JMP $9DD0
-
-_label_bank0_9cbf:
-    RTS
-
-    JSR ConvertMapIndexToPixelCoordinates
-    STY $03
-    LDA $04
-    LDY #$07
-    STA ($00),Y
-    LDA $05
-    LDY #$0A
-    STA ($00),Y
-    LDY $03
-    LDA $0304,Y
-    CMP #$10
-    BEQ _label_bank0_9ce1
-    CMP #$38
-    BCS _label_bank0_9ce1
-    JMP $9D7C
-
-_label_bank0_9ce1:
-    LDA #$A7
-    STA $06
-    LDA #$05
-    STA $07
-    JSR $9DB1
-    BCC _label_bank0_9d43
-    LDX #$11
-    LDA #$CF
-    STA $06
-    LDA #$05
-    STA $07
-
-_label_bank0_9cf8:
-    JSR $9DB1
-    BCC _label_bank0_9d0e
-    LDA #$13
-    ADC $06
-    STA $06
-    LDA #$00
-    ADC $07
-    STA $07
-    DEX
-    BNE _label_bank0_9cf8
-    BEQ _label_bank0_9d5e
-
-_label_bank0_9d0e:
-    LDY #$01
-    LDA ($06),Y
-    BPL _label_bank0_9d1d
-    DEY
-    LDA #$08
-    ORA ($06),Y
-    STA ($06),Y
-    BMI _label_bank0_9d42
-
-_label_bank0_9d1d:
-    LDY #$07
-    LDA ($06),Y
-    STA ($00),Y
-    LDY #$0A
-    ROR $02
-    LDA #$FC
-    BCC _label_bank0_9d2d
-    LDA #$03
-
-_label_bank0_9d2d:
-    TAX
-    ADC ($06),Y
-    STA ($00),Y
-    LDA #$04
-    STA $05
-    LDA #$C6
-    STA $04
-    TXA
-    ASL A
-    LDA #$01
-    ROL A
-
-_label_bank0_9d3f:
-    JSR $9D99
-
-_label_bank0_9d42:
-    RTS
-
-_label_bank0_9d43:
-    LDX #$02
-    LDY #$07
-    BNE _label_bank0_9d4b
-
-_label_bank0_9d49:
-    LDY #$0A
-
-_label_bank0_9d4b:
-    LDA ($06),Y
-    STA ($00),Y
-    DEX
-    BNE _label_bank0_9d49
-
-_label_bank0_9d52:
-    LDA #$C6
-    STA $04
-    LDA #$04
-    STA $05
-    LDA #$08
-    BNE _label_bank0_9d3f
-
-_label_bank0_9d5e:
-    LDY $03
-    LDA $0304,Y
-    CMP #$40
-    BCC _label_bank0_9d6a
-    SEC
-    SBC #$40
-
-_label_bank0_9d6a:
-    ORA #$80
-    STA $0304,Y
-    LDA #$04
-    STA $05
-    LDA #$C6
-    STA $04
-    LDA #$00
-    JMP $9D99
-    CMP #$08
-    BCC _label_bank0_9d52
-    CMP #$10
-    BCS _label_bank0_9db0
-    TAX
-    AND #$0C
-    STA $03
-    INX
-    TXA
-    AND #$03
-    ORA $03
-    STA $0304,Y
-    STA $03
-    STY $02
-    JMP $9DD0
-    LDY #$03
-    CMP #$00
-    BMI _label_bank0_9da1
-    STA ($00),Y
-
-_label_bank0_9da1:
-    DEY
-    LDA #$FF
-    STA ($00),Y
-    DEY
-    LDA $05
-    STA ($00),Y
-    DEY
-    LDA $04
-    STA ($00),Y
-
-_label_bank0_9db0:
-    RTS
-
-    SEC
-    LDY #$00
-    LDA ($06),Y
-    BPL _label_bank0_9dcf
-    LDY #$0A
-    LDA $05
-    SEC
-    SBC ($06),Y
-    ADC #$09
-    CMP #$15
-    BCS _label_bank0_9dcf
-    LDY #$07
-    LDA $04
-    SBC ($06),Y
-    ADC #$0D
-    CMP #$1D
-
-_label_bank0_9dcf:
-    RTS
 
     LDA $03
     PHA
@@ -3251,7 +2737,7 @@ _label_bank0_a131:
     LDA #$C6
     STA $04
     LDA #$0C
-    JSR $9D99
+    JSR InitializeObjectStateHeader
     RTS
 
 .segment "PRG_PRE_TIMER_DISPLAY"
@@ -4742,7 +4228,7 @@ _label_bank0_acdb:
     CMP #$F8
     BCS _label_bank0_ad78
     STY $04
-    JSR $9C60
+    JSR ApplyMapTileInteractionToObject
 
 _label_bank0_ad78:
     RTS
@@ -5114,7 +4600,7 @@ _label_bank0_afab:
     LDA #$20
     STA $05
     LDA $03
-    JSR $9D99
+    JSR InitializeObjectStateHeader
     LDY #$17
     JSR AddSoundEffect
 
@@ -5321,7 +4807,7 @@ _label_bank0_b130:
     STX $00
     LDX $2F
     STX $01
-    JSR $9C60
+    JSR ApplyMapTileInteractionToObject
     LDY #$01
     LDA #$20
     STA ($2E),Y
@@ -5491,7 +4977,7 @@ _label_bank0_b25a:
     ADC ($2E),Y
     STA ($00),Y
     TXA
-    JSR $9D99
+    JSR InitializeObjectStateHeader
     JSR $B410
     JSR ConvertPixelCoordinatesToMapIndex
     TAX
@@ -5507,7 +4993,7 @@ _label_bank0_b25a:
     STA $02
     LDY $04
     LDA $0304,Y
-    JSR $9C60
+    JSR ApplyMapTileInteractionToObject
 
 _label_bank0_b289:
     RTS
@@ -5705,7 +5191,7 @@ _label_bank0_b39c:
     STA ($2E),Y
     LDY $04
     LDA $0304,Y
-    JSR $9C60
+    JSR ApplyMapTileInteractionToObject
 
 _label_bank0_b3e2:
     LDY #$01
@@ -6301,7 +5787,7 @@ _label_bank0_bb92:
     LDA #$08
     CPX #$04
     ADC #$00
-    JSR $9D99
+    JSR InitializeObjectStateHeader
     DEC $02
     BPL _label_bank0_bb92
     LDA #$00
@@ -6636,7 +6122,7 @@ _label_bank0_bdce:
     STX $05
     LDX #$C0
     STX $04
-    JSR $9D99
+    JSR InitializeObjectStateHeader
     RTS
 
 _label_bank0_bdea:
@@ -6815,7 +6301,7 @@ _label_bank0_c144:
     LDA #$14
     STA $05
     LDA #$00
-    JSR $9D99
+    JSR InitializeObjectStateHeader
 
 _label_bank0_c16a:
     DEC $02

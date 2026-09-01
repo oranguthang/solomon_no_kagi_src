@@ -29,8 +29,9 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	src/graphics/ppu_data_writers.asm src/data/repeated_ppu_patterns.asm \
 	src/graphics/room_nametable_frame.asm \
 	src/game/room_item_decode.asm src/data/room_item_decode.asm \
-	src/game/room_block_decode.asm \
+	src/game/room_block_decode.asm src/game/dana_actions.asm \
 	src/system/counter_wait.asm \
+	src/game/map_interactions.asm src/game/coordinate_object_overlap.asm \
 	src/graphics/static_ppu_update_queue.asm src/data/static_ppu_update_streams.asm \
 	src/game/room_enemy_load.asm \
 	src/graphics/room_map_render.asm \

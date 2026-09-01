@@ -14,7 +14,7 @@ evidence, and small tested tools for decoded game data.
   entrypoint; CHR is a private generated asset and is not stored in Git.
 - Confirmed NES registers and high-confidence RAM aliases are separated into
   `src/memory/`.
-- Fifty-seven semantic PRG modules own NMI (`$8000-$80FE`), controller input
+- Sixty semantic PRG modules own NMI (`$8000-$80FE`), controller input
   (`$837D-$83C1`), reset/startup
   (`$8C00-$8D5E`), the cooperative scheduler (`$8D5F-$8E46`), and the main
   gameplay thread (`$A000-$A04B`), plus countdown timer arithmetic and warning
@@ -48,6 +48,8 @@ evidence, and small tested tools for decoded game data.
   Repeated PPU writers and four source patterns own `$97A3-$97C7`.
   Runtime room item/header decoding and its tables own `$97C8-$99F1`.
   Room-map initialization and fixed block-plane expansion own `$99F2-$9A6C`.
+  Dana's head-collision, fireball, and block-magic actions own `$9A6D-$9C51`.
+  Shared map/object interactions and overlap checks own `$9C60-$9DCF`.
   Object surface clamps own `$8A62-$8AA3`.
   The NMI PPU stream interpreter owns `$8B7F-$8BE1`; the blocking producer for
   18 ROM-resident streams owns `$9471-$9487`, followed by the split pointer

@@ -75,6 +75,10 @@ decrease.
   timer-rate, and special-room lookup tables are source-owned;
 - `$99F2-$9A6C`: room-map initialization computes `E02C + room*48` and expands
   both 24-byte block planes into the bordered 16x14 runtime map;
+- `$9A6D-$9C51`: context 1's three Dana action entries handle head collisions,
+  consume packed fireball inventory, and create or remove targeted blocks;
+- `$9C60-$9DCF`: shared map/object interaction setup, block occupancy handling,
+  object-header initialization, and coordinate overlap checks are source-owned;
 - `$A000-$A04B`: scheduler context 3's main gameplay service loop and queued
   fairy path are isolated in `src/game/main_thread.asm`;
 - `$A15F-$A225`: countdown arithmetic, decimal borrow propagation, display

@@ -3,6 +3,7 @@
 ; listing yet. See docs/naming.md for the evidence rule
 
 TempPointer00 = $0000
+MapInteractionObjectPointer = $0000
 RoomRenderMapIndex = $0000
 WaitMaskAddressBase = $0000
 ZeroPageCounterBase = $0000
@@ -10,19 +11,26 @@ InventoryItemSlotPattern = $0000
 InventorySlotMask = $0001
 RoomRenderTileClass = $0001
 TempPointer02 = $0002
+MapInteractionDirection = $0002
+RoomMapUpdateIndex = $0002
 RoomRenderAttributeByte = $0002
 RoomEnemyStreamOffset = $0002
 NametableClearWidth = $0002
 RemainingInventorySlots = $0003
+MapInteractionMapIndex = $0003
+RoomMapUpdateTile = $0003
 RoomRenderPpuAddressLow = $0003
 TempPointer04 = $0004
+MapInteractionY = $0004
 CoordinateY = $0004
 CoordinateX = $0005
+MapInteractionX = $0005
 MapCellIndex = $0004
 TimerDigitSnapshot = $0004
 SpawnYPosition = $0004
 SpawnXPosition = $0005
 SpawnSlotIndex = $0006
+OverlapObjectPointer = $0006
 ThreadStopIndex = $0006
 SpawnType = $0007
 RemainingThreadStops = $0007
