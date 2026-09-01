@@ -23,10 +23,9 @@
 10. Prove the exact meanings of Dana record bytes 3 and 5 plus fireball setup
     bytes `$0430-$0431`. The former `$A30C` dependency is now reconstructed as
     the packed fireball-inventory HUD builder.
-11. Resolve the remaining room-transition coordinate helpers at `$C364` and
-    `$C2A6`, then replace their raw calls from the now source-owned
-    `$8EC0-$9470` pipeline. The HUD helpers at `$C3D4` and `$C403` are now
-    reconstructed.
+11. Resolve the remaining room-transition flow at `$C2A6`. Its shared scaled
+    coordinate helper at `$C364` and the HUD helpers at `$C3D4/$C403` are now
+    reconstructed and all their callers are symbolic.
 
 Unknowns stay here until evidence resolves them; they are not silently removed
 when a plausible name appears.

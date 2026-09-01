@@ -1322,6 +1322,19 @@
       ]
     },
     {
+      "id": "coordinate_delta",
+      "path": "src/game/coordinate_delta.asm",
+      "segment": "PRG_COORDINATE_DELTA",
+      "start": "0xc364",
+      "end": "0xc385",
+      "status": "semantic",
+      "required_labels": [
+        "BuildScaledCoordinateDeltas",
+        "ScaleNextCoordinateDelta",
+        "ScaleCoordinateDeltaByFour"
+      ]
+    },
+    {
       "id": "gameplay_hud",
       "path": "src/graphics/gameplay_hud.asm",
       "segment": "PRG_GAMEPLAY_HUD",
@@ -1359,6 +1372,111 @@
         "FormatScoreDisplayDigits",
         "MarkScoreDisplayNonzero",
         "StoreScoreDisplayDigit"
+      ]
+    },
+    {
+      "id": "item_collision",
+      "path": "src/game/item_collision.asm",
+      "segment": "PRG_ITEM_COLLISION",
+      "start": "0xc42e",
+      "end": "0xc4d2",
+      "status": "semantic",
+      "required_labels": [
+        "ReturnFromHudOrItemUpdate",
+        "ScoreDisplayPpuCommandHeader",
+        "CheckDanaMapTileInteraction",
+        "ClassifyDanaMapTileInteraction",
+        "SelectBonusItemScore",
+        "CheckBonusItemExtraLifeScore",
+        "AwardExtraLifeFromMapTile",
+        "FinishMapTileInteraction",
+        "DispatchInventoryItemInteraction",
+        "SpawnInventoryItemEffect",
+        "QueueInventoryItemInteraction"
+      ]
+    },
+    {
+      "id": "item_handler_table",
+      "path": "src/data/item_handlers.asm",
+      "segment": "PRG_ITEM_HANDLER_TABLE",
+      "start": "0xc4d3",
+      "end": "0xc50c",
+      "status": "semantic",
+      "required_labels": [
+        "ItemInteractionHandlerTable"
+      ]
+    },
+    {
+      "id": "red_bottle_item",
+      "path": "src/game/red_bottle_item.asm",
+      "segment": "PRG_RED_BOTTLE_ITEM",
+      "start": "0xc50d",
+      "end": "0xc53c",
+      "status": "semantic",
+      "required_labels": [
+        "ApplyRedBottleKillAllEnemiesItem",
+        "CheckNextRedBottleEnemy",
+        "AdvanceRedBottleEnemy",
+        "FinishRedBottleItem"
+      ]
+    },
+    {
+      "id": "special_item_flags",
+      "path": "src/game/special_item_flags.asm",
+      "segment": "PRG_SPECIAL_ITEM_FLAGS",
+      "start": "0xc53d",
+      "end": "0xc562",
+      "status": "semantic",
+      "required_labels": [
+        "ApplySpecialItem1C",
+        "ApplySpecialItem1B",
+        "StoreSpecialItem1BFlag",
+        "ApplySolomonSealItem",
+        "ApplyConstellationSymbolItem"
+      ]
+    },
+    {
+      "id": "key_item",
+      "path": "src/game/key_item.asm",
+      "segment": "PRG_KEY_ITEM",
+      "start": "0xc563",
+      "end": "0xc586",
+      "status": "semantic",
+      "required_labels": [
+        "CollectRoomKey",
+        "QueueKeyCollectedSound"
+      ]
+    },
+    {
+      "id": "door_item",
+      "path": "src/game/door_item.asm",
+      "segment": "PRG_DOOR_ITEM",
+      "start": "0xc587",
+      "end": "0xc60d",
+      "status": "semantic",
+      "required_labels": [
+        "EnterRoomDoor",
+        "CheckDoorRoomProgression",
+        "CheckDoorRoom47",
+        "AdvanceDoorRoom",
+        "ApplyDoorSpecialRoomFlags",
+        "SelectDefaultDoorSpecialRoomFlags",
+        "StoreDoorSpecialRoomFlags",
+        "FinishDoorSpecialRoomFlags"
+      ]
+    },
+    {
+      "id": "gameplay_pool_clear",
+      "path": "src/game/gameplay_pool_clear.asm",
+      "segment": "PRG_GAMEPLAY_POOL_CLEAR",
+      "start": "0xc60e",
+      "end": "0xc627",
+      "status": "semantic",
+      "required_labels": [
+        "ClearGameplayObjectAndEnemyState",
+        "ClearObjectPoolTail",
+        "ClearObjectPoolFirstPage",
+        "ClearEnemyAiStatePool"
       ]
     },
     {
@@ -1565,11 +1683,11 @@
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 103,
-    "minimum_documented_prg_bytes": 9011,
-    "minimum_provenance_entries": 561,
-    "maximum_preservation_lines": 7222,
-    "maximum_generated_labels": 462,
-    "maximum_raw_control_flow_targets": 207
+    "minimum_semantic_modules": 111,
+    "minimum_documented_prg_bytes": 9551,
+    "minimum_provenance_entries": 599,
+    "maximum_preservation_lines": 6919,
+    "maximum_generated_labels": 438,
+    "maximum_raw_control_flow_targets": 195
   }
 }

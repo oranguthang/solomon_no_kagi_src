@@ -84,6 +84,7 @@ WarmBootDefaultState = $07F6
 Joypad1Raw = $0082
 Joypad2Raw = $0083
 GameStateFlags = $0078
+SolomonSealCount = $0079
 Joypad1Cached = $03E4
 Joypad2Cached = $03E5
 PpuUpdateBuffer = $03E6
@@ -131,6 +132,7 @@ ScoreDigits = $044A
 RemainingLives = $0452
 FairiesCollected = $0453
 FairiesQueued = $0454
+ExtraLivesAcquiredTotal = $05BE
 
 RoomItemStreamOffset = $0000
 RoomItemScratch = $0000

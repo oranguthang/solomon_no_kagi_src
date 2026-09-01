@@ -15,7 +15,7 @@ RunRoomEntryAnimation:
     PHA
     STA CoordinateY
     JSR ConvertMapIndexToPixelCoordinates
-    JSR $C364
+    JSR BuildScaledCoordinateDeltas
     LDY #$03
 
 SeedRoomEntryAiCoordinates:

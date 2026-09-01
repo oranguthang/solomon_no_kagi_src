@@ -31,7 +31,7 @@ CopyRoomClearOriginCoordinates:
     LDA #$78
     STA CoordinateY
     STA CoordinateX
-    JSR $C364
+    JSR BuildScaledCoordinateDeltas
     LDY #$03
 
 SeedRoomClearAiCoordinates:

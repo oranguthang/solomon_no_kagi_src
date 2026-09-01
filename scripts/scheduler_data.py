@@ -20,7 +20,12 @@ INITIAL_STACK_POINTERS = 0x8E01
 THREAD_ENTRY_TABLE_BASES = 0x8E09
 THREAD_COUNT = 8
 START_CALL_RE = re.compile(r"^\s*JSR\s+StartThread\s*$")
-IMMEDIATE_A_RE = re.compile(r"^\s*LDA\s+#\$([0-9A-Fa-f]{2})\s*$")
+IMMEDIATE_A_RE = re.compile(
+    r"^\s*LDA\s+#(?:\$([0-9A-Fa-f]{1,2})|([A-Za-z_][A-Za-z0-9_]*))\s*$"
+)
+NUMERIC_CONSTANT_RE = re.compile(
+    r"^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(\$[0-9A-Fa-f]+|%[01]+|[0-9]+)\s*$"
+)
 LABEL_RE = re.compile(r"^[A-Za-z_@.?][A-Za-z0-9_@.?]*:\s*$")
 
 
@@ -69,10 +74,35 @@ def assembly_paths(project_root: Path) -> list[Path]:
     )
 
 
+def numeric_constants(paths: list[Path]) -> dict[str, int]:
+    constants: dict[str, int] = {}
+    for path in paths:
+        for line in path.read_text(encoding="utf-8").splitlines():
+            match = NUMERIC_CONSTANT_RE.match(line)
+            if match is None:
+                continue
+            name, encoded = match.groups()
+            if encoded.startswith("$"):
+                value = int(encoded[1:], 16)
+            elif encoded.startswith("%"):
+                value = int(encoded[1:], 2)
+            else:
+                value = int(encoded, 10)
+            previous = constants.get(name)
+            if previous is not None and previous != value:
+                raise RoomDataError(
+                    f"conflicting numeric constant {name}: ${previous:X} and ${value:X}"
+                )
+            constants[name] = value
+    return constants
+
+
 def discover_start_calls(project_root: Path) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
     static: list[dict[str, object]] = []
     dynamic: list[dict[str, object]] = []
-    for path in assembly_paths(project_root):
+    paths = assembly_paths(project_root)
+    constants = numeric_constants(paths)
+    for path in paths:
         lines = path.read_text(encoding="utf-8").splitlines()
         relative = path.relative_to(project_root).as_posix()
         for index, line in enumerate(lines):
@@ -91,10 +121,17 @@ def discover_start_calls(project_root: Path) -> tuple[list[dict[str, object]], l
                 else None
             )
             record: dict[str, object] = {"path": relative, "line": index + 1}
-            if immediate is None:
+            code: int | None = None
+            if immediate is not None:
+                hexadecimal, name = immediate.groups()
+                if hexadecimal is not None:
+                    code = int(hexadecimal, 16)
+                elif name in constants:
+                    code = constants[name]
+            if code is None or not 0 <= code <= 0xFF:
                 dynamic.append(record)
             else:
-                record["code"] = int(immediate.group(1), 16)
+                record["code"] = code
                 static.append(record)
     return static, dynamic
 

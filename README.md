@@ -162,6 +162,8 @@ make scheduler-report # decode scheduler stack and entry tables as JSON
 make scheduler-audit # check static/reviewed dynamic entries and call inventory
 make enemy-ai-report # decode the 28-entry AI handler appendix
 make enemy-ai-audit # compare every handler pointer with its reviewed manifest
+make item-handler-report # decode item selectors, tiles, names, and targets
+make item-handler-audit # verify all 29 item pointers and the table hash
 make enemy-pointer-report # decode the split object/AI record pointer tables
 make enemy-pointer-audit # verify pointer bases, strides, and counts
 make ppu-update-report # decode all 18 static PPU update streams as JSON

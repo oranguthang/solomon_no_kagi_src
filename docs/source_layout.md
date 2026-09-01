@@ -57,9 +57,11 @@ The free enemy-slot allocator owns `$B42A-$B445`.
 Their split record-pool pointer tables own `$B446-$B491`.
 The adjacent enemy-slot deactivation helper owns `$B492-$B4B5`.
 Current selected-enemy deactivation owns `$B4B6-$B4C3`.
+The shared signed coordinate-delta scaler owns `$C364-$C385`.
 The gameplay HUD coordinator, fairy-count template, and score formatter own
-`$C3D4-$C42D`; the shared return and overlapping score header begin the
-remaining raw range at `$C42E`.
+`$C3D4-$C42D`. Dana's map-tile classifier, its complete 29-entry item
+dispatcher, special item effects, key/door progression, and full object/AI
+pool clear continue contiguously through `$C627`.
 Timer item effects own `$C628-$C697`.
 Inventory, fairy, fireball-lifetime, and score item entries own `$C698-$C70F`.
 Item score tables and the shared auxiliary-effect initializer own
@@ -172,11 +174,19 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_ENEMY_POINTER_TABLES` | split object/AI record pointer tables | 76 |
 | `PRG_ENEMY_DEACTIVATION` | parallel-record enemy slot retirement | 36 |
 | `PRG_CURRENT_ENEMY_DEACTIVATION` | selected enemy-record retirement | 14 |
-| `PRG_BANK_0` | unresolved `$B4C4-$C3D3` range | 3,856 |
+| `PRG_BANK_0` | unresolved `$B4C4-$C363` range | 3,744 |
+| `PRG_COORDINATE_DELTA` | two signed coordinate differences scaled by four | 34 |
+| `PRG_POST_COORDINATE_DELTA` | unresolved `$C386-$C3D3` range | 78 |
 | `PRG_GAMEPLAY_HUD` | serialized score, inventory, and fairy HUD refresh | 42 |
 | `PRG_GAMEPLAY_HUD_DATA` | collected-fairy PPU update template | 5 |
 | `PRG_SCORE_DISPLAY` | leading-zero score display formatter | 43 |
-| `PRG_POST_HUD_DISPLAY` | unresolved `$C42E-$C627` range | 506 |
+| `PRG_ITEM_COLLISION` | Dana-centered map-tile classifier and item dispatch | 165 |
+| `PRG_ITEM_HANDLER_TABLE` | 29 inline item-handler pointers | 58 |
+| `PRG_RED_BOTTLE_ITEM` | eligible-enemy retirement sweep | 48 |
+| `PRG_SPECIAL_ITEM_FLAGS` | item `$16-$1C` persistent flag handlers | 38 |
+| `PRG_KEY_ITEM` | key collection and open-door map mutation | 36 |
+| `PRG_DOOR_ITEM` | room advancement and room-clear transition | 135 |
+| `PRG_GAMEPLAY_POOL_CLEAR` | complete object and enemy-AI pool reset | 26 |
 | `PRG_TIMER_ITEM_EFFECTS` | timer multiplication and fixed-value item handlers | 112 |
 | `PRG_INVENTORY_ITEM_EFFECTS` | inventory, fairy, lifetime, and score item handlers | 120 |
 | `PRG_ITEM_SCORE_TABLES` | collectible score digit and amount lookups | 8 |

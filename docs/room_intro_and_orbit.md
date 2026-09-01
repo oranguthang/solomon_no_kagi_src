@@ -75,6 +75,7 @@ The table rises monotonically from `$00` to `$7F`, providing one quadrant of a
 seven-bit sine magnitude. Reflection and conditional complement reconstruct
 the full orbit without a 256-byte trigonometric table.
 
-The coordinate preparation dependency at `$C364` remains unnamed. Its inputs
-and writes must be isolated from the surrounding transition setup before a
-behavioral name is accepted.
+The coordinate preparation dependency at `$C364` is now source-owned as
+`BuildScaledCoordinateDeltas`. It converts origin and target Y/X bytes into
+two signed 16-bit differences scaled by four before the transition state is
+seeded. See `docs/coordinate_delta.md`.

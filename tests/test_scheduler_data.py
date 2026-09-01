@@ -46,6 +46,34 @@ class SchedulerDataTests(unittest.TestCase):
         self.assertEqual([call["code"] for call in static], [0x17])
         self.assertEqual(len(dynamic), 1)
 
+    def test_discovers_named_numeric_thread_code(self) -> None:
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        root = Path(temporary.name)
+        (root / "src").mkdir()
+        (root / "src" / "main.asm").write_text(
+            "RoomClearThreadCode = $14\n"
+            "    LDA #RoomClearThreadCode\n"
+            "    JSR StartThread\n",
+            encoding="utf-8",
+        )
+        static, dynamic = discover_start_calls(root)
+        self.assertEqual([call["code"] for call in static], [0x14])
+        self.assertEqual(dynamic, [])
+
+    def test_unresolved_named_thread_code_remains_dynamic(self) -> None:
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        root = Path(temporary.name)
+        (root / "src").mkdir()
+        (root / "src" / "main.asm").write_text(
+            "    LDA #RuntimeThreadCode\n    JSR StartThread\n",
+            encoding="utf-8",
+        )
+        static, dynamic = discover_start_calls(root)
+        self.assertEqual(static, [])
+        self.assertEqual(len(dynamic), 1)
+
     def test_table_addresses_are_inside_prg(self) -> None:
         self.assertEqual(prg_offset(INITIAL_STACK_POINTERS), 0x0E01)
         self.assertEqual(prg_offset(THREAD_ENTRY_TABLE_BASES), 0x0E09)

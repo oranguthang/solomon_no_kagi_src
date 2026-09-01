@@ -3624,7 +3624,7 @@ _label_bank0_ba98:
     LDA #$67
     STA $04
     JSR ConvertMapIndexToPixelCoordinates
-    JSR $C364
+    JSR BuildScaledCoordinateDeltas
     LDA $07
     JSR LoadEnemyAiPointer
     LDX #$03
@@ -3677,7 +3677,7 @@ _label_bank0_bb07:
     LDA #$66
     LDX #$10
     JSR $BE1D
-    JSR $C60E
+    JSR ClearGameplayObjectAndEnemyState
     LDA #$40
     JSR $BE13
     JSR Clear32x26NametableRegion
@@ -4059,7 +4059,7 @@ _label_bank0_bd99:
     STA $04
     LDA #$78
     STA $05
-    JSR $C364
+    JSR BuildScaledCoordinateDeltas
     LDX #$03
     LDY #$07
 
@@ -4402,7 +4402,7 @@ _label_bank0_c2c3:
     DEY
     BPL _label_bank0_c2c3
     JSR ConvertMapIndexToPixelCoordinates
-    JSR $C364
+    JSR BuildScaledCoordinateDeltas
     DEC $03
     LDX #$03
 
@@ -4489,31 +4489,7 @@ _label_bank0_c344:
     .byte $04, $05, $06, $07, $09
     .byte $0a
 
-    LDX #$01
-
-_label_bank0_c366:
-    LDY #$00
-    SEC
-    LDA $04,X
-    SBC $02,X
-    BCS _label_bank0_c370
-    DEY
-
-_label_bank0_c370:
-    STY $04,X
-    ASL A
-    ROL $04,X
-    ASL A
-    ROL $04,X
-    STA $02,X
-    DEX
-    BPL _label_bank0_c366
-    LDA $03
-    LDX $04
-    STA $04
-    STX $03
-    RTS
-
+.segment "PRG_POST_COORDINATE_DELTA"
     JSR $C3B0
     LDA #$C0
     STA $05C0
@@ -4548,285 +4524,6 @@ _label_bank0_c39d:
     JSR BuildAndPublishRoomMapCellUpdate
     LSR $87
     ASL $87
-    RTS
-
-.segment "PRG_POST_HUD_DISPLAY"
-ReturnFromHudOrItemUpdate:
-    RTS
-
-ScoreDisplayPpuCommandHeader:
-    JSR $4760
-    LDA $0582
-    CMP #$1C
-    BCS ReturnFromHudOrItemUpdate
-    LDA $0586
-    ADC #$08
-    STA $04
-    LDA $0589
-    ADC #$08
-    STA $05
-    JSR ConvertPixelCoordinatesToMapIndex
-    LDA #$00
-    STA $02
-    LDA $0304,X
-    JSR $C45B
-    LDA $02
-    BEQ ReturnFromHudOrItemUpdate
-    JMP $8D5F
-    CMP #$38
-    BCS _label_bank0_c4b5
-    CMP #$10
-    BEQ _label_bank0_c4b5
-    CMP #$06
-    BCC _label_bank0_c4b5
-    CMP #$25
-    BCC _label_bank0_c4b6
-    TAX
-    LDA $87
-    LSR A
-    BCS _label_bank0_c4b5
-    LDA #$40
-    STA $02
-    TXA
-    JSR SpawnAuxiliaryEffectAtMapCell
-    CMP #$32
-    BCS _label_bank0_c498
-    LDY #$0D
-    JSR AddSoundEffect
-    SBC #$24
-    LDX #$FF
-
-_label_bank0_c486:
-    SBC #$03
-    INX
-    BCS _label_bank0_c486
-    ADC #$03
-    TAY
-    LDA ItemBonusScoreDigitIndices,X
-    TAX
-    LDA ItemBonusScoreAmounts,Y
-    JMP AddScoreByAAtDigitX
-
-_label_bank0_c498:
-    BNE _label_bank0_c4a1
-    LDX #$02
-    LDA #$05
-    JSR AddScoreByAAtDigitX
-
-_label_bank0_c4a1:
-    LDY #$06
-    JSR AddSoundEffect
-    INC $0452
-    LDA #$00
-    STA $05C0
-    INC $05BE
-    LDA #$41
-    STA $02
-
-_label_bank0_c4b5:
-    RTS
-
-_label_bank0_c4b6:
-    CMP #$08
-    BCC _label_bank0_c4c5
-    TAY
-    LDA $87
-    LSR A
-    TYA
-    BCC _label_bank0_c4c2
-    RTS
-
-_label_bank0_c4c2:
-    JSR SpawnAuxiliaryEffectAtMapCell
-
-_label_bank0_c4c5:
-    LDY #$40
-    STY $02
-    LDY #$0D
-    JSR AddSoundEffect
-    SBC #$05
-    JSR JumpWithParams
-
-    .byte $63, $c5, $87, $c5, $03, $c7, $a3, $c6, $0a, $c7, $c0, $c6, $0a, $c7, $ae, $c6
-    .byte $98, $c6, $aa, $c6, $b5, $c4, $28, $c6, $4b, $c6, $7e, $c6, $82, $c6, $a3, $c6
-    .byte $ae, $c6, $98, $c6, $aa, $c6, $0d, $c5, $b5, $c4, $b5, $c6, $5c, $c5, $5c, $c5
-    .byte $5c, $c5, $5c, $c5, $53, $c5, $44, $c5, $3d, $c5
-
-    LDX #$10
-
-_label_bank0_c50f:
-    TXA
-    JSR LoadEnemyObjectPointer
-    LDY #$00
-    LDA ($00),Y
-    CMP #$C0
-    BCC _label_bank0_c52c
-    INY
-    LDA ($00),Y
-    SBC #$50
-    CMP #$18
-    BCS _label_bank0_c52c
-    TYA
-    DEY
-    ORA ($00),Y
-    STA ($00),Y
-    STY $02
-
-_label_bank0_c52c:
-    DEX
-    BPL _label_bank0_c50f
-    LDA $02
-    BNE _label_bank0_c53c
-    LDA #$50
-    JSR StartThread
-    LDA #$40
-    STA $02
-
-_label_bank0_c53c:
-    RTS
-
-    LDA #$40
-    ORA $28
-    STA $28
-    RTS
-
-    LDA $0428
-    CMP #$1E
-    LDA #$40
-    BCC _label_bank0_c54e
-    ASL A
-
-_label_bank0_c54e:
-    ORA $78
-    STA $78
-    RTS
-
-    INC $79
-    LDA $7A
-    ORA $7B
-    STA $7A
-    RTS
-
-    LDA $78
-    ORA #$08
-    STA $78
-    RTS
-
-    LDY #$05
-    LDA ($30),Y
-    TAY
-    LDA #$07
-    STA $0304,Y
-    LDA $0429
-    BNE _label_bank0_c578
-    LDA #$20
-    ORA $28
-    STA $28
-
-_label_bank0_c578:
-    LDY #$16
-    JSR AddSoundEffect
-    LDA #$04
-    JSR StopThread
-    LDA #$34
-    STA $02
-    RTS
-
-    LDA #$80
-    STA $057F
-    LDX #$03
-    JSR ResetOtherSecondaryThreads
-    LDY #$15
-    JSR AddSoundEffect
-    INC $85
-    LDA #$40
-    AND $28
-    BEQ _label_bank0_c5a7
-    CLC
-    LDA #$05
-    ADC $0428
-    STA $0428
-
-_label_bank0_c5a7:
-    LDY $79
-    LDA $0429
-    BNE _label_bank0_c5cd
-    LDX $0428
-    CPX #$0A
-    BCC _label_bank0_c5bd
-    LDA $7C
-    AND #$10
-    BNE _label_bank0_c5bd
-    INC $84
-
-_label_bank0_c5bd:
-    LDX $0428
-    CPX #$2F
-    BNE _label_bank0_c5c9
-    CPY #$08
-    BCS _label_bank0_c5c9
-    INX
-
-_label_bank0_c5c9:
-    INX
-    STX $0428
-
-_label_bank0_c5cd:
-    LDA #$08
-    AND $78
-    BEQ _label_bank0_c5ef
-    CPY #$04
-    BCC _label_bank0_c5e9
-    LDA #$10
-    LDX $0428
-    CPX #$14
-    BEQ _label_bank0_c5eb
-    CPY #$06
-    BCC _label_bank0_c5e9
-    ASL A
-    CPX #$2C
-    BEQ _label_bank0_c5eb
-
-_label_bank0_c5e9:
-    LDA #$30
-
-_label_bank0_c5eb:
-    ORA $78
-    STA $78
-
-_label_bank0_c5ef:
-    LDA #$DF
-    AND $28
-    STA $28
-    JSR $C60E
-    STA $042A
-    STA $0429
-    LDA #$EE
-    AND $7C
-    STA $7C
-    LDA #$14
-    JSR StartThread
-    LDA #$03
-    JSR StopThread
-    LDA #$00
-    LDY #$A4
-
-_label_bank0_c612:
-    DEY
-    STA $067F,Y
-    BNE _label_bank0_c612
-    TAY
-
-_label_bank0_c619:
-    STA $057F,Y
-    DEY
-    BNE _label_bank0_c619
-    LDY #$88
-
-_label_bank0_c621:
-    DEY
-    STA $04F7,Y
-    BNE _label_bank0_c621
     RTS
 
 .segment "PRG_POST_SECONDARY_THREAD_RESET"
@@ -4919,7 +4616,7 @@ _label_bank0_c821:
 _label_bank0_c832:
     JSR DeactivateAllNonDanaObjects
     JSR Clear30x24NametableRegion
-    JSR $C60E
+    JSR ClearGameplayObjectAndEnemyState
     LDA #$10
     ORA $7C
     STA $7C

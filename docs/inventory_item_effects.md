@@ -20,7 +20,9 @@ thread later consumes. The Tzo handlers reach `ExtendFireballLifetime` with
 carry to the high byte. The exact incoming-carry contract is still tied to the
 item dispatcher and remains a runtime-trace item.
 
-The three score-producing paths call `AddScoreByAAtDigitX` at `$C73B`.
+The complete selector mapping is now reconstructed in
+`src/data/item_handlers.asm`; see `docs/item_interactions.md`. The three
+score-producing paths call `AddScoreByAAtDigitX` at `$C73B`.
 Bisqwit's map confirms that entry and all six direct control-flow references
 use its symbol. Its decimal arithmetic and game-state gate are reconstructed
 in `src/game/score.asm`; see `docs/score.md`.

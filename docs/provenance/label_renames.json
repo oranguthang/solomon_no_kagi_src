@@ -4986,6 +4986,348 @@
       "evidence": [
         "Both blanked and significant digit paths converge on storing the next tile at PpuUpdateBuffer + 3 before advancing the seven-digit loop."
       ]
+    },
+    {
+      "address": "0xc42e",
+      "previous": "_label_bank0_c42e",
+      "current": "ReturnFromHudOrItemUpdate",
+      "confidence": "confirmed",
+      "evidence": [
+        "The score formatter falls through to this RTS, and every rejected Dana map-tile classification branch shares the same return byte."
+      ]
+    },
+    {
+      "address": "0xc42f",
+      "previous": "$C42F",
+      "current": "ScoreDisplayPpuCommandHeader",
+      "confidence": "confirmed",
+      "evidence": [
+        "BuildScoreDisplayUpdate copies these three bytes as a PPU command for eight literal writes at $2060; no control-flow reference enters at $C42F."
+      ]
+    },
+    {
+      "address": "0xc432",
+      "previous": "$C432",
+      "current": "CheckDanaMapTileInteraction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The main gameplay thread calls this service; it samples the RoomMap cell at Dana's center, classifies the value, and starts the returned cooperative follow-up code when nonzero."
+      ]
+    },
+    {
+      "address": "0xc45b",
+      "previous": "$C45B",
+      "current": "ClassifyDanaMapTileInteraction",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map names the mirrored entry CheckMapTileCollisionType; the comparisons partition ordinary item tiles $06-$24, bonus tiles $25-$31, extra-life tiles $32-$37, and ignored values."
+      ]
+    },
+    {
+      "address": "0xc486",
+      "previous": "_label_bank0_c486",
+      "current": "SelectBonusItemScore",
+      "confidence": "confirmed",
+      "evidence": [
+        "Repeated subtraction by three selects the bonus score digit group while the adjusted remainder indexes the 1/2/5 amount table."
+      ]
+    },
+    {
+      "address": "0xc498",
+      "previous": "_label_bank0_c498",
+      "current": "CheckBonusItemExtraLifeScore",
+      "confidence": "confirmed",
+      "evidence": [
+        "Tile $32 takes an additional five-at-digit-two score path before converging with the $32-$37 extra-life award."
+      ]
+    },
+    {
+      "address": "0xc4a1",
+      "previous": "_label_bank0_c4a1",
+      "current": "AwardExtraLifeFromMapTile",
+      "confidence": "confirmed",
+      "evidence": [
+        "The block queues sound $06, increments RemainingLives and ExtraLivesAcquiredTotal, clears auxiliary-object Y motion, and selects follow-up thread code $41."
+      ]
+    },
+    {
+      "address": "0xc4b5",
+      "previous": "_label_bank0_c4b5",
+      "current": "FinishMapTileInteraction",
+      "confidence": "confirmed",
+      "evidence": [
+        "All ignored, gated, and completed synchronous map-tile paths converge on this return; two item-table slots intentionally point here as no-effect handlers."
+      ]
+    },
+    {
+      "address": "0xc4b6",
+      "previous": "_label_bank0_c4b6",
+      "current": "DispatchInventoryItemInteraction",
+      "confidence": "confirmed",
+      "evidence": [
+        "Values $06-$24 enter here; key and door bypass the auxiliary visual gate while later item types test state byte $87 bit 0 before dispatch."
+      ]
+    },
+    {
+      "address": "0xc4c2",
+      "previous": "_label_bank0_c4c2",
+      "current": "SpawnInventoryItemEffect",
+      "confidence": "confirmed",
+      "evidence": [
+        "Allowed item types $08-$24 initialize the shared auxiliary effect at the already selected RoomMap cell before common dispatch."
+      ]
+    },
+    {
+      "address": "0xc4c5",
+      "previous": "_label_bank0_c4c5",
+      "current": "QueueInventoryItemInteraction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The block selects thread code $40, queues sound $0D, converts map values $06-$24 into zero-based selectors, and invokes JumpWithParams."
+      ]
+    },
+    {
+      "address": "0xc4d3",
+      "previous": "$C4D3",
+      "current": "ItemInteractionHandlerTable",
+      "confidence": "confirmed",
+      "evidence": [
+        "The 58-byte inline appendix contains 29 little-endian handlers matching selectors $00-$1C and Bisqwit's independently named item-acquisition entries."
+      ]
+    },
+    {
+      "address": "0xc50d",
+      "previous": "$C50D",
+      "current": "ApplyRedBottleKillAllEnemiesItem",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map identifies item $13 here; the routine traverses all 17 enemy objects, marks eligible active types $50-$67, and starts scheduler code $50 when any changed."
+      ]
+    },
+    {
+      "address": "0xc50f",
+      "previous": "_label_bank0_c50f",
+      "current": "CheckNextRedBottleEnemy",
+      "confidence": "confirmed",
+      "evidence": [
+        "Each pass resolves one indexed enemy object and checks its active state and type range before setting state bit 0."
+      ]
+    },
+    {
+      "address": "0xc52c",
+      "previous": "_label_bank0_c52c",
+      "current": "AdvanceRedBottleEnemy",
+      "confidence": "confirmed",
+      "evidence": [
+        "Rejected and marked enemy paths converge before decrementing the slot index across all 17 records."
+      ]
+    },
+    {
+      "address": "0xc53c",
+      "previous": "_label_bank0_c53c",
+      "current": "FinishRedBottleItem",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both the no-target and scheduled-retirement outcomes return through this RTS with the appropriate follow-up code in scratch byte $02."
+      ]
+    },
+    {
+      "address": "0xc53d",
+      "previous": "$C53D",
+      "current": "ApplySpecialItem1C",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's item map identifies type $1C here; the handler sets GameplayFlags bit $40 and returns."
+      ]
+    },
+    {
+      "address": "0xc544",
+      "previous": "$C544",
+      "current": "ApplySpecialItem1B",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's item map identifies type $1B here; the handler sets GameStateFlags bit $40 below room $1E and bit $80 at or above it."
+      ]
+    },
+    {
+      "address": "0xc54e",
+      "previous": "_label_bank0_c54e",
+      "current": "StoreSpecialItem1BFlag",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both room-index branches converge on merging the selected $40/$80 bit into GameStateFlags."
+      ]
+    },
+    {
+      "address": "0xc553",
+      "previous": "$C553",
+      "current": "ApplySolomonSealItem",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map names this item $1A handler Solomon Seal; its first operation increments the confirmed SolomonSealCount byte at $79."
+      ]
+    },
+    {
+      "address": "0xc55c",
+      "previous": "$C55C",
+      "current": "ApplyConstellationSymbolItem",
+      "confidence": "confirmed",
+      "evidence": [
+        "Four consecutive item selectors share this handler, and Bisqwit's map identifies types $16-$19 as constellation symbols; the code sets GameStateFlags bit $08."
+      ]
+    },
+    {
+      "address": "0xc563",
+      "previous": "$C563",
+      "current": "CollectRoomKey",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map identifies selector $00 as Key; the handler reads room-item header offset 5, changes that RoomMap cell to open-door tile $07, queues sound $16, and selects thread code $34."
+      ]
+    },
+    {
+      "address": "0xc578",
+      "previous": "_label_bank0_c578",
+      "current": "QueueKeyCollectedSound",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both fireball-state variants converge here to queue the key sound, stop context 4, and select the key follow-up code."
+      ]
+    },
+    {
+      "address": "0xc587",
+      "previous": "$C587",
+      "current": "EnterRoomDoor",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map identifies selector $01 as Door, and scheduler selector $32 enters at this address; the routine deactivates Dana and transitions to room-clear processing."
+      ]
+    },
+    {
+      "address": "0xc5a7",
+      "previous": "_label_bank0_c5a7",
+      "current": "CheckDoorRoomProgression",
+      "confidence": "high",
+      "evidence": [
+        "After the optional five-room skip, the block loads SolomonSealCount and conditionally performs ordinary current-room advancement."
+      ]
+    },
+    {
+      "address": "0xc5bd",
+      "previous": "_label_bank0_c5bd",
+      "current": "CheckDoorRoom47",
+      "confidence": "confirmed",
+      "evidence": [
+        "The block special-cases zero-based room $2F when fewer than eight Solomon Seals are present before common increment."
+      ]
+    },
+    {
+      "address": "0xc5c9",
+      "previous": "_label_bank0_c5c9",
+      "current": "AdvanceDoorRoom",
+      "confidence": "confirmed",
+      "evidence": [
+        "All ordinary door-progression paths converge on incrementing and storing CurrentRoomIndex."
+      ]
+    },
+    {
+      "address": "0xc5cd",
+      "previous": "_label_bank0_c5cd",
+      "current": "ApplyDoorSpecialRoomFlags",
+      "confidence": "high",
+      "evidence": [
+        "When GameStateFlags bit $08 is set, this block combines Solomon Seal thresholds and current-room checks to select special-room flag bits."
+      ]
+    },
+    {
+      "address": "0xc5e9",
+      "previous": "_label_bank0_c5e9",
+      "current": "SelectDefaultDoorSpecialRoomFlags",
+      "confidence": "high",
+      "evidence": [
+        "Threshold and room-index paths that do not select an individual $10/$20 bit converge on the combined value $30."
+      ]
+    },
+    {
+      "address": "0xc5eb",
+      "previous": "_label_bank0_c5eb",
+      "current": "StoreDoorSpecialRoomFlags",
+      "confidence": "confirmed",
+      "evidence": [
+        "The selected $10, $20, or $30 value is merged into GameStateFlags here."
+      ]
+    },
+    {
+      "address": "0xc5ef",
+      "previous": "_label_bank0_c5ef",
+      "current": "FinishDoorSpecialRoomFlags",
+      "confidence": "confirmed",
+      "evidence": [
+        "All door-progression paths converge on clearing the key flag, resetting object/fireball/room state, starting room-clear code $14, and stopping context 3."
+      ]
+    },
+    {
+      "address": "0xc60e",
+      "previous": "$C60E",
+      "current": "ClearGameplayObjectAndEnemyState",
+      "confidence": "confirmed",
+      "evidence": [
+        "Three loops clear exactly $1A4 bytes of 21 object records at $057F-$0722 and $88 bytes of 17 enemy AI records at $04F7-$057E."
+      ]
+    },
+    {
+      "address": "0xc612",
+      "previous": "_label_bank0_c612",
+      "current": "ClearObjectPoolTail",
+      "confidence": "confirmed",
+      "evidence": [
+        "The descending $A4-byte loop clears the object-pool tail at DanaObject+$100 through the final byte at $0722."
+      ]
+    },
+    {
+      "address": "0xc619",
+      "previous": "_label_bank0_c619",
+      "current": "ClearObjectPoolFirstPage",
+      "confidence": "confirmed",
+      "evidence": [
+        "Starting with Y=0 and wrapping downward clears the complete first 256 bytes at $057F-$067E."
+      ]
+    },
+    {
+      "address": "0xc621",
+      "previous": "_label_bank0_c621",
+      "current": "ClearEnemyAiStatePool",
+      "confidence": "confirmed",
+      "evidence": [
+        "The descending $88-byte loop equals 17 records times the confirmed eight-byte EnemyAiStateStride."
+      ]
+    },
+    {
+      "address": "0xc364",
+      "previous": "$C364",
+      "current": "BuildScaledCoordinateDeltas",
+      "confidence": "confirmed",
+      "evidence": [
+        "Five transition callers provide origin Y/X in $02-$03 and target Y/X in $04-$05; the routine returns both signed differences multiplied by four as two little-endian words."
+      ]
+    },
+    {
+      "address": "0xc366",
+      "previous": "_label_bank0_c366",
+      "current": "ScaleNextCoordinateDelta",
+      "confidence": "confirmed",
+      "evidence": [
+        "The two-iteration loop subtracts one origin axis from its target and selects sign-extension byte $00 or $FF from borrow."
+      ]
+    },
+    {
+      "address": "0xc370",
+      "previous": "_label_bank0_c370",
+      "current": "ScaleCoordinateDeltaByFour",
+      "confidence": "confirmed",
+      "evidence": [
+        "Two ASL/ROL pairs multiply the sign-extended 16-bit difference by four before it is stored in the scratch output layout."
+      ]
     }
   ]
 }

@@ -25,6 +25,7 @@ range is understood.
 | `$007C-$007D` | room-state flags and decoded tileset | high |
 | `$007E-$007F` | block-cast and head-collision target map indices | high |
 | `$0078` | global game-state flags; pause thread modifies bits 1-2 | high |
+| `$0079` | collected Solomon Seal count | confirmed |
 | `$0082-$0083` | raw controller values in A/B/Select/Start/Up/Down/Left/Right bit order | confirmed |
 | `$0087` | unidentified state flags; transition reset clears bit 0 | unknown |
 | `$0210-$030F` | OAM shadow buffer, 64 four-byte sprites | high |
@@ -49,6 +50,7 @@ range is understood.
 | `$044A-$0451` | eight unpacked decimal score digits, most significant first | confirmed |
 | `$0452` | remaining lives | high |
 | `$0453-$0454` | collected and queued fairies | high |
+| `$05BE` | total extra lives acquired; overlaps auxiliary-object byte 3 | high |
 | `$04F7-$057E` | 17 eight-byte enemy AI records | tentative/high |
 | `$057F-$070F` | `$14`-byte gameplay object records | high |
 

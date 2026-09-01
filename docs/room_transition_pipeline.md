@@ -61,6 +61,6 @@ The former raw dependencies at `$91EB`, `$91B9`, `$92BC`, `$9340`, `$C3D4`,
 and `$C403` are now
 source-owned as `PrepareRoomIntro`, `PublishRoomDoorAndKeyUpdates`,
 `RunRoomEntryAnimation`, `RunTransitionObjectOrbit`, `RefreshGameplayHud`, and
-`BuildScoreDisplayUpdate`. Calls at `$C364` and `$C2A6` remain address-based
-because their exact contracts are outside these ranges and are not yet fully
-proven.
+`BuildScoreDisplayUpdate`, and `BuildScaledCoordinateDeltas`. The call at
+`$C2A6` remains address-based because its larger cooperative transition
+contract is not yet fully reconstructed.

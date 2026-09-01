@@ -141,8 +141,13 @@ decrease.
   pools by `DeactivateEnemySlot` in `src/game/enemy_deactivation.asm`;
 - `$B4B6-$B4C3`: eleven enemy behavior tail-calls retire the dispatcher-
   selected slot through `DeactivateCurrentEnemy`;
+- `$C364-$C385`: five transition callers share one signed two-axis coordinate
+  delta builder with an explicit Y-low/Y-high/X-low/X-high output contract;
 - `$C3D4-$C42D`: the serialized score/inventory/fairy HUD refresh, fairy PPU
   template, and seven-digit leading-zero score formatter are source-owned;
+- `$C42E-$C627`: the Dana-centered item classifier, all 29 dispatch pointers,
+  bonus and special effects, key/door progression, and exact 556-byte object
+  plus enemy-AI pool clear are split into seven semantic modules;
 - `$C628-$C697`: timer items perform four-digit decimal doubling, fivefold
   multiplication, and the fixed `10000`/`05000` assignments;
 - `$C698-$C70F`: Scroll Extender, fireball bottles, Fairy Bell, Tzo, and score

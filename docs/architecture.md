@@ -305,6 +305,12 @@ another accepts coordinates directly. Both install the same four-byte object
 template and integer Y/X fields. The visual meaning remains deliberately
 unassigned pending traces. See `docs/auxiliary_effect.md`.
 
+The gameplay loop samples the RoomMap cell under Dana and classifies item
+tiles through a 29-entry inline handler appendix. Shared handlers cover timer,
+inventory, score, and persistent flag effects; key and door entries mutate
+room progression and reset all 21 object plus 17 enemy-AI records. See
+`docs/item_interactions.md`.
+
 ## Room pipeline
 
 The room loader combines independent sources:

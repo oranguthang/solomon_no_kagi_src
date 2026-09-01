@@ -89,6 +89,11 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	src/game/non_dana_object_deactivation.asm \
 	src/graphics/gameplay_hud.asm src/data/gameplay_hud.asm \
 	src/graphics/score_display.asm \
+	src/game/item_collision.asm src/data/item_handlers.asm \
+	src/game/red_bottle_item.asm src/game/special_item_flags.asm \
+	src/game/key_item.asm src/game/door_item.asm \
+	src/game/gameplay_pool_clear.asm \
+	src/game/coordinate_delta.asm \
 	src/preservation/prg.asm \
 	src/graphics/chr.asm src/memory/hardware.inc src/memory/ram.inc
 
@@ -98,6 +103,7 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	lint-source lint-project test quality-check check release-check rooms \
 	validate-rooms roundtrip-formats reconstruction-status reconstruction-audit \
 	scheduler-report scheduler-audit enemy-ai-report enemy-ai-audit \
+	item-handler-report item-handler-audit \
 	enemy-pointer-report enemy-pointer-audit ppu-update-report ppu-update-audit clean
 
 all: verify
@@ -201,6 +207,12 @@ enemy-ai-report: $(ROM)
 enemy-ai-audit: $(ROM)
 	$(PYTHON) scripts/enemy_ai_data.py audit --image "$(ROM)"
 
+item-handler-report: $(ROM)
+	$(PYTHON) scripts/item_handler_data.py report --image "$(ROM)"
+
+item-handler-audit: $(ROM)
+	$(PYTHON) scripts/item_handler_data.py audit --image "$(ROM)"
+
 enemy-pointer-report: $(ROM)
 	$(PYTHON) scripts/enemy_pointer_data.py report --image "$(ROM)"
 
@@ -217,7 +229,7 @@ quality-check: lint test
 
 release-check: quality-check verify validate-rooms roundtrip-formats \
 	reconstruction-audit scheduler-audit enemy-ai-audit enemy-pointer-audit \
-	ppu-update-audit
+	item-handler-audit ppu-update-audit
 
 check: release-check
 

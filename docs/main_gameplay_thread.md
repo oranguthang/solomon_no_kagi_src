@@ -13,6 +13,7 @@ converge at `ContinueMainGameplayThread`.
 The first two services are now source-owned as
 `UpdateDemonMirrorSpawnSchedule` and `ActivatePendingDemonMirrorEnemies`.
 Together they sample both room schedules, allocate mirror placeholders, and
-later configure their saved enemy slots from cyclic enemy sets. The remaining
-raw service at `$C432` stays address-based until its contract is established.
-See `docs/demon_mirror_runtime.md`.
+later configure their saved enemy slots from cyclic enemy sets. The former raw
+service at `$C432` is now `CheckDanaMapTileInteraction`; it samples the map
+cell under Dana and dispatches collectible effects. See
+`docs/demon_mirror_runtime.md` and `docs/item_interactions.md`.

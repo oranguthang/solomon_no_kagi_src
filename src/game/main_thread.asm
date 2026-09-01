@@ -10,7 +10,7 @@ MainGameplayThread:
     JSR SwitchThreads
     JSR RunEnemyAiDispatcher
     JSR SwitchThreads
-    JSR $C432
+    JSR CheckDanaMapTileInteraction
     JSR SwitchThreads
     JSR UpdateFireballLifetime
     JSR SwitchThreads
