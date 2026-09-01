@@ -16,6 +16,8 @@ DEBUG := $(BUILD_DIR)/solomons_key.dbg
 SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm \
 	src/game/object_update.asm src/game/object_motion.asm \
 	src/game/object_collision.asm src/game/object_animation.asm \
+	src/game/object_collision_dispatch.asm src/data/object_collision_handlers.asm \
+	src/game/object_collision_response.asm src/game/object_y_thirteen_clamp.asm \
 	src/system/startup.asm \
 	src/system/scheduler.asm src/system/pause_thread.asm \
 	src/system/sound_effect_queue.asm \

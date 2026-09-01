@@ -19,13 +19,14 @@ remains active. Each record then passes through:
 UpdateObjectMotionAndCollision
   -> fixed-point motion integration
   -> six-cell RoomMap collision sampling
-$87E0 unresolved object behavior/collision dispatcher
+DispatchObjectCollisionResponse
 AdvanceObjectAnimation
 ```
 
 After the sweep, a nonzero low nibble in Dana's collision mask clears gameplay
 frame counter `$20`. The precise responsibility of that counter and the
-dispatcher at `$87E0` remain open.
+game-facing directional names of the collision bits remain open. The response
+dispatcher is documented in `docs/object_collision_response.md`.
 
 ## Fixed-point motion
 

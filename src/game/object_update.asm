@@ -44,7 +44,7 @@ ReloadObjectMotionAndAnimation:
 
 UpdateCurrentObject:
     JSR UpdateObjectMotionAndCollision
-    JSR $87E0
+    JSR DispatchObjectCollisionResponse
     JSR AdvanceObjectAnimation
 
 AdvanceObjectUpdateLoop:

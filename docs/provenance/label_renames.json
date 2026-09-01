@@ -3537,6 +3537,321 @@
       "evidence": [
         "Counter-active and new-frame paths converge on this return."
       ]
+    },
+    {
+      "address": "0x87e0",
+      "previous": "$87E0",
+      "current": "DispatchObjectCollisionResponse",
+      "confidence": "confirmed",
+      "evidence": [
+        "The active-object loop calls this entry between collision sampling and animation; records below state $E0 return without dispatch."
+      ]
+    },
+    {
+      "address": "0x87e9",
+      "previous": "_label_bank0_87e9",
+      "current": "SelectObjectCollisionResponse",
+      "confidence": "confirmed",
+      "evidence": [
+        "The state-$E0+ path caches action and collision bytes, doubles the mask low nibble, and tail-jumps through the 16-entry pointer table."
+      ]
+    },
+    {
+      "address": "0x8806",
+      "previous": "$8806",
+      "current": "ObjectCollisionHandlerTable",
+      "confidence": "confirmed",
+      "evidence": [
+        "The dispatcher indexes these 16 little-endian handler pointers with twice the collision-mask low nibble; entries $0 and $F both resolve to $8826."
+      ]
+    },
+    {
+      "address": "0x8826",
+      "previous": "$8826",
+      "current": "HandleObjectCollisionMask00",
+      "confidence": "confirmed",
+      "evidence": [
+        "Handler-table entries $0 and $F select this routine, which conditionally maps action groups $0C-$17 to $18-$1B when collision bits $30 are clear."
+      ]
+    },
+    {
+      "address": "0x8842",
+      "previous": "_label_bank0_8842",
+      "current": "FinishObjectCollisionMask00",
+      "confidence": "confirmed",
+      "evidence": [
+        "All action-range and upper-collision-bit outcomes of the shared mask-0/F handler converge on this return."
+      ]
+    },
+    {
+      "address": "0x8843",
+      "previous": "$8843",
+      "current": "HandleObjectCollisionMask01",
+      "confidence": "confirmed",
+      "evidence": [
+        "Collision-table entry $1 computes Y and X corrections and applies the smaller one before updating motion and action fields."
+      ]
+    },
+    {
+      "address": "0x8866",
+      "previous": "$8866",
+      "current": "ResolveObjectCollisionMask01Y",
+      "confidence": "confirmed",
+      "evidence": [
+        "The mask-1 Y choice and the mask-2 shared jump converge here to adjust integer Y, clear its fraction, preserve motion sign, and select action $04/$05."
+      ]
+    },
+    {
+      "address": "0x8888",
+      "previous": "_label_bank0_8888",
+      "current": "ResolveObjectCollisionMask01X",
+      "confidence": "confirmed",
+      "evidence": [
+        "The smaller-X path applies the horizontal correction, clears X fraction/motion, and conditionally selects action $09."
+      ]
+    },
+    {
+      "address": "0x88a4",
+      "previous": "_label_bank0_88a4",
+      "current": "FinishObjectCollisionMask01",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both mask-1 X-motion sign outcomes converge on this return."
+      ]
+    },
+    {
+      "address": "0x88a5",
+      "previous": "$88A5",
+      "current": "HandleObjectCollisionMask02",
+      "confidence": "confirmed",
+      "evidence": [
+        "Collision-table entry $2 computes mirrored horizontal and vertical corrections, sharing the mask-1 Y path when Y wins."
+      ]
+    },
+    {
+      "address": "0x88c6",
+      "previous": "_label_bank0_88c6",
+      "current": "ResolveObjectCollisionMask02X",
+      "confidence": "confirmed",
+      "evidence": [
+        "The mask-2 X choice subtracts its correction, clears X fraction/motion, and selects action $08 on the nonnegative Y-motion path."
+      ]
+    },
+    {
+      "address": "0x88e0",
+      "previous": "_label_bank0_88e0",
+      "current": "FinishObjectCollisionMask02",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both mask-2 X-response outcomes converge on this return."
+      ]
+    },
+    {
+      "address": "0x88e1",
+      "previous": "$88E1",
+      "current": "HandleObjectCollisionMask08",
+      "confidence": "confirmed",
+      "evidence": [
+        "Collision-table entry $8 compares a lower-Y correction with a positive-X correction and applies the selected response."
+      ]
+    },
+    {
+      "address": "0x891c",
+      "previous": "_label_bank0_891c",
+      "current": "FinishObjectCollisionMask08X",
+      "confidence": "confirmed",
+      "evidence": [
+        "The mask-8 X response returns here after clearing X fraction/motion and optionally selecting action $09."
+      ]
+    },
+    {
+      "address": "0x891d",
+      "previous": "_label_bank0_891d",
+      "current": "ResolveObjectCollisionMask08Y",
+      "confidence": "confirmed",
+      "evidence": [
+        "The mask-8 Y choice and mask-4 shared jump converge here to subtract the Y correction, set fraction $F0, preserve motion sign, and conditionally select action $06/$07."
+      ]
+    },
+    {
+      "address": "0x8948",
+      "previous": "_label_bank0_8948",
+      "current": "FinishObjectCollisionMask08",
+      "confidence": "confirmed",
+      "evidence": [
+        "All mask-8/mask-4 shared Y-action outcomes converge on this return."
+      ]
+    },
+    {
+      "address": "0x8949",
+      "previous": "$8949",
+      "current": "HandleObjectCollisionMask04",
+      "confidence": "confirmed",
+      "evidence": [
+        "Collision-table entry $4 compares a lower-Y correction with the mirrored X correction, sharing the mask-8 Y path when Y wins."
+      ]
+    },
+    {
+      "address": "0x8965",
+      "previous": "_label_bank0_8965",
+      "current": "ResolveObjectCollisionMask04X",
+      "confidence": "confirmed",
+      "evidence": [
+        "The mask-4 X choice subtracts the correction, clears X fraction/motion, and conditionally selects action $08."
+      ]
+    },
+    {
+      "address": "0x8981",
+      "previous": "_label_bank0_8981",
+      "current": "FinishObjectCollisionMask04",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both mask-4 X-response outcomes converge on this return."
+      ]
+    },
+    {
+      "address": "0x8982",
+      "previous": "$8982",
+      "current": "HandleObjectCollisionMask03",
+      "confidence": "confirmed",
+      "evidence": [
+        "Collision-table entry $3 calls the $...D Y clamp and maps the cached action low bit to action $04/$05."
+      ]
+    },
+    {
+      "address": "0x8990",
+      "previous": "$8990",
+      "current": "HandleObjectCollisionMask0C",
+      "confidence": "confirmed",
+      "evidence": [
+        "Collision-table entry $C calls the $...0 Y clamp and either selects action $06/$07 or falls through to signed-motion preservation."
+      ]
+    },
+    {
+      "address": "0x89ad",
+      "previous": "_label_bank0_89ad",
+      "current": "PreserveObjectYMotionSign",
+      "confidence": "confirmed",
+      "evidence": [
+        "This shared mask-C path replaces Y motion with $00 or $80 according to its previous sign and returns."
+      ]
+    },
+    {
+      "address": "0x89b8",
+      "previous": "$89B8",
+      "current": "HandleObjectCollisionMask09",
+      "confidence": "confirmed",
+      "evidence": [
+        "Collision-table entry $9 calls the left-surface X clamp and conditionally selects action $09."
+      ]
+    },
+    {
+      "address": "0x89d5",
+      "previous": "_label_bank0_89d5",
+      "current": "FinishObjectCollisionMask09",
+      "confidence": "confirmed",
+      "evidence": [
+        "All cached-action and Y-motion outcomes of the mask-9 response converge on this return."
+      ]
+    },
+    {
+      "address": "0x89d6",
+      "previous": "$89D6",
+      "current": "HandleObjectCollisionMask06",
+      "confidence": "confirmed",
+      "evidence": [
+        "Collision-table entry $6 calls the right-surface X clamp and conditionally selects action $08."
+      ]
+    },
+    {
+      "address": "0x89f5",
+      "previous": "_label_bank0_89f5",
+      "current": "FinishObjectCollisionMask06",
+      "confidence": "confirmed",
+      "evidence": [
+        "All cached-action and Y-motion outcomes of the mask-6 response converge on this return."
+      ]
+    },
+    {
+      "address": "0x89f6",
+      "previous": "$89F6",
+      "current": "HandleObjectCollisionMask05",
+      "confidence": "confirmed",
+      "evidence": [
+        "Collision-table entry $5 tests integer Y bit 3, branching to mask-D handling when clear and otherwise falling into the mask-7 response."
+      ]
+    },
+    {
+      "address": "0x89fe",
+      "previous": "$89FE",
+      "current": "HandleObjectCollisionMask07",
+      "confidence": "confirmed",
+      "evidence": [
+        "Collision-table entry $7 and the mask-5 set-bit path share the $...D Y plus right-surface X clamp and action-$08 tail."
+      ]
+    },
+    {
+      "address": "0x8a0b",
+      "previous": "$8A0B",
+      "current": "HandleObjectCollisionMask0A",
+      "confidence": "confirmed",
+      "evidence": [
+        "Collision-table entry $A tests integer Y bit 3, branching to mask-E handling when clear and otherwise falling into the mask-B response."
+      ]
+    },
+    {
+      "address": "0x8a13",
+      "previous": "$8A13",
+      "current": "HandleObjectCollisionMask0B",
+      "confidence": "confirmed",
+      "evidence": [
+        "Collision-table entry $B and the mask-A set-bit path share the $...D Y plus left-surface X clamp and action-$09 tail."
+      ]
+    },
+    {
+      "address": "0x8a20",
+      "previous": "_label_bank0_8a20",
+      "current": "HandleObjectCollisionMask0D",
+      "confidence": "confirmed",
+      "evidence": [
+        "Collision-table entry $D and the mask-5 clear-bit path combine the $...0 Y and left-surface X clamps before shared action selection."
+      ]
+    },
+    {
+      "address": "0x8a2a",
+      "previous": "_label_bank0_8a2a",
+      "current": "HandleObjectCollisionMask0E",
+      "confidence": "confirmed",
+      "evidence": [
+        "Collision-table entry $E and the mask-A clear-bit path combine the $...0 Y and right-surface X clamps before shared action selection."
+      ]
+    },
+    {
+      "address": "0x8a32",
+      "previous": "_label_bank0_8a32",
+      "current": "SelectCornerCollisionAction",
+      "confidence": "confirmed",
+      "evidence": [
+        "Mask-D and mask-E clamp paths converge here and select action $07 or $06 when the cached action lies in the accepted range."
+      ]
+    },
+    {
+      "address": "0x8a40",
+      "previous": "_label_bank0_8a40",
+      "current": "FinishCornerCollisionResponse",
+      "confidence": "confirmed",
+      "evidence": [
+        "Accepted and rejected corner-action outcomes converge on this return."
+      ]
+    },
+    {
+      "address": "0x8a41",
+      "previous": "$8A41",
+      "current": "ObjectClampYCoordinateToThirteenInset",
+      "confidence": "confirmed",
+      "evidence": [
+        "Three collision paths call this helper; exhaustive arithmetic gives integer Y low nibble $D, clears fraction byte 6, and reduces motion byte 5 to its prior sign bit."
+      ]
     }
   ]
 }

@@ -3,7 +3,8 @@
 `src/main.asm` owns the CPU selection, iNES header, hardware/RAM registries, and
 address-ordered includes. Semantic modules own NMI at `$8000-$80FE`, controller
 sampling at `$837D-$83C1`, the per-frame object update pipeline at
-`$863C-$87DF`, object
+`$863C-$87DF`, its complete collision-response dispatcher at `$87E0-$8A61`,
+object
 surface clamping at `$8A62-$8ABF`, object motion/animation definition loading
 at `$8AC0-$8B50`, NMI-side RoomMap attribute reads at
 `$8B51-$8B7E`, the PPU update bytecode interpreter at `$8B7F-$8BE1`, and
@@ -80,7 +81,10 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_OBJECT_MOTION` | signed fixed-point Y/X integration | 75 |
 | `PRG_OBJECT_COLLISION` | six-cell RoomMap collision sampling | 181 |
 | `PRG_OBJECT_ANIMATION` | packed phase and three-byte frame sequencer | 87 |
-| `PRG_POST_OBJECT_ANIMATION` | unresolved `$87E0-$8A61` range | 642 |
+| `PRG_OBJECT_COLLISION_DISPATCH` | state gate and mask-indexed tail dispatch | 38 |
+| `PRG_OBJECT_COLLISION_HANDLERS` | 16 collision-response pointers | 32 |
+| `PRG_OBJECT_COLLISION_RESPONSE` | mask-specific coordinate, motion, and action handlers | 539 |
+| `PRG_OBJECT_Y_THIRTEEN_CLAMP` | align Y to the `$...D` cell inset | 33 |
 | `PRG_OBJECT_Y_CLAMP` | align object Y to a 16-pixel surface | 29 |
 | `PRG_OBJECT_X_LEFT_CLAMP` | clamp X against a left-side surface | 37 |
 | `PRG_OBJECT_X_RIGHT_CLAMP` | clamp X against a right-side surface | 28 |

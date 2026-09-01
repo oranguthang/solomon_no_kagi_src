@@ -48,6 +48,8 @@ decrease.
 - `$863C-$87DF`: the 21-record active-object traversal, signed fixed-point
   motion, six-cell RoomMap collision sampling, and packed animation sequencer
   are isolated as four adjacent modules;
+- `$87E0-$8A61`: the object-state gate, 16-entry collision-handler table, all
+  mask-specific responses, and shared `$...D` Y clamp are source-owned;
 - `$8C00-$8D5E`: reset, warm-boot state, PPU initialization, and scheduler
   bootstrap are isolated in `src/system/startup.asm`;
 - `$8D5F-$8E46`: the eight-context cooperative scheduler and its initial

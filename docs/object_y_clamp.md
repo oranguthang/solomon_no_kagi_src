@@ -24,3 +24,6 @@ fraction consumed by the shared movement integrator.
 The three callers combine the clamp with the now-reconstructed left/right
 horizontal surface helpers documented in `docs/object_x_left_clamp.md` and
 `docs/object_x_right_clamp.md`.
+Collision responses also use `ObjectClampYCoordinateToThirteenInset`, which
+aligns the same integer Y field to low nibble `$D` while clearing byte 6 and
+preserving only the sign of motion byte 5.

@@ -110,6 +110,81 @@
       ]
     },
     {
+      "id": "object_collision_dispatch",
+      "path": "src/game/object_collision_dispatch.asm",
+      "segment": "PRG_OBJECT_COLLISION_DISPATCH",
+      "start": "0x87e0",
+      "end": "0x8805",
+      "status": "semantic",
+      "required_labels": [
+        "DispatchObjectCollisionResponse",
+        "SelectObjectCollisionResponse"
+      ]
+    },
+    {
+      "id": "object_collision_handlers",
+      "path": "src/data/object_collision_handlers.asm",
+      "segment": "PRG_OBJECT_COLLISION_HANDLERS",
+      "start": "0x8806",
+      "end": "0x8825",
+      "status": "semantic",
+      "required_labels": [
+        "ObjectCollisionHandlerTable"
+      ]
+    },
+    {
+      "id": "object_collision_response",
+      "path": "src/game/object_collision_response.asm",
+      "segment": "PRG_OBJECT_COLLISION_RESPONSE",
+      "start": "0x8826",
+      "end": "0x8a40",
+      "status": "semantic",
+      "required_labels": [
+        "HandleObjectCollisionMask00",
+        "FinishObjectCollisionMask00",
+        "HandleObjectCollisionMask01",
+        "ResolveObjectCollisionMask01Y",
+        "ResolveObjectCollisionMask01X",
+        "FinishObjectCollisionMask01",
+        "HandleObjectCollisionMask02",
+        "ResolveObjectCollisionMask02X",
+        "FinishObjectCollisionMask02",
+        "HandleObjectCollisionMask08",
+        "FinishObjectCollisionMask08X",
+        "ResolveObjectCollisionMask08Y",
+        "FinishObjectCollisionMask08",
+        "HandleObjectCollisionMask04",
+        "ResolveObjectCollisionMask04X",
+        "FinishObjectCollisionMask04",
+        "HandleObjectCollisionMask03",
+        "HandleObjectCollisionMask0C",
+        "PreserveObjectYMotionSign",
+        "HandleObjectCollisionMask09",
+        "FinishObjectCollisionMask09",
+        "HandleObjectCollisionMask06",
+        "FinishObjectCollisionMask06",
+        "HandleObjectCollisionMask05",
+        "HandleObjectCollisionMask07",
+        "HandleObjectCollisionMask0A",
+        "HandleObjectCollisionMask0B",
+        "HandleObjectCollisionMask0D",
+        "HandleObjectCollisionMask0E",
+        "SelectCornerCollisionAction",
+        "FinishCornerCollisionResponse"
+      ]
+    },
+    {
+      "id": "object_y_thirteen_clamp",
+      "path": "src/game/object_y_thirteen_clamp.asm",
+      "segment": "PRG_OBJECT_Y_THIRTEEN_CLAMP",
+      "start": "0x8a41",
+      "end": "0x8a61",
+      "status": "semantic",
+      "required_labels": [
+        "ObjectClampYCoordinateToThirteenInset"
+      ]
+    },
+    {
       "id": "object_y_clamp",
       "path": "src/game/object_y_clamp.asm",
       "segment": "PRG_OBJECT_Y_CLAMP",
@@ -1084,11 +1159,11 @@
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 71,
-    "minimum_documented_prg_bytes": 6468,
-    "minimum_provenance_entries": 400,
-    "maximum_preservation_lines": 8644,
-    "maximum_generated_labels": 562,
-    "maximum_raw_control_flow_targets": 246
+    "minimum_semantic_modules": 75,
+    "minimum_documented_prg_bytes": 7110,
+    "minimum_provenance_entries": 435,
+    "maximum_preservation_lines": 8249,
+    "maximum_generated_labels": 544,
+    "maximum_raw_control_flow_targets": 240
   }
 }

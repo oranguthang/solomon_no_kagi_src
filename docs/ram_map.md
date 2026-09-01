@@ -66,6 +66,8 @@ delay, packed phase, and little-endian animation-data pointer.
 The per-frame sampler stores six RoomMap solidity tests in collision-mask byte
 11. The animation sequencer writes its selected three-byte sprite frame to
 bytes 17-19.
+For records in state `$E0+`, collision byte 11's low nibble indexes the
+response table at `$8806`; upper bits also participate in the mask-0/F handler.
 The shared auxiliary record at `$05BB` uses the same confirmed integer Y/X
 offsets. `SpawnAuxiliaryEffectAtCoordinates` writes them from zero-page
 `$04/$05` before replacing object bytes 0 through 3 from a fixed template.

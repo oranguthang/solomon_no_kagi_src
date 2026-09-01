@@ -150,9 +150,14 @@ data pointer bytes 12-16. See `docs/object_motion_animation.md`.
 
 `UpdateActiveObjects` traverses all 21 records during the active NMI service.
 It integrates the signed fixed-point coordinate fields, samples six RoomMap
-cells into collision byte 11, invokes the still-unresolved `$87E0` behavior
-dispatcher, and advances the packed animation phase into sprite bytes 17-19.
+cells into collision byte 11, dispatches its low nibble through a 16-entry
+response table, and advances the packed animation phase into sprite bytes 17-19.
 See `docs/object_update_pipeline.md`.
+
+Collision responses are gated to object states `$E0+`. All 16 mask entries and
+their shared handler tails are reconstructed through `$8A61`; they align
+coordinates, clear or preserve motion components, and change object action.
+See `docs/object_collision_response.md`.
 
 Most consumers resolve either side of that split state through two shared
 helpers. `LoadEnemyObjectPointer` and `LoadEnemyAiPointer` accept a slot index
