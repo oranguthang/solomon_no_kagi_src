@@ -21,8 +21,8 @@ with clearing the X fraction/motion fields, this is the response to a surface
 on the object's left. The directional name is high-confidence; the byte-level
 postcondition is confirmed directly by the instruction sequence.
 
-The following routine at `$8AA4` contains a nominal backward `BNE` to
+The complementary right-surface routine at `$8AA4` shares
 `ClearObjectXMotion`. Because ca65 cannot encode a relative branch relocation
-between these linker segments, that one branch remains explicitly encoded as
+between the two linker segments, that branch remains explicitly encoded as
 `.byte $D0, $DD` with an explanatory source comment. Byte identity and the
 target label address are both audited.

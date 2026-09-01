@@ -56,11 +56,13 @@ X at `$0589`, and adjacent fractional/movement fields. Equivalent offsets are
 expected across the object pool, but each field should be proven before global
 renaming.
 
-Across shared object helpers, record byte 7 is the integer Y coordinate and
-byte 5 carries a signed fractional/directional component. The surface clamp
-aligns byte 7 to 16 pixels and preserves only byte 5's sign bit.
-Record byte 10 is integer X; its left-surface clamp clears fractional byte 9
-and motion byte 8 after aligning X to low nibble `$4`.
+Across shared object helpers, byte 5 is signed Y motion, byte 6 is the Y
+fraction, and byte 7 is integer Y. The surface clamp aligns byte 7 to 16 pixels
+and preserves only byte 5's sign bit. Bytes 8-10 are the corresponding X
+motion, fraction, and integer coordinate. The two horizontal clamps clear
+bytes 8-9 and align integer X to low nibble `$4` or `$C`.
+On a type/action transition, bytes 12-16 receive the animation counter, reload
+delay, packed phase, and little-endian animation-data pointer.
 The shared auxiliary record at `$05BB` uses the same confirmed integer Y/X
 offsets. `SpawnAuxiliaryEffectAtCoordinates` writes them from zero-page
 `$04/$05` before replacing object bytes 0 through 3 from a fixed template.

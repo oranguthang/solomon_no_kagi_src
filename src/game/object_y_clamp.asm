@@ -14,7 +14,7 @@ ObjectClampYCoordinateToSurface:
     SEC
     SBC CoordinateClampRemainder
     STA (TempPointer08),Y
-    LDY #ObjectYFractionOffset
+    LDY #ObjectYMotionOffset
     LDA (TempPointer08),Y
     ROL A
     LDA #$00

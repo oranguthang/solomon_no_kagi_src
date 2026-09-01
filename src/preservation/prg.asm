@@ -830,7 +830,7 @@ _label_bank0_8665:
     BEQ _label_bank0_8670
 
 _label_bank0_866d:
-    JSR $8AC0
+    JSR LoadObjectMotionAndAnimationDefinition
 
 _label_bank0_8670:
     JSR $8689
@@ -1405,7 +1405,7 @@ _label_bank0_89ad:
 _label_bank0_89d5:
     RTS
 
-    JSR $8AA4
+    JSR ObjectClampXCoordinateToRightSurface
     LDA #$FC
     AND $0F
     BEQ _label_bank0_89f5
@@ -1430,7 +1430,7 @@ _label_bank0_89f5:
     AND #$08
     BEQ _label_bank0_8a20
     JSR $8A41
-    JSR $8AA4
+    JSR ObjectClampXCoordinateToRightSurface
     LDY #$03
     LDA #$08
     STA ($08),Y
@@ -1455,7 +1455,7 @@ _label_bank0_8a20:
 
 _label_bank0_8a2a:
     JSR ObjectClampYCoordinateToSurface
-    JSR $8AA4
+    JSR ObjectClampXCoordinateToRightSurface
     LDX #$06
 
 _label_bank0_8a32:
@@ -1490,117 +1490,6 @@ _label_bank0_8a40:
     ASL A
     LDA #$00
     ROR A
-    STA ($08),Y
-    RTS
-
-.segment "PRG_POST_OBJECT_CLAMPS"
-
-    LDY #$0A
-    LDA ($08),Y
-    TAX
-    CLC
-    ADC #$04
-    AND #$0F
-    STA $0B
-    TXA
-    SEC
-    SBC $0B
-    STA ($08),Y
-    DEY
-    LDA #$00
-    STA ($08),Y
-    DEY
-    STA ($08),Y
-    .byte $D0, $DD  ; BNE ClearObjectXMotion across linker segments
-    STA ($08),Y
-    STA $0F
-    TXA
-    LSR A
-    AND #$FE
-    STA $0E
-    TAY
-    LDA $D9D3,Y
-    STA $0A
-    LDA $D9D4,Y
-    STA $0B
-    LDY $0F
-    LDA ($0A),Y
-    BPL _label_bank0_8aeb
-
-    .byte $2d, $7c, $00
-
-    STA $0C
-    LDY #$01
-    LDA ($08),Y
-    AND #$03
-    ORA $0C
-    TAY
-    LDA ($0A),Y
-
-_label_bank0_8aeb:
-    ASL A
-    TAX
-    LDY #$05
-    LDA $DB99,X
-    CMP #$40
-    BEQ _label_bank0_8af8
-    STA ($08),Y
-
-_label_bank0_8af8:
-    LDY #$08
-    LDA $DB9A,X
-    CMP #$40
-    BEQ _label_bank0_8b03
-    STA ($08),Y
-
-_label_bank0_8b03:
-    LDY $0E
-    LDA $D0E8,Y
-    STA $0A
-    LDA $D0E9,Y
-    STA $0B
-    LDA $0F
-    ASL A
-    ASL A
-    TAY
-    LDA ($0A),Y
-    INY
-    STA $0E
-    LDA ($0A),Y
-    INY
-    LSR A
-    STA $0F
-    BCC _label_bank0_8b33
-    LDA ($0A),Y
-    INY
-    TAX
-    LDA ($0A),Y
-    STX $0A
-    STA $0B
-    LDY #$01
-    LDA ($08),Y
-    AND #$03
-    ASL A
-    TAY
-
-_label_bank0_8b33:
-    LDA ($0A),Y
-    INY
-    TAX
-    LDA ($0A),Y
-    LDY #$10
-    STA ($08),Y
-    DEY
-    TXA
-    STA ($08),Y
-    DEY
-    LDA $0E
-    STA ($08),Y
-    DEY
-    LDA $0F
-    STA ($08),Y
-    DEY
-    LDA #$00
     STA ($08),Y
     RTS
 

@@ -3177,6 +3177,78 @@
       "evidence": [
         "Bisqwit's map classifies the exact 30-byte range through $8BFF as FillerBefore8C00; the preceding PPU routine returns at $8BE1 and Reset starts at $8C00."
       ]
+    },
+    {
+      "address": "0x8aa4",
+      "previous": "$8AA4",
+      "current": "ObjectClampXCoordinateToRightSurface",
+      "confidence": "confirmed",
+      "evidence": [
+        "Three collision-response callers provide an object pointer in $08; exhaustive arithmetic gives object byte 10 low nibble $C, then the always-taken branch reaches the shared X motion/fraction clear tail."
+      ]
+    },
+    {
+      "address": "0x8ac0",
+      "previous": "$8AC0",
+      "current": "LoadObjectMotionAndAnimationDefinition",
+      "confidence": "confirmed",
+      "evidence": [
+        "The active-object loop calls this entry when cached type/action differs, passing type in X and action in A; the routine loads motion bytes 5/8 and initializes animation bytes 12-16."
+      ]
+    },
+    {
+      "address": "0x8adb",
+      "previous": "$8ADB",
+      "current": "ResolveRoomStateMotionSelector",
+      "confidence": "confirmed",
+      "evidence": [
+        "A negative first-level selector is masked by RoomStateFlags here, combined with the low two object-type bits, and used for a second selector-table lookup."
+      ]
+    },
+    {
+      "address": "0x8aeb",
+      "previous": "_label_bank0_8aeb",
+      "current": "LoadObjectMotionValues",
+      "confidence": "confirmed",
+      "evidence": [
+        "Direct and room-state-derived selectors converge here, are doubled, and index paired Y/X motion bytes at $DB99."
+      ]
+    },
+    {
+      "address": "0x8af8",
+      "previous": "_label_bank0_8af8",
+      "current": "LoadObjectXMotionValue",
+      "confidence": "confirmed",
+      "evidence": [
+        "After the optional Y-motion store, this block reads the adjacent X-motion value and writes object byte 8 unless the value is the $40 preserve sentinel."
+      ]
+    },
+    {
+      "address": "0x8b03",
+      "previous": "_label_bank0_8b03",
+      "current": "LoadObjectAnimationDescriptor",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both X-motion paths converge here; a parallel type-indexed pointer is resolved and the action multiplied by four to select an animation descriptor."
+      ]
+    },
+    {
+      "address": "0x8b21",
+      "previous": "$8B21",
+      "current": "ResolveVariantAnimationPointer",
+      "confidence": "confirmed",
+      "evidence": [
+        "Descriptor byte 1 bit 0 selects this path, which treats bytes 2-3 as a pointer table and uses the object's low two type bits to choose one of four animation pointers."
+      ]
+    },
+    {
+      "address": "0x8b33",
+      "previous": "_label_bank0_8b33",
+      "current": "StoreObjectAnimationPointer",
+      "confidence": "confirmed",
+      "evidence": [
+        "Direct and variant-indirect descriptor paths converge here before storing animation pointer, phase, delay, and a zero counter in object bytes 16 down through 12."
+      ]
     }
   ]
 }

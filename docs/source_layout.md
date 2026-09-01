@@ -3,7 +3,8 @@
 `src/main.asm` owns the CPU selection, iNES header, hardware/RAM registries, and
 address-ordered includes. Semantic modules own NMI at `$8000-$80FE`, controller
 sampling at `$837D-$83C1`, object
-surface clamping at `$8A62-$8AA3`, NMI-side RoomMap attribute reads at
+surface clamping at `$8A62-$8ABF`, object motion/animation definition loading
+at `$8AC0-$8B50`, NMI-side RoomMap attribute reads at
 `$8B51-$8B7E`, the PPU update bytecode interpreter at `$8B7F-$8BE1`, and
 classified pre-Reset filler at `$8BE2-$8BFF`. Startup begins at `$8C00-$8D5E`,
 and the scheduler at
@@ -76,7 +77,8 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_POST_CONTROLLER_INPUT` | unresolved `$83C2-$8A61` range | 1,696 |
 | `PRG_OBJECT_Y_CLAMP` | align object Y to a 16-pixel surface | 29 |
 | `PRG_OBJECT_X_LEFT_CLAMP` | clamp X against a left-side surface | 37 |
-| `PRG_POST_OBJECT_CLAMPS` | unresolved `$8AA4-$8B50` range | 173 |
+| `PRG_OBJECT_X_RIGHT_CLAMP` | clamp X against a right-side surface | 28 |
+| `PRG_OBJECT_MOTION_ANIMATION` | type/action motion and animation definition loader | 145 |
 | `PRG_PPU_ATTRIBUTE_READ` | NMI RoomMap attribute-byte request service | 46 |
 | `PRG_PPU_UPDATE_STREAM` | compact NMI-side PPU update bytecode interpreter | 99 |
 | `PRG_PRE_STARTUP_PADDING` | classified non-code filler before Reset | 30 |

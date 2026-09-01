@@ -138,11 +138,15 @@ fully self-contained structure per enemy.
 
 Collision code uses `ObjectClampYCoordinateToSurface` on a record selected by
 `TempPointer08`. It aligns object byte 7 down to a 16-pixel boundary and
-reduces byte 5 to its old sign bit, exposing the shared integer-Y and signed
-fraction/direction convention without yet generalizing every adjacent field.
-`ObjectClampXCoordinateToLeftSurface` similarly moves byte 10 to the `...4`
-inset of a 16-pixel cell and clears bytes 9 and 8 after a left-side surface
-contact.
+reduces signed Y-motion byte 5 to its old sign bit. Byte 6 is the Y fraction.
+`ObjectClampXCoordinateToLeftSurface` and
+`ObjectClampXCoordinateToRightSurface` move integer-X byte 10 to the `...4`
+or `...C` inset of a 16-pixel cell and clear fraction byte 9 plus motion byte 8.
+
+When object type byte 1 or action byte 3 changes, the active-object loop calls
+`LoadObjectMotionAndAnimationDefinition`. It resolves signed Y/X motion from a
+room-state-aware table and initializes animation counter, delay, phase, and
+data pointer bytes 12-16. See `docs/object_motion_animation.md`.
 
 Most consumers resolve either side of that split state through two shared
 helpers. `LoadEnemyObjectPointer` and `LoadEnemyAiPointer` accept a slot index

@@ -39,6 +39,8 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	src/graphics/room_map_render.asm \
 	src/game/object_y_clamp.asm \
 	src/game/object_x_left_clamp.asm \
+	src/game/object_x_right_clamp.asm \
+	src/game/object_motion_animation.asm \
 	src/graphics/ppu_update_stream.asm \
 	src/graphics/ppu_attribute_read.asm \
 	src/data/pre_startup_padding.asm \

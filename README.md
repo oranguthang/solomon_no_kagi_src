@@ -14,7 +14,7 @@ evidence, and small tested tools for decoded game data.
   entrypoint; CHR is a private generated asset and is not stored in Git.
 - Confirmed NES registers and high-confidence RAM aliases are separated into
   `src/memory/`.
-- Sixty-five semantic PRG modules own NMI (`$8000-$80FE`), controller input
+- Sixty-seven semantic PRG modules own NMI (`$8000-$80FE`), controller input
   (`$837D-$83C1`), reset/startup
   (`$8C00-$8D5E`), the cooperative scheduler (`$8D5F-$8E46`), and the main
   gameplay thread (`$A000-$A04B`), plus countdown timer arithmetic and warning
@@ -52,7 +52,8 @@ evidence, and small tested tools for decoded game data.
   Shared map/object interactions and overlap checks own `$9C60-$9DCF`.
   Buffered room-cell rendering, its address converters, and classified filler
   own the complete `$9DD0-$9FFF` range.
-  Object surface clamps own `$8A62-$8AA3`.
+  Object surface clamps own `$8A62-$8ABF`; the type/action-driven motion and
+  animation definition loader follows at `$8AC0-$8B50`.
   The NMI RoomMap attribute reader owns `$8B51-$8B7E`, followed by the PPU
   stream interpreter at `$8B7F-$8BE1` and classified pre-Reset filler through
   `$8BFF`; the blocking producer for
@@ -210,6 +211,8 @@ src/system/secondary_thread_reset.asm stop other contexts during transitions
 src/game/room_transition_reset.asm shared transition context and state reset
 src/game/object_y_clamp.asm align object Y to a 16-pixel surface
 src/game/object_x_left_clamp.asm clamp object X against its left surface
+src/game/object_x_right_clamp.asm clamp object X against its right surface
+src/game/object_motion_animation.asm load type/action motion and animation data
 src/game/coordinate_conversion.asm pixel and packed room-index conversion
 src/game/main_thread.asm   context-three gameplay service loop
 src/game/timer.asm         countdown arithmetic and warning-state transitions

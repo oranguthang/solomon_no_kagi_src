@@ -61,6 +61,34 @@
       ]
     },
     {
+      "id": "object_x_right_clamp",
+      "path": "src/game/object_x_right_clamp.asm",
+      "segment": "PRG_OBJECT_X_RIGHT_CLAMP",
+      "start": "0x8aa4",
+      "end": "0x8abf",
+      "status": "semantic",
+      "required_labels": [
+        "ObjectClampXCoordinateToRightSurface"
+      ]
+    },
+    {
+      "id": "object_motion_animation",
+      "path": "src/game/object_motion_animation.asm",
+      "segment": "PRG_OBJECT_MOTION_ANIMATION",
+      "start": "0x8ac0",
+      "end": "0x8b50",
+      "status": "semantic",
+      "required_labels": [
+        "LoadObjectMotionAndAnimationDefinition",
+        "ResolveRoomStateMotionSelector",
+        "LoadObjectMotionValues",
+        "LoadObjectXMotionValue",
+        "LoadObjectAnimationDescriptor",
+        "ResolveVariantAnimationPointer",
+        "StoreObjectAnimationPointer"
+      ]
+    },
+    {
       "id": "ppu_attribute_read",
       "path": "src/graphics/ppu_attribute_read.asm",
       "segment": "PRG_PPU_ATTRIBUTE_READ",
@@ -984,11 +1012,11 @@
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 65,
-    "minimum_documented_prg_bytes": 5875,
-    "minimum_provenance_entries": 360,
-    "maximum_preservation_lines": 9056,
-    "maximum_generated_labels": 592,
-    "maximum_raw_control_flow_targets": 253
+    "minimum_semantic_modules": 67,
+    "minimum_documented_prg_bytes": 6048,
+    "minimum_provenance_entries": 368,
+    "maximum_preservation_lines": 8945,
+    "maximum_generated_labels": 588,
+    "maximum_raw_control_flow_targets": 249
   }
 }

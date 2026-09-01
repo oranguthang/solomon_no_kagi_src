@@ -53,6 +53,10 @@ decrease.
   `src/game/object_y_clamp.asm`, with all three calls named;
 - `$8A7F-$8AA3`: the left-surface object X clamp and motion reset are isolated
   in `src/game/object_x_left_clamp.asm`, with all three calls named;
+- `$8AA4-$8ABF`: the complementary right-surface object X clamp is isolated,
+  with all three calls named and the shared motion-clear tail documented;
+- `$8AC0-$8B50`: type/action-driven Y/X motion and animation descriptor
+  resolution is isolated in `src/game/object_motion_animation.asm`;
 - `$8B51-$8B7E`: the NMI-side RoomMap attribute-byte read and stale-request
   timeout are isolated in `src/graphics/ppu_attribute_read.asm`;
 - `$8BE2-$8BFF`: Bisqwit's 30-byte `FillerBefore8C00` range is explicitly
