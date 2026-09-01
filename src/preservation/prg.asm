@@ -1604,37 +1604,6 @@ _label_bank0_8b33:
     STA ($08),Y
     RTS
 
-    LDA $29
-    BPL _label_bank0_8b63
-    INC $29
-    CMP #$A8
-    BCC _label_bank0_8b7c
-    LDA #$FB
-    AND $28
-    STA $28
-    BCS _label_bank0_8b7c
-
-_label_bank0_8b63:
-    LDX a:PPU_STATUS
-    LDA #$23
-    STA a:PPU_ADDR
-    LDA $1C
-    STA a:PPU_ADDR
-    LDA a:PPU_DATA
-    LDA a:PPU_DATA
-    STA $1C
-    LDA #$80
-    STA $29
-
-_label_bank0_8b7c:
-    JMP RestorePpuStateAfterUpdate
-
-.segment "PRG_POST_PPU_UPDATE_STREAM"
-
-    .byte $00
-    .byte $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $ff, $00, $ff
-    .byte $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00
-
 .segment "PRG_POST_JUMP_WITH_PARAMS"
 
     .byte $3f, $00, $5f
@@ -2004,7 +1973,7 @@ _label_bank0_914f:
 
 _label_bank0_91ca:
     STX $03
-    JSR $9DD0
+    JSR BuildAndPublishRoomMapCellUpdate
     LDA #$20
     AND $28
     BNE _label_bank0_91ea
@@ -2017,7 +1986,7 @@ _label_bank0_91ca:
     STA $02
     LDA #$06
     STA $03
-    JMP $9DD0
+    JMP BuildAndPublishRoomMapCellUpdate
 
 _label_bank0_91ea:
     RTS
@@ -2083,7 +2052,7 @@ _label_bank0_9245:
     STA $03
     LDA #$49
     STA $02
-    JSR $9DD0
+    JSR BuildAndPublishRoomMapCellUpdate
     PLA
     LSR A
     LSR A
@@ -2347,235 +2316,6 @@ _label_bank0_944b:
     .byte $00, $06
     .byte $0c, $13, $19, $1f, $25, $2b, $31, $37, $3d, $42, $48, $4d, $52, $57, $5b, $60
     .byte $63, $68, $6b, $6f, $72, $74, $77, $79, $7b, $7c, $7e, $7f, $7f, $7f
-
-.segment "PRG_POST_COUNTER_WAIT"
-
-    LDA $03
-    PHA
-    LDA $02
-    PHA
-
-_label_bank0_9dd6:
-    LDA #$04
-    AND $28
-    BEQ _label_bank0_9de1
-    JSR SwitchThreads
-    BCS _label_bank0_9dd6
-
-_label_bank0_9de1:
-    LDA $29
-    BPL _label_bank0_9dea
-    JSR SwitchThreads
-    BCS _label_bank0_9de1
-
-_label_bank0_9dea:
-    PLA
-    TAX
-    PHA
-    JSR $9F01
-    STA $1C
-    LDA #$04
-    ORA $28
-    STA $28
-
-_label_bank0_9df8:
-    JSR SwitchThreads
-    LDA $29
-    BMI _label_bank0_9e05
-    LDA $28
-    AND #$04
-    BNE _label_bank0_9df8
-
-_label_bank0_9e05:
-    LDA $1C
-    PHA
-    LDA #$FB
-    AND $28
-    STA $28
-
-_label_bank0_9e0e:
-    LDA $1B
-    BEQ _label_bank0_9e17
-    JSR SwitchThreads
-    BCS _label_bank0_9e0e
-
-_label_bank0_9e17:
-    PLA
-    STA $02
-    PLA
-    STA $00
-    TAY
-    PLA
-    STA $01
-    LDA #$00
-    STA $06
-    LDA #$D0
-    STA $07
-    LDX $00
-    JSR $9F01
-    STA $03
-    LDA $01
-    CMP #$10
-    BNE _label_bank0_9e65
-    LDA $0406
-    BEQ _label_bank0_9e51
-    LDA $00
-    LDX #$00
-    SEC
-    SBC $0406
-    BCC _label_bank0_9e51
-    CMP #$03
-    BCC _label_bank0_9e57
-    CMP #$10
-    BCC _label_bank0_9e51
-    CMP #$13
-    BCC _label_bank0_9e55
-
-_label_bank0_9e51:
-    LDA #$10
-    BPL _label_bank0_9e65
-
-_label_bank0_9e55:
-    LDX #$03
-
-_label_bank0_9e57:
-    STX $04
-    AND #$03
-    ADC $04
-    LDX #$07
-    STX $06
-    LDX #$04
-    STX $07
-
-_label_bank0_9e65:
-    ASL A
-    ASL A
-    TAY
-    LDA $02
-    LDX $05
-    BEQ _label_bank0_9e73
-
-_label_bank0_9e6e:
-    ROR A
-    ROR A
-    DEX
-    BNE _label_bank0_9e6e
-
-_label_bank0_9e73:
-    AND #$FC
-    STA $02
-    LDA ($06),Y
-    AND #$03
-    ORA $02
-    LDX $05
-    BEQ _label_bank0_9e86
-
-_label_bank0_9e81:
-    ROL A
-    ROL A
-    DEX
-    BNE _label_bank0_9e81
-
-_label_bank0_9e86:
-    STA $02
-    LDA $00
-    STA $04
-    JSR $9EE0
-    LDA $05
-    LDX #$00
-    STA $03E6,X
-    STA $03EB,X
-    LDA $04
-    STA $03E7,X
-    CLC
-    ADC #$20
-    STA $03EC,X
-    LDA ($06),Y
-    INY
-    AND #$FC
-    STA $03E9,X
-    LDA ($06),Y
-    INY
-    STA $03EA,X
-    LDA ($06),Y
-    INY
-    STA $03EE,X
-    LDA ($06),Y
-    STA $03EF,X
-    LDA #$23
-    STA $03F0,X
-    LDA $03
-    STA $03F1,X
-    LDA $02
-    STA $03F3,X
-    TXA
-    STA $03F4,X
-    LDA #$41
-    STA $03E8,X
-    STA $03ED,X
-    LDA #$40
-    STA $03F2,X
-    JMP PublishPpuUpdateBuffer
-    LDA #$08
-    STA $05
-    LDA $04
-    CLC
-    ADC #$10
-    ASL A
-    ROL $05
-    ASL A
-    ROL $05
-    AND #$C0
-    PHA
-    LDA #$0F
-    AND $04
-    ASL A
-    AND #$1E
-    STA $04
-    PLA
-    ORA $04
-    STA $04
-    RTS
-
-    TXA
-    CLC
-    ADC #$10
-    TAX
-    LDA #$00
-    STA $05
-    TXA
-    AND #$10
-    BEQ _label_bank0_9f11
-    INC $05
-
-_label_bank0_9f11:
-    TXA
-    AND #$E0
-    LSR A
-    LSR A
-    STA $04
-    TXA
-    LSR A
-    AND #$07
-    ORA $04
-    ROL $05
-    ADC #$C0
-    RTS
-
-    .byte $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $ff, $00, $ff
-    .byte $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $00, $ff, $00
-    .byte $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $ff, $00, $ff
-    .byte $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $00, $ff, $00
-    .byte $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $fb, $00, $ff, $ff, $00, $ff
-    .byte $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $00, $ff, $00
-    .byte $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $ff, $00, $ff
-    .byte $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $00, $ff, $00
-    .byte $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $ff, $00, $ff
-    .byte $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $00, $ff, $00
-    .byte $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $ff, $00, $ff
-    .byte $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $00, $ff, $00
-    .byte $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $ff, $00, $ff
-    .byte $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00
 
 .segment "PRG_PRE_TIMER"
     LDX $043E
@@ -5414,7 +5154,7 @@ _label_bank0_b8dc:
     STA $02
     LDA #$38
     STA $03
-    JSR $9DD0
+    JSR BuildAndPublishRoomMapCellUpdate
 
 _label_bank0_b8f0:
     JSR $B91B
@@ -5438,7 +5178,7 @@ _label_bank0_b900:
     LDA #$39
     STA $03
     STX $02
-    JSR $9DD0
+    JSR BuildAndPublishRoomMapCellUpdate
 
 _label_bank0_b91a:
     RTS
@@ -6156,7 +5896,7 @@ _label_bank0_bdea:
 
     STA $02
     STX $03
-    JSR $9DD0
+    JSR BuildAndPublishRoomMapCellUpdate
     RTS
 
     .byte $e0, $00, $50, $01, $08, $03, $d0, $07, $20
@@ -6407,7 +6147,7 @@ _label_bank0_c25a:
     LDA #$10
     STA $0304,X
     STA $03
-    JSR $9DD0
+    JSR BuildAndPublishRoomMapCellUpdate
     LDY #$06
     JSR $C2A8
     LDX #$10
@@ -6500,7 +6240,7 @@ _label_bank0_c303:
     LDY #$05
     LDA ($30),Y
     STA $02
-    JMP $9DD0
+    JMP BuildAndPublishRoomMapCellUpdate
 
     .byte $c2, $04, $ff, $0d, $ff, $c3, $04, $03, $bb, $05, $a0
     .byte $04
@@ -6590,7 +6330,7 @@ _label_bank0_c39d:
     STA $0304,X
     STX $02
     STA $03
-    JSR $9DD0
+    JSR BuildAndPublishRoomMapCellUpdate
     LSR $87
     ASL $87
     RTS

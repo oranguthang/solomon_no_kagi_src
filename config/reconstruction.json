@@ -15,6 +15,9 @@
       "status": "semantic",
       "required_labels": [
         "NMI",
+        "CheckRoomMapAttributeReadRequest",
+        "ResetRoomMapAttributeReadState",
+        "UpdateNmiChrBank",
         "NmiRestoreRegisters",
         "ChrBankSelectValues",
         "WritePpuScroll"
@@ -58,6 +61,20 @@
       ]
     },
     {
+      "id": "ppu_attribute_read",
+      "path": "src/graphics/ppu_attribute_read.asm",
+      "segment": "PRG_PPU_ATTRIBUTE_READ",
+      "start": "0x8b51",
+      "end": "0x8b7e",
+      "status": "semantic",
+      "required_labels": [
+        "ServiceRoomMapAttributeReadRequest",
+        "AdvanceRoomMapAttributeReadTimeout",
+        "ReadRequestedRoomMapAttributeByte",
+        "FinishRoomMapAttributeReadRequest"
+      ]
+    },
+    {
       "id": "ppu_update_stream",
       "path": "src/graphics/ppu_update_stream.asm",
       "segment": "PRG_PPU_UPDATE_STREAM",
@@ -74,6 +91,17 @@
         "CheckNextPpuUpdateCommand",
         "FinishPpuUpdateStream",
         "RestorePpuStateAfterUpdate"
+      ]
+    },
+    {
+      "id": "pre_startup_padding",
+      "path": "src/data/pre_startup_padding.asm",
+      "segment": "PRG_PRE_STARTUP_PADDING",
+      "start": "0x8be2",
+      "end": "0x8bff",
+      "status": "semantic",
+      "required_labels": [
+        "PreStartupPadding"
       ]
     },
     {
@@ -371,6 +399,57 @@
       "required_labels": [
         "CheckCoordinateOverlapWithObject",
         "FinishCoordinateObjectOverlapCheck"
+      ]
+    },
+    {
+      "id": "room_map_cell_update",
+      "path": "src/graphics/room_map_cell_update.asm",
+      "segment": "PRG_ROOM_MAP_CELL_UPDATE",
+      "start": "0x9dd0",
+      "end": "0x9edf",
+      "status": "semantic",
+      "required_labels": [
+        "BuildAndPublishRoomMapCellUpdate",
+        "WaitForPreviousAttributeReadRequest",
+        "WaitForAttributeReadStateIdle",
+        "RequestRoomCellAttributeRead",
+        "WaitForRoomCellAttributeRead",
+        "CaptureRoomCellAttributeByte",
+        "WaitForRoomCellUpdateBuffer",
+        "RestoreRoomCellUpdateInputs",
+        "BuildRoomCellUpdateBuffer",
+        "SelectDefaultRoomCellTilePattern",
+        "SelectLowerConstellationTilePattern",
+        "SelectConstellationTilePattern",
+        "SelectRoomCellTilePattern",
+        "RotateRoomCellAttributeToLowBits",
+        "ClearRoomCellAttributeQuadrant",
+        "RestoreRoomCellAttributeQuadrant",
+        "StoreRoomCellAttributeByte"
+      ]
+    },
+    {
+      "id": "room_map_ppu_address",
+      "path": "src/graphics/room_map_ppu_address.asm",
+      "segment": "PRG_ROOM_MAP_PPU_ADDRESS",
+      "start": "0x9ee0",
+      "end": "0x9f22",
+      "status": "semantic",
+      "required_labels": [
+        "ConvertRoomMapIndexToNametableAddress",
+        "CalculateRoomMapAttributeAddressLow",
+        "CalculateRoomMapAttributeIndex"
+      ]
+    },
+    {
+      "id": "main_thread_padding",
+      "path": "src/data/main_thread_padding.asm",
+      "segment": "PRG_MAIN_THREAD_PADDING",
+      "start": "0x9f23",
+      "end": "0x9fff",
+      "status": "semantic",
+      "required_labels": [
+        "MainThreadPadding"
       ]
     },
     {
@@ -905,11 +984,11 @@
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 60,
-    "minimum_documented_prg_bytes": 5239,
-    "minimum_provenance_entries": 331,
-    "maximum_preservation_lines": 9316,
-    "maximum_generated_labels": 612,
-    "maximum_raw_control_flow_targets": 273
+    "minimum_semantic_modules": 65,
+    "minimum_documented_prg_bytes": 5875,
+    "minimum_provenance_entries": 360,
+    "maximum_preservation_lines": 9056,
+    "maximum_generated_labels": 592,
+    "maximum_raw_control_flow_targets": 253
   }
 }

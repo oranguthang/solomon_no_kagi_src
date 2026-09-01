@@ -53,6 +53,10 @@ decrease.
   `src/game/object_y_clamp.asm`, with all three calls named;
 - `$8A7F-$8AA3`: the left-surface object X clamp and motion reset are isolated
   in `src/game/object_x_left_clamp.asm`, with all three calls named;
+- `$8B51-$8B7E`: the NMI-side RoomMap attribute-byte read and stale-request
+  timeout are isolated in `src/graphics/ppu_attribute_read.asm`;
+- `$8BE2-$8BFF`: Bisqwit's 30-byte `FillerBefore8C00` range is explicitly
+  classified in `src/data/pre_startup_padding.asm`;
 - `$8E47-$8E8C`: context 2 selector 1's Start-button pause/debounce loop is
   isolated in `src/system/pause_thread.asm`;
 - `$8E8D-$8E9F`: the three-slot sound-effect request producer is isolated in
@@ -79,6 +83,10 @@ decrease.
   consume packed fireball inventory, and create or remove targeted blocks;
 - `$9C60-$9DCF`: shared map/object interaction setup, block occupancy handling,
   object-header initialization, and coordinate overlap checks are source-owned;
+- `$9DD0-$9F22`: one-cell PPU update construction, NMI attribute-read
+  synchronization, and both packed-cell address conversions are source-owned;
+- `$9F23-$9FFF`: 221 bytes before the main thread are explicitly classified as
+  non-code filler rather than disassembled instructions;
 - `$A000-$A04B`: scheduler context 3's main gameplay service loop and queued
   fairy path are isolated in `src/game/main_thread.asm`;
 - `$A15F-$A225`: countdown arithmetic, decimal borrow propagation, display

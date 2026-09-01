@@ -42,7 +42,7 @@ The block entry computes a target cell from Dana's saved pose, direction, and
 integer coordinates. A negative map value takes the removal path at `$9C02`;
 a nonnegative value calls `TryCreateBlockAtMapCell`. Both operations use the
 magic-spark object at `$0593`, wait on `GameplayDelayCounter`, and request
-map-cell updates through `$9DD0`.
+map-cell updates through `BuildAndPublishRoomMapCellUpdate`.
 
 The shared `$9C12` continuation restores Dana's action state and position. The
 final `$9C3A` path filters the cached controller bits, deactivates the magic

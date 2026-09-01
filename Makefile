@@ -32,12 +32,16 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	src/game/room_block_decode.asm src/game/dana_actions.asm \
 	src/system/counter_wait.asm \
 	src/game/map_interactions.asm src/game/coordinate_object_overlap.asm \
+	src/graphics/room_map_cell_update.asm src/graphics/room_map_ppu_address.asm \
+	src/data/main_thread_padding.asm \
 	src/graphics/static_ppu_update_queue.asm src/data/static_ppu_update_streams.asm \
 	src/game/room_enemy_load.asm \
 	src/graphics/room_map_render.asm \
 	src/game/object_y_clamp.asm \
 	src/game/object_x_left_clamp.asm \
 	src/graphics/ppu_update_stream.asm \
+	src/graphics/ppu_attribute_read.asm \
+	src/data/pre_startup_padding.asm \
 	src/game/main_thread.asm src/game/timer.asm \
 	src/game/timer_item_effects.asm \
 	src/game/inventory_item_effects.asm \

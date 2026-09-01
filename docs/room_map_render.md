@@ -9,7 +9,7 @@ The traversal counts packed map positions from `$D0` down through `$11`.
 Positions whose low nibble is zero are sentinel-column boundaries; all other
 positions map to RoomMap indices `$CF-$10`, exactly 192 cells. For each cell
 the renderer reads its current nametable attribute byte, classifies the map
-tile, and calls the still-unreconstructed builder at `$9E21`.
+tile, and calls `BuildRoomCellUpdateBuffer` at `$9E21`.
 
 Tile classification passed in `RoomRenderTileClass` is:
 
@@ -25,6 +25,6 @@ immediately writes each two-byte address and each two-byte data pair to the
 PPU, stopping on a zero data marker. After all cells it tail-calls
 `EndDirectPpuTransfer`, restoring the normal rendering/NMI state.
 
-The helper at `$9F01` that derives the attribute address and the builder at
-`$9E21` remain explicit raw dependencies. Their contracts are visible here,
-but their own ranges need independent reconstruction before naming them.
+The renderer shares `CalculateRoomMapAttributeAddressLow` with the cooperative
+cell-update producer. Both helpers are now source-owned and their complete
+contracts are documented in `docs/room_map_cell_update.md`.

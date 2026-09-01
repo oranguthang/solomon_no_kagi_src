@@ -23,19 +23,21 @@ NMI:
     STA a:OAM_DMA
     LDY #$01
     CPY PpuUpdateStreamPointer + 1
-    BCS _label_bank0_8034
+    BCS CheckRoomMapAttributeReadRequest
     JSR ExecutePpuUpdateStream
 
-_label_bank0_8034:
-    LDA $28
-    AND #$04
-    BEQ _label_bank0_8040
-    JSR $8B51
-    JMP $8044
+CheckRoomMapAttributeReadRequest:
+    LDA GameplayFlags
+    AND #GameplayFlagAttributeReadRequest
+    BEQ ResetRoomMapAttributeReadState
+    JSR ServiceRoomMapAttributeReadRequest
+    JMP UpdateNmiChrBank
 
-_label_bank0_8040:
-    LDA #$00
-    STA $29
+ResetRoomMapAttributeReadState:
+    LDA #PpuAttributeReadIdleState
+    STA PpuAttributeReadState
+
+UpdateNmiChrBank:
     LDA $7D
     BMI _label_bank0_8055
     AND #$03

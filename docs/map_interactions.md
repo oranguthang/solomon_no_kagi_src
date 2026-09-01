@@ -19,7 +19,7 @@ cell is converted to pixel coordinates, optionally offset according to the
 tile sign and direction, and stored in object bytes 7 and 10. The common
 header initializer writes state `$C6`, variant `$04`, sentinel `$FF` in byte
 2, and a tile-dependent action byte. Nonnegative source tiles are then queued
-for redraw through the still-unresolved `$9DD0` helper.
+for redraw through `BuildAndPublishRoomMapCellUpdate`.
 
 The entry has six external callers: two Dana action paths and four unresolved
 enemy behavior paths. Every call now uses the semantic symbol.

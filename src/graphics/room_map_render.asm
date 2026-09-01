@@ -27,7 +27,7 @@ DrawNextRoomMapCell:
     BEQ AdvanceRoomMapCell
     DEX
     STX RoomRenderMapIndex
-    JSR $9F01
+    JSR CalculateRoomMapAttributeAddressLow
     STA RoomRenderPpuAddressLow
     LDY #NametableAttributeHigh
     STY a:PPU_ADDR
@@ -50,7 +50,7 @@ DrawNextRoomMapCell:
 
 SelectRoomMapTileClass:
     STX RoomRenderTileClass
-    JSR $9E21
+    JSR BuildRoomCellUpdateBuffer
     LDX #$00
 
 WriteNextRoomCellPpuChunk:

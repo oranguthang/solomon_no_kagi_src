@@ -3,8 +3,10 @@
 `src/main.asm` owns the CPU selection, iNES header, hardware/RAM registries, and
 address-ordered includes. Semantic modules own NMI at `$8000-$80FE`, controller
 sampling at `$837D-$83C1`, object
-surface clamping at `$8A62-$8AA3`, the NMI-side PPU update bytecode interpreter
-at `$8B7F-$8BE1`, startup at `$8C00-$8D5E`, and the scheduler at
+surface clamping at `$8A62-$8AA3`, NMI-side RoomMap attribute reads at
+`$8B51-$8B7E`, the PPU update bytecode interpreter at `$8B7F-$8BE1`, and
+classified pre-Reset filler at `$8BE2-$8BFF`. Startup begins at `$8C00-$8D5E`,
+and the scheduler at
 `$8D5F-$8E46`.
 Context 2's pause loop is at `$8E47-$8E8C`, sound-effect request
 queuing at `$8E8D-$8E9F`, PPU
@@ -29,6 +31,9 @@ Dana's three cooperative head-collision, fireball, and block-magic actions own
 The shared cooperative counter wait owns `$9C52-$9C5F`.
 Shared RoomMap/object interactions own `$9C60-$9DB0`, followed by the
 coordinate/object overlap predicate at `$9DB1-$9DCF`.
+The cooperative single-cell PPU producer owns `$9DD0-$9EDF`, its nametable and
+attribute address helpers own `$9EE0-$9F22`, and classified filler occupies
+`$9F23-$9FFF` immediately before the main gameplay thread.
 Timer logic owns `$A15F-$A225`, and its display builder
 at `$A238-$A273`, followed by the enemy movement prepass at `$A274-$A2DB`.
 The adjacent AI dispatcher owns `$A2DC-$A30B`.
@@ -71,9 +76,10 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_POST_CONTROLLER_INPUT` | unresolved `$83C2-$8A61` range | 1,696 |
 | `PRG_OBJECT_Y_CLAMP` | align object Y to a 16-pixel surface | 29 |
 | `PRG_OBJECT_X_LEFT_CLAMP` | clamp X against a left-side surface | 37 |
-| `PRG_POST_OBJECT_CLAMPS` | unresolved `$8AA4-$8B7E` range | 219 |
+| `PRG_POST_OBJECT_CLAMPS` | unresolved `$8AA4-$8B50` range | 173 |
+| `PRG_PPU_ATTRIBUTE_READ` | NMI RoomMap attribute-byte request service | 46 |
 | `PRG_PPU_UPDATE_STREAM` | compact NMI-side PPU update bytecode interpreter | 99 |
-| `PRG_POST_PPU_UPDATE_STREAM` | unresolved `$8BE2-$8BFF` range | 30 |
+| `PRG_PRE_STARTUP_PADDING` | classified non-code filler before Reset | 30 |
 | `PRG_STARTUP` | reset and startup module | 351 |
 | `PRG_SCHEDULER` | cooperative scheduler and entry tables | 232 |
 | `PRG_PAUSE_THREAD` | context-two pause and Start debounce loop | 70 |
@@ -101,7 +107,9 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_COUNTER_WAIT` | cooperative zero-page counter threshold wait | 14 |
 | `PRG_MAP_INTERACTIONS` | RoomMap mutation and object interaction setup | 337 |
 | `PRG_COORDINATE_OBJECT_OVERLAP` | active-object coordinate overlap predicate | 31 |
-| `PRG_POST_COUNTER_WAIT` | unresolved `$9DD0-$9FFF` range | 560 |
+| `PRG_ROOM_MAP_CELL_UPDATE` | buffered two-row tile and attribute update producer | 272 |
+| `PRG_ROOM_MAP_PPU_ADDRESS` | packed cell to nametable/attribute address helpers | 67 |
+| `PRG_MAIN_THREAD_PADDING` | classified non-code filler before `$A000` | 221 |
 | `PRG_MAIN_THREAD` | context-three gameplay loop | 76 |
 | `PRG_PRE_TIMER` | unresolved `$A04C-$A15E` range | 275 |
 | `PRG_TIMER` | countdown arithmetic and warning transitions | 199 |

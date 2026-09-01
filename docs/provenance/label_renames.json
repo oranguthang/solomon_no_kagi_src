@@ -2916,6 +2916,267 @@
       "evidence": [
         "Inactive, horizontally separated, and completed vertical comparison paths all return through this instruction with carry as the overlap result."
       ]
+    },
+    {
+      "address": "0x9dd0",
+      "previous": "$9DD0",
+      "current": "BuildAndPublishRoomMapCellUpdate",
+      "confidence": "confirmed",
+      "evidence": [
+        "Thirteen call sites provide a packed map index in $02 and tile value in $03; the routine reads the current attribute byte, constructs three PPU commands, and publishes PpuUpdateBuffer."
+      ]
+    },
+    {
+      "address": "0x9dd6",
+      "previous": "_label_bank0_9dd6",
+      "current": "WaitForPreviousAttributeReadRequest",
+      "confidence": "confirmed",
+      "evidence": [
+        "This cooperative loop yields while GameplayFlags bit 2 still marks an earlier NMI attribute-read request."
+      ]
+    },
+    {
+      "address": "0x9de1",
+      "previous": "_label_bank0_9de1",
+      "current": "WaitForAttributeReadStateIdle",
+      "confidence": "high",
+      "evidence": [
+        "After the request bit clears, this loop waits for the separate $29 handshake state to become nonnegative before publishing another address."
+      ]
+    },
+    {
+      "address": "0x9dea",
+      "previous": "_label_bank0_9dea",
+      "current": "RequestRoomCellAttributeRead",
+      "confidence": "confirmed",
+      "evidence": [
+        "The saved map index is converted to a $23xx address low byte, written to $1C, and GameplayFlags bit 2 is set for NMI."
+      ]
+    },
+    {
+      "address": "0x9df8",
+      "previous": "_label_bank0_9df8",
+      "current": "WaitForRoomCellAttributeRead",
+      "confidence": "confirmed",
+      "evidence": [
+        "The producer yields until NMI makes $29 negative or clears the attribute-read request bit."
+      ]
+    },
+    {
+      "address": "0x9e05",
+      "previous": "_label_bank0_9e05",
+      "current": "CaptureRoomCellAttributeByte",
+      "confidence": "confirmed",
+      "evidence": [
+        "This path saves the value NMI placed in $1C and clears GameplayFlags bit 2."
+      ]
+    },
+    {
+      "address": "0x9e0e",
+      "previous": "_label_bank0_9e0e",
+      "current": "WaitForRoomCellUpdateBuffer",
+      "confidence": "confirmed",
+      "evidence": [
+        "The loop yields until PpuUpdateStreamPointer high is zero, proving the shared RAM buffer is no longer owned by NMI."
+      ]
+    },
+    {
+      "address": "0x9e17",
+      "previous": "_label_bank0_9e17",
+      "current": "RestoreRoomCellUpdateInputs",
+      "confidence": "confirmed",
+      "evidence": [
+        "This continuation restores the attribute byte, map index, and tile from the stack before entering common buffer construction."
+      ]
+    },
+    {
+      "address": "0x9e21",
+      "previous": "$9E21",
+      "current": "BuildRoomCellUpdateBuffer",
+      "confidence": "confirmed",
+      "evidence": [
+        "The direct room renderer calls this second entry after preparing the same index, tile, and attribute inputs; it builds the three-command PPU stream without the cooperative read handshake."
+      ]
+    },
+    {
+      "address": "0x9e51",
+      "previous": "_label_bank0_9e51",
+      "current": "SelectDefaultRoomCellTilePattern",
+      "confidence": "confirmed",
+      "evidence": [
+        "Non-constellation tile-$10$ cases converge here and select the ordinary tile-pattern record at index $10."
+      ]
+    },
+    {
+      "address": "0x9e55",
+      "previous": "_label_bank0_9e55",
+      "current": "SelectLowerConstellationTilePattern",
+      "confidence": "confirmed",
+      "evidence": [
+        "Map-index differences $10-$12 select constellation pattern records 3-5 through this X offset."
+      ]
+    },
+    {
+      "address": "0x9e57",
+      "previous": "_label_bank0_9e57",
+      "current": "SelectConstellationTilePattern",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both three-cell constellation rows converge here to compute a 0-5 record index and replace the pattern pointer with $0407."
+      ]
+    },
+    {
+      "address": "0x9e65",
+      "previous": "_label_bank0_9e65",
+      "current": "SelectRoomCellTilePattern",
+      "confidence": "confirmed",
+      "evidence": [
+        "Ordinary and constellation paths converge here to multiply the selected record index by four."
+      ]
+    },
+    {
+      "address": "0x9e6e",
+      "previous": "_label_bank0_9e6e",
+      "current": "RotateRoomCellAttributeToLowBits",
+      "confidence": "confirmed",
+      "evidence": [
+        "The loop rotates the existing attribute byte right twice per quadrant index before replacing its low two bits."
+      ]
+    },
+    {
+      "address": "0x9e73",
+      "previous": "_label_bank0_9e73",
+      "current": "ClearRoomCellAttributeQuadrant",
+      "confidence": "confirmed",
+      "evidence": [
+        "This block clears the selected low two-bit quadrant and merges the tile-pattern attribute bits."
+      ]
+    },
+    {
+      "address": "0x9e81",
+      "previous": "_label_bank0_9e81",
+      "current": "RestoreRoomCellAttributeQuadrant",
+      "confidence": "confirmed",
+      "evidence": [
+        "The modified attribute byte is rotated left twice per quadrant index to restore its original bit position."
+      ]
+    },
+    {
+      "address": "0x9e86",
+      "previous": "_label_bank0_9e86",
+      "current": "StoreRoomCellAttributeByte",
+      "confidence": "confirmed",
+      "evidence": [
+        "All quadrant paths converge here before the new attribute value and two tile rows are written into PpuUpdateBuffer."
+      ]
+    },
+    {
+      "address": "0x9ee0",
+      "previous": "$9EE0",
+      "current": "ConvertRoomMapIndexToNametableAddress",
+      "confidence": "confirmed",
+      "evidence": [
+        "The caller supplies a packed RoomMap index in $04; the routine applies the room's one-row offset and returns a $20xx nametable address in $05:$04."
+      ]
+    },
+    {
+      "address": "0x9f01",
+      "previous": "$9F01",
+      "current": "CalculateRoomMapAttributeAddressLow",
+      "confidence": "confirmed",
+      "evidence": [
+        "Three call sites supply a packed map index in X; the routine returns $C0 plus the 8x8 attribute index in A and a 0-3 quadrant selector in $05."
+      ]
+    },
+    {
+      "address": "0x9f11",
+      "previous": "_label_bank0_9f11",
+      "current": "CalculateRoomMapAttributeIndex",
+      "confidence": "confirmed",
+      "evidence": [
+        "This block combines row-group and column-group bits into the 0-63 attribute-table index."
+      ]
+    },
+    {
+      "address": "0x9f23",
+      "previous": "$9F23",
+      "current": "MainThreadPadding",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map classifies the complete 221-byte range through $9FFF as filler before MainGameplayThread at $A000; no control-flow target enters it."
+      ]
+    },
+    {
+      "address": "0x8034",
+      "previous": "_label_bank0_8034",
+      "current": "CheckRoomMapAttributeReadRequest",
+      "confidence": "confirmed",
+      "evidence": [
+        "After optional PPU stream execution, NMI tests GameplayFlags bit 2 here and calls the sole $001C/$0029 consumer when it is set."
+      ]
+    },
+    {
+      "address": "0x8040",
+      "previous": "_label_bank0_8040",
+      "current": "ResetRoomMapAttributeReadState",
+      "confidence": "confirmed",
+      "evidence": [
+        "The no-request NMI path writes the idle value $00 to PpuAttributeReadState before continuing with CHR-bank service."
+      ]
+    },
+    {
+      "address": "0x8044",
+      "previous": "$8044",
+      "current": "UpdateNmiChrBank",
+      "confidence": "high",
+      "evidence": [
+        "Both attribute-read paths converge here; the following block masks the decoded tileset index, selects one of four CNROM values, and writes the selected cartridge bank."
+      ]
+    },
+    {
+      "address": "0x8b51",
+      "previous": "$8B51",
+      "current": "ServiceRoomMapAttributeReadRequest",
+      "confidence": "confirmed",
+      "evidence": [
+        "NMI calls this routine only while GameplayFlags bit 2 is set; it either reads the requested $23xx byte or advances the completed-request timeout."
+      ]
+    },
+    {
+      "address": "0x8b55",
+      "previous": "$8B55",
+      "current": "AdvanceRoomMapAttributeReadTimeout",
+      "confidence": "confirmed",
+      "evidence": [
+        "Negative completion states are incremented here; once the pre-increment state reaches $A8, the routine clears GameplayFlags bit 2."
+      ]
+    },
+    {
+      "address": "0x8b63",
+      "previous": "_label_bank0_8b63",
+      "current": "ReadRequestedRoomMapAttributeByte",
+      "confidence": "confirmed",
+      "evidence": [
+        "The nonnegative-state path resets the PPU latch, addresses $23xx with the low byte from $001C, performs dummy and effective PPU_DATA reads, and stores the result back to $001C."
+      ]
+    },
+    {
+      "address": "0x8b7c",
+      "previous": "_label_bank0_8b7c",
+      "current": "FinishRoomMapAttributeReadRequest",
+      "confidence": "confirmed",
+      "evidence": [
+        "Read, waiting, and timeout paths converge on the existing PPU scroll/control restoration routine through this tail jump."
+      ]
+    },
+    {
+      "address": "0x8be2",
+      "previous": "$8BE2",
+      "current": "PreStartupPadding",
+      "confidence": "confirmed",
+      "evidence": [
+        "Bisqwit's map classifies the exact 30-byte range through $8BFF as FillerBefore8C00; the preceding PPU routine returns at $8BE1 and Reset starts at $8C00."
+      ]
     }
   ]
 }

@@ -14,7 +14,7 @@ evidence, and small tested tools for decoded game data.
   entrypoint; CHR is a private generated asset and is not stored in Git.
 - Confirmed NES registers and high-confidence RAM aliases are separated into
   `src/memory/`.
-- Sixty semantic PRG modules own NMI (`$8000-$80FE`), controller input
+- Sixty-five semantic PRG modules own NMI (`$8000-$80FE`), controller input
   (`$837D-$83C1`), reset/startup
   (`$8C00-$8D5E`), the cooperative scheduler (`$8D5F-$8E46`), and the main
   gameplay thread (`$A000-$A04B`), plus countdown timer arithmetic and warning
@@ -50,8 +50,12 @@ evidence, and small tested tools for decoded game data.
   Room-map initialization and fixed block-plane expansion own `$99F2-$9A6C`.
   Dana's head-collision, fireball, and block-magic actions own `$9A6D-$9C51`.
   Shared map/object interactions and overlap checks own `$9C60-$9DCF`.
+  Buffered room-cell rendering, its address converters, and classified filler
+  own the complete `$9DD0-$9FFF` range.
   Object surface clamps own `$8A62-$8AA3`.
-  The NMI PPU stream interpreter owns `$8B7F-$8BE1`; the blocking producer for
+  The NMI RoomMap attribute reader owns `$8B51-$8B7E`, followed by the PPU
+  stream interpreter at `$8B7F-$8BE1` and classified pre-Reset filler through
+  `$8BFF`; the blocking producer for
   18 ROM-resident streams owns `$9471-$9487`, followed by the split pointer
   tables and complete static stream payload at `$9488-$961A`.
   Current-room enemy stream loading owns `$961B-$9660`.
@@ -190,6 +194,7 @@ scripts/enemy_ai_data.py enemy AI handler-table decoder and audit
 scripts/enemy_pointer_data.py split record-pointer decoder and audit
 scripts/ppu_update_data.py static PPU stream decoder and round-trip audit
 src/data/static_ppu_update_streams.asm reviewed static stream tables and payload
+src/data/pre_startup_padding.asm classified filler immediately before Reset
 src/main.asm               assembly entrypoint and iNES header
 src/system/nmi.asm         semantic `$8000-$80FE` vertical-blank module
 src/system/controller_input.asm serial sampling and cached controller input
@@ -198,6 +203,7 @@ src/system/scheduler.asm   eight-context cooperative stack scheduler
 src/system/pause_thread.asm context-two Start-button pause loop
 src/system/sound_effect_queue.asm three-slot sound command producer
 src/system/ppu_update_buffer.asm publish shared RAM program to NMI
+src/graphics/ppu_attribute_read.asm NMI RoomMap attribute-byte reader
 src/system/jump_with_params.asm inline appendix tail-dispatch ABI
 src/system/masked_ram_wait.asm cooperative masked zero-page waits
 src/system/secondary_thread_reset.asm stop other contexts during transitions

@@ -31,6 +31,15 @@ addressing plus repeated or literal payloads, clears the pointer when done,
 and restores PPU state. See `docs/ppu_update_buffer.md` and
 `docs/ppu_update_stream.md`.
 
+Single-cell RoomMap changes need the existing nametable attribute byte before
+they can replace one two-bit quadrant. The foreground producer places the
+`$23xx` low byte in `$001C` and sets `GameplayFlags` bit 2. During NMI,
+`ServiceRoomMapAttributeReadRequest` performs the required buffered
+`PPU_DATA` read, replaces `$001C` with the result, and marks `$0029` complete.
+If the foreground thread does not acknowledge the result, NMI ages the state
+from `$80` and clears the request after the `$A8` threshold. See
+`docs/room_map_cell_update.md`.
+
 ROM-resident programs use `QueueStaticPpuUpdateStream`. The caller supplies
 one of 18 indices in `A`; the routine cooperatively waits for the current
 stream to finish, then publishes the indexed split-table pointer. See
@@ -341,6 +350,13 @@ Direct writers share `SetPpuAddressAX` at `$CD53`: `A` is the high address
 byte and `X` is the low byte. The helper reads `PPU_STATUS` first to reset the
 address latch, then writes both bytes to `PPU_ADDR`. Ten static callers now use
 that contract by name.
+
+Runtime changes to one logical room cell use a separate buffered path. A
+cooperative producer asks NMI to read the current attribute byte, replaces the
+target two-bit quadrant, emits two 2-byte pattern rows plus one attribute-byte
+command, and publishes the 15-byte program. The initial room renderer bypasses
+the handshake but reuses the same buffer builder. See
+`docs/room_map_cell_update.md`.
 
 Because gameplay services run through cooperative contexts, timing-sensitive
 behavior must be validated with instruction/frame traces rather than inferred

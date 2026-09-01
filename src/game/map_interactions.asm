@@ -63,7 +63,7 @@ InitializeMapInteractionObject:
     BMI FinishMapInteraction
     STY RoomMapUpdateIndex
     STY DanaObject + $02
-    JMP $9DD0
+    JMP BuildAndPublishRoomMapCellUpdate
 
 FinishMapInteraction:
     RTS
@@ -205,7 +205,7 @@ AdvanceRoomMapTileVariant:
     STA RoomMap,Y
     STA RoomMapUpdateTile
     STY RoomMapUpdateIndex
-    JMP $9DD0
+    JMP BuildAndPublishRoomMapCellUpdate
 
 InitializeObjectStateHeader:
     LDY #$03

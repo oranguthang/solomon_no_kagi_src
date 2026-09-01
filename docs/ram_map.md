@@ -11,11 +11,13 @@ range is understood.
 | `$0000-$0006` | map-interaction object pointer, direction/update bytes, Y/X, and overlap pointer | high |
 | `$0012-$0019` | saved SP values for eight cooperative contexts | high |
 | `$001A-$001B` | NMI-consumed PPU update-stream pointer | confirmed |
+| `$001C` | requested attribute address low byte, replaced by the NMI-read value | confirmed |
 | `$0020-$0027` | independently incremented active-gameplay frame counters | confirmed |
 | `$0021` | standard gameplay delay counter | confirmed |
 | `$0022` | NMI-incremented frame counter used by pause debounce | confirmed |
 | `$0023` | shared pending gameplay/timer update count | high |
-| `$0028` | gameplay flags; transition reset clears bit 2 | high |
+| `$0028` | gameplay flags; bit 2 requests an NMI RoomMap attribute read | high |
+| `$0029` | attribute-read state: `$00` idle, `$80+` complete/timeout age | confirmed |
 | `$002C-$002D` | current room enemy stream pointer during room loading | confirmed |
 | `$0030-$0031` | current room item/header stream pointer | confirmed |
 | `$0036-$0039` | two resolved Demon Mirror schedule pointers | confirmed |

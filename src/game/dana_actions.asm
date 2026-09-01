@@ -89,7 +89,7 @@ StoreHeadCollisionTarget:
     STY RoomMapUpdateIndex
     LDA #$01
     STA RoomMapUpdateTile
-    JSR $9DD0
+    JSR BuildAndPublishRoomMapCellUpdate
     BNE WaitAfterHeadCollision
 
 SpawnHeadCollisionSpark:
@@ -248,7 +248,7 @@ WaitForBlockCast:
     STX RoomMapUpdateIndex
     LDA #$00
     STA RoomMapUpdateTile
-    JSR $9DD0
+    JSR BuildAndPublishRoomMapCellUpdate
     BNE FinishBlockCast
 
 RemoveBlockAtTarget:
