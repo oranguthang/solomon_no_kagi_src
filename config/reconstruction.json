@@ -38,6 +38,78 @@
       ]
     },
     {
+      "id": "object_update",
+      "path": "src/game/object_update.asm",
+      "segment": "PRG_OBJECT_UPDATE",
+      "start": "0x863c",
+      "end": "0x8688",
+      "status": "semantic",
+      "required_labels": [
+        "UpdateActiveObjects",
+        "UpdateNextObject",
+        "CheckObjectActionChange",
+        "ReloadObjectMotionAndAnimation",
+        "UpdateCurrentObject",
+        "AdvanceObjectUpdateLoop",
+        "FinishActiveObjectUpdate"
+      ]
+    },
+    {
+      "id": "object_motion",
+      "path": "src/game/object_motion.asm",
+      "segment": "PRG_OBJECT_MOTION",
+      "start": "0x8689",
+      "end": "0x86d3",
+      "status": "semantic",
+      "required_labels": [
+        "UpdateObjectMotionAndCollision",
+        "IntegrateObjectYMotion",
+        "SignExtendObjectYDelta",
+        "IntegrateObjectXMotion",
+        "SignExtendObjectXDelta"
+      ]
+    },
+    {
+      "id": "object_collision",
+      "path": "src/game/object_collision.asm",
+      "segment": "PRG_OBJECT_COLLISION",
+      "start": "0x86d4",
+      "end": "0x8788",
+      "status": "semantic",
+      "required_labels": [
+        "SampleObjectRoomMapCollision",
+        "RecordObjectLeadingRowSpan",
+        "RecordObjectTrailingRowSpan",
+        "RecordObjectColumnSpan",
+        "BuildObjectCollisionMapIndex",
+        "ShiftFirstObjectCollisionBit",
+        "SampleSecondObjectCollisionCell",
+        "ShiftSecondObjectCollisionBit",
+        "SampleThirdObjectCollisionCell",
+        "ShiftThirdObjectCollisionBit",
+        "SampleFourthObjectCollisionCell",
+        "ShiftFourthObjectCollisionBit",
+        "SampleFifthObjectCollisionCell",
+        "ShiftFifthObjectCollisionBit",
+        "SampleSixthObjectCollisionCell",
+        "MergeSixthObjectCollisionBit"
+      ]
+    },
+    {
+      "id": "object_animation",
+      "path": "src/game/object_animation.asm",
+      "segment": "PRG_OBJECT_ANIMATION",
+      "start": "0x8789",
+      "end": "0x87df",
+      "status": "semantic",
+      "required_labels": [
+        "AdvanceObjectAnimation",
+        "NormalizeObjectAnimationPhase",
+        "SelectObjectAnimationFrame",
+        "FinishObjectAnimationUpdate"
+      ]
+    },
+    {
       "id": "object_y_clamp",
       "path": "src/game/object_y_clamp.asm",
       "segment": "PRG_OBJECT_Y_CLAMP",
@@ -1012,11 +1084,11 @@
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 67,
-    "minimum_documented_prg_bytes": 6048,
-    "minimum_provenance_entries": 368,
-    "maximum_preservation_lines": 8945,
-    "maximum_generated_labels": 588,
-    "maximum_raw_control_flow_targets": 249
+    "minimum_semantic_modules": 71,
+    "minimum_documented_prg_bytes": 6468,
+    "minimum_provenance_entries": 400,
+    "maximum_preservation_lines": 8644,
+    "maximum_generated_labels": 562,
+    "maximum_raw_control_flow_targets": 246
   }
 }

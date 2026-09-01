@@ -148,6 +148,12 @@ When object type byte 1 or action byte 3 changes, the active-object loop calls
 room-state-aware table and initializes animation counter, delay, phase, and
 data pointer bytes 12-16. See `docs/object_motion_animation.md`.
 
+`UpdateActiveObjects` traverses all 21 records during the active NMI service.
+It integrates the signed fixed-point coordinate fields, samples six RoomMap
+cells into collision byte 11, invokes the still-unresolved `$87E0` behavior
+dispatcher, and advances the packed animation phase into sprite bytes 17-19.
+See `docs/object_update_pipeline.md`.
+
 Most consumers resolve either side of that split state through two shared
 helpers. `LoadEnemyObjectPointer` and `LoadEnemyAiPointer` accept a slot index
 in `A` and construct the chosen record address in `TempPointer00`. Each helper

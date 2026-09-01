@@ -3249,6 +3249,294 @@
       "evidence": [
         "Direct and variant-indirect descriptor paths converge here before storing animation pointer, phase, delay, and a zero counter in object bytes 16 down through 12."
       ]
+    },
+    {
+      "address": "0x863c",
+      "previous": "$863C",
+      "current": "UpdateActiveObjects",
+      "confidence": "confirmed",
+      "evidence": [
+        "The active NMI path calls this entry; it walks all 21 object pointers, updates records with state at least $C0, and returns after the complete sweep."
+      ]
+    },
+    {
+      "address": "0x8640",
+      "previous": "_label_bank0_8640",
+      "current": "UpdateNextObject",
+      "confidence": "confirmed",
+      "evidence": [
+        "This loop resolves ObjectRecordPointer tables with the descending record index and begins the active-state test."
+      ]
+    },
+    {
+      "address": "0x8665",
+      "previous": "_label_bank0_8665",
+      "current": "CheckObjectActionChange",
+      "confidence": "confirmed",
+      "evidence": [
+        "When type byte 1 matches cached byte 2, this path compares action byte 3 with cached byte 4 before deciding whether to reload definitions."
+      ]
+    },
+    {
+      "address": "0x866d",
+      "previous": "_label_bank0_866d",
+      "current": "ReloadObjectMotionAndAnimation",
+      "confidence": "confirmed",
+      "evidence": [
+        "Type or action changes converge on the source-owned definition loader through this call."
+      ]
+    },
+    {
+      "address": "0x8670",
+      "previous": "_label_bank0_8670",
+      "current": "UpdateCurrentObject",
+      "confidence": "confirmed",
+      "evidence": [
+        "Every active object reaches this three-stage motion/collision, behavior, and animation update sequence."
+      ]
+    },
+    {
+      "address": "0x8679",
+      "previous": "_label_bank0_8679",
+      "current": "AdvanceObjectUpdateLoop",
+      "confidence": "confirmed",
+      "evidence": [
+        "Inactive and updated records converge here before the record index is decremented and the pointer loop repeats."
+      ]
+    },
+    {
+      "address": "0x8688",
+      "previous": "_label_bank0_8688",
+      "current": "FinishActiveObjectUpdate",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both Dana collision-counter outcomes converge on this return after all 21 records have been visited."
+      ]
+    },
+    {
+      "address": "0x8689",
+      "previous": "$8689",
+      "current": "UpdateObjectMotionAndCollision",
+      "confidence": "confirmed",
+      "evidence": [
+        "The active-object loop calls this entry; it integrates bytes 5-10 and falls into the RoomMap sampler that returns at $8788."
+      ]
+    },
+    {
+      "address": "0x8699",
+      "previous": "_label_bank0_8699",
+      "current": "IntegrateObjectYMotion",
+      "confidence": "confirmed",
+      "evidence": [
+        "The adjusted signed Y-motion value converges here before updating byte 5 and adding its scaled delta through fraction byte 6 into integer Y byte 7."
+      ]
+    },
+    {
+      "address": "0x86a6",
+      "previous": "_label_bank0_86a6",
+      "current": "SignExtendObjectYDelta",
+      "confidence": "confirmed",
+      "evidence": [
+        "X is zero or $FF according to the shifted Y-motion sign and is stored as the high byte for the fixed-point addition."
+      ]
+    },
+    {
+      "address": "0x86b8",
+      "previous": "$86B8",
+      "current": "IntegrateObjectXMotion",
+      "confidence": "confirmed",
+      "evidence": [
+        "After Y integration, this block reads motion byte 8 and adds its signed scaled delta through fraction byte 9 into integer X byte 10."
+      ]
+    },
+    {
+      "address": "0x86c2",
+      "previous": "_label_bank0_86c2",
+      "current": "SignExtendObjectXDelta",
+      "confidence": "confirmed",
+      "evidence": [
+        "X is zero or $FF according to the shifted X-motion sign and becomes the high byte of the fixed-point X addition."
+      ]
+    },
+    {
+      "address": "0x86d4",
+      "previous": "$86D4",
+      "current": "SampleObjectRoomMapCollision",
+      "confidence": "confirmed",
+      "evidence": [
+        "This fallthrough stage derives packed map probes from object Y/X, tests six RoomMap bytes by sign, stores the packed result in object byte 11, and returns."
+      ]
+    },
+    {
+      "address": "0x86ee",
+      "previous": "_label_bank0_86ee",
+      "current": "RecordObjectLeadingRowSpan",
+      "confidence": "high",
+      "evidence": [
+        "The first vertical nibble-boundary comparison rotates its same-row result into the temporary boundary flags here."
+      ]
+    },
+    {
+      "address": "0x86f9",
+      "previous": "_label_bank0_86f9",
+      "current": "RecordObjectTrailingRowSpan",
+      "confidence": "high",
+      "evidence": [
+        "The second vertical nibble-boundary comparison rotates its result before horizontal probe construction begins."
+      ]
+    },
+    {
+      "address": "0x8711",
+      "previous": "_label_bank0_8711",
+      "current": "RecordObjectColumnSpan",
+      "confidence": "confirmed",
+      "evidence": [
+        "The X-4 to X+3 nibble-boundary comparison rotates its result here before the packed RoomMap column is derived."
+      ]
+    },
+    {
+      "address": "0x8725",
+      "previous": "_label_bank0_8725",
+      "current": "BuildObjectCollisionMapIndex",
+      "confidence": "confirmed",
+      "evidence": [
+        "The normalized vertical high nibble and horizontal column nibble are combined here into the first packed RoomMap index."
+      ]
+    },
+    {
+      "address": "0x8734",
+      "previous": "_label_bank0_8734",
+      "current": "ShiftFirstObjectCollisionBit",
+      "confidence": "confirmed",
+      "evidence": [
+        "The sign test of the first sampled RoomMap byte reaches this rotate with carry set only for a negative tile."
+      ]
+    },
+    {
+      "address": "0x873b",
+      "previous": "_label_bank0_873b",
+      "current": "SampleSecondObjectCollisionCell",
+      "confidence": "confirmed",
+      "evidence": [
+        "Boundary flags optionally advance Y before the second RoomMap sign sample begins here."
+      ]
+    },
+    {
+      "address": "0x8741",
+      "previous": "_label_bank0_8741",
+      "current": "ShiftSecondObjectCollisionBit",
+      "confidence": "confirmed",
+      "evidence": [
+        "The second RoomMap sign result is rotated into the accumulating collision mask here."
+      ]
+    },
+    {
+      "address": "0x874d",
+      "previous": "_label_bank0_874d",
+      "current": "SampleThirdObjectCollisionCell",
+      "confidence": "confirmed",
+      "evidence": [
+        "The row-span flag selects a neighboring packed row before the third RoomMap sign sample."
+      ]
+    },
+    {
+      "address": "0x8753",
+      "previous": "_label_bank0_8753",
+      "current": "ShiftThirdObjectCollisionBit",
+      "confidence": "confirmed",
+      "evidence": [
+        "The third RoomMap sign result is rotated into the accumulating collision mask here."
+      ]
+    },
+    {
+      "address": "0x875a",
+      "previous": "_label_bank0_875a",
+      "current": "SampleFourthObjectCollisionCell",
+      "confidence": "confirmed",
+      "evidence": [
+        "Boundary flags optionally decrement Y before the fourth RoomMap sign sample begins here."
+      ]
+    },
+    {
+      "address": "0x8760",
+      "previous": "_label_bank0_8760",
+      "current": "ShiftFourthObjectCollisionBit",
+      "confidence": "confirmed",
+      "evidence": [
+        "The fourth RoomMap sign result is rotated into the accumulating collision mask here."
+      ]
+    },
+    {
+      "address": "0x876c",
+      "previous": "_label_bank0_876c",
+      "current": "SampleFifthObjectCollisionCell",
+      "confidence": "confirmed",
+      "evidence": [
+        "The trailing-row flag selects another packed row from the saved first index before the fifth sign sample."
+      ]
+    },
+    {
+      "address": "0x8772",
+      "previous": "_label_bank0_8772",
+      "current": "ShiftFifthObjectCollisionBit",
+      "confidence": "confirmed",
+      "evidence": [
+        "The fifth RoomMap sign result is rotated into the accumulating collision mask here."
+      ]
+    },
+    {
+      "address": "0x8779",
+      "previous": "_label_bank0_8779",
+      "current": "SampleSixthObjectCollisionCell",
+      "confidence": "confirmed",
+      "evidence": [
+        "Boundary flags optionally advance Y before the sixth and final RoomMap sign sample."
+      ]
+    },
+    {
+      "address": "0x877f",
+      "previous": "_label_bank0_877f",
+      "current": "MergeSixthObjectCollisionBit",
+      "confidence": "confirmed",
+      "evidence": [
+        "The sixth sign result remains in carry and is merged with the five accumulated bits by three accumulator rotates before object byte 11 is stored."
+      ]
+    },
+    {
+      "address": "0x8789",
+      "previous": "$8789",
+      "current": "AdvanceObjectAnimation",
+      "confidence": "confirmed",
+      "evidence": [
+        "The active-object loop calls this entry after behavior dispatch; it decrements animation counter byte 12 and loads a new three-byte frame on underflow."
+      ]
+    },
+    {
+      "address": "0x87a5",
+      "previous": "$87A5",
+      "current": "NormalizeObjectAnimationPhase",
+      "confidence": "confirmed",
+      "evidence": [
+        "When subtracting $10 from packed phase byte 14 wraps, this path duplicates the remaining low nibble into both halves."
+      ]
+    },
+    {
+      "address": "0x87b1",
+      "previous": "_label_bank0_87b1",
+      "current": "SelectObjectAnimationFrame",
+      "confidence": "confirmed",
+      "evidence": [
+        "This block converts the packed phase to a three-byte frame offset, dereferences object bytes 15-16, and copies the selected triplet to bytes 17-19."
+      ]
+    },
+    {
+      "address": "0x87df",
+      "previous": "_label_bank0_87df",
+      "current": "FinishObjectAnimationUpdate",
+      "confidence": "confirmed",
+      "evidence": [
+        "Counter-active and new-frame paths converge on this return."
+      ]
     }
   ]
 }

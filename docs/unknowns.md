@@ -3,8 +3,9 @@
 1. Map the seven remaining cooperative contexts to stable responsibilities
    (context 2 is the pause thread) and capture their switch order under low
    and high object load.
-2. Prove every field of the `$14`-byte object record and the separate eight-byte
-   enemy AI record.
+2. Prove the remaining fields of the `$14`-byte object record, assign exact
+   directional meanings to collision-mask byte 11, and complete the separate
+   eight-byte enemy AI record.
 3. Separate code from embedded tables throughout `$8000-$FFFF`, replacing
    generated labels with evidence-backed names.
 4. Locate the complete CNROM bank-selection policy and identify which rooms,

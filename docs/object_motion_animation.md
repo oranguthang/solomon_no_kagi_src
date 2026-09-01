@@ -43,9 +43,10 @@ bytes 2-3 animation data pointer, or a pointer to variant pointers
 
 When byte 1 bit 0 is set, the low two type bits choose one of four
 little-endian animation pointers. Otherwise bytes 2-3 are used directly.
-The next per-frame stage at `$8789` consumes record bytes 12-16 as a counter,
-reload delay, packed phase, and animation-data pointer, confirming the output
-contract independently of the table layout.
+The named per-frame stage `AdvanceObjectAnimation` at `$8789` consumes record
+bytes 12-16 as a counter, reload delay, packed phase, and animation-data
+pointer, confirming the output contract independently of the table layout.
+See `docs/object_update_pipeline.md`.
 
 The three ROM table families remain inside the preservation range for now;
 their pointer counts and consumers are understood, but their complete payload

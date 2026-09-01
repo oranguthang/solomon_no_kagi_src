@@ -25,6 +25,10 @@
 
 .include "system/nmi.asm"
 .include "system/controller_input.asm"
+.include "game/object_update.asm"
+.include "game/object_motion.asm"
+.include "game/object_collision.asm"
+.include "game/object_animation.asm"
 .include "game/object_y_clamp.asm"
 .include "game/object_x_left_clamp.asm"
 .include "game/object_x_right_clamp.asm"

@@ -85,7 +85,7 @@ _label_bank0_808c:
     DEX
     BPL _label_bank0_808c
     JSR $81DD
-    JSR $863C
+    JSR UpdateActiveObjects
     INC FireballLifeCounter1Lo
     BNE _label_bank0_809f
     INC FireballLifeCounter1Hi

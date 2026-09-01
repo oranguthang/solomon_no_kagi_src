@@ -45,6 +45,9 @@ decrease.
   isolated in `src/system/nmi.asm`;
 - `$837D-$83C1`: both controller ports are serially sampled and merged into
   raw and policy-filtered cached input bytes in `src/system/controller_input.asm`;
+- `$863C-$87DF`: the 21-record active-object traversal, signed fixed-point
+  motion, six-cell RoomMap collision sampling, and packed animation sequencer
+  are isolated as four adjacent modules;
 - `$8C00-$8D5E`: reset, warm-boot state, PPU initialization, and scheduler
   bootstrap are isolated in `src/system/startup.asm`;
 - `$8D5F-$8E46`: the eight-context cooperative scheduler and its initial
