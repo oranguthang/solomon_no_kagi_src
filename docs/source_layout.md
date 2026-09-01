@@ -3,13 +3,17 @@
 `src/main.asm` owns the CPU selection, iNES header, hardware/RAM registries, and
 address-ordered includes. Semantic modules own NMI at `$8000-$80FE`, controller
 sampling at `$837D-$83C1`, object
-surface clamping at `$8A62-$8AA3`, startup at `$8C00-$8D5E`, the scheduler at
-`$8D5F-$8E46`, context 2's pause loop at `$8E47-$8E8C`, sound-effect request
+surface clamping at `$8A62-$8AA3`, the NMI-side PPU update bytecode interpreter
+at `$8B7F-$8BE1`, startup at `$8C00-$8D5E`, and the scheduler at
+`$8D5F-$8E46`.
+Context 2's pause loop is at `$8E47-$8E8C`, sound-effect request
 queuing at `$8E8D-$8E9F`, PPU
 update-buffer publication at `$8EA0-$8EA8`, inline appendix dispatch at
 `$8EA9-$8EBF`, standard gameplay-delay setup at `$915E-$9164`, cooperative
 masked-RAM waits at `$9165-$9189`, room-map
-coordinate conversion at `$918A-$91B8`, and the main
+coordinate conversion at `$918A-$91B8`, static PPU update publication at
+`$9471-$9487`, its split pointer tables at `$9488-$94AB`, and all 18 static
+update streams at `$94AC-$961A`. The main
 gameplay thread at `$A000-$A04B`.
 The shared direct-PPU transfer guard owns `$96DC-$970A`.
 The room nametable frame renderer owns `$970B-$97A2`.
@@ -61,7 +65,9 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_POST_CONTROLLER_INPUT` | unresolved `$83C2-$8A61` range | 1,696 |
 | `PRG_OBJECT_Y_CLAMP` | align object Y to a 16-pixel surface | 29 |
 | `PRG_OBJECT_X_LEFT_CLAMP` | clamp X against a left-side surface | 37 |
-| `PRG_POST_OBJECT_CLAMPS` | unresolved `$8AA4-$8BFF` range | 348 |
+| `PRG_POST_OBJECT_CLAMPS` | unresolved `$8AA4-$8B7E` range | 219 |
+| `PRG_PPU_UPDATE_STREAM` | compact NMI-side PPU update bytecode interpreter | 99 |
+| `PRG_POST_PPU_UPDATE_STREAM` | unresolved `$8BE2-$8BFF` range | 30 |
 | `PRG_STARTUP` | reset and startup module | 351 |
 | `PRG_SCHEDULER` | cooperative scheduler and entry tables | 232 |
 | `PRG_PAUSE_THREAD` | context-two pause and Start debounce loop | 70 |
@@ -72,7 +78,11 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_GAMEPLAY_DELAY_SETUP` | reset and select gameplay delay counter | 7 |
 | `PRG_MASKED_RAM_WAIT` | cooperative masked zero-page condition waits | 37 |
 | `PRG_COORDINATE_CONVERSION` | pixel and packed room-index conversion | 47 |
-| `PRG_POST_COORDINATE_CONVERSION` | unresolved `$91B9-$96DB` range | 1,315 |
+| `PRG_POST_COORDINATE_CONVERSION` | unresolved `$91B9-$9470` range | 696 |
+| `PRG_STATIC_PPU_UPDATE_QUEUE` | blocking indexed static-stream producer | 23 |
+| `PRG_STATIC_PPU_UPDATE_POINTERS` | split pointers for 18 static streams | 36 |
+| `PRG_STATIC_PPU_UPDATE_STREAMS` | 18 compact PPU command programs | 367 |
+| `PRG_POST_STATIC_PPU_UPDATE_DATA` | unresolved `$961B-$96DB` range | 193 |
 | `PRG_DIRECT_PPU_TRANSFER` | rendering-disabled direct PPU transfer guard | 47 |
 | `PRG_ROOM_NAMETABLE_FRAME` | two-column/two-row room frame renderer | 152 |
 | `PRG_PPU_DATA_WRITERS` | repeated four-byte pattern and single-byte writers | 21 |

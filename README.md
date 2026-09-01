@@ -14,7 +14,7 @@ evidence, and small tested tools for decoded game data.
   entrypoint; CHR is a private generated asset and is not stored in Git.
 - Confirmed NES registers and high-confidence RAM aliases are separated into
   `src/memory/`.
-- Forty-nine semantic PRG modules own NMI (`$8000-$80FE`), controller input
+- Fifty-five semantic PRG modules own NMI (`$8000-$80FE`), controller input
   (`$837D-$83C1`), reset/startup
   (`$8C00-$8D5E`), the cooperative scheduler (`$8D5F-$8E46`), and the main
   gameplay thread (`$A000-$A04B`), plus countdown timer arithmetic and warning
@@ -49,6 +49,9 @@ evidence, and small tested tools for decoded game data.
   Runtime room item/header decoding and its tables own `$97C8-$99F1`.
   Room-map initialization and fixed block-plane expansion own `$99F2-$9A6C`.
   Object surface clamps own `$8A62-$8AA3`.
+  The NMI PPU stream interpreter owns `$8B7F-$8BE1`; the blocking producer for
+  18 ROM-resident streams owns `$9471-$9487`, followed by the split pointer
+  tables and complete static stream payload at `$9488-$961A`.
   Context 2's pause loop owns `$8E47-$8E8C`, the sound-effect request queue
   owns `$8E8D-$8E9F`, shared PPU-buffer publication owns `$8EA0-$8EA8`, and
   the inline appendix dispatcher is source-owned at `$8EA9-$8EBF`.
@@ -141,6 +144,8 @@ make enemy-ai-report # decode the 28-entry AI handler appendix
 make enemy-ai-audit # compare every handler pointer with its reviewed manifest
 make enemy-pointer-report # decode the split object/AI record pointer tables
 make enemy-pointer-audit # verify pointer bases, strides, and counts
+make ppu-update-report # decode all 18 static PPU update streams as JSON
+make ppu-update-audit # verify pointers, coverage, hashes, and byte round trips
 make roundtrip-formats # decode and re-encode all 53 room-data records
 make release-check # complete static, test, identity, and room-data gate
 make check       # alias for release-check
@@ -169,6 +174,7 @@ config/reconstruction.json machine-checked module inventory and progress floors
 config/scheduler_entries.json reviewed scheduler-entry inventory
 config/enemy_ai_handlers.json reviewed enemy AI handler pointer inventory
 config/enemy_record_pointers.json reviewed record-pool pointer layouts
+config/ppu_update_streams.json reviewed static PPU stream inventory
 docs/                      architecture and reverse-engineering notes
 scripts/project.py         split, verify, lint, and safe build helpers
 scripts/asm_style.py       shared ca65 formatter and style checker
@@ -178,6 +184,8 @@ scripts/reconstruction_status.py semantic coverage and provenance audit
 scripts/scheduler_data.py scheduler-table decoder and source-call audit
 scripts/enemy_ai_data.py enemy AI handler-table decoder and audit
 scripts/enemy_pointer_data.py split record-pointer decoder and audit
+scripts/ppu_update_data.py static PPU stream decoder and round-trip audit
+src/data/static_ppu_update_streams.asm reviewed static stream tables and payload
 src/main.asm               assembly entrypoint and iNES header
 src/system/nmi.asm         semantic `$8000-$80FE` vertical-blank module
 src/system/controller_input.asm serial sampling and cached controller input

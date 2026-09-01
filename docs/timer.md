@@ -12,8 +12,8 @@ adds `TimerDecrementSpeed` to `TimerFraction`; a carry subtracts
 the higher digits. Bit 7 of `TimerDecrementStep` records that the displayed
 digits changed.
 
-When the PPU update stream is free, the routine calls the still-unreconstructed
-builder at `$A238`. If that builder reports an all-zero timer, scheduler code
+When the PPU update stream is free, the routine calls
+`BuildTimerDisplayUpdate` at `$A238`. If that builder reports an all-zero timer, scheduler code
 `$33` is started. The final part compares the two high timer digits with a
 four-entry threshold table at `$A229`, queues one of two PPU update streams,
 and toggles bit 4 of `TimerWarningState` as the threshold is crossed.

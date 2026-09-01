@@ -31,8 +31,10 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	src/game/room_item_decode.asm src/data/room_item_decode.asm \
 	src/game/room_block_decode.asm \
 	src/system/counter_wait.asm \
+	src/graphics/static_ppu_update_queue.asm src/data/static_ppu_update_streams.asm \
 	src/game/object_y_clamp.asm \
 	src/game/object_x_left_clamp.asm \
+	src/graphics/ppu_update_stream.asm \
 	src/game/main_thread.asm src/game/timer.asm \
 	src/game/timer_item_effects.asm \
 	src/game/inventory_item_effects.asm \
@@ -64,7 +66,7 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	lint-source lint-project test quality-check check release-check rooms \
 	validate-rooms roundtrip-formats reconstruction-status reconstruction-audit \
 	scheduler-report scheduler-audit enemy-ai-report enemy-ai-audit \
-	enemy-pointer-report enemy-pointer-audit clean
+	enemy-pointer-report enemy-pointer-audit ppu-update-report ppu-update-audit clean
 
 all: verify
 
@@ -173,10 +175,17 @@ enemy-pointer-report: $(ROM)
 enemy-pointer-audit: $(ROM)
 	$(PYTHON) scripts/enemy_pointer_data.py audit --image "$(ROM)"
 
+ppu-update-report: $(ROM)
+	$(PYTHON) scripts/ppu_update_data.py report --image "$(ROM)"
+
+ppu-update-audit: $(ROM)
+	$(PYTHON) scripts/ppu_update_data.py audit --image "$(ROM)"
+
 quality-check: lint test
 
 release-check: quality-check verify validate-rooms roundtrip-formats \
-	reconstruction-audit scheduler-audit enemy-ai-audit enemy-pointer-audit
+	reconstruction-audit scheduler-audit enemy-ai-audit enemy-pointer-audit \
+	ppu-update-audit
 
 check: release-check
 

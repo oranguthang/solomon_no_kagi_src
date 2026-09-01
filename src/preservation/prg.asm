@@ -1627,69 +1627,9 @@ _label_bank0_8b63:
     STA $29
 
 _label_bank0_8b7c:
-    JMP $8BCE
-    DEY
-    LDA ($1A),Y
+    JMP RestorePpuStateAfterUpdate
 
-_label_bank0_8b82:
-    LDX a:PPU_STATUS
-    STA a:PPU_ADDR
-    INY
-    LDA ($1A),Y
-    STA a:PPU_ADDR
-    INY
-    LDA ($1A),Y
-    INY
-    ASL A
-    TAX
-    LDA $0300
-    ORA #$04
-    BCS _label_bank0_8b9d
-    AND #$FB
-
-_label_bank0_8b9d:
-    STA a:PPU_CTRL
-    TXA
-    ASL A
-    BCC _label_bank0_8ba6
-    ORA #$02
-
-_label_bank0_8ba6:
-    LSR A
-    LSR A
-    TAX
-    INX
-
-_label_bank0_8baa:
-    LDA ($1A),Y
-    STA a:PPU_DATA
-    BCC _label_bank0_8bb2
-    INY
-
-_label_bank0_8bb2:
-    DEX
-    BNE _label_bank0_8baa
-    BCS _label_bank0_8bb8
-    INY
-
-_label_bank0_8bb8:
-    LDA ($1A),Y
-    BNE _label_bank0_8b82
-    LDA #$3F
-    STA a:PPU_ADDR
-    LDA #$00
-    STA a:PPU_ADDR
-    STA a:PPU_ADDR
-    STA a:PPU_ADDR
-    STA $1B
-    LDX a:PPU_STATUS
-    LDA $1E
-    STA a:PPU_SCROLL
-    LDA $1F
-    STA a:PPU_SCROLL
-    LDA $0300
-    STA a:PPU_CTRL
-    RTS
+.segment "PRG_POST_PPU_UPDATE_STREAM"
 
     .byte $00
     .byte $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $ff, $00, $ff
@@ -1782,7 +1722,7 @@ _label_bank0_8f5f:
 
 _label_bank0_8f6c:
     TXA
-    JSR $9471
+    JSR QueueStaticPpuUpdateStream
     INX
     CPX #$05
     BCC _label_bank0_8f6c
@@ -1910,9 +1850,9 @@ _label_bank0_9045:
     LDA #$00
     STA $7E
     STA $7F
-    JSR $9471
+    JSR QueueStaticPpuUpdateStream
     LDA #$01
-    JSR $9471
+    JSR QueueStaticPpuUpdateStream
     JSR $C3D4
     JSR $91EB
     JSR ResetAndSelectGameplayDelayCounter
@@ -2408,51 +2348,7 @@ _label_bank0_944b:
     .byte $0c, $13, $19, $1f, $25, $2b, $31, $37, $3d, $42, $48, $4d, $52, $57, $5b, $60
     .byte $63, $68, $6b, $6f, $72, $74, $77, $79, $7b, $7c, $7e, $7f, $7f, $7f
 
-_label_bank0_9471:
-    LDX $1B
-    BEQ _label_bank0_947c
-    PHA
-    JSR SwitchThreads
-    PLA
-    BCS _label_bank0_9471
-
-_label_bank0_947c:
-    TAX
-    LDA $9488,X
-    STA $1A
-    LDA $949A,X
-    STA $1B
-    RTS
-
-    .byte $ac, $d1, $e5, $f7, $11, $f3, $22, $2f, $34, $49, $66
-    .byte $7b, $8f, $07, $94, $99, $ad, $c9
-    .byte $94, $94, $94, $94, $95, $95, $95, $95, $95
-    .byte $95, $95, $95, $95, $96, $95, $95, $95, $95, $20, $43, $50, $1c, $0c, $18, $1b
-    .byte $0e, $24, $24, $15, $12, $0f, $0e, $24, $0f, $0a, $12, $1b, $22, $20, $69, $44
-    .byte $01, $00, $00, $00, $00, $23, $c0, $04, $a0, $23, $c5, $02, $50, $00, $3f, $00
-    .byte $4f, $0f, $0f, $10, $30, $0f, $0f, $27, $30, $0f, $0f, $16, $30, $0f, $0f, $27
-    .byte $38, $00, $21, $68, $4d, $1d, $11, $0a, $17, $14, $24, $22, $18, $1e, $24, $0d
-    .byte $0a, $17, $0a, $00, $21, $c4, $55, $22, $18, $1e, $24, $1b, $0e, $15, $0e, $0a
-    .byte $1c, $0e, $0d, $24, $1d, $11, $12, $1c, $24, $1b, $18, $18, $16, $00, $22, $08
-    .byte $4c, $1d, $1b, $22, $24, $17, $0e, $21, $1d, $24, $1b, $18, $18, $16, $00, $21
-    .byte $aa, $48, $10, $0a, $16, $0e, $24, $18, $1f, $0e, $1b, $00, $23, $e8, $17, $ff
-    .byte $00, $23, $22, $1b, $24, $23, $69, $0b, $24, $23, $a3, $17, $24, $22, $a4, $14
-    .byte $24, $22, $e2, $18, $24, $00, $28, $63, $58, $1c, $0c, $18, $1b, $0e, $24, $24
-    .byte $24, $11, $12, $24, $1c, $0c, $18, $1b, $0e, $24, $24, $24, $11, $12, $24, $10
-    .byte $0d, $1f, $00, $29, $e6, $50, $19, $1e, $1c, $11, $24, $1c, $1d, $0a, $1b, $1d
-    .byte $24, $0b, $1e, $1d, $1d, $18, $17, $00, $2a, $26, $4f, $2a, $24, $1d, $0e, $0c
-    .byte $16, $18, $25, $15, $1d, $0d, $29, $01, $09, $08, $07, $00, $23, $e8, $17, $00
-    .byte $00, $2b, $d0, $17, $00, $00, $29, $07, $4f, $1c, $18, $15, $18, $16, $18, $17
-    .byte $3b, $1c, $24, $14, $0e, $22, $24, $1d, $16, $00, $29, $83, $57, $1d, $16, $24
-    .byte $0a, $17, $0d, $24, $2a, $24, $01, $09, $08, $07
-
-    .byte $24, $1d, $0e, $0c, $16, $18
-    .byte $25, $15, $1d, $0d, $29, $00, $29, $c9, $4a, $15, $12, $0c, $0e, $17, $1c, $0e
-    .byte $0d, $24, $0b, $22, $2a, $03, $57, $17, $12, $17, $1d, $0e, $17, $0d, $18, $24
-    .byte $18, $0f, $24, $0a, $16, $0e, $1b, $12, $0c, $0a, $24, $12, $17, $0c, $29, $00
-    .byte $3f, $00, $4f, $0f, $2c, $10, $30, $0f, $27, $37, $16, $0f, $27, $3c, $30, $ff
-    .byte $2c, $02, $30, $00, $3f, $00, $4f, $0f, $0f, $0f, $30, $0f, $27, $37, $16, $0f
-    .byte $0f, $0f, $30, $0f, $0f, $0f, $30, $00
+.segment "PRG_POST_STATIC_PPU_UPDATE_DATA"
 
     LDX $0428
     LDA $DCEC,X
@@ -6593,7 +6489,7 @@ _label_bank0_bc15:
 
 _label_bank0_bc20:
     LDA #$07
-    JSR $9471
+    JSR QueueStaticPpuUpdateStream
     LDY #$1A
     JSR AddSoundEffect
     LDA #$80
@@ -6793,11 +6689,11 @@ _label_bank0_bd5c:
     STA $0301
     STA a:PPU_MASK
     LDA #$0C
-    JSR $9471
+    JSR QueueStaticPpuUpdateStream
     LDA #$01
-    JSR $9471
+    JSR QueueStaticPpuUpdateStream
     LDA #$08
-    JSR $9471
+    JSR QueueStaticPpuUpdateStream
     LDA #$00
     STA $1F
     LDA #$18
@@ -7860,7 +7756,7 @@ _label_bank0_c8d4:
     LDY #$05
     JSR AddSoundEffect
     LDA #$06
-    JSR $9471
+    JSR QueueStaticPpuUpdateStream
     LDA #$FF
     LDX #$1B
     JSR WaitForMaskedBitsClear
@@ -7968,7 +7864,7 @@ _label_bank0_ca8c:
 
 _label_bank0_ca91:
     TXA
-    JSR $9471
+    JSR QueueStaticPpuUpdateStream
     INX
     CPX #$12
     BNE _label_bank0_ca91
@@ -8183,7 +8079,7 @@ _label_bank0_cc2c:
 
 _label_bank0_cc3d:
     TXA
-    JSR $9471
+    JSR QueueStaticPpuUpdateStream
     INX
     CPX #$0C
     BCC _label_bank0_cc3d
@@ -8254,7 +8150,7 @@ _label_bank0_cccd:
     LDA a:PPU_STATUS
     BPL _label_bank0_cccd
     LDA #$05
-    JSR $9471
+    JSR QueueStaticPpuUpdateStream
     JSR BeginDirectPpuTransfer
     LDA #$FA
     STA $00

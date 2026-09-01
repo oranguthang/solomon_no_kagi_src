@@ -22,9 +22,9 @@ NMI:
     LDA #>OamBuffer
     STA a:OAM_DMA
     LDY #$01
-    CPY $1B
+    CPY PpuUpdateStreamPointer + 1
     BCS _label_bank0_8034
-    JSR $8B7F
+    JSR ExecutePpuUpdateStream
 
 _label_bank0_8034:
     LDA $28

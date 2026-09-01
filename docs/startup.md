@@ -41,7 +41,7 @@ Reset partitions page-one stack storage at `$20`-byte intervals and installs
 encoded initial context `$17`, scans four `PendingThreadStarts` bytes, calls
 `StartThread` for nonzero requests, and yields through `SwitchThreads`.
 
-The purpose of the two temporary bytes `$1A-$1B`, the producer of the warmup
-counter at `$21`, and the semantic meaning of every pending start code remain
-open. They deliberately retain raw addresses or neutral names until traces
-bind them to behavior.
+Bytes `$1A-$1B` are the shared `PpuUpdateStreamPointer`. The warmup byte at
+`$21` is `GameplayDelayCounter`; the active NMI path increments it together
+with the other `$20-$27` counters. The semantic meaning of every pending start
+code remains open until traces bind those selectors to behavior.

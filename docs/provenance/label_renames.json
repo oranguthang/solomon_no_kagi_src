@@ -243,6 +243,88 @@
       ]
     },
     {
+      "address": "0x8b7f",
+      "previous": "$8B7F",
+      "current": "ExecutePpuUpdateStream",
+      "confidence": "confirmed",
+      "evidence": [
+        "NMI calls this entry only when PpuUpdateStreamPointer contains a RAM or ROM address.",
+        "The routine decodes commands through that pointer, writes PPU_ADDR and PPU_DATA, clears the pointer high byte, and restores PPU state."
+      ]
+    },
+    {
+      "address": "0x8b82",
+      "previous": "_label_bank0_8b82",
+      "current": "DecodeNextPpuUpdateCommand",
+      "confidence": "confirmed",
+      "evidence": [
+        "This block writes the two-byte PPU address and loads the following packed control byte for every command."
+      ]
+    },
+    {
+      "address": "0x8b9d",
+      "previous": "_label_bank0_8b9d",
+      "current": "SelectPpuUpdateAddressIncrement",
+      "confidence": "confirmed",
+      "evidence": [
+        "Control bit 7 reaches this block in carry and selects whether PPU_CTRL bit 2 requests address increments of 32 or 1."
+      ]
+    },
+    {
+      "address": "0x8ba6",
+      "previous": "_label_bank0_8ba6",
+      "current": "DecodePpuUpdateLength",
+      "confidence": "confirmed",
+      "evidence": [
+        "Two shifts recover control bits 5 through 0 and INX converts the encoded length-minus-one to a write count of 1 through 64."
+      ]
+    },
+    {
+      "address": "0x8baa",
+      "previous": "_label_bank0_8baa",
+      "current": "WriteNextPpuUpdateByte",
+      "confidence": "confirmed",
+      "evidence": [
+        "The loop writes the selected payload byte to PPU_DATA and advances Y per write only when control bit 6 selected literal mode."
+      ]
+    },
+    {
+      "address": "0x8bb2",
+      "previous": "_label_bank0_8bb2",
+      "current": "AdvancePpuUpdateWrite",
+      "confidence": "confirmed",
+      "evidence": [
+        "The block decrements the decoded write count and advances once after a completed repeat-mode command."
+      ]
+    },
+    {
+      "address": "0x8bb8",
+      "previous": "_label_bank0_8bb8",
+      "current": "CheckNextPpuUpdateCommand",
+      "confidence": "confirmed",
+      "evidence": [
+        "A nonzero next byte is consumed as another PPU address high byte; zero selects stream completion."
+      ]
+    },
+    {
+      "address": "0x8bbc",
+      "previous": "$8BBC",
+      "current": "FinishPpuUpdateStream",
+      "confidence": "confirmed",
+      "evidence": [
+        "The terminator path performs the PPU address-reset sequence and clears PpuUpdateStreamPointer high to publish the idle state."
+      ]
+    },
+    {
+      "address": "0x8bce",
+      "previous": "$8BCE",
+      "current": "RestorePpuStateAfterUpdate",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both the completed update stream and the adjacent status-read path enter here to reset the PPU latch and restore scroll and PPU_CTRL shadow values."
+      ]
+    },
+    {
       "address": "0x8c0a",
       "previous": "_label_bank0_8c0a",
       "current": "WaitForFirstVBlank",
@@ -600,6 +682,165 @@
         "Six direct-transfer entry paths call this routine before writing PPU_ADDR or PPU_DATA.",
         "It waits for the shared PPU update pointer to clear, disables NMI and 32-byte address increment in PpuCtrlShadow, and writes rendering-disabled state to PPU_MASK without changing its shadow."
       ]
+    },
+    {
+      "address": "0x9471",
+      "previous": "$9471",
+      "current": "QueueStaticPpuUpdateStream",
+      "confidence": "confirmed",
+      "evidence": [
+        "Eleven call sites supply indices in A from the complete $00-$11 range.",
+        "The routine preserves A across SwitchThreads until PpuUpdateStreamPointer high becomes zero, then publishes a pointer selected from two 18-byte tables."
+      ]
+    },
+    {
+      "address": "0x947c",
+      "previous": "_label_bank0_947c",
+      "current": "PublishSelectedStaticPpuUpdateStream",
+      "confidence": "confirmed",
+      "evidence": [
+        "The idle-slot path uses A as an index into parallel low/high pointer tables and writes the result to PpuUpdateStreamPointer."
+      ]
+    },
+    {
+      "address": "0x9488",
+      "previous": "$9488",
+      "current": "StaticPpuUpdatePointerLowTable",
+      "confidence": "confirmed",
+      "evidence": ["QueueStaticPpuUpdateStream indexes these 18 bytes as the low halves of reviewed stream addresses."]
+    },
+    {
+      "address": "0x949a",
+      "previous": "$949A",
+      "current": "StaticPpuUpdatePointerHighTable",
+      "confidence": "confirmed",
+      "evidence": ["QueueStaticPpuUpdateStream indexes these 18 bytes as the high halves of reviewed stream addresses."]
+    },
+    {
+      "address": "0x94ac",
+      "previous": "$94AC",
+      "current": "StaticPpuUpdateStream00",
+      "confidence": "confirmed",
+      "evidence": ["Split pointer index 0 resolves here; the audited decoder round-trips four commands through the $94D0 terminator."]
+    },
+    {
+      "address": "0x94d1",
+      "previous": "$94D1",
+      "current": "StaticPpuUpdateStream01",
+      "confidence": "confirmed",
+      "evidence": ["Split pointer index 1 resolves here; the audited decoder round-trips the stream through its $94E4 terminator."]
+    },
+    {
+      "address": "0x94e5",
+      "previous": "$94E5",
+      "current": "StaticPpuUpdateStream02",
+      "confidence": "confirmed",
+      "evidence": ["Split pointer index 2 resolves here; the audited decoder round-trips the stream through its $94F6 terminator."]
+    },
+    {
+      "address": "0x94f7",
+      "previous": "$94F7",
+      "current": "StaticPpuUpdateStream03",
+      "confidence": "confirmed",
+      "evidence": ["Split pointer index 3 resolves here; the audited decoder round-trips the stream through its $9510 terminator."]
+    },
+    {
+      "address": "0x9511",
+      "previous": "$9511",
+      "current": "StaticPpuUpdateStream04",
+      "confidence": "confirmed",
+      "evidence": ["Split pointer index 4 resolves here; the audited decoder round-trips the stream through its $9521 terminator."]
+    },
+    {
+      "address": "0x9522",
+      "previous": "$9522",
+      "current": "StaticPpuUpdateStream06",
+      "confidence": "confirmed",
+      "evidence": ["Split pointer index 6 resolves here; the audited decoder round-trips the stream through its $952E terminator."]
+    },
+    {
+      "address": "0x952f",
+      "previous": "$952F",
+      "current": "StaticPpuUpdateStream07",
+      "confidence": "confirmed",
+      "evidence": ["Split pointer index 7 resolves here; the audited decoder round-trips the stream through its $9533 terminator."]
+    },
+    {
+      "address": "0x9534",
+      "previous": "$9534",
+      "current": "StaticPpuUpdateStream08",
+      "confidence": "confirmed",
+      "evidence": ["Split pointer index 8 resolves here; the audited decoder round-trips five commands through the $9548 terminator."]
+    },
+    {
+      "address": "0x9549",
+      "previous": "$9549",
+      "current": "StaticPpuUpdateStream09",
+      "confidence": "confirmed",
+      "evidence": ["Split pointer index 9 resolves here; the audited decoder round-trips the stream through its $9565 terminator."]
+    },
+    {
+      "address": "0x9566",
+      "previous": "$9566",
+      "current": "StaticPpuUpdateStream10",
+      "confidence": "confirmed",
+      "evidence": ["Split pointer index 10 resolves here; the audited decoder round-trips the stream through its $957A terminator."]
+    },
+    {
+      "address": "0x957b",
+      "previous": "$957B",
+      "current": "StaticPpuUpdateStream11",
+      "confidence": "confirmed",
+      "evidence": ["Split pointer index 11 resolves here; the audited decoder round-trips the stream through its $958E terminator."]
+    },
+    {
+      "address": "0x958f",
+      "previous": "$958F",
+      "current": "StaticPpuUpdateStream12",
+      "confidence": "confirmed",
+      "evidence": ["Split pointer index 12 resolves here; the audited decoder round-trips the stream through its $9593 terminator."]
+    },
+    {
+      "address": "0x9594",
+      "previous": "$9594",
+      "current": "StaticPpuUpdateStream14",
+      "confidence": "confirmed",
+      "evidence": ["Split pointer index 14 resolves here; the audited decoder round-trips the stream through its $9598 terminator."]
+    },
+    {
+      "address": "0x9599",
+      "previous": "$9599",
+      "current": "StaticPpuUpdateStream15",
+      "confidence": "confirmed",
+      "evidence": ["Split pointer index 15 resolves here; the audited decoder round-trips the stream through its $95AC terminator."]
+    },
+    {
+      "address": "0x95ad",
+      "previous": "$95AD",
+      "current": "StaticPpuUpdateStream16",
+      "confidence": "confirmed",
+      "evidence": ["Split pointer index 16 resolves here; the audited decoder round-trips the stream through its $95C8 terminator."]
+    },
+    {
+      "address": "0x95c9",
+      "previous": "$95C9",
+      "current": "StaticPpuUpdateStream17",
+      "confidence": "confirmed",
+      "evidence": ["Split pointer index 17 resolves here; the audited decoder round-trips two commands through the $95F2 terminator."]
+    },
+    {
+      "address": "0x95f3",
+      "previous": "$95F3",
+      "current": "StaticPpuUpdateStream05",
+      "confidence": "confirmed",
+      "evidence": ["Split pointer index 5 resolves here; the audited decoder round-trips the stream through its $9606 terminator."]
+    },
+    {
+      "address": "0x9607",
+      "previous": "$9607",
+      "current": "StaticPpuUpdateStream13",
+      "confidence": "confirmed",
+      "evidence": ["Split pointer index 13 resolves here; the audited decoder round-trips the stream through its $961A terminator."]
     },
     {
       "address": "0x970b",

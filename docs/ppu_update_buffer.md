@@ -18,7 +18,7 @@ display builder and several still-unreconstructed producers, which is why the
 base alias is `PpuUpdateBuffer`; `TimerDisplayUpdateBuffer` remains an equal-
 address alias for the decoded timer-specific layout.
 
-During NMI, the high byte of `PpuUpdateStreamPointer` gates the update writer at
-`$8B7F`. Reconstructing that consumer and the bytecode understood by its writer
-is the next evidence boundary; this module only claims the fully visible
-producer-side publication contract.
+During NMI, the high byte of `PpuUpdateStreamPointer` gates
+`ExecutePpuUpdateStream`. The consumer executes the compact command stream,
+marks the pointer idle by clearing its high byte, and restores scroll and
+`PPU_CTRL` state. See `docs/ppu_update_stream.md` for the bytecode format.

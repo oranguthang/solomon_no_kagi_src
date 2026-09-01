@@ -25,9 +25,16 @@ only Start and Select. See `docs/controller_input.md`.
 
 Foreground producers build compact PPU update programs in the shared RAM
 buffer at `$03E6`. `PublishPpuUpdateBuffer` points `$001A-$001B` at that
-buffer; the NMI path uses the pointer's high byte to decide whether to invoke
-the still-unreconstructed update consumer at `$8B7F`. Sixteen producer sites
-now share the publication symbol. See `docs/ppu_update_buffer.md`.
+buffer; the NMI path uses the pointer's high byte to gate
+`ExecutePpuUpdateStream`. That interpreter supports horizontal or vertical
+addressing plus repeated or literal payloads, clears the pointer when done,
+and restores PPU state. See `docs/ppu_update_buffer.md` and
+`docs/ppu_update_stream.md`.
+
+ROM-resident programs use `QueueStaticPpuUpdateStream`. The caller supplies
+one of 18 indices in `A`; the routine cooperatively waits for the current
+stream to finish, then publishes the indexed split-table pointer. See
+`docs/static_ppu_update_queue.md`.
 
 ## Cooperative scheduler
 

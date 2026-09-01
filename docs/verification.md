@@ -29,7 +29,8 @@ the iNES header, PRG, CHR, headerless payload, full image, and extracted CHR.
 | `roundtrip-formats` | losslessly decode/encode all room records and pointer tables |
 | `scheduler-audit` | check stacks, static/reviewed dynamic entries, and call counts |
 | `enemy-ai-audit` | check all 28 inline enemy-AI handler pointers |
-| `release-check` | lint, tests, verification, room round trips, reconstruction, scheduler, and AI audits |
+| `ppu-update-audit` | check 18 static stream pointers, coverage, hashes, and byte round trips |
+| `release-check` | lint, tests, verification, format round trips, reconstruction, scheduler, AI, pointer, and PPU-stream audits |
 | `check` | alias for `release-check` |
 
 Focused region targets deliberately compare only their named output region.
@@ -46,6 +47,9 @@ and their RTS-derived entry addresses to a reviewed manifest, including known
 targets reached through dynamically selected codes.
 `make enemy-ai-audit` applies the same reviewed-manifest contract to the
 inline `JumpWithParams` handler appendix.
+`make ppu-update-audit` decodes the split pointer table and every command in
+the adjacent static PPU stream range. It requires exact reviewed hashes,
+single coverage of every payload byte, and lossless re-encoding.
 
 ## Failure diagnostics
 

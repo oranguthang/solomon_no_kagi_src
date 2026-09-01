@@ -58,6 +58,25 @@
       ]
     },
     {
+      "id": "ppu_update_stream",
+      "path": "src/graphics/ppu_update_stream.asm",
+      "segment": "PRG_PPU_UPDATE_STREAM",
+      "start": "0x8b7f",
+      "end": "0x8be1",
+      "status": "semantic",
+      "required_labels": [
+        "ExecutePpuUpdateStream",
+        "DecodeNextPpuUpdateCommand",
+        "SelectPpuUpdateAddressIncrement",
+        "DecodePpuUpdateLength",
+        "WriteNextPpuUpdateByte",
+        "AdvancePpuUpdateWrite",
+        "CheckNextPpuUpdateCommand",
+        "FinishPpuUpdateStream",
+        "RestorePpuStateAfterUpdate"
+      ]
+    },
+    {
       "id": "scheduler",
       "path": "src/system/scheduler.asm",
       "segment": "PRG_SCHEDULER",
@@ -265,6 +284,58 @@
       "status": "semantic",
       "required_labels": [
         "WaitForZeroPageCounterAboveThreshold"
+      ]
+    },
+    {
+      "id": "static_ppu_update_queue",
+      "path": "src/graphics/static_ppu_update_queue.asm",
+      "segment": "PRG_STATIC_PPU_UPDATE_QUEUE",
+      "start": "0x9471",
+      "end": "0x9487",
+      "status": "semantic",
+      "required_labels": [
+        "QueueStaticPpuUpdateStream",
+        "PublishSelectedStaticPpuUpdateStream"
+      ]
+    },
+    {
+      "id": "static_ppu_update_pointers",
+      "path": "src/data/static_ppu_update_streams.asm",
+      "segment": "PRG_STATIC_PPU_UPDATE_POINTERS",
+      "start": "0x9488",
+      "end": "0x94ab",
+      "status": "semantic",
+      "required_labels": [
+        "StaticPpuUpdatePointerLowTable",
+        "StaticPpuUpdatePointerHighTable"
+      ]
+    },
+    {
+      "id": "static_ppu_update_streams",
+      "path": "src/data/static_ppu_update_streams.asm",
+      "segment": "PRG_STATIC_PPU_UPDATE_STREAMS",
+      "start": "0x94ac",
+      "end": "0x961a",
+      "status": "semantic",
+      "required_labels": [
+        "StaticPpuUpdateStream00",
+        "StaticPpuUpdateStream01",
+        "StaticPpuUpdateStream02",
+        "StaticPpuUpdateStream03",
+        "StaticPpuUpdateStream04",
+        "StaticPpuUpdateStream05",
+        "StaticPpuUpdateStream06",
+        "StaticPpuUpdateStream07",
+        "StaticPpuUpdateStream08",
+        "StaticPpuUpdateStream09",
+        "StaticPpuUpdateStream10",
+        "StaticPpuUpdateStream11",
+        "StaticPpuUpdateStream12",
+        "StaticPpuUpdateStream13",
+        "StaticPpuUpdateStream14",
+        "StaticPpuUpdateStream15",
+        "StaticPpuUpdateStream16",
+        "StaticPpuUpdateStream17"
       ]
     },
     {
@@ -717,11 +788,11 @@
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 51,
-    "minimum_documented_prg_bytes": 3668,
-    "minimum_provenance_entries": 233,
-    "maximum_preservation_lines": 10046,
-    "maximum_generated_labels": 675,
-    "maximum_raw_control_flow_targets": 311
+    "minimum_semantic_modules": 55,
+    "minimum_documented_prg_bytes": 4193,
+    "minimum_provenance_entries": 264,
+    "maximum_preservation_lines": 9942,
+    "maximum_generated_labels": 666,
+    "maximum_raw_control_flow_targets": 298
   }
 }
