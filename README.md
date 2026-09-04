@@ -201,6 +201,8 @@ docs/                      architecture and reverse-engineering notes
 docs/special_room_scripts.md context-six room dispatch and trigger evidence
 docs/ending_sequence.md      room-index 49 ending choreography
 docs/ending_and_special_room_support.md ending text, Seal logic, and room data
+docs/enemy_lifetime.md       room enemy lifetime transition and carry contract
+docs/linked_enemy_ai.md      linked-slot allocation and action dispatch
 scripts/project.py         split, verify, lint, and safe build helpers
 scripts/asm_style.py       shared ca65 formatter and style checker
 scripts/verify_rom.py      original/build/asset comparison and ROM reports
@@ -272,13 +274,13 @@ src/game/fireball_lifetime.asm fireball expiration and delayed cleanup
 src/game/enemy_initialization.asm enemy slot position/state initialization
 src/game/enemy_type_configuration.asm spawn-type object/AI configuration
 src/data/enemy_types.asm  packed enemy-type configuration table
-src/game/enemy_ai_handlers.asm inline handler dispatcher and pointer table
+src/game/enemy_ai_handlers.asm handler tables and linked-slot behavior support
 src/game/enemy_position.asm shared current-enemy position-copy helper
 src/game/enemy_pointers.asm shared object/AI record pointer resolvers
 src/game/enemy_slot_allocation.asm free enemy-record allocator
 src/data/enemy_record_pointers.asm generated record-pool pointer tables
 src/game/enemy_deactivation.asm parallel-record slot retirement
-src/game/current_enemy_deactivation.asm selected enemy-record retirement
+src/game/current_enemy_deactivation.asm retirement, lifetime, and adjacent filler
 src/game/active_object_states.asm update active non-Dana record states
 src/game/object_pointer.asm non-Dana object-record pointer resolver
 src/game/non_dana_object_deactivation.asm clear the non-Dana object pool

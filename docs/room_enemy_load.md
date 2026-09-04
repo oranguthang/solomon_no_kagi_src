@@ -6,10 +6,10 @@ pointers at `$DCEC/$DD21`; the resulting stream uses the format already
 round-tripped by `scripts/room_data.py`.
 
 The first byte is split into `EnemySpawnLifetimeThresholdLo` (`bits 7..5`) and
-`EnemySpawnLifetimeThresholdHi` (`bits 4..0`). Later enemy lifetime logic
-subtracts these as a low/high threshold pair. Each following record contains
-an enemy type and packed 16-column map position; type zero terminates the
-stream.
+`EnemySpawnLifetimeThresholdHi` (`bits 4..0`). `ApplyEnemyLifetimeThreshold`
+subtracts these from AI-record bytes 2-3 as a low/high threshold pair. Each
+following record contains an enemy type and packed 16-column map position;
+type zero terminates the stream.
 
 For every record, the loader:
 

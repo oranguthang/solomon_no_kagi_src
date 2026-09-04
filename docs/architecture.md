@@ -229,6 +229,12 @@ the dispatcher has already populated `EnemyAiPointer` and
 `EnemyObjectPointer`. Its eleven callers are tail-calls, so retiring the
 selected slot also completes that behavior update.
 
+Two behavior families first call `ApplyEnemyLifetimeThreshold`. The outer AI
+dispatcher supplies carry set, allowing this helper to compare AI-record bytes
+2-3 with the room-configured lifetime threshold using a chained subtraction.
+On expiry it clears the current object action and AI lifecycle byte, then sets
+object-state bit 1. See `docs/enemy_lifetime.md`.
+
 `UpdateEnemiesMovement` walks these parallel pools through four split pointer
 tables. It advances active AI records using the shared gameplay update count,
 caches direction components relative to Dana, and publishes an active-enemy
@@ -272,6 +278,13 @@ Eligible AI records are routed through an inline appendix dispatcher. A
 two-bit shift selects one of 28 little-endian entries consumed by the generic
 `JumpWithParams` convention; repeated entries collapse those selectors onto 14
 behavior targets. The complete pointer inventory is machine-audited.
+
+One reconstructed handler family covers object types `$50-$5B`; the shared
+helpers immediately before it are also consumed by the `$5C-$67` family. An
+action byte shifted right twice selects a seven-entry inline appendix. Two
+paths allocate one or two free AI records, retain their slot indices in bytes
+6-7 of the parent AI record, and unwind partial allocation if a second slot is
+unavailable. See `docs/linked_enemy_ai.md`.
 
 Two of those behavior families call `LoadCurrentEnemyPosition`. It copies the
 selected enemy record's working Y/X bytes into the shared spawn scratch area,

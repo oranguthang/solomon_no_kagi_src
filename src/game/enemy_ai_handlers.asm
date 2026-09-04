@@ -1,4 +1,4 @@
-; Dispatch one eligible enemy through the inline JumpWithParams appendix
+; Enemy AI dispatch tables and linked-slot behavior support
 
 .segment "PRG_ENEMY_AI_HANDLERS"
 
@@ -11,10 +11,290 @@ EnemyAiHandlerTable:
     .addr $A4B3, $A5DD, $A840, $B0FB
     .addr $A68C, $AA69, $AA6D, $AD37
     .addr $AD37, $AD37, $AD37, $AD37
-    .addr $AD37, $AD37, $AD37, $B348
-    .addr $B348, $B348, $B178, $B178
+    .addr $AD37, $AD37, $AD37, RunType50To5BEnemyAi
+    .addr RunType50To5BEnemyAi, RunType50To5BEnemyAi, $B178, $B178
     .addr $B178, $A78A, $A78A, $AE51
     .addr $AE51, $AF5C, $AF5C, $A6E0
 
 EnemyAiHandlerCount = (* - EnemyAiHandlerTable) / 2
 .assert EnemyAiHandlerCount = 28, error, "unexpected enemy AI handler count"
+
+; Shared action dispatch and linked-slot helpers for the $50-$67 type families
+
+.segment "PRG_LINKED_ENEMY_AI"
+
+EnemyAiPhaseOffset = $01
+EnemyAiVerticalDeltaOffset = $04
+EnemyAiHorizontalDeltaOffset = $05
+EnemyAiLinkedSlotMask = $03
+EnemyAiActiveState = $80
+EnemyDirectionBit = $01
+EnemyLinkedStateBit = $20
+EnemyActionDirectionMask = $01
+EnemyActionLinkMask = $FD
+EnemyMapOpenTileMinimum = $F8
+EnemyFacingActionBase = $14
+EnemyPairActionBase = $0C
+EnemySingleLinkActionBase = $16
+
+; Still-preserved action handlers referenced by the two inline appendices
+RunEnemyActionA55C = $A55C
+RunEnemyActionAF70 = $AF70
+RunEnemyActionB18F = $B18F
+RunEnemyActionB1B5 = $B1B5
+ClearLinkedEnemySlots = $B19E
+
+SetEnemyHorizontalStepAndFacing:
+    LDY #ObjectXMotionOffset
+    TYA
+    STA (EnemyObjectPointer),Y
+
+SelectEnemyFacingAction:
+    LDX #EnemyFacingActionBase
+    LDY #EnemyAiHorizontalDeltaOffset
+    LDA (EnemyAiPointer),Y
+    BPL StoreEnemyFacingAction
+    INX
+
+StoreEnemyFacingAction:
+    LDY #ObjectActionOffset
+    TXA
+    STA (EnemyObjectPointer),Y
+    RTS
+
+UpdateLinkedEnemyPairSpawn:
+    JSR CompareEnemyMotionThresholds
+    BCS CheckLinkedEnemyPairMotion
+    LDY #EnemyAiPhaseOffset
+    LDA (EnemyAiPointer),Y
+    CMP #$20
+    BCC CheckLinkedEnemyPairMotion
+    JSR SelectEnemyFacingAction
+    BNE AllocateLinkedEnemyPair
+
+CheckLinkedEnemyPairMotion:
+    LDY #ObjectXMotionOffset
+    LDA (EnemyObjectPointer),Y
+    BNE FinishLinkedEnemyUpdate
+    JSR CalculateEnemyForwardMapCoordinates
+    JSR ConvertPixelCoordinatesToMapIndex
+    TAX
+    LDA RoomMap,X
+    BPL FinishLinkedEnemyPairProbe
+    CMP #EnemyMapOpenTileMinimum
+    BCC AllocateLinkedEnemyPair
+    LDY #ObjectActionOffset
+    LDA #EnemyDirectionBit
+    EOR (EnemyObjectPointer),Y
+    STA (EnemyObjectPointer),Y
+
+FinishLinkedEnemyPairProbe:
+    RTS
+
+AllocateLinkedEnemyPair:
+    JSR FindFreeEnemySlotIndex
+    BCC FinishLinkedEnemyUpdate
+    LDY #EnemyAiFirstLinkedSlotOffset
+    TXA
+    STA (EnemyAiPointer),Y
+    LDY #EnemyAiFlagsOffset
+    LDA #EnemyAiActiveState
+    STA (TempPointer04),Y
+    LDA TempPointer04
+    STA TempPointer00
+    LDA TempPointer04 + 1
+    STA TempPointer00 + 1
+    JSR FindFreeEnemySlotIndex
+    LDY #EnemyAiFlagsOffset
+    BCS ActivateSecondLinkedEnemy
+    TYA
+    STA (TempPointer00),Y
+    BCC FinishLinkedEnemyUpdate
+
+ActivateSecondLinkedEnemy:
+    LDA #EnemyAiActiveState
+    STA (TempPointer04),Y
+    LDA (EnemyAiPointer),Y
+    ORA #EnemyAiLinkedSlotMask
+    STA (EnemyAiPointer),Y
+    TYA
+    INY
+    STA (EnemyAiPointer),Y
+    LDY #ObjectActionOffset
+    LDA (EnemyObjectPointer),Y
+    AND #EnemyActionDirectionMask
+    ORA #EnemyPairActionBase
+    STA (EnemyObjectPointer),Y
+    LDY #EnemyAiSecondLinkedSlotOffset
+    TXA
+    STA (EnemyAiPointer),Y
+
+FinishLinkedEnemyUpdate:
+    RTS
+
+CompareEnemyMotionThresholds:
+    LDY #EnemyAiHorizontalDeltaOffset
+    LDA (EnemyAiPointer),Y
+    ASL A
+    BCS CompareHorizontalEnemyMotion
+    EOR #$FF
+
+CompareHorizontalEnemyMotion:
+    CMP #$14
+    BCS FinishEnemyMotionComparison
+    DEY
+    LDA (EnemyAiPointer),Y
+    ASL A
+    BCS CompareVerticalEnemyMotion
+    EOR #$FF
+
+CompareVerticalEnemyMotion:
+    CMP #$10
+
+FinishEnemyMotionComparison:
+    RTS
+
+LoadEnemyActionSelector:
+    LDY #ObjectActionOffset
+    LDA (EnemyObjectPointer),Y
+    LSR A
+    LSR A
+    RTS
+
+RunType50To5BEnemyAi:
+    JSR ApplyEnemyLifetimeThreshold
+    JSR LoadEnemyActionSelector
+    JSR JumpWithParams
+
+Type50To5BActionHandlers:
+    .addr DeactivateType50To5BAtPhase11
+    .addr BeginType50To5BHorizontalStep
+    .addr RunEnemyActionAF70
+    .addr RunEnemyActionA55C
+    .addr RunEnemyActionA55C
+    .addr UpdateSingleLinkedEnemy
+    .addr RunEnemyActionA55C
+
+DeactivateType50To5BAtPhase11:
+    LDY #EnemyAiPhaseOffset
+    LDA (EnemyAiPointer),Y
+    CMP #$11
+    BCS DeactivateCurrentType50To5BEnemy
+    RTS
+
+DeactivateCurrentType50To5BEnemy:
+    JMP DeactivateCurrentEnemy
+
+BeginType50To5BHorizontalStep:
+    LDY #ObjectXMotionOffset
+    LDA #$01
+    STA (EnemyObjectPointer),Y
+    LDY #ObjectActionOffset
+    LDA #EnemyActionDirectionMask
+    AND (EnemyObjectPointer),Y
+    ORA #EnemyFacingActionBase
+    STA (EnemyObjectPointer),Y
+
+FinishSingleLinkedEnemyUpdate:
+    RTS
+
+UpdateSingleLinkedEnemy:
+    LDY #ObjectXMotionOffset
+    LDA (EnemyObjectPointer),Y
+    BNE FinishSingleLinkedEnemyUpdate
+    LDY #EnemyAiFlagsOffset
+    LDA (EnemyAiPointer),Y
+    ROR A
+    BCS CheckSingleLinkedEnemyPhase
+    JSR CalculateEnemyForwardMapCoordinates
+    JSR ConvertPixelCoordinatesToMapIndex
+    TAX
+    LDA RoomMap,X
+    BMI AllocateSingleLinkedEnemy
+    LDY #ObjectCachedActionOffset
+    LDA #$FF
+    STA (EnemyObjectPointer),Y
+
+FinishSingleLinkedMapProbe:
+    RTS
+
+AllocateSingleLinkedEnemy:
+    STX TempPointer00
+    JSR FindFreeEnemySlotIndex
+    BCC FinishSingleLinkedEnemyUpdate
+    LDY #EnemyAiFirstLinkedSlotOffset
+    TXA
+    STA (EnemyAiPointer),Y
+    LDY #EnemyAiFlagsOffset
+    LDA #EnemyAiActiveState
+    STA (TempPointer04),Y
+    LDA #EnemyDirectionBit
+    ORA (EnemyAiPointer),Y
+    STA (EnemyAiPointer),Y
+    TYA
+    INY
+    STA (EnemyAiPointer),Y
+    LDA TempPointer00
+    STA TempPointer04
+    LDA EnemyObjectPointerLowTable,X
+    STA TempPointer00
+    LDA EnemyObjectPointerHighTable,X
+    STA TempPointer00 + 1
+    LDY #ObjectStateOffset
+    LDA #$DF
+    AND (EnemyObjectPointer),Y
+    STA (EnemyObjectPointer),Y
+    LDY #ObjectActionOffset
+    LDA (EnemyObjectPointer),Y
+    AND #EnemyActionDirectionMask
+    STA TempPointer02
+    ORA #EnemySingleLinkActionBase
+    STA (EnemyObjectPointer),Y
+    LDY TempPointer04
+    LDA RoomMap,Y
+    JSR ApplyMapTileInteractionToObject
+
+CheckSingleLinkedEnemyPhase:
+    LDY #EnemyAiPhaseOffset
+    LDA (EnemyAiPointer),Y
+    CMP #$0F
+    BCC FinishSingleLinkedMapProbe
+    LDY #ObjectXMotionOffset
+    LDA #$03
+    STA (EnemyObjectPointer),Y
+    LDY #ObjectActionOffset
+    LDA #EnemyDirectionBit
+    EOR (EnemyObjectPointer),Y
+    AND #EnemyActionLinkMask
+    STA (EnemyObjectPointer),Y
+    LDY #ObjectStateOffset
+    LDA #EnemyLinkedStateBit
+    ORA (EnemyObjectPointer),Y
+    STA (EnemyObjectPointer),Y
+    LDY #EnemyAiFlagsOffset
+    LDA #$FE
+    AND (EnemyAiPointer),Y
+    STA (EnemyAiPointer),Y
+    LDX #$01
+    JSR ClearLinkedEnemySlots
+    RTS
+
+CalculateEnemyForwardMapCoordinates:
+    LDY #ObjectActionOffset
+    LDA (EnemyObjectPointer),Y
+    ROR A
+    LDA #$18
+    BCC AddEnemyForwardXOffset
+    LDA #$F7
+
+AddEnemyForwardXOffset:
+    LDY #ObjectXPositionOffset
+    ADC (EnemyObjectPointer),Y
+    STA CoordinateX
+    LDY #ObjectYPositionOffset
+    LDA #$08
+    ADC (EnemyObjectPointer),Y
+    STA CoordinateY
+    RTS
+
+.assert * - SetEnemyHorizontalStepAndFacing = $188, error, "unexpected linked enemy AI size"

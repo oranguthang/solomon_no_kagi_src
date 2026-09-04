@@ -133,6 +133,9 @@ decrease.
   `src/game/enemy_position.asm`;
 - `$B28A-$B2A1`: the indexed object/AI record pointer resolvers are isolated
   in `src/game/enemy_pointers.asm`, and all 28 call sites use their symbols;
+- `$B2A2-$B429`: action dispatch for the `$50-$5B` type family, shared
+  `$50-$67` direction helpers, forward map probes, and one/two linked-slot
+  allocation paths are source-owned;
 - `$B42A-$B445`: the seventeen-entry free enemy-slot allocator and its carry
   return contract are isolated in `src/game/enemy_slot_allocation.asm`;
 - `$B446-$B491`: the 17-entry AI and 21-entry object split pointer tables are
@@ -141,6 +144,8 @@ decrease.
   pools by `DeactivateEnemySlot` in `src/game/enemy_deactivation.asm`;
 - `$B4B6-$B4C3`: eleven enemy behavior tail-calls retire the dispatcher-
   selected slot through `DeactivateCurrentEnemy`;
+- `$B4C4-$B7FF`: the shared room-configured enemy lifetime transition and the
+  classified 783-byte filler before context 6 are source-owned;
 - `$C23C-$C2A5`: scheduler code `$34` pauses Dana/fireball/enemy updates,
   removes the collected key, runs its door flight, restores object states, and
   restarts main gameplay in the existing key-item module;

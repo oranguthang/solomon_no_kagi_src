@@ -6449,6 +6449,122 @@
     {
       "address": "0xc012", "previous": "$C012", "current": "FillerBeforeC100", "confidence": "confirmed",
       "evidence": ["Bisqwit's map classifies the unreferenced 238-byte tail ending at $C0FF as FillerBeforeC100."]
+    },
+    {
+      "address": "0xb4c4", "previous": "$B4C4", "current": "ApplyEnemyLifetimeThreshold", "confidence": "high",
+      "evidence": ["Both callers are enemy behavior entries reached with carry set from RunEnemyAiDispatcher; the helper subtracts the room lifetime threshold from AI-record bytes 2-3 and applies an expiry transition."]
+    },
+    {
+      "address": "0xb4f0", "previous": "_label_bank0_b4f0", "current": "FinishEnemyLifetimeThreshold", "confidence": "confirmed",
+      "evidence": ["Every state guard, threshold-borrow path, zero-action path, and completed lifetime transition returns here."]
+    },
+    {
+      "address": "0xb4f1", "previous": "$B4F1", "current": "FillerBeforeB800", "confidence": "confirmed",
+      "evidence": ["Bisqwit's map classifies this complete unreferenced 783-byte range ending at $B7FF as FillerBeforeB800."]
+    },
+    {
+      "address": "0xb2a2", "previous": "$B2A2", "current": "SetEnemyHorizontalStepAndFacing", "confidence": "high",
+      "evidence": ["The entry writes $08 to object X-motion byte 8 before falling into the direction-dependent action selector."]
+    },
+    {
+      "address": "0xb2a7", "previous": "$B2A7", "current": "SelectEnemyFacingAction", "confidence": "high",
+      "evidence": ["AI byte 5's sign selects adjacent object actions $14 and $15; another linked-spawn path calls this entry directly."]
+    },
+    {
+      "address": "0xb2b0", "previous": "_label_bank0_b2b0", "current": "StoreEnemyFacingAction", "confidence": "confirmed",
+      "evidence": ["Both direction branches converge here to store X in object action byte 3."]
+    },
+    {
+      "address": "0xb2b6", "previous": "$B2B6", "current": "UpdateLinkedEnemyPairSpawn", "confidence": "high",
+      "evidence": ["This action handler probes motion and the forward map cell before entering a path that allocates two linked AI slots."]
+    },
+    {
+      "address": "0xb2c8", "previous": "_label_bank0_b2c8", "current": "CheckLinkedEnemyPairMotion", "confidence": "confirmed",
+      "evidence": ["The block requires zero object X motion before calculating and testing the forward room-map cell."]
+    },
+    {
+      "address": "0xb2e6", "previous": "_label_bank0_b2e6", "current": "FinishLinkedEnemyPairProbe", "confidence": "confirmed",
+      "evidence": ["Noninteractive forward cells and the action-direction toggle both return through this instruction."]
+    },
+    {
+      "address": "0xb2e7", "previous": "_label_bank0_b2e7", "current": "AllocateLinkedEnemyPair", "confidence": "confirmed",
+      "evidence": ["The path calls FindFreeEnemySlotIndex twice, retains both indices, and unwinds the first allocation if the second fails."]
+    },
+    {
+      "address": "0xb30b", "previous": "_label_bank0_b30b", "current": "ActivateSecondLinkedEnemy", "confidence": "confirmed",
+      "evidence": ["A successful second allocation marks that AI record active and completes both parent link fields."]
+    },
+    {
+      "address": "0xb328", "previous": "_label_bank0_b328", "current": "FinishLinkedEnemyUpdate", "confidence": "confirmed",
+      "evidence": ["Allocation failures, nonzero motion, and successful pair initialization all return here."]
+    },
+    {
+      "address": "0xb329", "previous": "$B329", "current": "CompareEnemyMotionThresholds", "confidence": "high",
+      "evidence": ["The helper transforms AI bytes 5 and 4 by sign and compares them with fixed $14 and $10 thresholds, returning the comparison flags."]
+    },
+    {
+      "address": "0xb332", "previous": "_label_bank0_b332", "current": "CompareHorizontalEnemyMotion", "confidence": "high",
+      "evidence": ["Both sign branches for AI byte 5 converge on the first fixed motion comparison."]
+    },
+    {
+      "address": "0xb33e", "previous": "_label_bank0_b33e", "current": "CompareVerticalEnemyMotion", "confidence": "high",
+      "evidence": ["Both sign branches for AI byte 4 converge on the second fixed motion comparison."]
+    },
+    {
+      "address": "0xb340", "previous": "_label_bank0_b340", "current": "FinishEnemyMotionComparison", "confidence": "confirmed",
+      "evidence": ["The early first-threshold path and completed second comparison return their carry state here."]
+    },
+    {
+      "address": "0xb341", "previous": "$B341", "current": "LoadEnemyActionSelector", "confidence": "confirmed",
+      "evidence": ["Eleven AI dispatch sites call this helper to divide object action byte 3 by four before JumpWithParams."]
+    },
+    {
+      "address": "0xb348", "previous": "$B348", "current": "RunType50To5BEnemyAi", "confidence": "confirmed",
+      "evidence": ["Primary handler-table entries 15-17 resolve here, corresponding to object types $50-$5B after the dispatcher subtracts $14 and divides by four."]
+    },
+    {
+      "address": "0xb351", "previous": "$B351", "current": "Type50To5BActionHandlers", "confidence": "confirmed",
+      "evidence": ["JumpWithParams consumes the seven little-endian action addresses immediately following the call at $B34E."]
+    },
+    {
+      "address": "0xb35f", "previous": "$B35F", "current": "DeactivateType50To5BAtPhase11", "confidence": "high",
+      "evidence": ["Action selector zero compares AI phase byte 1 with $11 and retires the current enemy once it reaches the threshold."]
+    },
+    {
+      "address": "0xb368", "previous": "_label_bank0_b368", "current": "DeactivateCurrentType50To5BEnemy", "confidence": "confirmed",
+      "evidence": ["The phase-threshold branch tail-calls the established current-enemy deactivation helper."]
+    },
+    {
+      "address": "0xb36b", "previous": "$B36B", "current": "BeginType50To5BHorizontalStep", "confidence": "high",
+      "evidence": ["Action selector one sets object X motion to one and selects action $14/$15 from the prior direction bit."]
+    },
+    {
+      "address": "0xb37b", "previous": "_label_bank0_b37b", "current": "FinishSingleLinkedEnemyUpdate", "confidence": "confirmed",
+      "evidence": ["The nonzero-motion guard and single-slot allocation failure both return here."]
+    },
+    {
+      "address": "0xb37c", "previous": "$B37C", "current": "UpdateSingleLinkedEnemy", "confidence": "high",
+      "evidence": ["This action path probes the forward map cell and conditionally allocates one linked AI/object record."]
+    },
+    {
+      "address": "0xb39b", "previous": "_label_bank0_b39b", "current": "FinishSingleLinkedMapProbe", "confidence": "confirmed",
+      "evidence": ["A noninteractive forward tile and a below-threshold AI phase both return through this instruction."]
+    },
+    {
+      "address": "0xb39c", "previous": "_label_bank0_b39c", "current": "AllocateSingleLinkedEnemy", "confidence": "confirmed",
+      "evidence": ["The routine allocates one slot, stores its index in parent AI byte 6, and resolves the linked object pointer for map interaction."]
+    },
+    {
+      "address": "0xb3e2", "previous": "_label_bank0_b3e2", "current": "CheckSingleLinkedEnemyPhase", "confidence": "high",
+      "evidence": ["The parent AI phase is compared with $0F before motion, action, state, and linked-slot cleanup fields transition together."]
+    },
+    {
+      "address": "0xb410", "previous": "$B410", "current": "CalculateEnemyForwardMapCoordinates", "confidence": "confirmed",
+      "evidence": ["Action bit zero chooses a signed horizontal probe offset before object X/Y positions are converted into shared coordinates."]
+    },
+    {
+      "address": "0xb41b", "previous": "_label_bank0_b41b", "current": "AddEnemyForwardXOffset", "confidence": "confirmed",
+      "evidence": ["Left and right offset branches converge here to add object X and then an eight-pixel object Y offset."]
     }
   ]
 }

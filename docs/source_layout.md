@@ -172,12 +172,13 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_ENEMY_POSITION` | current-enemy position-copy helper | 13 |
 | `PRG_PRE_ENEMY_POINTERS` | unresolved `$A4B3-$B289` range | 3,543 |
 | `PRG_ENEMY_POINTERS` | indexed object/AI record pointer resolvers | 24 |
-| `PRG_PRE_ENEMY_POINTER_TABLES` | unresolved `$B2A2-$B429` range | 392 |
+| `PRG_LINKED_ENEMY_AI` | `$50-$67` action dispatch and linked-slot support | 392 |
 | `PRG_FIND_FREE_ENEMY_SLOT` | seventeen-entry free-slot allocator | 28 |
 | `PRG_ENEMY_POINTER_TABLES` | split object/AI record pointer tables | 76 |
 | `PRG_ENEMY_DEACTIVATION` | parallel-record enemy slot retirement | 36 |
 | `PRG_CURRENT_ENEMY_DEACTIVATION` | selected enemy-record retirement | 14 |
-| `PRG_BANK_0` | unresolved `$B4C4-$B7FF` range | 828 |
+| `PRG_ENEMY_LIFETIME` | room-configured enemy lifetime transition | 45 |
+| `PRG_FILLER_BEFORE_SPECIAL_ROOMS` | classified non-code filler before `$B800` | 783 |
 | `PRG_SPECIAL_ROOM_SCRIPTS` | context-6 room-index dispatcher and scripted triggers | 564 |
 | `PRG_ENDING_SEQUENCE` | room-index 49 ending choreography and text presentation | 864 |
 | `PRG_ENDING_SPECIAL_ROOM_SUPPORT` | ending messages, Seal reveal logic, special-room maps, and classified filler | 876 |

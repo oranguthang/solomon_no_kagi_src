@@ -1268,6 +1268,27 @@
       ]
     },
     {
+      "id": "linked_enemy_ai",
+      "path": "src/game/enemy_ai_handlers.asm",
+      "segment": "PRG_LINKED_ENEMY_AI",
+      "start": "0xb2a2",
+      "end": "0xb429",
+      "status": "semantic",
+      "required_labels": [
+        "SetEnemyHorizontalStepAndFacing",
+        "UpdateLinkedEnemyPairSpawn",
+        "AllocateLinkedEnemyPair",
+        "CompareEnemyMotionThresholds",
+        "LoadEnemyActionSelector",
+        "RunType50To5BEnemyAi",
+        "Type50To5BActionHandlers",
+        "UpdateSingleLinkedEnemy",
+        "AllocateSingleLinkedEnemy",
+        "CheckSingleLinkedEnemyPhase",
+        "CalculateEnemyForwardMapCoordinates"
+      ]
+    },
+    {
       "id": "enemy_record_pointer_tables",
       "path": "src/data/enemy_record_pointers.asm",
       "segment": "PRG_ENEMY_POINTER_TABLES",
@@ -1319,6 +1340,29 @@
       "status": "semantic",
       "required_labels": [
         "DeactivateCurrentEnemy"
+      ]
+    },
+    {
+      "id": "enemy_lifetime",
+      "path": "src/game/current_enemy_deactivation.asm",
+      "segment": "PRG_ENEMY_LIFETIME",
+      "start": "0xb4c4",
+      "end": "0xb4f0",
+      "status": "semantic",
+      "required_labels": [
+        "ApplyEnemyLifetimeThreshold",
+        "FinishEnemyLifetimeThreshold"
+      ]
+    },
+    {
+      "id": "filler_before_special_rooms",
+      "path": "src/game/current_enemy_deactivation.asm",
+      "segment": "PRG_FILLER_BEFORE_SPECIAL_ROOMS",
+      "start": "0xb4f1",
+      "end": "0xb7ff",
+      "status": "semantic",
+      "required_labels": [
+        "FillerBeforeB800"
       ]
     },
     {

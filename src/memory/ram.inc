@@ -160,6 +160,9 @@ HeadCollisionTargetMapIndex = $007F
 EnemyAiState = $04F7
 EnemyAiStateStride = 8
 EnemyAiStateCount = 17
+EnemyAiFlagsOffset = $00
+EnemyAiFirstLinkedSlotOffset = $06
+EnemyAiSecondLinkedSlotOffset = $07
 
 ObjectRecordSize = $14
 ObjectStateOffset = $00

@@ -427,7 +427,7 @@ def command_lint(_args: argparse.Namespace) -> None:
             "ObjectRecordPointerHighTable:",
         ),
         "src/preservation/prg.asm": (
-            '.segment "PRG_BANK_0"',
+            '.segment "PRG_PRE_STARTUP"',
             "CPU $80FF",
         ),
         "src/graphics/chr.asm": (

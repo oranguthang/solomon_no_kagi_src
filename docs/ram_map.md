@@ -56,7 +56,7 @@ range is understood.
 | `$0452` | remaining lives | high |
 | `$0453-$0454` | collected and queued fairies | high |
 | `$05BE` | total extra lives acquired; overlaps auxiliary-object byte 3 | high |
-| `$04F7-$057E` | 17 eight-byte enemy AI records | tentative/high |
+| `$04F7-$057E` | 17 eight-byte enemy AI records; bytes 6-7 can hold two linked slot indices | high |
 | `$057F-$070F` | `$14`-byte gameplay object records | high |
 
 The last object base is `$070F`; a full `$14`-byte record therefore reaches

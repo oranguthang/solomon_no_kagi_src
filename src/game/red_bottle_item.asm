@@ -48,8 +48,6 @@ FinishRedBottleItem:
 DefeatedEnemyIndex = $02
 EnemyDropTableOffset = $03
 EnemyAiSecondaryStateOffset = $01
-EnemyAiFirstLinkedSlotOffset = $06
-EnemyAiSecondLinkedSlotOffset = $07
 EnemyDropInactiveMarker = $80
 EnemyDropObjectState = $C6
 EnemyDropObjectType = $14
