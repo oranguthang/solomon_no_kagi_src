@@ -123,13 +123,16 @@ ThreadEntryTableBases:
     .addr CastFireballFromInventory - 1
     .addr RoomClearThread - 1
     .addr RoomLoadThread - 1
-    .byte $51, $c8, $6d, $ca, $09, $cb
+    .addr PreparePostGameResult - 1
+    .byte $6d, $ca, $09, $cb
     .byte $9e, $8e
     .addr PauseGameThread - 1
     .byte $2a, $cb, $ff, $9f
-    .byte $e6, $c7, $86, $c5, $89, $c7
+    .addr RunDanaDeathTransition - 1
+    .byte $86, $c5
+    .addr RunTimeOverTransition - 1
     .addr RunKeyCollectionPresentation - 1
-    .byte $31, $c8
+    .addr FinalizeGameplayExit - 1
     .addr RunMapItemPresentation - 1
     .addr RunExtraLifeMapItemPresentation - 1
     .addr RunEnemyItemPresentation - 1

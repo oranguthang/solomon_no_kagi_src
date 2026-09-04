@@ -67,7 +67,7 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	src/game/timer_item_effects.asm \
 	src/game/inventory_item_effects.asm \
 	src/data/item_scores.asm src/game/auxiliary_effect.asm \
-	src/game/score.asm \
+	src/game/score.asm src/game/gameplay_exit_transition.asm \
 	src/game/coordinate_conversion.asm \
 	src/game/timer_display.asm src/game/enemy_movement.asm \
 	src/game/enemy_ai_dispatch.asm \

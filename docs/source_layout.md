@@ -71,6 +71,10 @@ Item score tables and the shared auxiliary-effect initializer own
 `$C710-$C73A`.
 Shared decimal score addition owns `$C73B-$C755`.
 Secondary-context transition reset owns `$C756-$C789`.
+The complete cooperative gameplay-exit flow owns `$C78A-$C980`: life-loss and
+`TIME OVER` presentation, `YOUR GDV` calculation, best-score replacement, and
+selection of the next room or post-game thread. Its static presentation data
+immediately follows at `$C981-$C9A6`.
 The shared room-transition state reset owns `$C9A7-$C9BC`.
 Descriptor-driven direct PPU nametable clearing owns `$C9BD-$CA32`, followed
 by its three nine-byte descriptor records at `$CA33-$CA3B`.
@@ -204,7 +208,8 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_AUXILIARY_EFFECT` | shared auxiliary-object effect initializer | 35 |
 | `PRG_SCORE_ADDITION` | gated unpacked-decimal score addition | 27 |
 | `PRG_SECONDARY_THREAD_RESET` | stop other secondary contexts for transitions | 52 |
-| `PRG_POST_SECONDARY_THREAD_RESET` | unresolved transition flow `$C78A-$C9A6` | 541 |
+| `PRG_GAMEPLAY_EXIT_FLOW` | life-loss, `TIME OVER`, GDV, and exit-thread selection | 503 |
+| `PRG_GAMEPLAY_EXIT_DATA` | mask cycle, `TIME OVER`, and result PPU data | 38 |
 | `PRG_ROOM_TRANSITION_RESET` | shared transition context/flag/fireball reset | 22 |
 | `PRG_NAMETABLE_CLEAR` | descriptor-driven tile and attribute clearing | 118 |
 | `PRG_NAMETABLE_CLEAR_DATA` | three width/start/row-count descriptors | 9 |

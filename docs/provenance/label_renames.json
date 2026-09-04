@@ -6565,6 +6565,134 @@
     {
       "address": "0xb41b", "previous": "_label_bank0_b41b", "current": "AddEnemyForwardXOffset", "confidence": "confirmed",
       "evidence": ["Left and right offset branches converge here to add object X and then an eight-pixel object Y offset."]
+    },
+    {
+      "address": "0xc78a", "previous": "$C78A", "current": "RunTimeOverTransition", "confidence": "confirmed",
+      "evidence": ["Scheduler code $33 enters here; the routine cycles LifeLossPpuMaskCycle before publishing the literal TIME OVER PPU stream."]
+    },
+    {
+      "address": "0xc7a0", "previous": "_label_bank0_c7a0", "current": "AdvanceTimeOverMaskCycle", "confidence": "confirmed",
+      "evidence": ["The loop waits four gameplay ticks, advances a saved step, and indexes the four-entry PPUMASK cycle until step $18."]
+    },
+    {
+      "address": "0xc7c3", "previous": "_label_bank0_c7c3", "current": "ShowTimeOverMessage", "confidence": "confirmed",
+      "evidence": ["After waiting for the prior PPU stream to finish, this block publishes TimeOverPpuUpdateStream and holds it for $64 update ticks."]
+    },
+    {
+      "address": "0xc7e7", "previous": "$C7E7", "current": "RunDanaDeathTransition", "confidence": "confirmed",
+      "evidence": ["Scheduler code $31 enters here; the path configures Dana's object action and downward motion before yielding on DanaYPosition."]
+    },
+    {
+      "address": "0xc815", "previous": "_label_bank0_c815", "current": "WaitForDanaDeathFall", "confidence": "confirmed",
+      "evidence": ["The cooperative loop yields until DanaYPosition reaches the fixed lower limit $D1."]
+    },
+    {
+      "address": "0xc821", "previous": "_label_bank0_c821", "current": "FinishDanaDeathAnimation", "confidence": "high",
+      "evidence": ["After the Y-limit comparison succeeds, this block advances Dana's action twice and waits $30 update ticks before cleanup."]
+    },
+    {
+      "address": "0xc832", "previous": "_label_bank0_c832", "current": "FinalizeGameplayExit", "confidence": "confirmed",
+      "evidence": ["Scheduler code $35 and both presentation paths converge here to deactivate objects, clear the screen and pools, and select the next outcome."]
+    },
+    {
+      "address": "0xc849", "previous": "_label_bank0_c849", "current": "CheckRemainingLivesAfterExit", "confidence": "confirmed",
+      "evidence": ["The block decrements RemainingLives in X, entering the result path at zero and the room-reload path otherwise."]
+    },
+    {
+      "address": "0xc852", "previous": "_label_bank0_c852", "current": "PreparePostGameResult", "confidence": "confirmed",
+      "evidence": ["Scheduler code $16 enters the formula that produces the value inserted into the literal YOUR GDV PPU template."]
+    },
+    {
+      "address": "0xc867", "previous": "_label_bank0_c867", "current": "AccumulatePostGameRoomFactor", "confidence": "high",
+      "evidence": ["Both states of RoomStateFlags bit two converge here with its contribution in carry before the first factor accumulation."]
+    },
+    {
+      "address": "0xc88b", "previous": "_label_bank0_c88b", "current": "SelectMaximumScoreFactor", "confidence": "confirmed",
+      "evidence": ["Nonzero leading score digits and a third digit of at least five both clamp the score contribution to five here."]
+    },
+    {
+      "address": "0xc88d", "previous": "_label_bank0_c88d", "current": "AddScoreFactorToGdv", "confidence": "confirmed",
+      "evidence": ["The selected zero-to-five value is added to the accumulated post-game result in TempPointer00."]
+    },
+    {
+      "address": "0xc89b", "previous": "_label_bank0_c89b", "current": "FinishGdvCalculation", "confidence": "confirmed",
+      "evidence": ["The accumulated factors receive base $2F, are compared with the persistent best value, and then become CurrentGdvValue."]
+    },
+    {
+      "address": "0xc8a9", "previous": "_label_bank0_c8a9", "current": "StoreCurrentGdv", "confidence": "confirmed",
+      "evidence": ["Both the new-best and below-best paths store the just-calculated value in CurrentGdvValue here."]
+    },
+    {
+      "address": "0xc8b0", "previous": "_label_bank0_c8b0", "current": "ClearGdvFactors", "confidence": "confirmed",
+      "evidence": ["The three-byte reverse loop clears GdvFactor0 through GdvFactor2 after consuming them."]
+    },
+    {
+      "address": "0xc8b8", "previous": "_label_bank0_c8b8", "current": "CompareScoreWithBest", "confidence": "confirmed",
+      "evidence": ["An eight-byte subtract-with-carry loop compares ScoreDigits with the persistent BestScoreDigits record."]
+    },
+    {
+      "address": "0xc8c5", "previous": "_label_bank0_c8c5", "current": "CopyNewBestScore", "confidence": "confirmed",
+      "evidence": ["When the score comparison does not borrow, this eight-byte reverse loop copies ScoreDigits into BestScoreDigits."]
+    },
+    {
+      "address": "0xc8ce", "previous": "_label_bank0_c8ce", "current": "FinishBestScoreUpdate", "confidence": "confirmed",
+      "evidence": ["Both score comparison outcomes converge here before the result-screen counters are initialized."]
+    },
+    {
+      "address": "0xc8d4", "previous": "_label_bank0_c8d4", "current": "ResetPostGameCounters", "confidence": "confirmed",
+      "evidence": ["This four-byte reverse loop clears the contiguous counters at $042C-$042F before result-screen initialization."]
+    },
+    {
+      "address": "0xc8fb", "previous": "_label_bank0_c8fb", "current": "CopyPostGameResultTemplate", "confidence": "confirmed",
+      "evidence": ["The loop copies all fifteen bytes of PostGameResultPpuTemplate before formatting and patching its two GDV digits."]
+    },
+    {
+      "address": "0xc913", "previous": "_label_bank0_c913", "current": "WaitForPostGameDecision", "confidence": "high",
+      "evidence": ["The thread yields while checking controller code $C8 and a reused counter high byte, then selects reset or post-game flow."]
+    },
+    {
+      "address": "0xc924", "previous": "_label_bank0_c924", "current": "StartPostGameThread", "confidence": "confirmed",
+      "evidence": ["This block clears GameStateFlags bit zero and selects scheduler code $17 before joining the common thread-start tail."]
+    },
+    {
+      "address": "0xc928", "previous": "$C928", "current": "SelectPostGameThread", "confidence": "confirmed",
+      "evidence": ["The GameStateFlags-clear path and the direct exit path converge exactly at the load of scheduler code $17."]
+    },
+    {
+      "address": "0xc92c", "previous": "_label_bank0_c92c", "current": "ResetForNewGameAfterResult", "confidence": "high",
+      "evidence": ["The controller-selected route clears score digits and selected state bits, clamps progression after room $28, and prepares three lives."]
+    },
+    {
+      "address": "0xc93b", "previous": "_label_bank0_c93b", "current": "ClearScoreForNewGame", "confidence": "confirmed",
+      "evidence": ["The eight-iteration reverse loop stores zero across the complete unpacked ScoreDigits array."]
+    },
+    {
+      "address": "0xc957", "previous": "_label_bank0_c957", "current": "SelectNewGameLives", "confidence": "high",
+      "evidence": ["The new-game result route loads X with three here before joining the room-load selection logic."]
+    },
+    {
+      "address": "0xc959", "previous": "$C959", "current": "ReloadRoomAfterLifeLoss", "confidence": "confirmed",
+      "evidence": ["The non-final-life branch arrives with decremented lives in X and proceeds to select room-load scheduler code $15."]
+    },
+    {
+      "address": "0xc964", "previous": "_label_bank0_c964", "current": "SelectRoomLoadThread", "confidence": "confirmed",
+      "evidence": ["Both FireballState branches converge here to select scheduler code $15 for room loading."]
+    },
+    {
+      "address": "0xc966", "previous": "_label_bank0_c966", "current": "StartGameplayExitThread", "confidence": "confirmed",
+      "evidence": ["All outcomes store the selected life count, clear the nametable, start the chosen scheduler code, clear gameplay object state, and stop context 3."]
+    },
+    {
+      "address": "0xc981", "previous": "$C981", "current": "LifeLossPpuMaskCycle", "confidence": "confirmed",
+      "evidence": ["The $C78A life-loss entry repeatedly indexes these four values and merges them into PpuMaskShadow during its 24-step display cycle."]
+    },
+    {
+      "address": "0xc985", "previous": "$C985", "current": "TimeOverPpuUpdateStream", "confidence": "confirmed",
+      "evidence": ["The transition writes this address to PpuUpdateStreamPointer; the payload contains the visible tile sequence for TIME OVER. and a terminating zero."]
+    },
+    {
+      "address": "0xc998", "previous": "$C998", "current": "PostGameResultPpuTemplate", "confidence": "confirmed",
+      "evidence": ["A fifteen-byte reverse loop copies this complete template to PpuUpdateBuffer before patching two result-value bytes."]
     }
   ]
 }

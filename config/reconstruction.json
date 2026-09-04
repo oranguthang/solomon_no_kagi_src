@@ -1776,6 +1776,47 @@
       ]
     },
     {
+      "id": "gameplay_exit_transition",
+      "path": "src/game/gameplay_exit_transition.asm",
+      "segment": "PRG_GAMEPLAY_EXIT_FLOW",
+      "start": "0xc78a",
+      "end": "0xc980",
+      "status": "semantic",
+      "required_labels": [
+        "RunTimeOverTransition",
+        "AdvanceTimeOverMaskCycle",
+        "ShowTimeOverMessage",
+        "RunDanaDeathTransition",
+        "WaitForDanaDeathFall",
+        "FinishDanaDeathAnimation",
+        "FinalizeGameplayExit",
+        "CheckRemainingLivesAfterExit",
+        "PreparePostGameResult",
+        "FinishGdvCalculation",
+        "CompareScoreWithBest",
+        "CopyNewBestScore",
+        "CopyPostGameResultTemplate",
+        "WaitForPostGameDecision",
+        "SelectPostGameThread",
+        "ResetForNewGameAfterResult",
+        "ReloadRoomAfterLifeLoss",
+        "StartGameplayExitThread"
+      ]
+    },
+    {
+      "id": "gameplay_exit_data",
+      "path": "src/game/room_transition_reset.asm",
+      "segment": "PRG_GAMEPLAY_EXIT_DATA",
+      "start": "0xc981",
+      "end": "0xc9a6",
+      "status": "semantic",
+      "required_labels": [
+        "LifeLossPpuMaskCycle",
+        "TimeOverPpuUpdateStream",
+        "PostGameResultPpuTemplate"
+      ]
+    },
+    {
       "id": "room_transition_reset",
       "path": "src/game/room_transition_reset.asm",
       "segment": "PRG_ROOM_TRANSITION_RESET",

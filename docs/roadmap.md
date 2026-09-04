@@ -182,6 +182,12 @@ decrease.
   digits and is gated by `GameStateFlags` bit 0;
 - `$C756-$C789`: six transition paths stop all other secondary contexts and
   clear the pending-start area through one shared reset helper;
+- `$C78A-$C980`: scheduler entries `$33`, `$31`, `$35`, and `$16` implement
+  the cooperative `TIME OVER` and Dana-death presentations, shared pool
+  cleanup, `YOUR GDV` calculation, best-score replacement, and next-thread
+  selection;
+- `$C981-$C9A6`: the life-loss PPU-mask cycle, `TIME OVER.` stream, and
+  patchable post-game result template are source-owned;
 - `$C9A7-$C9BC`: the larger `$C78A` transition scene shares one context,
   gameplay-flag, fireball, and sound reset helper across two paths;
 - `$C9BD-$CA32`: two public wrappers select descriptor-driven direct PPU

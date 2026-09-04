@@ -1,7 +1,13 @@
 # Room-transition state reset
 
-`src/game/room_transition_reset.asm` owns CPU `$C9A7-$C9BC`. Both callers are
-inside the larger scene-transition flow beginning at `$C78A`.
+`src/game/room_transition_reset.asm` owns CPU `$C981-$C9BC`: the presentation
+data immediately before the reset helper and the helper itself. Both reset
+callers are named in the source-owned gameplay-exit flow beginning at `$C78A`.
+
+The data block contains the four-value PPU-mask cycle used by the life-loss
+animation, the direct PPU program that displays `TIME OVER.`, and a 15-byte
+post-game result template. The result flow copies that final template into the
+shared buffer and patches two value bytes before publication.
 
 `ResetRoomTransitionState` performs four operations:
 
@@ -11,6 +17,6 @@ inside the larger scene-transition flow beginning at `$C78A`.
 3. clears `FireballActive`;
 4. queues sound-effect command 3.
 
-The helper exposes a repeated room-transition boundary while leaving the
-surrounding animation, life handling, score comparison, and PPU work in the
-preservation listing until those paths are independently understood.
+The helper exposes a repeated room-transition boundary while the preceding
+animation, life handling, score comparison, and PPU control flow remains the
+next reconstruction range.

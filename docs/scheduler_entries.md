@@ -43,6 +43,12 @@ itself when that handler returns. The dispatcher covers all 53 room indices,
 including the four secret rooms whose offsets follow the old disassembler's
 apparent code boundary.
 
+The gameplay-exit family is also source-owned. Code `$33` enters
+`RunTimeOverTransition`, `$31` enters `RunDanaDeathTransition`, and `$35`
+enters their shared `FinalizeGameplayExit` stage in context 3. When no lives
+remain, code `$16` enters `PreparePostGameResult` in context 1 to calculate
+and display `YOUR GDV`.
+
 Context 4's complete selector family is now classified. `$40` enters
 `RunMapItemPresentation`, `$41` enters
 `RunExtraLifeMapItemPresentation`, `$42` enters

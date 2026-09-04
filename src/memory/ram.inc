@@ -88,6 +88,9 @@ WarmBootDefaultState = $07F6
 
 Joypad1Raw = $0082
 Joypad2Raw = $0083
+GdvFactor0 = $0084
+GdvFactor1 = $0085
+GdvFactor2 = $0086
 GameStateFlags = $0078
 SolomonSealCount = $0079
 CollectedSolomonSealFlags = $007A
@@ -141,7 +144,11 @@ ScoreDigits = $044A
 RemainingLives = $0452
 FairiesCollected = $0453
 FairiesQueued = $0454
+CurrentGdvValue = $0455
 ExtraLivesAcquiredTotal = $05BE
+
+BestGdvValue = WarmBootMarker
+BestScoreDigits = WarmBootDefaultState
 
 RoomItemStreamOffset = $0000
 RoomItemScratch = $0000

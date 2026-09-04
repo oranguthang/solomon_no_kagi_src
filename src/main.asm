@@ -103,6 +103,7 @@
 .include "data/item_scores.asm"
 .include "game/auxiliary_effect.asm"
 .include "game/score.asm"
+.include "game/gameplay_exit_transition.asm"
 .include "game/timer_display.asm"
 .include "game/enemy_movement.asm"
 .include "game/enemy_ai_dispatch.asm"
