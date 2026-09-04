@@ -33,13 +33,28 @@ The currently referenced static entries are:
 | `$50` | 5 | 0 | `$8E43` | `$8E43` | `$C0FF` | `$C100` |
 | `$60` | 6 | 0 | `$8E45` | `$8E45` | `$B7FF` | `$B800` |
 
+Code `$50` is now source-owned as `ProcessDefeatedEnemyDrops`. The red-bottle
+item marks eligible enemy records and starts this context, which converts all
+marked records into table-selected drop objects before stopping context 5.
+
+Context 4's complete selector family is now classified. `$40` enters
+`RunMapItemPresentation`, `$41` enters
+`RunExtraLifeMapItemPresentation`, `$42` enters
+`RunEnemyItemPresentation`, and `$43` enters
+`RunExtraLifeEnemyItemPresentation`. Only `$42/$43` appear as direct immediate
+calls in the static inventory because `$40/$41` are selected through
+`ItemInteractionThreadCode` after map-item dispatch.
+
 There are 18 immediate calls using those 16 distinct codes and three calls
 whose accumulator value is selected dynamically. Dynamic calls are recorded
 as a count because static source inspection cannot prove their runtime values.
 
-One additional table slot is independently reconstructed even though its
-caller selects the code dynamically:
+Four additional table slots are independently reconstructed even though their
+callers select the code dynamically:
 
 | Code | Context | Selector | Base | Slot | Stored return | Entry |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | `$21` | 2 | 1 | `$8E29` | `$8E2B` | `$8E46` | `PauseGameThread` (`$8E47`) |
+| `$34` | 3 | 4 | `$8E2F` | `$8E37` | `$C23B` | `RunKeyCollectionPresentation` (`$C23C`) |
+| `$40` | 4 | 0 | `$8E3B` | `$8E3B` | `$C394` | `RunMapItemPresentation` (`$C395`) |
+| `$41` | 4 | 1 | `$8E3B` | `$8E3D` | `$C385` | `RunExtraLifeMapItemPresentation` (`$C386`) |

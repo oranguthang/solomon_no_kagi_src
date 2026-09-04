@@ -5328,6 +5328,384 @@
       "evidence": [
         "Two ASL/ROL pairs multiply the sign-extended 16-bit difference by four before it is stored in the scratch output layout."
       ]
+    },
+    {
+      "address": "0xc2a6",
+      "previous": "$C2A6",
+      "current": "AnimateDoorUnlockFromDanaPosition",
+      "confidence": "high",
+      "evidence": [
+        "RoomLoadThread calls this entry only when GameplayFlags bit $20 is set; it selects room-header offset 7, Dana's packed start position, before entering the shared key-to-door animation."
+      ]
+    },
+    {
+      "address": "0xc2a8",
+      "previous": "$C2A8",
+      "current": "AnimateKeyToDoorFromHeaderPosition",
+      "confidence": "confirmed",
+      "evidence": [
+        "The context-3 key follow-up calls this entry with Y=6, the confirmed key-position header offset; both entries convert that origin and target header offset 5, the door position, to pixel coordinates."
+      ]
+    },
+    {
+      "address": "0xc2c3",
+      "previous": "_label_bank0_c2c3",
+      "current": "CopyKeyFlightObjectTemplate",
+      "confidence": "confirmed",
+      "evidence": [
+        "The descending Y=5..0 loop copies all six bytes of KeyFlightObjectTemplate into AuxiliaryObject before the flight starts."
+      ]
+    },
+    {
+      "address": "0xc2d6",
+      "previous": "_label_bank0_c2d6",
+      "current": "CopyKeyFlightMotionVector",
+      "confidence": "confirmed",
+      "evidence": [
+        "The four-byte loop copies the signed Y/X deltas from zero-page $02-$05 into RoomMap offsets 4-7, which AdvanceKeyFlightArc subsequently treats as two motion words."
+      ]
+    },
+    {
+      "address": "0xc2e1",
+      "previous": "_label_bank0_c2e1",
+      "current": "WaitForKeyFlightFrame",
+      "confidence": "confirmed",
+      "evidence": [
+        "This loop rejects an unchanged GameplayUpdateCount, advances motion once per changed value, and finishes when the count reaches $40."
+      ]
+    },
+    {
+      "address": "0xc2ef",
+      "previous": "_label_bank0_c2ef",
+      "current": "CopyKeyFlightPointers",
+      "confidence": "confirmed",
+      "evidence": [
+        "The four-byte reverse copy installs the two little-endian KeyFlightPointers values in zero-page pointer pairs $2C-$2F before motion integration."
+      ]
+    },
+    {
+      "address": "0xc2fa",
+      "previous": "_label_bank0_c2fa",
+      "current": "YieldKeyFlightThread",
+      "confidence": "confirmed",
+      "evidence": [
+        "Both unchanged- and updated-frame paths converge on SwitchThreads before the cooperative animation loop resumes."
+      ]
+    },
+    {
+      "address": "0xc2ff",
+      "previous": "_label_bank0_c2ff",
+      "current": "FinishKeyFlight",
+      "confidence": "confirmed",
+      "evidence": [
+        "GameplayUpdateCount values at or above $40 enter this cleanup, which restores RoomMap boundary sentinels, deactivates AuxiliaryObject, and publishes the two door tiles."
+      ]
+    },
+    {
+      "address": "0xc303",
+      "previous": "_label_bank0_c303",
+      "current": "ClearKeyFlightScratch",
+      "confidence": "confirmed",
+      "evidence": [
+        "The descending eight-byte loop restores $F8 to RoomMap offsets 0-7, including the four temporary motion bytes."
+      ]
+    },
+    {
+      "address": "0xc31d",
+      "previous": "$C31D",
+      "current": "PublishKeyDoorTile",
+      "confidence": "confirmed",
+      "evidence": [
+        "The caller supplies transition tile $34 and later open tile $07 in A; this shared tail reads the door index from header offset 5 and publishes that RoomMap cell."
+      ]
+    },
+    {
+      "address": "0xc328",
+      "previous": "$C328",
+      "current": "KeyFlightObjectTemplate",
+      "confidence": "confirmed",
+      "evidence": [
+        "CopyKeyFlightObjectTemplate copies these six bytes to AuxiliaryObject offsets 0-5 immediately before animating it from key or Dana coordinates to the door."
+      ]
+    },
+    {
+      "address": "0xc32e",
+      "previous": "$C32E",
+      "current": "KeyFlightPointers",
+      "confidence": "confirmed",
+      "evidence": [
+        "The two words are $0304 and $05BB, the RoomMap scratch base and AuxiliaryObject base consumed through zero-page pointers $2C and $2E."
+      ]
+    },
+    {
+      "address": "0xc332",
+      "previous": "$C332",
+      "current": "AdvanceKeyFlightArc",
+      "confidence": "confirmed",
+      "evidence": [
+        "Once per changed animation tick, this routine adds $0008 to the signed Y motion word and falls through to apply both Y and X words to AuxiliaryObject."
+      ]
+    },
+    {
+      "address": "0xc342",
+      "previous": "$C342",
+      "current": "ApplyMotionVectorToObject",
+      "confidence": "confirmed",
+      "evidence": [
+        "Three callers enter here to reset X before the four-byte source-to-object fixed-point addition; two callers use the helper independently of key-flight gravity."
+      ]
+    },
+    {
+      "address": "0xc344",
+      "previous": "_label_bank0_c344",
+      "current": "ApplyNextMotionVectorWord",
+      "confidence": "confirmed",
+      "evidence": [
+        "Each iteration clears carry, calls the byte helper twice to preserve carry across one little-endian word, and repeats until four bytes have been applied."
+      ]
+    },
+    {
+      "address": "0xc350",
+      "previous": "$C350",
+      "current": "AddMotionVectorByteToObject",
+      "confidence": "confirmed",
+      "evidence": [
+        "The helper selects one source and destination offset by X, adds through zero-page pointers $2C and $2E with inherited carry, stores the result, and advances X."
+      ]
+    },
+    {
+      "address": "0xc35e",
+      "previous": "$C35E",
+      "current": "MotionVectorSourceOffsets",
+      "confidence": "confirmed",
+      "evidence": [
+        "Four indexed reads beginning here produce offsets $04,$05,$06,$07; the last two bytes deliberately overlap the following destination table."
+      ]
+    },
+    {
+      "address": "0xc360",
+      "previous": "$C360",
+      "current": "MotionVectorDestinationOffsets",
+      "confidence": "confirmed",
+      "evidence": [
+        "The four destination offsets $06,$07,$09,$0A are the Y fraction/integer and X fraction/integer fields in the confirmed object-record layout."
+      ]
+    },
+    {
+      "address": "0xc386",
+      "previous": "$C386",
+      "current": "RunExtraLifeMapItemPresentation",
+      "confidence": "confirmed",
+      "evidence": [
+        "Scheduler selector $41 enters here after the map classifier awards an extra life; this entry clears the originating map cell before joining the $40-tick moving effect."
+      ]
+    },
+    {
+      "address": "0xc389",
+      "previous": "$C389",
+      "current": "RunExtraLifeEnemyItemPresentation",
+      "confidence": "confirmed",
+      "evidence": [
+        "Scheduler selector $43 enters here from enemy reward paths that have awarded an extra life; it sets AuxiliaryObject Y motion to $C0 and selects the long presentation."
+      ]
+    },
+    {
+      "address": "0xc395",
+      "previous": "$C395",
+      "current": "RunMapItemPresentation",
+      "confidence": "confirmed",
+      "evidence": [
+        "Dynamically selected context-4 code $40 enters here for ordinary map collectibles, clears their source cell, and joins the short effect lifecycle."
+      ]
+    },
+    {
+      "address": "0xc398",
+      "previous": "$C398",
+      "current": "RunEnemyItemPresentation",
+      "confidence": "confirmed",
+      "evidence": [
+        "Direct scheduler code $42 calls from enemy reward paths enter here, skipping the map-origin cleanup and selecting the $12-tick lifecycle."
+      ]
+    },
+    {
+      "address": "0xc39d",
+      "previous": "_label_bank0_c39d",
+      "current": "WaitForItemPresentation",
+      "confidence": "confirmed",
+      "evidence": [
+        "All four context-4 entries converge with a duration in A, reset NMI frame counter $24, cooperatively wait past that threshold, deactivate AuxiliaryObject, and stop context 4."
+      ]
+    },
+    {
+      "address": "0xc3b0",
+      "previous": "$C3B0",
+      "current": "ClearAuxiliaryItemMapCell",
+      "confidence": "confirmed",
+      "evidence": [
+        "Two map-origin entries call this helper; it converts AuxiliaryObject integer Y/X back to a map index, stores interior tile $10, publishes the cell, and brackets the mutation with $0087 bit 0."
+      ]
+    },
+    {
+      "address": "0xc23c",
+      "previous": "_label_bank0_c23c",
+      "current": "RunKeyCollectionPresentation",
+      "confidence": "confirmed",
+      "evidence": [
+        "Scheduler selector $34 resolves to this context-3 entry; CollectRoomKey selects that code after setting the collected-key flag and the routine removes header key position 6 before animating it to door position 5."
+      ]
+    },
+    {
+      "address": "0xc247",
+      "previous": "_label_bank0_c247",
+      "current": "PauseObjectsForKeyCollection",
+      "confidence": "high",
+      "evidence": [
+        "After Dana state bit 0 clears, this block clears state bit 6 on Dana and FireballObject, taking their values below the object updater's $C0 active threshold while saving the fireball state in byte 2."
+      ]
+    },
+    {
+      "address": "0xc25a",
+      "previous": "_label_bank0_c25a",
+      "current": "PauseNextEnemyForKeyCollection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The seventeen-iteration loop saves each enemy object's state byte 0 in byte 2 and clears bit 6 from state for the duration of the key animation."
+      ]
+    },
+    {
+      "address": "0xc26f",
+      "previous": "$C26F",
+      "current": "RemoveCollectedKeyFromRoomMap",
+      "confidence": "confirmed",
+      "evidence": [
+        "The block reads room-header offset 6, replaces that key cell with interior tile $10, publishes it, and invokes AnimateKeyToDoorFromHeaderPosition with the same header offset."
+      ]
+    },
+    {
+      "address": "0xc287",
+      "previous": "_label_bank0_c287",
+      "current": "RestoreNextEnemyAfterKeyCollection",
+      "confidence": "confirmed",
+      "evidence": [
+        "After the key flight, this seventeen-iteration loop copies every enemy object's saved byte 2 back to state byte 0."
+      ]
+    },
+    {
+      "address": "0xc296",
+      "previous": "$C296",
+      "current": "ResumeGameplayAfterKeyCollection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The final block sets Dana state $E0, restores FireballObject state from byte 2, and replaces the current context with scheduler code $30, MainGameplayThread."
+      ]
+    },
+    {
+      "address": "0xc100",
+      "previous": "$C100",
+      "current": "ProcessDefeatedEnemyDrops",
+      "confidence": "confirmed",
+      "evidence": [
+        "Scheduler code $50 enters here; the complete seventeen-record sweep transforms enemies carrying state bit 0 into type-$14 drop objects and stops context 5."
+      ]
+    },
+    {
+      "address": "0xc104",
+      "previous": "_label_bank0_c104",
+      "current": "CheckNextDefeatedEnemy",
+      "confidence": "confirmed",
+      "evidence": [
+        "The loop resolves the current enemy object and rejects records that are inactive or do not carry the retirement bit before consulting drop data."
+      ]
+    },
+    {
+      "address": "0xc13a",
+      "previous": "_label_bank0_c13a",
+      "current": "CheckSecondLinkedEnemy",
+      "confidence": "high",
+      "evidence": [
+        "After optional retirement of the slot in AI byte 6, this branch tests the next AI-state flag and optionally retires the slot in byte 7."
+      ]
+    },
+    {
+      "address": "0xc144",
+      "previous": "_label_bank0_c144",
+      "current": "SelectEnemyDrop",
+      "confidence": "confirmed",
+      "evidence": [
+        "This block masks AdvanceRandomState to three bits, adds the enemy-type group offset, and reads the resulting drop code from the eighty-byte table."
+      ]
+    },
+    {
+      "address": "0xc16a",
+      "previous": "_label_bank0_c16a",
+      "current": "AdvanceDefeatedEnemyScan",
+      "confidence": "confirmed",
+      "evidence": [
+        "The block decrements the enemy index, repeats while it remains nonnegative, then queues sound $09 and stops scheduler context 5."
+      ]
+    },
+    {
+      "address": "0xc178",
+      "previous": "$C178",
+      "current": "EnemyDropTableOffsetsByTypeGroup",
+      "confidence": "confirmed",
+      "evidence": [
+        "The defeated-enemy consumer indexes this 27-byte table with the object type divided by four minus six and adds the result to a three-bit random selector."
+      ]
+    },
+    {
+      "address": "0xc193",
+      "previous": "$C193",
+      "current": "EnemyDropTypeTable",
+      "confidence": "confirmed",
+      "evidence": [
+        "The consumer reads one of ten eight-entry groups here and writes the selected value to AI-state byte 6 before creating the type-$14 object."
+      ]
+    },
+    {
+      "address": "0xc1e3",
+      "previous": "$C1E3",
+      "current": "AdvanceRandomState",
+      "confidence": "confirmed",
+      "evidence": [
+        "Seven call sites use the returned byte for masked room placement, enemy behavior, or drop selection; the routine updates the persistent state at $0448-$0449 on every call."
+      ]
+    },
+    {
+      "address": "0xc1f7",
+      "previous": "_label_bank0_c1f7",
+      "current": "MixRandomState",
+      "confidence": "high",
+      "evidence": [
+        "Both the ordinary path and the Demon-Mirror-state reseed path converge here to initialize the seed word and run two fixed shift/add rounds."
+      ]
+    },
+    {
+      "address": "0xc221",
+      "previous": "$C221",
+      "current": "AccumulateRandomSeedMask",
+      "confidence": "high",
+      "evidence": [
+        "The caller invokes this helper twice with masks $7C and $FC; each invocation performs exactly eight seed shifts and conditional accumulator additions."
+      ]
+    },
+    {
+      "address": "0xc223",
+      "previous": "_label_bank0_c223",
+      "current": "MixNextRandomSeedBit",
+      "confidence": "high",
+      "evidence": [
+        "This is the eight-iteration loop body that consumes one mask bit and conditionally adds the current seed word to the accumulator."
+      ]
+    },
+    {
+      "address": "0xc234",
+      "previous": "_label_bank0_c234",
+      "current": "ShiftRandomSeedWord",
+      "confidence": "confirmed",
+      "evidence": [
+        "Every mixing iteration shifts the two-byte seed right here before decrementing the fixed round counter."
+      ]
     }
   ]
 }

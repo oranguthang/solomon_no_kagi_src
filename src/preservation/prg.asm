@@ -925,8 +925,8 @@ _label_bank0_a55d:
     SBC #$01
     CMP #$04
     BCC _label_bank0_a581
-    JSR $C4A1
-    LDA #$43
+    JSR AwardExtraLifeFromMapTile
+    LDA #ExtraLifeEnemyInteractionThread
     JSR StartThread
     JMP DeactivateCurrentEnemy
 
@@ -934,7 +934,7 @@ _label_bank0_a581:
     JSR $A5A3
 
 _label_bank0_a584:
-    LDA #$42
+    LDA #EnemyItemInteractionThread
     JSR StartThread
     JMP DeactivateCurrentEnemy
 
@@ -1012,7 +1012,7 @@ _label_bank0_a5fe:
     LDY #$08
     LDA ($2E),Y
     BNE _label_bank0_a612
-    JSR $C1E3
+    JSR AdvanceRandomState
     LSR A
     LDA #$0C
     BCS _label_bank0_a60e
@@ -1417,15 +1417,15 @@ _label_bank0_a869:
     JSR AddSoundEffect
     LDX $0453
     INX
-    LDA #$42
+    LDA #EnemyItemInteractionThread
     CPX #$0A
     BCC _label_bank0_a8ab
     INC $86
     JSR LoadCurrentEnemyPosition
     JSR SpawnAuxiliaryEffectAtCoordinates
-    JSR $C4A1
+    JSR AwardExtraLifeFromMapTile
     LDX #$00
-    LDA #$43
+    LDA #ExtraLifeEnemyInteractionThread
 
 _label_bank0_a8ab:
     STX $0453
@@ -3658,7 +3658,7 @@ _label_bank0_baed:
     JSR LoadEnemyObjectPointer
     LDX #$02
     JSR $BE08
-    JSR $C342
+    JSR ApplyMotionVectorToObject
     DEC $07
     BPL _label_bank0_baed
 
@@ -3799,7 +3799,7 @@ _label_bank0_bbf9:
     STA ($2E),Y
 
 _label_bank0_bc06:
-    JSR $C342
+    JSR ApplyMotionVectorToObject
 
 _label_bank0_bc09:
     DEC $2A
@@ -3856,7 +3856,7 @@ _label_bank0_bc59:
     LSR A
     LSR A
     STA $03
-    JSR $C1E3
+    JSR AdvanceRandomState
 
 _label_bank0_bc69:
     CMP $03
@@ -3869,7 +3869,7 @@ _label_bank0_bc71:
     ADC #$D8
     LDY #$07
     STA ($00),Y
-    JSR $C1E3
+    JSR AdvanceRandomState
     ASL A
     LDY #$0A
     STA ($00),Y
@@ -4046,11 +4046,11 @@ _label_bank0_bd99:
     STA $03E8
     RTS
 
-    JSR $C1E3
+    JSR AdvanceRandomState
     LDY #$07
     STA ($2E),Y
     STA $02
-    JSR $C1E3
+    JSR AdvanceRandomState
     ASL A
     LDY #$0A
     STA ($2E),Y
@@ -4069,7 +4069,7 @@ _label_bank0_bdce:
     DEY
     DEX
     BPL _label_bank0_bdce
-    JSR $C1E3
+    JSR AdvanceRandomState
     CLC
     AND #$07
     ADC #$0C
@@ -4195,336 +4195,6 @@ _label_bank0_bfc5:
     .byte $02, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $00, $ff, $00
     .byte $bf, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $ff, $00, $ff
     .byte $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00
-
-    LDA #$10
-    STA $02
-
-_label_bank0_c104:
-    LDA $02
-    JSR LoadEnemyObjectPointer
-    LDY #$00
-    LDA ($00),Y
-    BPL _label_bank0_c16a
-    LSR A
-    BCC _label_bank0_c16a
-    INY
-    LDA ($00),Y
-    LSR A
-    LSR A
-    SEC
-    SBC #$06
-    BCC _label_bank0_c16a
-    TAX
-    LDA $C178,X
-    STA $03
-    LDA $02
-    JSR LoadEnemyAiPointer
-    LDA #$00
-    STA ($00),Y
-    TAY
-    LDA ($00),Y
-    LSR A
-    BCC _label_bank0_c13a
-    PHA
-    LDY #$06
-    LDA ($00),Y
-    JSR DeactivateEnemySlot
-    PLA
-
-_label_bank0_c13a:
-    LSR A
-    BCC _label_bank0_c144
-    LDY #$07
-    LDA ($00),Y
-    JSR DeactivateEnemySlot
-
-_label_bank0_c144:
-    LDA #$80
-    STA ($00),Y
-    JSR $C1E3
-    AND #$07
-    CLC
-    ADC $03
-    TAX
-    LDA $C193,X
-    LDY #$06
-    STA ($00),Y
-    LDA $02
-    JSR LoadEnemyObjectPointer
-    LDA #$C6
-    STA $04
-    LDA #$14
-    STA $05
-    LDA #$00
-    JSR InitializeObjectStateHeader
-
-_label_bank0_c16a:
-    DEC $02
-    BPL _label_bank0_c104
-    LDY #$09
-    JSR AddSoundEffect
-    LDA #$05
-    JSR StopThread
-
-    .byte $00, $00, $00, $48, $08, $08, $18, $10, $18, $10, $18
-    .byte $10, $18, $10, $20, $20, $20, $28, $28, $28, $30, $30, $38, $38, $40, $40, $00
-    .byte $00, $00, $00, $00, $00, $00, $00, $00, $04, $08, $08, $08, $09, $09, $09, $09
-    .byte $04, $08, $08, $08, $09, $09, $09, $0a, $08, $08, $09, $09, $09, $09, $0a, $0a
-    .byte $04, $0b, $0b, $0b, $0b, $0c, $0c, $0c, $0b, $0b, $0c, $0c, $0c, $0d, $0d, $02
-    .byte $0b, $0b, $0b, $0c, $0c, $03, $03, $06, $04, $0b, $0c, $0c, $0d, $0d, $02, $02
-    .byte $0e, $0e, $0e, $0e, $0f, $05, $05, $05, $0e, $0e, $0e, $0f, $0f, $0f, $05, $05
-
-    LDA $043E
-    CMP $3E
-    BEQ _label_bank0_c1f7
-    STA $3E
-    LDA $043C
-    STA $0448
-    LDA $20
-    STA $0449
-
-_label_bank0_c1f7:
-    LDA $0448
-    ORA #$01
-    STA $04
-    LDA $0449
-    STA $05
-    LDA #$00
-    STA $06
-    STA $07
-    LDY #$7C
-    JSR $C221
-    LDY #$FC
-    JSR $C221
-    LDA $07
-    AND #$7F
-    STA $0449
-    LDA $06
-    STA $0448
-    LSR A
-    RTS
-
-    LDX #$08
-
-_label_bank0_c223:
-    TYA
-    LSR A
-    TAY
-    BCS _label_bank0_c234
-    LDA $06
-    ADC $04
-    STA $06
-    LDA $07
-    ADC $05
-    STA $07
-
-_label_bank0_c234:
-    LSR $05
-    ROR $04
-    DEX
-    BNE _label_bank0_c223
-    RTS
-
-_label_bank0_c23c:
-    LDA $057F
-    ROR A
-    BCC _label_bank0_c247
-    JSR SwitchThreads
-    BCS _label_bank0_c23c
-
-_label_bank0_c247:
-    ASL A
-    AND #$BF
-    STA $057F
-    LDA $05A7
-    STA $05A9
-    AND #$BF
-    STA $05A7
-    LDX #$10
-
-_label_bank0_c25a:
-    TXA
-    JSR LoadEnemyObjectPointer
-    LDY #$00
-    LDA ($00),Y
-    PHA
-    AND #$BF
-    STA ($00),Y
-    LDY #$02
-    PLA
-    STA ($00),Y
-    DEX
-    BPL _label_bank0_c25a
-    LDY #$06
-    LDA ($30),Y
-    STA $02
-    TAX
-    LDA #$10
-    STA $0304,X
-    STA $03
-    JSR BuildAndPublishRoomMapCellUpdate
-    LDY #$06
-    JSR $C2A8
-    LDX #$10
-
-_label_bank0_c287:
-    TXA
-    JSR LoadEnemyObjectPointer
-    LDY #$02
-    LDA ($00),Y
-    LDY #$00
-    STA ($00),Y
-    DEX
-    BPL _label_bank0_c287
-    LDA #$E0
-    STA $057F
-    LDA $05A9
-    STA $05A7
-    LDA #$30
-    JSR StartThread
-    LDY #$07
-    LDA ($30),Y
-    STA $04
-    JSR ConvertMapIndexToPixelCoordinates
-    LDA $04
-    STA $02
-    STA $05C2
-    LDA $05
-    STA $03
-    STA $05C5
-    LDY #$05
-    LDA ($30),Y
-    STA $04
-
-_label_bank0_c2c3:
-    LDA $C328,Y
-    STA $05BB,Y
-    DEY
-    BPL _label_bank0_c2c3
-    JSR ConvertMapIndexToPixelCoordinates
-    JSR BuildScaledCoordinateDeltas
-    DEC $03
-    LDX #$03
-
-_label_bank0_c2d6:
-    LDA $02,X
-    STA $0308,X
-    DEX
-    BPL _label_bank0_c2d6
-    INX
-    STX $23
-
-_label_bank0_c2e1:
-    LDA $23
-    CMP #$40
-    BCS _label_bank0_c2ff
-    CMP $3E
-    BEQ _label_bank0_c2fa
-    STA $3E
-    LDX #$03
-
-_label_bank0_c2ef:
-    LDA $C32E,X
-    STA $2C,X
-    DEX
-    BPL _label_bank0_c2ef
-    JSR $C332
-
-_label_bank0_c2fa:
-    JSR SwitchThreads
-    BCS _label_bank0_c2e1
-
-_label_bank0_c2ff:
-    LDX #$07
-    LDA #$F8
-
-_label_bank0_c303:
-    STA $0304,X
-    DEX
-    BPL _label_bank0_c303
-    INX
-    STX $05BB
-    STX $23
-    LDA #$34
-    JSR $C31D
-    LDX #$23
-    LDA #$06
-    JSR WaitForZeroPageCounterAboveThreshold
-    LDA #$07
-    STA $03
-    LDY #$05
-    LDA ($30),Y
-    STA $02
-    JMP BuildAndPublishRoomMapCellUpdate
-
-    .byte $c2, $04, $ff, $0d, $ff, $c3, $04, $03, $bb, $05, $a0
-    .byte $04
-
-    LDA #$08
-    CLC
-    ADC ($2C),Y
-    STA ($2C),Y
-    INY
-    LDA #$00
-    ADC ($2C),Y
-    STA ($2C),Y
-    LDX #$00
-
-_label_bank0_c344:
-    CLC
-    JSR $C350
-    JSR $C350
-    CPX #$04
-    BNE _label_bank0_c344
-    RTS
-
-    LDY $C35E,X
-    LDA ($2C),Y
-    LDY $C360,X
-    ADC ($2E),Y
-    STA ($2E),Y
-    INX
-    RTS
-
-    .byte $04, $05, $06, $07, $09
-    .byte $0a
-
-.segment "PRG_POST_COORDINATE_DELTA"
-    JSR $C3B0
-    LDA #$C0
-    STA $05C0
-    JSR RefreshGameplayHud
-    LDA #$40
-    BNE _label_bank0_c39d
-    JSR $C3B0
-    JSR RefreshGameplayHud
-    LDA #$12
-
-_label_bank0_c39d:
-    LDX #$00
-    STX $24
-    LDX #$24
-    JSR WaitForZeroPageCounterAboveThreshold
-    LDA #$00
-    STA $05BB
-    LDA #$04
-    JSR StopThread
-    LDA #$01
-    ORA $87
-    STA $87
-    LDA $05C2
-    STA $04
-    LDA $05C5
-    STA $05
-    JSR ConvertPixelCoordinatesToMapIndex
-    LDA #$10
-    STA $0304,X
-    STX $02
-    STA $03
-    JSR BuildAndPublishRoomMapCellUpdate
-    LSR $87
-    ASL $87
-    RTS
 
 .segment "PRG_POST_SECONDARY_THREAD_RESET"
 

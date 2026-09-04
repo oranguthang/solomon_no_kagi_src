@@ -1322,6 +1322,73 @@
       ]
     },
     {
+      "id": "enemy_drop_processing",
+      "path": "src/game/red_bottle_item.asm",
+      "segment": "PRG_ENEMY_DROP_PROCESSING",
+      "start": "0xc100",
+      "end": "0xc1e2",
+      "status": "semantic",
+      "required_labels": [
+        "ProcessDefeatedEnemyDrops",
+        "CheckNextDefeatedEnemy",
+        "CheckSecondLinkedEnemy",
+        "SelectEnemyDrop",
+        "AdvanceDefeatedEnemyScan",
+        "EnemyDropTableOffsetsByTypeGroup",
+        "EnemyDropTypeTable"
+      ]
+    },
+    {
+      "id": "random_state",
+      "path": "src/game/red_bottle_item.asm",
+      "segment": "PRG_RANDOM_STATE",
+      "start": "0xc1e3",
+      "end": "0xc23b",
+      "status": "semantic",
+      "required_labels": [
+        "AdvanceRandomState",
+        "MixRandomState",
+        "AccumulateRandomSeedMask",
+        "MixNextRandomSeedBit",
+        "ShiftRandomSeedWord"
+      ]
+    },
+    {
+      "id": "key_collection_presentation",
+      "path": "src/game/key_item.asm",
+      "segment": "PRG_KEY_COLLECTION_PRESENTATION",
+      "start": "0xc23c",
+      "end": "0xc2a5",
+      "status": "semantic",
+      "required_labels": [
+        "RunKeyCollectionPresentation",
+        "PauseObjectsForKeyCollection",
+        "PauseNextEnemyForKeyCollection",
+        "RemoveCollectedKeyFromRoomMap",
+        "RestoreNextEnemyAfterKeyCollection",
+        "ResumeGameplayAfterKeyCollection"
+      ]
+    },
+    {
+      "id": "key_door_animation",
+      "path": "src/game/key_item.asm",
+      "segment": "PRG_KEY_DOOR_ANIMATION",
+      "start": "0xc2a6",
+      "end": "0xc363",
+      "status": "semantic",
+      "required_labels": [
+        "AnimateDoorUnlockFromDanaPosition",
+        "AnimateKeyToDoorFromHeaderPosition",
+        "KeyFlightObjectTemplate",
+        "KeyFlightPointers",
+        "AdvanceKeyFlightArc",
+        "ApplyMotionVectorToObject",
+        "AddMotionVectorByteToObject",
+        "MotionVectorSourceOffsets",
+        "MotionVectorDestinationOffsets"
+      ]
+    },
+    {
       "id": "coordinate_delta",
       "path": "src/game/coordinate_delta.asm",
       "segment": "PRG_COORDINATE_DELTA",
@@ -1332,6 +1399,22 @@
         "BuildScaledCoordinateDeltas",
         "ScaleNextCoordinateDelta",
         "ScaleCoordinateDeltaByFour"
+      ]
+    },
+    {
+      "id": "item_presentation",
+      "path": "src/game/item_collision.asm",
+      "segment": "PRG_ITEM_PRESENTATION",
+      "start": "0xc386",
+      "end": "0xc3d3",
+      "status": "semantic",
+      "required_labels": [
+        "RunExtraLifeMapItemPresentation",
+        "RunExtraLifeEnemyItemPresentation",
+        "RunMapItemPresentation",
+        "RunEnemyItemPresentation",
+        "WaitForItemPresentation",
+        "ClearAuxiliaryItemMapCell"
       ]
     },
     {
@@ -1683,11 +1766,11 @@
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 111,
-    "minimum_documented_prg_bytes": 9551,
-    "minimum_provenance_entries": 599,
-    "maximum_preservation_lines": 6919,
-    "maximum_generated_labels": 438,
-    "maximum_raw_control_flow_targets": 195
+    "minimum_semantic_modules": 114,
+    "minimum_documented_prg_bytes": 9925,
+    "minimum_provenance_entries": 629,
+    "maximum_preservation_lines": 6718,
+    "maximum_generated_labels": 425,
+    "maximum_raw_control_flow_targets": 183
   }
 }

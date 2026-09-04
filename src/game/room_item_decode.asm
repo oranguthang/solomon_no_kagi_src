@@ -156,7 +156,7 @@ PlaceNextDemonMirror:
     LDA CurrentRoomIndex
     CMP #SpecialRoomIndex
     BNE BeginRoomItemStream
-    JSR $C1E3
+    JSR AdvanceRandomState
     AND #SpecialRoomRandomPositionMask
     TAX
     LDY #SpecialRoomPlacementCount - 1

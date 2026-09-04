@@ -58,7 +58,7 @@ LoadSelectedRoom:
     LDA #$20
     AND GameplayFlags
     BEQ LoadRoomEnemyStream
-    JSR $C2A6
+    JSR AnimateDoorUnlockFromDanaPosition
 
 LoadRoomEnemyStream:
     JSR LoadRoomEnemies

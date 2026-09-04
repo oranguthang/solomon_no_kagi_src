@@ -15,7 +15,13 @@ It performs four stages:
 
 Room index `$32` has an additional table-driven randomized placement pass:
 16 item types are written at positions selected from a wrapping 32-entry list
-whose starting index comes from `$C1E3`.
+whose starting index comes from `AdvanceRandomState` at `$C1E3`.
+
+That shared routine keeps a 15-bit state at `$0448-$0449`. A changed Demon
+Mirror spawn state reseeds it from the low spawn-timer byte and the first
+gameplay frame counter. Two eight-step shift/add rounds then advance the state;
+the low byte shifted right is returned to callers. Room decoding masks that
+result to select one of the special room's 32 starting positions.
 
 ## Supporting tables
 

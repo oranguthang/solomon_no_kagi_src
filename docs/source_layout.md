@@ -57,6 +57,9 @@ The free enemy-slot allocator owns `$B42A-$B445`.
 Their split record-pool pointer tables own `$B446-$B491`.
 The adjacent enemy-slot deactivation helper owns `$B492-$B4B5`.
 Current selected-enemy deactivation owns `$B4B6-$B4C3`.
+The context-3 key collection handoff owns `$C23C-$C2A5`.
+The cooperative key-to-door flight and shared fixed-point motion helper own
+`$C2A6-$C363` inside the thematic key-item module.
 The shared signed coordinate-delta scaler owns `$C364-$C385`.
 The gameplay HUD coordinator, fairy-count template, and score formatter own
 `$C3D4-$C42D`. Dana's map-tile classifier, its complete 29-entry item
@@ -174,9 +177,13 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_ENEMY_POINTER_TABLES` | split object/AI record pointer tables | 76 |
 | `PRG_ENEMY_DEACTIVATION` | parallel-record enemy slot retirement | 36 |
 | `PRG_CURRENT_ENEMY_DEACTIVATION` | selected enemy-record retirement | 14 |
-| `PRG_BANK_0` | unresolved `$B4C4-$C363` range | 3,744 |
+| `PRG_BANK_0` | unresolved `$B4C4-$C0FF` range | 3,132 |
+| `PRG_ENEMY_DROP_PROCESSING` | context-5 defeated-enemy conversion and drop tables | 227 |
+| `PRG_RANDOM_STATE` | shared deterministic random-state mixer | 89 |
+| `PRG_KEY_COLLECTION_PRESENTATION` | context-3 key removal, object pause, and gameplay resume | 106 |
+| `PRG_KEY_DOOR_ANIMATION` | fixed-point collected-key flight and door reveal | 190 |
 | `PRG_COORDINATE_DELTA` | two signed coordinate differences scaled by four | 34 |
-| `PRG_POST_COORDINATE_DELTA` | unresolved `$C386-$C3D3` range | 78 |
+| `PRG_ITEM_PRESENTATION` | four context-4 auxiliary item-effect lifecycles | 78 |
 | `PRG_GAMEPLAY_HUD` | serialized score, inventory, and fairy HUD refresh | 42 |
 | `PRG_GAMEPLAY_HUD_DATA` | collected-fairy PPU update template | 5 |
 | `PRG_SCORE_DISPLAY` | leading-zero score display formatter | 43 |

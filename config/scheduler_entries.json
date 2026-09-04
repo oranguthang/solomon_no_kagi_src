@@ -12,6 +12,33 @@
       "pointer_address": "0x8e2b",
       "return_address": "0x8e46",
       "entry": "0x8e47"
+    },
+    {
+      "code": "0x34",
+      "context": "0x3",
+      "selector": "0x4",
+      "base": "0x8e2f",
+      "pointer_address": "0x8e37",
+      "return_address": "0xc23b",
+      "entry": "0xc23c"
+    },
+    {
+      "code": "0x40",
+      "context": "0x4",
+      "selector": "0x0",
+      "base": "0x8e3b",
+      "pointer_address": "0x8e3b",
+      "return_address": "0xc394",
+      "entry": "0xc395"
+    },
+    {
+      "code": "0x41",
+      "context": "0x4",
+      "selector": "0x1",
+      "base": "0x8e3b",
+      "pointer_address": "0x8e3d",
+      "return_address": "0xc385",
+      "entry": "0xc386"
     }
   ],
   "static_entries": [

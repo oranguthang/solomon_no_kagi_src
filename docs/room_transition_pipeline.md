@@ -57,10 +57,10 @@ inventory slots, clears the eight decimal score digits and adjacent state
 flags, then seeds `GameStateFlags`, `$0080`, and the high fireball-lifetime
 byte with one.
 
-The former raw dependencies at `$91EB`, `$91B9`, `$92BC`, `$9340`, `$C3D4`,
-and `$C403` are now
-source-owned as `PrepareRoomIntro`, `PublishRoomDoorAndKeyUpdates`,
-`RunRoomEntryAnimation`, `RunTransitionObjectOrbit`, `RefreshGameplayHud`, and
-`BuildScoreDisplayUpdate`, and `BuildScaledCoordinateDeltas`. The call at
-`$C2A6` remains address-based because its larger cooperative transition
-contract is not yet fully reconstructed.
+The former raw dependencies at `$91EB`, `$91B9`, `$92BC`, `$9340`, `$C2A6`,
+`$C3D4`, and `$C403` are now source-owned as `PrepareRoomIntro`,
+`PublishRoomDoorAndKeyUpdates`, `RunRoomEntryAnimation`,
+`RunTransitionObjectOrbit`, `AnimateDoorUnlockFromDanaPosition`,
+`RefreshGameplayHud`, and `BuildScoreDisplayUpdate`. The shared coordinate
+dependency at `$C364` is `BuildScaledCoordinateDeltas`. The room-load pipeline
+therefore has no remaining raw call targets.

@@ -16,6 +16,7 @@ range is understood.
 | `$0021` | standard gameplay delay counter | confirmed |
 | `$0022` | NMI-incremented frame counter used by pause debounce | confirmed |
 | `$0023` | shared pending gameplay/timer update count | high |
+| `$0024` | NMI-incremented frame counter selected by context-4 item presentations | confirmed |
 | `$0028` | gameplay flags; bit 2 requests an NMI RoomMap attribute read | high |
 | `$0029` | attribute-read state: `$00` idle, `$80+` complete/timeout age | confirmed |
 | `$002C-$002D` | current room enemy stream pointer during room loading | confirmed |
@@ -27,10 +28,10 @@ range is understood.
 | `$0078` | global game-state flags; pause thread modifies bits 1-2 | high |
 | `$0079` | collected Solomon Seal count | confirmed |
 | `$0082-$0083` | raw controller values in A/B/Select/Start/Up/Down/Left/Right bit order | confirmed |
-| `$0087` | unidentified state flags; transition reset clears bit 0 | unknown |
+| `$0087` | mixed state flags; bit 0 gates item effects and brackets auxiliary map cleanup | high |
 | `$0210-$030F` | OAM shadow buffer, 64 four-byte sprites | high |
 | `$0302` | current scheduler context index | high |
-| `$0304-$03E3` | 16x14 room map: 16x12 interior plus two sentinel rows | confirmed |
+| `$0304-$03E3` | 16x14 room map: 16x12 interior plus two sentinel rows; `$0304-$030B` temporarily hold key-flight motion and return to `$F8` | confirmed |
 | `$0406-$041E` | constellation position and expanded 24-byte pattern | confirmed |
 | `$03E4-$03E5` | cached controller state with game-state-dependent filtering | confirmed |
 | `$03E6-$03F9` | shared RAM PPU update-program buffer extent used by room palette loading | confirmed |
@@ -47,6 +48,7 @@ range is understood.
 | `$0441-$0444` | two Demon Mirror Y/X coordinate pairs | confirmed |
 | `$0445-$0446` | allocated enemy slots for the two Demon Mirrors | confirmed |
 | `$0447` | active enemy count produced by the movement prepass | high |
+| `$0448-$0449` | deterministic random state used by room placement, enemy AI, and item drops | confirmed |
 | `$044A-$0451` | eight unpacked decimal score digits, most significant first | confirmed |
 | `$0452` | remaining lives | high |
 | `$0453-$0454` | collected and queued fairies | high |

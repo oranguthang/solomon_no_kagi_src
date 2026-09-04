@@ -73,11 +73,85 @@ types in `$50-$67` receive state bit 0. If at least one record changed, it
 starts scheduler code `$50`; the ordinary item presentation remains queued in
 `ItemInteractionThreadCode`.
 
+Code `$50` enters `ProcessDefeatedEnemyDrops` in context 5. The routine scans
+all 17 records again and accepts active objects carrying the retirement bit.
+The enemy type selects one of ten eight-entry groups in
+`EnemyDropTypeTable`; `AdvanceRandomState & 7` selects the entry inside that
+group. Any linked enemy slots named by AI-state bytes 6 and 7 are retired when
+the corresponding AI-state flag is set. The source enemy is then reinitialized
+as object type `$14`, state `$C6`, with the selected drop code stored in AI
+byte 6. After the sweep, sound effect `$09` is queued and context 5 stops.
+
+The 27-byte type-to-group table and 80-byte drop table remain adjacent to the
+consumer and have compile-time size checks. Zero entries are preserved as
+real outcomes; the source does not invent item names for still-unclassified
+drop codes.
+
+## Item presentation context
+
+Context 4 owns four entry variants for the shared `AuxiliaryObject` effect.
+Map-originated effects (`$40/$41`) clear the collected tile before entering
+the common lifecycle; enemy-originated effects (`$42/$43`) skip that initial
+map write. Ordinary effects wait `$12` gameplay ticks, while extra-life
+variants wait `$40` and set object Y-motion byte 5 to `$C0`. All four refresh
+the score, inventory, and fairy HUD before waiting.
+
+At completion, the lifecycle clears the auxiliary object's state and stops
+context 4. `ClearAuxiliaryItemMapCell` converts the object's current integer
+Y/X position back to a RoomMap index and replaces that cell with interior tile
+`$10` through the normal buffered PPU update. It brackets the map mutation
+with bit 0 of `$0087`; the item classifier tests the same bit to suppress a
+second effect during the update. `ItemEffectFrameCounter` at `$0024` is one of
+the eight NMI-incremented gameplay counters.
+
+The source preserves a scheduler-specific control-flow detail at `$C3AD`:
+`StopThread` replaces the current context's stack, so its `RTS` returns to the
+idle loop instead of falling through into the physically adjacent map-clear
+helper at `$C3B0`.
+
 ## Key, door, and pool reset
 
 `CollectRoomKey` reads the door map index from room-item header offset 5,
 replaces that cell with tile `$07`, conditionally sets `GameplayFlags` bit
 `$20`, queues sound `$16`, stops context 4, and selects follow-up code `$34`.
+
+Scheduler code `$34` enters the context-3 key animation at `$C23C`. The routine
+removes the key tile, suspends active object states, and enters
+`AnimateKeyToDoorFromHeaderPosition` with Y=6, the key-position header offset.
+The room loader uses the other public entry when gameplay flag `$20` is
+already set: `AnimateDoorUnlockFromDanaPosition` supplies header offset 7 as
+the origin. Both paths target the door position at header offset 5.
+
+`RunKeyCollectionPresentation` first waits for Dana's state bit 0 to clear.
+It then clears state bit 6 on Dana, the fireball, and all 17 enemy objects;
+because the object updater accepts states `$C0+`, this takes previously active
+records below the motion, collision, and animation threshold. Fireball and
+enemy states are saved in record byte 2. The routine changes the key's RoomMap
+cell to interior tile `$10`, publishes that removal, and runs the flight.
+
+After the door opens, all 17 enemy state bytes and the fireball state are
+restored from byte 2, Dana receives state `$E0`, and scheduler code `$30`
+replaces the current context with `MainGameplayThread`. As with context-4
+shutdown, this same-context `StartThread` call replaces the stack and cannot
+fall through into the adjacent `$C2A6` entry.
+
+The animation installs a six-byte header in `AuxiliaryObject`, converts the
+origin and door cells to pixels, and constructs two signed 16-bit deltas. It
+subtracts `$0100` from the initial Y delta to create the rising half of the
+arc. The first eight boundary bytes of `RoomMap` are temporary scratch during
+the sequence: offsets 4-7 hold Y and X fixed-point motion words. Each changed
+`GameplayUpdateCount` adds `$0008` to Y motion, then adds the two motion words
+to the auxiliary object's Y/X fraction and integer fields. After `$40` ticks,
+the scratch cells return to the `$F8` boundary sentinel and the object is
+deactivated.
+
+`PublishKeyDoorTile` first displays transition tile `$34`, waits six gameplay
+ticks, and replaces it with open-door tile `$07`. `KeyFlightPointers` resolves
+the generic motion helper's source and destination records. Its offset tables
+deliberately overlap: source offsets are the four bytes `$04,$05,$06,$07`,
+while destination offsets are `$06,$07,$09,$0A`. This maps two little-endian
+motion words to the object's Y and X fraction/integer pairs without duplicating
+the shared `$06,$07` bytes in ROM.
 
 `EnterRoomDoor` deactivates Dana, resets the other secondary contexts, applies
 the five-room skip flag when present, advances `CurrentRoomIndex`, and derives

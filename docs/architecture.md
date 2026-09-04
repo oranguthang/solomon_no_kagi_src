@@ -311,6 +311,24 @@ inventory, score, and persistent flag effects; key and door entries mutate
 room progression and reset all 21 object plus 17 enemy-AI records. See
 `docs/item_interactions.md`.
 
+Four context-4 entries then provide short/long and map/enemy-originated
+lifecycles for the shared auxiliary item effect. They serialize HUD refresh,
+optional source-cell clearing, timed object display, final map cleanup, and
+context shutdown. This explains scheduler selectors `$40-$43` without treating
+their nearby entry addresses as one linear fallthrough routine.
+
+The key follow-up is a cooperative context-3 animation. It moves the auxiliary
+object from the collected key, or from Dana during room restoration, to the
+door along a 16-bit fixed-point arc. Four normally inaccessible RoomMap
+boundary cells temporarily hold the Y/X motion words; they are restored to
+the `$F8` sentinel before the door changes through transition tile `$34` to
+open tile `$07`.
+
+While that animation owns context 3, the game snapshots fireball and enemy
+states in object-record byte 2 and clears state bit 6, putting those records
+below the updater's `$C0` threshold. It restores the snapshots and restarts
+`MainGameplayThread` through selector `$30` after the door reveal.
+
 ## Room pipeline
 
 The room loader combines independent sources:

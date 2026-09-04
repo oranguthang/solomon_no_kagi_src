@@ -127,6 +127,12 @@ ThreadEntryTableBases:
     .byte $9e, $8e
     .addr PauseGameThread - 1
     .byte $2a, $cb, $ff, $9f
-    .byte $e6, $c7, $86, $c5, $89, $c7, $3b, $c2
-    .byte $31, $c8, $94, $c3, $85, $c3, $97, $c3
-    .byte $88, $c3, $ff, $c0, $ff, $b7
+    .byte $e6, $c7, $86, $c5, $89, $c7
+    .addr RunKeyCollectionPresentation - 1
+    .byte $31, $c8
+    .addr RunMapItemPresentation - 1
+    .addr RunExtraLifeMapItemPresentation - 1
+    .addr RunEnemyItemPresentation - 1
+    .addr RunExtraLifeEnemyItemPresentation - 1
+    .addr ProcessDefeatedEnemyDrops - 1
+    .byte $ff, $b7

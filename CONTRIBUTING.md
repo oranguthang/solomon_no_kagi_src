@@ -24,6 +24,13 @@ a name, record the evidence in the relevant document:
 Do not silently upgrade a tentative name to a fact. Preserve original
 addresses in comments or the provenance registry when renaming labels.
 
+Prefer subsystem-sized source files over one file per small address range.
+New hand-written assembly files should normally contain roughly 300-700 lines
+(slightly outside that range is fine when the subsystem boundary is clearer).
+Add short, closely related ranges to an existing thematic file instead of
+creating another 50-100-line module. Existing small files may remain separate
+until a dedicated consolidation pass can preserve history and address order.
+
 ## Data tools
 
 Codecs must reject malformed or truncated data, document their input address

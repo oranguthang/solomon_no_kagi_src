@@ -2,10 +2,6 @@
 
 .segment "PRG_COORDINATE_DELTA"
 
-CoordinateOriginY = $02
-CoordinateOriginX = $03
-CoordinateTargetY = $04
-CoordinateTargetX = $05
 CoordinateAxisCount = 2
 
 BuildScaledCoordinateDeltas:

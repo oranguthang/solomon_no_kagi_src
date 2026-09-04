@@ -141,13 +141,24 @@ decrease.
   pools by `DeactivateEnemySlot` in `src/game/enemy_deactivation.asm`;
 - `$B4B6-$B4C3`: eleven enemy behavior tail-calls retire the dispatcher-
   selected slot through `DeactivateCurrentEnemy`;
+- `$C23C-$C2A5`: scheduler code `$34` pauses Dana/fireball/enemy updates,
+  removes the collected key, runs its door flight, restores object states, and
+  restarts main gameplay in the existing key-item module;
+- `$C2A6-$C363`: the cooperative key-to-door flight, object template, fixed-
+  point integrator, pointer constants, and deliberately overlapping offset
+  tables are source-owned in the existing key-item module;
 - `$C364-$C385`: five transition callers share one signed two-axis coordinate
   delta builder with an explicit Y-low/Y-high/X-low/X-high output contract;
+- `$C386-$C3D3`: all four context-4 item presentation entries, their timed
+  common lifecycle, and auxiliary RoomMap cleanup are source-owned in the
+  existing item-collision module;
 - `$C3D4-$C42D`: the serialized score/inventory/fairy HUD refresh, fairy PPU
   template, and seven-digit leading-zero score formatter are source-owned;
 - `$C42E-$C627`: the Dana-centered item classifier, all 29 dispatch pointers,
   bonus and special effects, key/door progression, and exact 556-byte object
   plus enemy-AI pool clear are split into seven semantic modules;
+- `$C100-$C23B`: context-5 defeated-enemy processing, both drop tables, and
+  the shared deterministic random-state mixer are source-owned;
 - `$C628-$C697`: timer items perform four-digit decimal doubling, fivefold
   multiplication, and the fixed `10000`/`05000` assignments;
 - `$C698-$C70F`: Scroll Extender, fireball bottles, Fairy Bell, Tzo, and score

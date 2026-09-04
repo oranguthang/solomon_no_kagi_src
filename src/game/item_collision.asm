@@ -14,6 +14,8 @@ BonusItemGroupSize = $03
 NoItemInteractionThread = $00
 InventoryItemInteractionThread = $40
 ExtraLifeInteractionThread = $41
+EnemyItemInteractionThread = $42
+ExtraLifeEnemyInteractionThread = $43
 ItemInteractionSound = $0D
 ExtraLifeSound = $06
 
@@ -122,3 +124,63 @@ QueueInventoryItemInteraction:
 ; zero-based handler selectors $00-$1E
     SBC #FirstInventoryItemTile - 1
     JSR JumpWithParams
+
+; Context-four lifecycles for map and enemy-originated item effects
+
+.segment "PRG_ITEM_PRESENTATION"
+
+ShortItemPresentationDuration = $12
+ExtraLifePresentationDuration = $40
+ExtraLifeItemYMotion = $C0
+EmptyRoomMapTile = $10
+ItemPresentationThreadIndex = $04
+ItemMapUpdateInProgressFlag = $01
+
+RunExtraLifeMapItemPresentation:
+    JSR ClearAuxiliaryItemMapCell
+
+RunExtraLifeEnemyItemPresentation:
+    LDA #ExtraLifeItemYMotion
+    STA AuxiliaryObject + ObjectYMotionOffset
+    JSR RefreshGameplayHud
+    LDA #ExtraLifePresentationDuration
+    BNE WaitForItemPresentation
+
+RunMapItemPresentation:
+    JSR ClearAuxiliaryItemMapCell
+
+RunEnemyItemPresentation:
+    JSR RefreshGameplayHud
+    LDA #ShortItemPresentationDuration
+
+WaitForItemPresentation:
+    LDX #$00
+    STX ItemEffectFrameCounter
+    LDX #ItemEffectFrameCounter
+    JSR WaitForZeroPageCounterAboveThreshold
+    LDA #$00
+    STA AuxiliaryObject + ObjectStateOffset
+    LDA #ItemPresentationThreadIndex
+; Stopping the current context replaces its stack, so this call does not
+; return into the adjacent helper during normal execution
+    JSR StopThread
+
+ClearAuxiliaryItemMapCell:
+    LDA #ItemMapUpdateInProgressFlag
+    ORA $87
+    STA $87
+    LDA AuxiliaryYPosition
+    STA CoordinateY
+    LDA AuxiliaryXPosition
+    STA CoordinateX
+    JSR ConvertPixelCoordinatesToMapIndex
+    LDA #EmptyRoomMapTile
+    STA RoomMap,X
+    STX RoomMapUpdateIndex
+    STA RoomMapUpdateTile
+    JSR BuildAndPublishRoomMapCellUpdate
+    LSR $87
+    ASL $87
+    RTS
+
+.assert * - RunExtraLifeMapItemPresentation = $4E, error, "item presentation size changed"
