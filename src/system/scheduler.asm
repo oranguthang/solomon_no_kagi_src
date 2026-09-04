@@ -124,10 +124,12 @@ ThreadEntryTableBases:
     .addr RoomClearThread - 1
     .addr RoomLoadThread - 1
     .addr PreparePostGameResult - 1
-    .byte $6d, $ca, $09, $cb
+    .addr RunPostGameAttractThread - 1
+    .addr StartDemoPlayback - 1
     .byte $9e, $8e
     .addr PauseGameThread - 1
-    .byte $2a, $cb, $ff, $9f
+    .addr RunDemoInputPlayback - 1
+    .byte $ff, $9f
     .addr RunDanaDeathTransition - 1
     .byte $86, $c5
     .addr RunTimeOverTransition - 1

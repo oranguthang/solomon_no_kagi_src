@@ -80,8 +80,14 @@ Descriptor-driven direct PPU nametable clearing owns `$C9BD-$CA32`, followed
 by its three nine-byte descriptor records at `$CA33-$CA3B`.
 Non-Dana object state maintenance owns `$CA3C-$CA6D`, split into two sweep
 routines around the shared pointer resolver.
+The attract/demo flow owns `$CA6E-$CB6E`: post-game PPU streams, title-screen
+waiting, fixed demo-room setup, and a context-two recorded-input producer.
 Full clearing of both physical nametables owns `$CB6F-$CBA5`.
+Packed title rendering and record presentation own `$CBA6-$CD52`, including
+the command decoder, both direct-PPU layers, and their small fixed templates.
 The shared PPU address-latch helper owns `$CD53-$CD5E`.
+The two packed title streams own `$CD5F-$CEF0`; the 34-byte demo duration and
+input tables immediately follow at `$CEF1-$CF34`.
 `src/preservation/prg.asm` owns the unresolved ranges
 between and after those modules. `src/graphics/chr.asm` includes the ignored CHR payload created by
 `make split`; no CHR bytes are kept in Git.
@@ -216,11 +222,13 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_SET_ACTIVE_OBJECT_STATES` | conditional non-Dana state sweep | 19 |
 | `PRG_LOAD_OBJECT_POINTER` | non-Dana object pointer resolver | 11 |
 | `PRG_DEACTIVATE_NON_DANA_OBJECTS` | whole non-Dana object teardown | 20 |
-| `PRG_POST_NON_DANA_OBJECT_DEACTIVATION` | unresolved `$CA6E-$CB6E` range | 257 |
+| `PRG_ATTRACT_DEMO_FLOW` | post-game screens, title wait, and demo input playback | 257 |
 | `PRG_FULL_NAMETABLE_CLEAR` | blank both tile planes and initialize attributes | 55 |
-| `PRG_POST_FULL_NAMETABLE_CLEAR` | unresolved `$CBA6-$CD52` range | 429 |
+| `PRG_TITLE_SCREEN` | packed title layers and current/best record display | 429 |
 | `PRG_SET_PPU_ADDRESS` | reset the latch and write the A:X PPU address | 12 |
-| `PRG_POST_SET_PPU_ADDRESS` | unresolved `$CD5F-$FFFF` range | 12,961 |
+| `PRG_TITLE_PACKED_DATA` | record/background and logo packed streams | 402 |
+| `PRG_DEMO_INPUT_DATA` | 34 duration bytes and 34 controller values | 68 |
+| `PRG_POST_DEMO_INPUT_DATA` | unresolved `$CF35-$FFFF` range | 12,491 |
 | `PRG_BANK_1` | generated CHR payload (historical name) | 32,768 |
 
 This unusual naming is documented in `config/linker/cnrom.cfg`. Renaming a

@@ -197,10 +197,20 @@ decrease.
   preservation inventory;
 - `$CA3C-$CA6D`: two twenty-record state/teardown sweeps bracket
   `LoadObjectPointer`, all using source-owned plus-one pointer table aliases;
+- `$CA6E-$CB6E`: scheduler codes `$17`, `$18`, and `$22` own the post-game
+  summary/title attract loop, fixed demo-room setup, and duration-driven demo
+  input playback with real Start/Select interruption;
 - `$CB6F-$CBA5`: three screen-reset paths share a direct PPU helper that fills
   both physical nametables with 960 blank tiles and 64 attribute bytes each;
+- `$CBA6-$CD52`: the packed title-data decoder, record/background and logo
+  layers, current/best score formatting, best-GDV display, and fixed direct
+  PPU patterns are source-owned;
 - `$CD53-$CD5E`: all ten direct PPU writers share one latch-reset/address
   helper with an explicit `A:X` input contract;
+- `$CD5F-$CEF0`: both packed title streams are classified at their `$7F`
+  terminators and source-owned alongside their decoder;
+- `$CEF1-$CF34`: the attract demo's two parallel 34-byte duration/controller
+  tables are source-owned with count and adjacency assertions;
 - split the remaining preservation range into reset/startup, scheduler, room,
   gameplay/object, rendering, audio, static-data, and vector modules at proven
   code/data boundaries;

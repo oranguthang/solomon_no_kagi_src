@@ -49,6 +49,13 @@ enters their shared `FinalizeGameplayExit` stage in context 3. When no lives
 remain, code `$16` enters `PreparePostGameResult` in context 1 to calculate
 and display `YOUR GDV`.
 
+The thread selected by that flow, code `$17`, enters
+`RunPostGameAttractThread`. It presents the post-game streams and title wait;
+code `$18` enters the nested `StartDemoPlayback` point after the optional
+normal-game setup call. Demo setup starts context-two code `$22` at
+`RunDemoInputPlayback`, which replaces cached gameplay input from a recorded
+duration/value stream while continuing to observe real Start/Select presses.
+
 Context 4's complete selector family is now classified. `$40` enters
 `RunMapItemPresentation`, `$41` enters
 `RunExtraLifeMapItemPresentation`, `$42` enters

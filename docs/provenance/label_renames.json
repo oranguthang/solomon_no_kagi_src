@@ -6683,6 +6683,66 @@
       "evidence": ["All outcomes store the selected life count, clear the nametable, start the chosen scheduler code, clear gameplay object state, and stop context 3."]
     },
     {
+      "address": "0xca6e", "previous": "$CA6E", "current": "RunPostGameAttractThread", "confidence": "confirmed",
+      "evidence": ["Scheduler code $17 enters here; the flow queues post-game streams, prepares the title, and can start scheduler code $18."]
+    },
+    {
+      "address": "0xca8c", "previous": "_label_bank0_ca8c", "current": "ShowPostGameSummary", "confidence": "high",
+      "evidence": ["The ordinary non-demo-interruption path clears both nametables and queues static PPU streams $0D through $11."]
+    },
+    {
+      "address": "0xca91", "previous": "_label_bank0_ca91", "current": "QueueNextPostGamePpuStream", "confidence": "confirmed",
+      "evidence": ["The loop passes each index from $0D through $11 to QueueStaticPpuUpdateStream."]
+    },
+    {
+      "address": "0xcaa4", "previous": "_label_bank0_caa4", "current": "WaitForPostGameSummary", "confidence": "high",
+      "evidence": ["This polling loop waits for counter high byte one or Start/Select before proceeding to the title stage."]
+    },
+    {
+      "address": "0xcab2", "previous": "_label_bank0_cab2", "current": "WaitForPostGameButtonRelease", "confidence": "confirmed",
+      "evidence": ["The loop cannot exit until both cached Start/Select bits are clear."]
+    },
+    {
+      "address": "0xcab9", "previous": "_label_bank0_cab9", "current": "PrepareTitleScreen", "confidence": "high",
+      "evidence": ["The interrupted-demo and completed-summary paths converge here to reset contexts, clear nametables, and call the title rendering helpers."]
+    },
+    {
+      "address": "0xcae0", "previous": "_label_bank0_cae0", "current": "WaitForTitleInput", "confidence": "confirmed",
+      "evidence": ["The title loop starts scheduler code $18 once the counter reaches $0200, while also polling cached input."]
+    },
+    {
+      "address": "0xcaf0", "previous": "_label_bank0_caf0", "current": "CheckTitleInput", "confidence": "confirmed",
+      "evidence": ["Both the pre-timeout loop and post-$18-start path test Start/Select at this block."]
+    },
+    {
+      "address": "0xcaf7", "previous": "_label_bank0_caf7", "current": "WaitForTitleButtonRelease", "confidence": "confirmed",
+      "evidence": ["A Start/Select-triggered title exit waits for both bits to clear before clearing the display."]
+    },
+    {
+      "address": "0xcb0a", "previous": "$CB0A", "current": "StartDemoPlayback", "confidence": "confirmed",
+      "evidence": ["Scheduler code $18 enters exactly at the context-two $22 start, skipping the preceding optional code-$10 start while retaining all fixed demo setup."]
+    },
+    {
+      "address": "0xcb2b", "previous": "$CB2B", "current": "RunDemoInputPlayback", "confidence": "confirmed",
+      "evidence": ["Scheduler code $22 enters here to clear NmiFrameCounter and the recorded-input index before polling."]
+    },
+    {
+      "address": "0xcb31", "previous": "_label_bank0_cb31", "current": "PollDemoInputPlayback", "confidence": "confirmed",
+      "evidence": ["Each iteration yields, checks real Start/Select interruption, and compares the current recorded duration with NmiFrameCounter."]
+    },
+    {
+      "address": "0xcb43", "previous": "_label_bank0_cb43", "current": "AdvanceDemoInput", "confidence": "confirmed",
+      "evidence": ["The block uses one index for the duration table at $CEF1 and controller-value table at $CF13, then resets NmiFrameCounter."]
+    },
+    {
+      "address": "0xcb5e", "previous": "_label_bank0_cb5e", "current": "WaitForDemoExitButtonRelease", "confidence": "confirmed",
+      "evidence": ["Manual demo interruption waits for cached Start/Select to clear before joining the common finish path."]
+    },
+    {
+      "address": "0xcb65", "previous": "_label_bank0_cb65", "current": "FinishDemoInputPlayback", "confidence": "confirmed",
+      "evidence": ["Both input exhaustion and manual interruption start scheduler code $35 and stop context two here."]
+    },
+    {
       "address": "0xc981", "previous": "$C981", "current": "LifeLossPpuMaskCycle", "confidence": "confirmed",
       "evidence": ["The $C78A life-loss entry repeatedly indexes these four values and merges them into PpuMaskShadow during its 24-step display cycle."]
     },
@@ -6693,6 +6753,130 @@
     {
       "address": "0xc998", "previous": "$C998", "current": "PostGameResultPpuTemplate", "confidence": "confirmed",
       "evidence": ["A fifteen-byte reverse loop copies this complete template to PpuUpdateBuffer before patching two result-value bytes."]
+    },
+    {
+      "address": "0xcba6", "previous": "$CBA6", "current": "RenderPackedTitleData", "confidence": "confirmed",
+      "evidence": ["Both title layer callers pass a ROM pointer in $00/$01; the routine decodes cursor commands and writes negative literal bytes directly to PPU_DATA."]
+    },
+    {
+      "address": "0xcbb0", "previous": "_label_bank0_cbb0", "current": "ReadPackedTitleCommand", "confidence": "confirmed",
+      "evidence": ["The loop advances Y, reads from the packed source pointer, and separates negative literals from nonnegative cursor commands."]
+    },
+    {
+      "address": "0xcbb5", "previous": "_label_bank0_cbb5", "current": "AdvancePackedTitlePointer", "confidence": "confirmed",
+      "evidence": ["After a literal run, this block adds Y to the 16-bit source pointer while retaining the first command byte in X."]
+    },
+    {
+      "address": "0xcbc0", "previous": "_label_bank0_cbc0", "current": "DecodePackedTitleCommand", "confidence": "confirmed",
+      "evidence": ["Comparisons with $40 and $60 classify column, absolute-row, relative-row, and $7F termination commands."]
+    },
+    {
+      "address": "0xcbd2", "previous": "_label_bank0_cbd2", "current": "AddPackedTitleRowDelta", "confidence": "confirmed",
+      "evidence": ["For commands $60-$7E the block masks five bits and adds them plus the comparison carry to the logical row."]
+    },
+    {
+      "address": "0xcbda", "previous": "_label_bank0_cbda", "current": "SetPackedTitleRow", "confidence": "confirmed",
+      "evidence": ["Commands $40-$5F replace the logical row byte here."]
+    },
+    {
+      "address": "0xcbde", "previous": "_label_bank0_cbde", "current": "SetPackedTitleColumn", "confidence": "confirmed",
+      "evidence": ["Commands below $40 replace the logical column byte here."]
+    },
+    {
+      "address": "0xcbe2", "previous": "_label_bank0_cbe2", "current": "SetPackedTitlePpuAddress", "confidence": "confirmed",
+      "evidence": ["The first negative literal enters this block, which transforms the logical row/column into two PPU address bytes before writing tiles."]
+    },
+    {
+      "address": "0xcc03", "previous": "_label_bank0_cc03", "current": "WritePackedTitleLiterals", "confidence": "confirmed",
+      "evidence": ["Consecutive negative stream bytes are written to PPU_DATA until a nonnegative command returns to the pointer-update path."]
+    },
+    {
+      "address": "0xcc0d", "previous": "$CC0D", "current": "DrawTitleRecordLayer", "confidence": "confirmed",
+      "evidence": ["PrepareTitleScreen calls this routine after the logo layer; it renders packed data, fixed tail tiles, current/best scores, and best GDV."]
+    },
+    {
+      "address": "0xcc2c", "previous": "_label_bank0_cc2c", "current": "WriteTitleRecordTail", "confidence": "confirmed",
+      "evidence": ["The loop writes all 21 TitleRecordTailTiles to PPU_DATA in reverse index order."]
+    },
+    {
+      "address": "0xcc3d", "previous": "_label_bank0_cc3d", "current": "QueueNextTitlePpuStream", "confidence": "confirmed",
+      "evidence": ["The loop queues static PPU stream indices $09, $0A, and $0B."]
+    },
+    {
+      "address": "0xcc4b", "previous": "_label_bank0_cc4b", "current": "CopyCurrentScoreHeader", "confidence": "confirmed",
+      "evidence": ["This three-byte reverse copy replaces the normal HUD header before publishing the current score on the title screen."]
+    },
+    {
+      "address": "0xcc60", "previous": "_label_bank0_cc60", "current": "CopyBestScoreHeader", "confidence": "confirmed",
+      "evidence": ["The block copies the three-byte title best-score PPU header before formatting persistent score digits."]
+    },
+    {
+      "address": "0xcc6e", "previous": "_label_bank0_cc6e", "current": "FormatBestScoreDigits", "confidence": "confirmed",
+      "evidence": ["Seven BestScoreDigits are copied to the update buffer with leading zeroes replaced by blank tile $24."]
+    },
+    {
+      "address": "0xcc79", "previous": "_label_bank0_cc79", "current": "MarkBestScoreNonzero", "confidence": "confirmed",
+      "evidence": ["A nonzero persistent score digit sets carry so subsequent zero digits remain visible."]
+    },
+    {
+      "address": "0xcc7a", "previous": "_label_bank0_cc7a", "current": "StoreBestScoreDigit", "confidence": "confirmed",
+      "evidence": ["Both blank-leading-zero and visible-digit paths store the selected tile in the title update buffer here."]
+    },
+    {
+      "address": "0xcc9f", "previous": "_label_bank0_cc9f", "current": "CopyBestGdvHeader", "confidence": "confirmed",
+      "evidence": ["After formatting BestGdvValue, this block installs the three-byte GDV PPU header and terminates the buffered update."]
+    },
+    {
+      "address": "0xccaf", "previous": "$CCAF", "current": "TitleRecordTailTiles", "confidence": "confirmed",
+      "evidence": ["DrawTitleRecordLayer indexes this 21-byte block from $14 down to zero and writes every byte directly to PPU_DATA."]
+    },
+    {
+      "address": "0xccc4", "previous": "$CCC4", "current": "TitleCurrentScorePpuHeader", "confidence": "confirmed",
+      "evidence": ["The current-score publication copies exactly these three bytes to the beginning of PpuUpdateBuffer."]
+    },
+    {
+      "address": "0xccc7", "previous": "$CCC7", "current": "TitleBestScorePpuHeader", "confidence": "confirmed",
+      "evidence": ["The best-score publication copies exactly these three bytes before its seven formatted digits."]
+    },
+    {
+      "address": "0xccca", "previous": "$CCCA", "current": "TitleBestGdvPpuHeader", "confidence": "confirmed",
+      "evidence": ["The best-GDV publication copies exactly these three bytes before its two formatted digits."]
+    },
+    {
+      "address": "0xcccd", "previous": "_label_bank0_cccd", "current": "DrawTitleLogoLayer", "confidence": "confirmed",
+      "evidence": ["PrepareTitleScreen calls this vblank-synchronized routine first; it renders packed data and three fixed direct-PPU logo patterns."]
+    },
+    {
+      "address": "0xccf8", "previous": "_label_bank0_ccf8", "current": "WriteTitleLogoPattern", "confidence": "confirmed",
+      "evidence": ["The 16-iteration loop writes alternating $DF and $DE tile bytes to PPU_DATA."]
+    },
+    {
+      "address": "0xcd15", "previous": "_label_bank0_cd15", "current": "WriteTitleLogoFill", "confidence": "confirmed",
+      "evidence": ["The eight-iteration loop writes fixed tile $F5 to the selected title nametable address."]
+    },
+    {
+      "address": "0xcd3d", "previous": "_label_bank0_cd3d", "current": "WriteTitleLogoAttributes", "confidence": "confirmed",
+      "evidence": ["The seven-byte reverse loop writes TitleLogoAttributeBytes and then ends the direct PPU transfer."]
+    },
+    {
+      "address": "0xcd4c", "previous": "$CD4C", "current": "TitleLogoAttributeBytes", "confidence": "confirmed",
+      "evidence": ["WriteTitleLogoAttributes indexes this complete seven-byte fixed sequence from six down to zero."]
+    },
+    {
+      "address": "0xcd5f", "previous": "$CD5F", "current": "TitleRecordPackedData", "confidence": "confirmed",
+      "evidence": ["DrawTitleRecordLayer passes this address to RenderPackedTitleData; decoding reaches its $7F terminator at $CDF9."]
+    },
+    {
+      "address": "0xcdfa", "previous": "$CDFA", "current": "TitleLogoPackedData", "confidence": "confirmed",
+      "evidence": ["DrawTitleLogoLayer passes this address to RenderPackedTitleData; decoding reaches its $7F terminator at $CEF0."]
+    },
+    {
+      "address": "0xcef1", "previous": "$CEF1", "current": "DemoInputDurations", "confidence": "confirmed",
+      "evidence": ["RunDemoInputPlayback indexes this 34-byte table with DemoInputIndex and compares each value with NmiFrameCounter."]
+    },
+    {
+      "address": "0xcf13", "previous": "$CF13", "current": "DemoInputValues", "confidence": "confirmed",
+      "evidence": ["The same 0-$21 index selects one cached controller value from this adjacent 34-byte table."]
     }
   ]
 }

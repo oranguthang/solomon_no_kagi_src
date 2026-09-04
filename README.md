@@ -14,7 +14,7 @@ evidence, and small tested tools for decoded game data.
   entrypoint; CHR is a private generated asset and is not stored in Git.
 - Confirmed NES registers and high-confidence RAM aliases are separated into
   `src/memory/`.
-- One hundred twenty-four semantic PRG modules own NMI (`$8000-$80FE`), controller input
+- One hundred twenty-eight semantic PRG modules own NMI (`$8000-$80FE`), controller input
   (`$837D-$83C1`), reset/startup
   (`$8C00-$8D5E`), the cooperative scheduler (`$8D5F-$8E46`), and the main
   gameplay thread (`$A000-$A04B`), plus countdown timer arithmetic and warning
@@ -41,7 +41,12 @@ evidence, and small tested tools for decoded game data.
   Direct PPU nametable clearing and its descriptor table own `$C9BD-$CA3B`.
   Non-Dana object-pool state and teardown sweeps own `$CA3C-$CA4E` and
   `$CA5A-$CA6D`, around the pointer resolver at `$CA4F-$CA59`.
+  Post-game summary, title wait, demo setup, and recorded input playback own
+  `$CA6E-$CB6E`.
   Full clearing of both physical nametables owns `$CB6F-$CBA5`.
+  Packed title graphics, score/best-score/GDV presentation, and fixed logo
+  patterns own `$CBA6-$CD52`; both packed streams and the parallel demo
+  duration/input tables continue through `$CF34`.
   The common PPU latch/address writer owns `$CD53-$CD5E`.
   Pixel/room-map conversion owns `$918A-$91B8` and all 31 callers use symbols.
   Direct CPU-to-PPU transfer state owns `$96DC-$970A` and all 13 boundary calls
@@ -206,6 +211,8 @@ docs/ending_and_special_room_support.md ending text, Seal logic, and room data
 docs/enemy_lifetime.md       room enemy lifetime transition and carry contract
 docs/linked_enemy_ai.md      linked-slot allocation and action dispatch
 docs/gameplay_exit_transition.md cooperative death, TIME OVER, and GDV flow
+docs/attract_demo_flow.md    post-game, title, and recorded demo control
+docs/title_screen.md         packed title renderer and record presentation
 scripts/project.py         split, verify, lint, and safe build helpers
 scripts/asm_style.py       shared ca65 formatter and style checker
 scripts/verify_rom.py      original/build/asset comparison and ROM reports

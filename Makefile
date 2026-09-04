@@ -39,6 +39,7 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	src/game/room_transition_reset.asm \
 	src/graphics/nametable_clear.asm src/data/nametable_clear.asm \
 	src/graphics/full_nametable_clear.asm \
+	src/graphics/title_screen.asm \
 	src/graphics/ppu_address.asm \
 	src/graphics/direct_ppu_transfer.asm \
 	src/graphics/ppu_data_writers.asm src/data/repeated_ppu_patterns.asm \
@@ -89,7 +90,7 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	src/game/ending_and_special_room_support.asm \
 	src/game/active_object_states.asm \
 	src/game/object_pointer.asm \
-	src/game/non_dana_object_deactivation.asm \
+	src/game/non_dana_object_deactivation.asm src/game/attract_demo_flow.asm \
 	src/graphics/gameplay_hud.asm src/data/gameplay_hud.asm \
 	src/graphics/score_display.asm \
 	src/game/item_collision.asm src/data/item_handlers.asm \

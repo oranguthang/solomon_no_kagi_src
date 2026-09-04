@@ -1891,6 +1891,28 @@
       ]
     },
     {
+      "id": "attract_demo_flow",
+      "path": "src/game/attract_demo_flow.asm",
+      "segment": "PRG_ATTRACT_DEMO_FLOW",
+      "start": "0xca6e",
+      "end": "0xcb6e",
+      "status": "semantic",
+      "required_labels": [
+        "RunPostGameAttractThread",
+        "ShowPostGameSummary",
+        "QueueNextPostGamePpuStream",
+        "WaitForPostGameSummary",
+        "PrepareTitleScreen",
+        "WaitForTitleInput",
+        "StartDemoPlayback",
+        "RunDemoInputPlayback",
+        "PollDemoInputPlayback",
+        "AdvanceDemoInput",
+        "WaitForDemoExitButtonRelease",
+        "FinishDemoInputPlayback"
+      ]
+    },
+    {
       "id": "full_nametable_clear",
       "path": "src/graphics/full_nametable_clear.asm",
       "segment": "PRG_FULL_NAMETABLE_CLEAR",
@@ -1905,6 +1927,32 @@
       ]
     },
     {
+      "id": "title_screen",
+      "path": "src/graphics/title_screen.asm",
+      "segment": "PRG_TITLE_SCREEN",
+      "start": "0xcba6",
+      "end": "0xcd52",
+      "status": "semantic",
+      "required_labels": [
+        "RenderPackedTitleData",
+        "ReadPackedTitleCommand",
+        "DecodePackedTitleCommand",
+        "SetPackedTitlePpuAddress",
+        "WritePackedTitleLiterals",
+        "DrawTitleRecordLayer",
+        "QueueNextTitlePpuStream",
+        "FormatBestScoreDigits",
+        "TitleRecordTailTiles",
+        "TitleCurrentScorePpuHeader",
+        "TitleBestScorePpuHeader",
+        "TitleBestGdvPpuHeader",
+        "DrawTitleLogoLayer",
+        "WriteTitleLogoPattern",
+        "WriteTitleLogoAttributes",
+        "TitleLogoAttributeBytes"
+      ]
+    },
+    {
       "id": "ppu_address",
       "path": "src/graphics/ppu_address.asm",
       "segment": "PRG_SET_PPU_ADDRESS",
@@ -1913,6 +1961,30 @@
       "status": "semantic",
       "required_labels": [
         "SetPpuAddressAX"
+      ]
+    },
+    {
+      "id": "title_packed_data",
+      "path": "src/graphics/title_screen.asm",
+      "segment": "PRG_TITLE_PACKED_DATA",
+      "start": "0xcd5f",
+      "end": "0xcef0",
+      "status": "semantic",
+      "required_labels": [
+        "TitleRecordPackedData",
+        "TitleLogoPackedData"
+      ]
+    },
+    {
+      "id": "demo_input_data",
+      "path": "src/game/attract_demo_flow.asm",
+      "segment": "PRG_DEMO_INPUT_DATA",
+      "start": "0xcef1",
+      "end": "0xcf34",
+      "status": "semantic",
+      "required_labels": [
+        "DemoInputDurations",
+        "DemoInputValues"
       ]
     }
   ],
