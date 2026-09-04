@@ -198,6 +198,9 @@ config/enemy_ai_handlers.json reviewed enemy AI handler pointer inventory
 config/enemy_record_pointers.json reviewed record-pool pointer layouts
 config/ppu_update_streams.json reviewed static PPU stream inventory
 docs/                      architecture and reverse-engineering notes
+docs/special_room_scripts.md context-six room dispatch and trigger evidence
+docs/ending_sequence.md      room-index 49 ending choreography
+docs/ending_and_special_room_support.md ending text, Seal logic, and room data
 scripts/project.py         split, verify, lint, and safe build helpers
 scripts/asm_style.py       shared ca65 formatter and style checker
 scripts/verify_rom.py      original/build/asset comparison and ROM reports
@@ -215,6 +218,9 @@ src/system/controller_input.asm serial sampling and cached controller input
 src/system/startup.asm     reset, warm-boot state, PPU and thread bootstrap
 src/system/scheduler.asm   eight-context cooperative stack scheduler
 src/system/pause_thread.asm context-two Start-button pause loop
+src/game/special_room_scripts.asm 53-entry room script dispatcher and triggers
+src/game/ending_sequence.asm room-index 49 ending sequence
+src/game/ending_and_special_room_support.asm ending and special-room support
 src/system/sound_effect_queue.asm three-slot sound command producer
 src/system/ppu_update_buffer.asm publish shared RAM program to NMI
 src/graphics/ppu_attribute_read.asm NMI RoomMap attribute-byte reader

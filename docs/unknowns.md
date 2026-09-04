@@ -12,7 +12,7 @@
    screens, and object states consume each CHR bank.
 5. Document the exact room-map dimensions and all runtime tile values beginning
    at `$0304`.
-6. Identify the special-room selectors and data for Solomon Seals, Bomb Jacks,
+6. Identify the remaining special-room selectors and data for Bomb Jacks,
    Tecmo Bunnies, and the Pages of Time and Space.
 7. Prove timer service frequency under scheduler load and reproduce known
    timing volatility with a deterministic emulator scenario.

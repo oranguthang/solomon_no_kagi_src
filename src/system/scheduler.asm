@@ -135,4 +135,4 @@ ThreadEntryTableBases:
     .addr RunEnemyItemPresentation - 1
     .addr RunExtraLifeEnemyItemPresentation - 1
     .addr ProcessDefeatedEnemyDrops - 1
-    .byte $ff, $b7
+    .addr RunSpecialRoomScriptThread - 1

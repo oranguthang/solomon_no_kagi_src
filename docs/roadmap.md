@@ -159,6 +159,14 @@ decrease.
   plus enemy-AI pool clear are split into seven semantic modules;
 - `$C100-$C23B`: context-5 defeated-enemy processing, both drop tables, and
   the shared deterministic random-state mixer are source-owned;
+- `$B800-$BA33`: all 53 context-6 room dispatch entries and the shared scripted
+  block/enemy triggers are source-owned;
+- `$BA34-$BD93`: the room-index 49 ending sequence, convergence animation,
+  randomized object fall, message selection, palette fade, and input handoff
+  are source-owned;
+- `$BD94-$C0FF`: ending helpers and text, Solomon's Seal reveal state, special
+  room position/bitplane tables, and the classified pre-`$C100` filler are
+  source-owned;
 - `$C628-$C697`: timer items perform four-digit decimal doubling, fivefold
   multiplication, and the fixed `10000`/`05000` assignments;
 - `$C698-$C70F`: Scroll Extender, fireball bottles, Fairy Bell, Tzo, and score

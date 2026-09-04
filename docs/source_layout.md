@@ -177,7 +177,10 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_ENEMY_POINTER_TABLES` | split object/AI record pointer tables | 76 |
 | `PRG_ENEMY_DEACTIVATION` | parallel-record enemy slot retirement | 36 |
 | `PRG_CURRENT_ENEMY_DEACTIVATION` | selected enemy-record retirement | 14 |
-| `PRG_BANK_0` | unresolved `$B4C4-$C0FF` range | 3,132 |
+| `PRG_BANK_0` | unresolved `$B4C4-$B7FF` range | 828 |
+| `PRG_SPECIAL_ROOM_SCRIPTS` | context-6 room-index dispatcher and scripted triggers | 564 |
+| `PRG_ENDING_SEQUENCE` | room-index 49 ending choreography and text presentation | 864 |
+| `PRG_ENDING_SPECIAL_ROOM_SUPPORT` | ending messages, Seal reveal logic, special-room maps, and classified filler | 876 |
 | `PRG_ENEMY_DROP_PROCESSING` | context-5 defeated-enemy conversion and drop tables | 227 |
 | `PRG_RANDOM_STATE` | shared deterministic random-state mixer | 89 |
 | `PRG_KEY_COLLECTION_PRESENTATION` | context-3 key removal, object pause, and gameplay resume | 106 |

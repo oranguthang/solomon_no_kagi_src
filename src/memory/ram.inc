@@ -90,6 +90,8 @@ Joypad1Raw = $0082
 Joypad2Raw = $0083
 GameStateFlags = $0078
 SolomonSealCount = $0079
+CollectedSolomonSealFlags = $007A
+CurrentRoomSolomonSealFlag = $007B
 Joypad1Cached = $03E4
 Joypad2Cached = $03E5
 PpuUpdateBuffer = $03E6
@@ -152,6 +154,8 @@ RoomBlockByteIndex = $0003
 RoomBlockBits = $0004
 RoomStateFlags = $007C
 RoomTileset = $007D
+BlockCastTargetMapIndex = $007E
+HeadCollisionTargetMapIndex = $007F
 
 EnemyAiState = $04F7
 EnemyAiStateStride = 8

@@ -28,9 +28,9 @@ StoreSpecialItem1BFlag:
 
 ApplySolomonSealItem:
     INC SolomonSealCount
-    LDA $7A
-    ORA $7B
-    STA $7A
+    LDA CollectedSolomonSealFlags
+    ORA CurrentRoomSolomonSealFlag
+    STA CollectedSolomonSealFlags
     RTS
 
 ApplyConstellationSymbolItem:

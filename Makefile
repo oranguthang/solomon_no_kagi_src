@@ -84,6 +84,9 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	src/data/enemy_record_pointers.asm \
 	src/game/enemy_deactivation.asm \
 	src/game/current_enemy_deactivation.asm \
+	src/game/special_room_scripts.asm \
+	src/game/ending_sequence.asm \
+	src/game/ending_and_special_room_support.asm \
 	src/game/active_object_states.asm \
 	src/game/object_pointer.asm \
 	src/game/non_dana_object_deactivation.asm \

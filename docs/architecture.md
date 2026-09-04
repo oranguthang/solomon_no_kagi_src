@@ -91,6 +91,13 @@ Context 2 selector 1 is now identified as `PauseGameThread`. Scheduler code
 Start release/press/release phases, then stops context 2 on resume. See
 `docs/pause_thread.md`.
 
+Context 6 is the cooperative special-room script runner. Code `$60` enters a
+53-entry room-index dispatcher whose two-level base-plus-offset representation
+shares handlers between ordinary and secret rooms. Individual handlers wait on
+map cells, Dana state, or cast/collision reports and can reveal Solomon Seals,
+enable an enemy phase, spawn an enemy, or mutate scripted tiles. See
+`docs/special_room_scripts.md`.
+
 Context 1 owns both Dana actions and room transitions. Scheduler code `$14`
 enters `RoomClearThread`, converts the remaining decimal timer into score, and
 replaces itself with code `$15`. Code `$15` enters `RoomLoadThread`, rebuilds

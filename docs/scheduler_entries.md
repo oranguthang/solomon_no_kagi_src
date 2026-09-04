@@ -37,6 +37,12 @@ Code `$50` is now source-owned as `ProcessDefeatedEnemyDrops`. The red-bottle
 item marks eligible enemy records and starts this context, which converts all
 marked records into table-selected drop objects before stopping context 5.
 
+Code `$60` is source-owned as `RunSpecialRoomScriptThread`. Context 6 uses the
+current room index to dispatch a cooperative room-specific trigger, then stops
+itself when that handler returns. The dispatcher covers all 53 room indices,
+including the four secret rooms whose offsets follow the old disassembler's
+apparent code boundary.
+
 Context 4's complete selector family is now classified. `$40` enters
 `RunMapItemPresentation`, `$41` enters
 `RunExtraLifeMapItemPresentation`, `$42` enters

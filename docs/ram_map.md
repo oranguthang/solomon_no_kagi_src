@@ -24,9 +24,12 @@ range is understood.
 | `$0036-$0039` | two resolved Demon Mirror schedule pointers | confirmed |
 | `$003A-$003D` | two resolved Demon Mirror enemy-set pointers | confirmed |
 | `$007C-$007D` | room-state flags and decoded tileset | high |
-| `$007E-$007F` | block-cast and head-collision target map indices | high |
+| `$007E` | most recent block-cast target map index | high |
+| `$007F` | most recent head-collision target map index | high |
 | `$0078` | global game-state flags; pause thread modifies bits 1-2 | high |
 | `$0079` | collected Solomon Seal count | confirmed |
+| `$007A` | bitset of Solomon Seals already collected | confirmed |
+| `$007B` | Solomon Seal flag assigned to the current scripted room | confirmed |
 | `$0082-$0083` | raw controller values in A/B/Select/Start/Up/Down/Left/Right bit order | confirmed |
 | `$0087` | mixed state flags; bit 0 gates item effects and brackets auxiliary map cleanup | high |
 | `$0210-$030F` | OAM shadow buffer, 64 four-byte sprites | high |

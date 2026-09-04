@@ -5706,6 +5706,749 @@
       "evidence": [
         "Every mixing iteration shifts the two-byte seed right here before decrementing the fixed round counter."
       ]
+    },
+    {
+      "address": "0xb800",
+      "previous": "$B800",
+      "current": "RunSpecialRoomScriptThread",
+      "confidence": "confirmed",
+      "evidence": [
+        "Scheduler code $60 enters here, dispatches the current room's handler, and stops context 6 when the handler returns."
+      ]
+    },
+    {
+      "address": "0xb808",
+      "previous": "$B808",
+      "current": "DispatchCurrentRoomScript",
+      "confidence": "confirmed",
+      "evidence": [
+        "CurrentRoomIndex selects a group pointer and a per-room relative offset before the routine jumps through the resolved address."
+      ]
+    },
+    {
+      "address": "0xb824",
+      "previous": "$B824",
+      "current": "SpecialRoomScriptGroupBases",
+      "confidence": "confirmed",
+      "evidence": [
+        "The dispatcher indexes these seven little-endian base pointers with two bytes per eight-room group."
+      ]
+    },
+    {
+      "address": "0xb832",
+      "previous": "$B832",
+      "current": "SpecialRoomScriptOffsets",
+      "confidence": "confirmed",
+      "evidence": [
+        "The dispatcher indexes this 53-byte table directly by CurrentRoomIndex and adds the selected byte to its group base."
+      ]
+    },
+    {
+      "address": "0xb867",
+      "previous": "$B867",
+      "current": "NoSpecialRoomScript",
+      "confidence": "confirmed",
+      "evidence": [
+        "Multiple ordinary-room table entries resolve to this single-byte RTS handler."
+      ]
+    },
+    {
+      "address": "0xb868",
+      "previous": "$B868",
+      "current": "EnablePrimaryEnemyScript",
+      "confidence": "confirmed",
+      "evidence": [
+        "This room entry immediately jumps to the shared first-enemy AI phase helper at $B924."
+      ]
+    },
+    {
+      "address": "0xb86b",
+      "previous": "$B86B",
+      "current": "RevealRoomSealFlag01",
+      "confidence": "confirmed",
+      "evidence": [
+        "This room entry passes bit $01 to the shared Solomon Seal reveal routine."
+      ]
+    },
+    {
+      "address": "0xb870",
+      "previous": "$B870",
+      "current": "NoGroup1RoomScript",
+      "confidence": "confirmed",
+      "evidence": [
+        "The group-1 offset table deliberately selects this standalone RTS for rooms without a trigger."
+      ]
+    },
+    {
+      "address": "0xb871",
+      "previous": "$B871",
+      "current": "EnablePrimaryEnemyScriptGroup1",
+      "confidence": "confirmed",
+      "evidence": [
+        "This second physical room entry jumps to the same first-enemy AI phase helper at $B924."
+      ]
+    },
+    {
+      "address": "0xb874",
+      "previous": "$B874",
+      "current": "RevealRoomSealFlag02",
+      "confidence": "confirmed",
+      "evidence": [
+        "This room entry passes bit $02 to the shared Solomon Seal reveal routine."
+      ]
+    },
+    {
+      "address": "0xb879",
+      "previous": "_label_bank0_b879",
+      "current": "NoGroup2RoomScript",
+      "confidence": "confirmed",
+      "evidence": [
+        "The group-2 base is a one-byte return also used by the adjacent trigger's disabled path."
+      ]
+    },
+    {
+      "address": "0xb87a",
+      "previous": "$B87A",
+      "current": "RunRepeatedHeadCollision7ETrigger",
+      "confidence": "confirmed",
+      "evidence": [
+        "This handler reveals flag $04, counts eleven head-collision reports for map cell $7E, then spawns an enemy at cell $6E."
+      ]
+    },
+    {
+      "address": "0xb889",
+      "previous": "_label_bank0_b889",
+      "current": "WaitForHeadCollision7E",
+      "confidence": "confirmed",
+      "evidence": [
+        "The cooperative loop waits until HeadCollisionTargetMapIndex equals $7E and clears that report before counting it."
+      ]
+    },
+    {
+      "address": "0xb8a5",
+      "previous": "$B8A5",
+      "current": "EnablePrimaryEnemyScriptGroup2",
+      "confidence": "confirmed",
+      "evidence": [
+        "The selected room entry directly joins EnablePrimaryEnemyAiPhase."
+      ]
+    },
+    {
+      "address": "0xb8a8",
+      "previous": "$B8A8",
+      "current": "RevealRoomSealFlag08AndEnableEnemy",
+      "confidence": "confirmed",
+      "evidence": [
+        "This handler reveals flag $08 and then joins the first-enemy AI phase helper."
+      ]
+    },
+    {
+      "address": "0xb8b0",
+      "previous": "$B8B0",
+      "current": "RunRoomIndex19BlockTrigger",
+      "confidence": "high",
+      "evidence": [
+        "Room-index dispatch selects this handler; it expands the bitplane at $BFE2 with tile $04 and runs the map trigger at cell $20."
+      ]
+    },
+    {
+      "address": "0xb8c7",
+      "previous": "$B8C7",
+      "current": "RevealRoomSealFlag10",
+      "confidence": "confirmed",
+      "evidence": [
+        "This room entry passes bit $10 to the shared Solomon Seal reveal routine."
+      ]
+    },
+    {
+      "address": "0xb8cc",
+      "previous": "$B8CC",
+      "current": "RunRoomMapTrigger",
+      "confidence": "confirmed",
+      "evidence": [
+        "The shared handler watches a selected RoomMap cell through two set/clear cycles and publishes tiles $38 and $39 around Dana action $14."
+      ]
+    },
+    {
+      "address": "0xb8d2",
+      "previous": "_label_bank0_b8d2",
+      "current": "WaitForTargetTileSet",
+      "confidence": "confirmed",
+      "evidence": [
+        "This cooperative loop repeats while the selected RoomMap byte is nonnegative and exits when its high bit becomes set."
+      ]
+    },
+    {
+      "address": "0xb8d7",
+      "previous": "_label_bank0_b8d7",
+      "current": "WaitForTargetTileClear",
+      "confidence": "confirmed",
+      "evidence": [
+        "This loop is the inverse phase, waiting until the selected RoomMap byte loses its high bit."
+      ]
+    },
+    {
+      "address": "0xb8dc",
+      "previous": "_label_bank0_b8dc",
+      "current": "WaitForDanaActionToFinish",
+      "confidence": "high",
+      "evidence": [
+        "The loop yields while bit 0 of Dana's state remains set, then publishes tile $38 at the scripted map cell."
+      ]
+    },
+    {
+      "address": "0xb8f0",
+      "previous": "_label_bank0_b8f0",
+      "current": "WaitForSecondTargetTileSet",
+      "confidence": "confirmed",
+      "evidence": [
+        "After publishing tile $38, this second phase waits for the target RoomMap byte's high bit to become set again."
+      ]
+    },
+    {
+      "address": "0xb8f5",
+      "previous": "_label_bank0_b8f5",
+      "current": "WaitForSecondTargetTileClear",
+      "confidence": "confirmed",
+      "evidence": [
+        "The final tile phase waits for the high bit to clear and then checks the reported head-collision cell."
+      ]
+    },
+    {
+      "address": "0xb900",
+      "previous": "_label_bank0_b900",
+      "current": "WaitForDanaRoomScriptAction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The loop yields until Dana action byte 3 equals $14, then stores tile $32 and publishes tile $39 at the target cell."
+      ]
+    },
+    {
+      "address": "0xb91a",
+      "previous": "_label_bank0_b91a",
+      "current": "FinishRoomMapTrigger",
+      "confidence": "confirmed",
+      "evidence": [
+        "Disabled and failed-condition branches converge on this return from the shared map trigger."
+      ]
+    },
+    {
+      "address": "0xb91b",
+      "previous": "$B91B",
+      "current": "ReadScriptTargetTileAfterYield",
+      "confidence": "confirmed",
+      "evidence": [
+        "The helper yields once and returns RoomMap indexed by RoomScriptTargetMapIndex."
+      ]
+    },
+    {
+      "address": "0xb924",
+      "previous": "$B924",
+      "current": "EnablePrimaryEnemyAiPhase",
+      "confidence": "high",
+      "evidence": [
+        "After waiting for Dana to become active, the helper sets bit 6 in the first enemy AI record."
+      ]
+    },
+    {
+      "address": "0xb930",
+      "previous": "_label_bank0_b930",
+      "current": "SpawnType18AtScriptTarget",
+      "confidence": "confirmed",
+      "evidence": [
+        "The loop waits for a free enemy slot, converts the scripted map index to coordinates, and initializes enemy type $18."
+      ]
+    },
+    {
+      "address": "0xb959",
+      "previous": "$B959",
+      "current": "NoGroup3RoomScript",
+      "confidence": "confirmed",
+      "evidence": [
+        "The group-3 base is a one-byte return selected by its zero offsets."
+      ]
+    },
+    {
+      "address": "0xb95a",
+      "previous": "$B95A",
+      "current": "RevealRoomSealFlag20",
+      "confidence": "confirmed",
+      "evidence": [
+        "This room entry passes bit $20 to the shared Solomon Seal reveal routine."
+      ]
+    },
+    {
+      "address": "0xb95f",
+      "previous": "$B95F",
+      "current": "RunRoomIndex29BlockTrigger",
+      "confidence": "high",
+      "evidence": [
+        "Room-index dispatch selects this handler; it expands the bitplane at $BFFA with tile $27 and enables the first enemy AI phase."
+      ]
+    },
+    {
+      "address": "0xb972",
+      "previous": "$B972",
+      "current": "UnusedRoomIndex29ScriptReturn",
+      "confidence": "high",
+      "evidence": [
+        "This standalone RTS lies after an unconditional jump and no room offset selects it; it is retained to preserve the original layout."
+      ]
+    },
+    {
+      "address": "0xb973",
+      "previous": "_label_bank0_b973",
+      "current": "NoGroup4RoomScript",
+      "confidence": "confirmed",
+      "evidence": [
+        "The group-4 base is the return used by zero offsets and by the adjacent disabled trigger path."
+      ]
+    },
+    {
+      "address": "0xb974",
+      "previous": "$B974",
+      "current": "RunRepeatedHeadCollision56Trigger",
+      "confidence": "confirmed",
+      "evidence": [
+        "This handler counts eleven head-collision reports for map cell $56, then spawns an enemy at cell $36."
+      ]
+    },
+    {
+      "address": "0xb97e",
+      "previous": "_label_bank0_b97e",
+      "current": "WaitForHeadCollision56",
+      "confidence": "confirmed",
+      "evidence": [
+        "The cooperative loop waits for HeadCollisionTargetMapIndex $56 and clears every accepted report before incrementing its count."
+      ]
+    },
+    {
+      "address": "0xb99a",
+      "previous": "$B99A",
+      "current": "RunRoomIndex37MapTrigger",
+      "confidence": "high",
+      "evidence": [
+        "The room entry selects map cell $9E and joins the shared map-trigger state machine."
+      ]
+    },
+    {
+      "address": "0xb9a1",
+      "previous": "$B9A1",
+      "current": "NoGroup5RoomScript",
+      "confidence": "confirmed",
+      "evidence": [
+        "The group-5 base is a one-byte return selected by its zero offsets."
+      ]
+    },
+    {
+      "address": "0xb9a2",
+      "previous": "$B9A2",
+      "current": "RevealRoomSealFlag40AndEnableEnemy",
+      "confidence": "confirmed",
+      "evidence": [
+        "This handler reveals flag $40 and then joins the shared first-enemy AI phase helper."
+      ]
+    },
+    {
+      "address": "0xb9aa",
+      "previous": "$B9AA",
+      "current": "RevealRoomSealFlag80",
+      "confidence": "confirmed",
+      "evidence": [
+        "This room entry passes bit $80 to the shared Solomon Seal reveal routine."
+      ]
+    },
+    {
+      "address": "0xb9af",
+      "previous": "$B9AF",
+      "current": "NoGroup6RoomScript",
+      "confidence": "confirmed",
+      "evidence": [
+        "The group-6 base is a one-byte return and is selected directly by room index 50."
+      ]
+    },
+    {
+      "address": "0xb9b0",
+      "previous": "$B9B0",
+      "current": "RunRoomIndex48ObjectTrigger",
+      "confidence": "high",
+      "evidence": [
+        "Room index 48 resolves here; the handler hides twelve fixed map cells and reacts to cast targets $AD and $57."
+      ]
+    },
+    {
+      "address": "0xb9bc",
+      "previous": "_label_bank0_b9bc",
+      "current": "HideRoomIndex48Objects",
+      "confidence": "high",
+      "evidence": [
+        "This twelve-iteration loop stores state $90 at map offsets read from the fixed table at $BFD6."
+      ]
+    },
+    {
+      "address": "0xb9c5",
+      "previous": "_label_bank0_b9c5",
+      "current": "WaitForRoomIndex48FirstCastTarget",
+      "confidence": "confirmed",
+      "evidence": [
+        "The cooperative loop waits for block-cast target $AD, then verifies that the first enemy is active at the same map cell."
+      ]
+    },
+    {
+      "address": "0xb9e9",
+      "previous": "_label_bank0_b9e9",
+      "current": "WaitForRoomIndex48SecondCastTarget",
+      "confidence": "confirmed",
+      "evidence": [
+        "After the first condition succeeds, this loop waits for block-cast target $57 and updates RoomMap cell $65."
+      ]
+    },
+    {
+      "address": "0xb9f7",
+      "previous": "_label_bank0_b9f7",
+      "current": "FinishRoomIndex48ObjectTrigger",
+      "confidence": "confirmed",
+      "evidence": [
+        "All failed enemy-position checks and the completed second cast path return through this label."
+      ]
+    },
+    {
+      "address": "0xb9f8",
+      "previous": "$B9F8",
+      "current": "RunRoomIndex51ObjectTrigger",
+      "confidence": "confirmed",
+      "evidence": [
+        "Room index 51's offset selects this entry, which chooses map cell $37 before joining the shared secret-room trigger."
+      ]
+    },
+    {
+      "address": "0xb9fc",
+      "previous": "$B9FC",
+      "current": "RunRoomIndex52ObjectTrigger",
+      "confidence": "confirmed",
+      "evidence": [
+        "Room index 52's offset selects this entry, which chooses map cell $A7 before joining the shared secret-room trigger."
+      ]
+    },
+    {
+      "address": "0xb9fe",
+      "previous": "_label_bank0_b9fe",
+      "current": "MarkRoomIndex51Or52TriggerTile",
+      "confidence": "high",
+      "evidence": [
+        "The common path writes tile $21 at the entry-selected cell, waits for Dana, and marks cell $97 with state $90."
+      ]
+    },
+    {
+      "address": "0xba0b",
+      "previous": "_label_bank0_ba0b",
+      "current": "WaitForRoomIndex51Or52DanaPosition",
+      "confidence": "high",
+      "evidence": [
+        "The cooperative loop converts Dana's current coordinates to a map cell and also tests the most recent block-cast target."
+      ]
+    },
+    {
+      "address": "0xba2b",
+      "previous": "_label_bank0_ba2b",
+      "current": "OpenRoomIndex51Or52Tiles",
+      "confidence": "high",
+      "evidence": [
+        "Reaching converted map cell $57 selects a three-byte RoomMap update beginning at offset $46."
+      ]
+    },
+    {
+      "address": "0xba2d",
+      "previous": "_label_bank0_ba2d",
+      "current": "OpenNextRoomIndex51Or52Tile",
+      "confidence": "confirmed",
+      "evidence": [
+        "This three-iteration loop writes state $90 to RoomMap offsets $46-$48."
+      ]
+    },
+    {
+      "address": "0xba34", "previous": "$BA34", "current": "RunEndingRoomScript", "confidence": "confirmed",
+      "evidence": ["Room-index 49 resolves here and the uninterrupted context-6 path ends by starting selector $16 and stopping context 6."]
+    },
+    {
+      "address": "0xba4f", "previous": "_label_bank0_ba4f", "current": "WaitForEndingCastAt6C", "confidence": "confirmed",
+      "evidence": ["The cooperative loop waits until BlockCastTargetMapIndex equals $6C, then changes RoomMap cell $69."]
+    },
+    {
+      "address": "0xba5d", "previous": "_label_bank0_ba5d", "current": "WaitForEndingCastAt67", "confidence": "confirmed",
+      "evidence": ["The loop waits for cast target $67 before stopping secondary contexts and entering the ending room state."]
+    },
+    {
+      "address": "0xba98", "previous": "_label_bank0_ba98", "current": "PrepareNextConvergingEnemy", "confidence": "confirmed",
+      "evidence": ["This seventeen-object loop changes each enemy to type $1C and builds a scaled motion vector toward map cell $67."]
+    },
+    {
+      "address": "0xbace", "previous": "_label_bank0_bace", "current": "StoreNextEndingMotionByte", "confidence": "confirmed",
+      "evidence": ["The four-byte loop copies the calculated Y/X deltas into AI-state offsets 4-7."]
+    },
+    {
+      "address": "0xbae9", "previous": "_label_bank0_bae9", "current": "AdvanceEndingConvergenceFrame", "confidence": "confirmed",
+      "evidence": ["This frame phase resets the enemy index and advances all seventeen convergence vectors."]
+    },
+    {
+      "address": "0xbaed", "previous": "_label_bank0_baed", "current": "AdvanceNextConvergingEnemy", "confidence": "confirmed",
+      "evidence": ["The loop resolves matching AI/object records and applies the stored motion vector to each enemy object."]
+    },
+    {
+      "address": "0xbb07", "previous": "_label_bank0_bb07", "current": "WaitForNextEndingFrame", "confidence": "confirmed",
+      "evidence": ["The loop waits for gameplay counter 6 to change and repeats convergence until it reaches $43."]
+    },
+    {
+      "address": "0xbb35", "previous": "_label_bank0_bb35", "current": "WaitForEndingPpuBuffer", "confidence": "confirmed",
+      "evidence": ["The loop waits for the active PPU stream pointer high byte to clear before constructing the first ending update."]
+    },
+    {
+      "address": "0xbb61", "previous": "_label_bank0_bb61", "current": "CopyEndingSparkTemplate", "confidence": "confirmed",
+      "evidence": ["The four-byte loop copies the adjacent ending template into MagicSparkObject."]
+    },
+    {
+      "address": "0xbb83", "previous": "_label_bank0_bb83", "current": "RunNextEndingEnemyWave", "confidence": "high",
+      "evidence": ["The outer loop installs an AI template and initializes eight type-$1C objects before running the shared orbit entry."]
+    },
+    {
+      "address": "0xbb85", "previous": "_label_bank0_bb85", "current": "CopyEndingEnemyAiTemplate", "confidence": "confirmed",
+      "evidence": ["This thirteen-byte loop copies EndingEnemyAiTemplate into the first AI-state records."]
+    },
+    {
+      "address": "0xbb92", "previous": "_label_bank0_bb92", "current": "InitializeNextEndingWaveObject", "confidence": "confirmed",
+      "evidence": ["The eight-object loop initializes state $C2, type $1C, and action $08 or $09."]
+    },
+    {
+      "address": "0xbbb7", "previous": "_label_bank0_bbb7", "current": "BeginEndingObjectFall", "confidence": "high",
+      "evidence": ["After the optional orbit waves, this block selects the object-fall phase and initializes its motion budget."]
+    },
+    {
+      "address": "0xbbc6", "previous": "_label_bank0_bbc6", "current": "WaitForEndingObjectFrame", "confidence": "confirmed",
+      "evidence": ["The loop waits for gameplay counter 6 to change, then begins an eleven-object pass."]
+    },
+    {
+      "address": "0xbbd6", "previous": "_label_bank0_bbd6", "current": "AdvanceNextEndingObject", "confidence": "high",
+      "evidence": ["This pass loads successive ending objects, conditionally reinitializes inactive records, and applies motion to active records."]
+    },
+    {
+      "address": "0xbbf9", "previous": "_label_bank0_bbf9", "current": "MoveEndingObject", "confidence": "confirmed",
+      "evidence": ["The block deactivates objects at Y $D0 or below before joining the common motion call."]
+    },
+    {
+      "address": "0xbc06", "previous": "_label_bank0_bc06", "current": "ApplyEndingObjectMotion", "confidence": "confirmed",
+      "evidence": ["Both active and newly initialized ending objects converge on the shared motion-vector application here."]
+    },
+    {
+      "address": "0xbc09", "previous": "_label_bank0_bc09", "current": "FinishEndingObjectPass", "confidence": "confirmed",
+      "evidence": ["This tail decrements the object-pass counter and repeats frames until the inactive count reaches eleven."]
+    },
+    {
+      "address": "0xbc15", "previous": "_label_bank0_bc15", "current": "SelectEndingMessageSequence", "confidence": "high",
+      "evidence": ["GameStateFlags bits 6-7 select whether the full fade/random-object path runs before ending text."]
+    },
+    {
+      "address": "0xbc20", "previous": "_label_bank0_bc20", "current": "RunEndingFade", "confidence": "confirmed",
+      "evidence": ["The full path queues PPU stream 7, sound $1A, and initializes the scroll oscillation counters."]
+    },
+    {
+      "address": "0xbc3b", "previous": "_label_bank0_bc3b", "current": "OscillateEndingScroll", "confidence": "confirmed",
+      "evidence": ["The 32-step loop alternates a signed four-pixel delta while updating PpuScrollY."]
+    },
+    {
+      "address": "0xbc55", "previous": "_label_bank0_bc55", "current": "PopulateEndingRandomObjects", "confidence": "confirmed",
+      "evidence": ["Each outer iteration resets the index for all seventeen random-position ending objects."]
+    },
+    {
+      "address": "0xbc59", "previous": "_label_bank0_bc59", "current": "PopulateNextEndingRandomObject", "confidence": "confirmed",
+      "evidence": ["The loop derives a scroll-dependent Y range and random X/Y positions for each enemy object."]
+    },
+    {
+      "address": "0xbc69", "previous": "_label_bank0_bc69", "current": "ReduceEndingRandomY", "confidence": "confirmed",
+      "evidence": ["Repeated subtraction reduces the random byte into the current vertical range."]
+    },
+    {
+      "address": "0xbc71", "previous": "_label_bank0_bc71", "current": "StoreEndingRandomY", "confidence": "confirmed",
+      "evidence": ["The reduced value is transformed into Y while a second random byte supplies the object's X position."]
+    },
+    {
+      "address": "0xbc83", "previous": "_label_bank0_bc83", "current": "CopyEndingRandomObjectTemplate", "confidence": "confirmed",
+      "evidence": ["The four-byte reverse loop installs object state, type, cached type, and action fields."]
+    },
+    {
+      "address": "0xbca3", "previous": "_label_bank0_bca3", "current": "DeactivateNextEndingRandomObject", "confidence": "confirmed",
+      "evidence": ["The seventeen-record loop clears object state after the scrolling random-object phase."]
+    },
+    {
+      "address": "0xbcad", "previous": "$BCAD", "current": "FinishEndingRandomObjects", "confidence": "confirmed",
+      "evidence": ["Both the short and full ending paths converge here before message selection."]
+    },
+    {
+      "address": "0xbcbc", "previous": "_label_bank0_bcbc", "current": "PublishInitialEndingMessage", "confidence": "confirmed",
+      "evidence": ["The two-pass loop waits for the PPU stream, copies initial message data, and publishes the buffer."]
+    },
+    {
+      "address": "0xbcc9", "previous": "_label_bank0_bcc9", "current": "CopyInitialEndingMessage", "confidence": "confirmed",
+      "evidence": ["This zero-terminated copy writes the selected initial message payload into PpuUpdateBuffer."]
+    },
+    {
+      "address": "0xbcdb", "previous": "_label_bank0_bcdb", "current": "CopyInitialEndingMessageAddress", "confidence": "confirmed",
+      "evidence": ["Both scroll-dependent paths converge here to prepare two PPU address bytes."]
+    },
+    {
+      "address": "0xbcdd", "previous": "_label_bank0_bcdd", "current": "CopyNextInitialMessageAddressByte", "confidence": "confirmed",
+      "evidence": ["The two-byte reverse loop copies the initial message's PPU destination address."]
+    },
+    {
+      "address": "0xbcee", "previous": "_label_bank0_bcee", "current": "SelectEndingTextSequence", "confidence": "high",
+      "evidence": ["Rotated game-state bits choose one of three ending-message sequence starts."]
+    },
+    {
+      "address": "0xbcf8", "previous": "_label_bank0_bcf8", "current": "LoadEndingMessageSequenceStart", "confidence": "confirmed",
+      "evidence": ["The selected table byte becomes the cursor into EndingMessageSequence."]
+    },
+    {
+      "address": "0xbcfd", "previous": "_label_bank0_bcfd", "current": "PublishNextEndingMessage", "confidence": "confirmed",
+      "evidence": ["The loop waits for PPU availability, consumes a message index, and stops on a negative terminator."]
+    },
+    {
+      "address": "0xbd0e", "previous": "_label_bank0_bd0e", "current": "CopyEndingMessageText", "confidence": "confirmed",
+      "evidence": ["This zero-terminated loop copies one indexed ending text payload into PpuUpdateBuffer."]
+    },
+    {
+      "address": "0xbd24", "previous": "_label_bank0_bd24", "current": "CopyEndingMessageAddress", "confidence": "confirmed",
+      "evidence": ["The block appends the two PPU destination bytes and publishes the completed message command."]
+    },
+    {
+      "address": "0xbd37", "previous": "_label_bank0_bd37", "current": "FinishEndingMessages", "confidence": "confirmed",
+      "evidence": ["A negative sequence entry ends text publication and initializes the three-step palette loop."]
+    },
+    {
+      "address": "0xbd3b", "previous": "_label_bank0_bd3b", "current": "RunNextEndingPaletteStep", "confidence": "confirmed",
+      "evidence": ["The three-iteration loop rebuilds the PPU command and installs palette values from $BD94-$BD96."]
+    },
+    {
+      "address": "0xbd5c", "previous": "_label_bank0_bd5c", "current": "WaitForEndingInput", "confidence": "confirmed",
+      "evidence": ["The loop waits for nonzero controller input, restores display state, starts selector $16, and stops context 6."]
+    },
+    {
+      "address": "0xbd94", "previous": "$BD94", "current": "EndingPaletteValues", "confidence": "confirmed",
+      "evidence": ["The ending's three-step loop indexes these three bytes in reverse and writes each to the palette update buffer."]
+    },
+    {
+      "address": "0xbd97", "previous": "$BD97", "current": "BuildEndingPpuMessage", "confidence": "confirmed",
+      "evidence": ["The routine copies the 19-byte static PPU stream at $95F3, terminates the RAM buffer, and patches its palette tile."]
+    },
+    {
+      "address": "0xbd99", "previous": "_label_bank0_bd99", "current": "CopyNextEndingPpuTemplateByte", "confidence": "confirmed",
+      "evidence": ["The reverse loop copies all nineteen bytes of StaticPpuUpdateStream05 to PpuUpdateBuffer."]
+    },
+    {
+      "address": "0xbdac", "previous": "$BDAC", "current": "InitializeRandomEndingObject", "confidence": "confirmed",
+      "evidence": ["Two random-state outputs set object coordinates before the routine builds its motion vector and initializes type $50."]
+    },
+    {
+      "address": "0xbdce", "previous": "_label_bank0_bdce", "current": "CopyNextRandomEndingMotionByte", "confidence": "confirmed",
+      "evidence": ["The four-byte reverse loop transfers the newly calculated coordinate deltas into the selected enemy AI record."]
+    },
+    {
+      "address": "0xbdea", "previous": "_label_bank0_bdea", "current": "WaitForDanaActive", "confidence": "confirmed",
+      "evidence": ["All callers need Dana ready; the loop yields until Dana's object-state byte has its active high bit set."]
+    },
+    {
+      "address": "0xbdf3", "previous": "$BDF3", "current": "LoadNextEndingObject", "confidence": "confirmed",
+      "evidence": ["The ending pass index resolves and retains both the parallel AI and object pointers used by the object-fall loop."]
+    },
+    {
+      "address": "0xbe08", "previous": "$BE08", "current": "CopyEndingPointerPair", "confidence": "confirmed",
+      "evidence": ["With X equal to zero or two, the helper copies TempPointer00 into the ending's adjacent AI or object pointer pair."]
+    },
+    {
+      "address": "0xbe11", "previous": "$BE11", "current": "WaitOneEndingStep", "confidence": "confirmed",
+      "evidence": ["This entry supplies the fixed threshold four before falling through to the shared ending delay helper."]
+    },
+    {
+      "address": "0xbe13", "previous": "$BE13", "current": "WaitForEndingSteps", "confidence": "confirmed",
+      "evidence": ["Callers provide a threshold in A; the helper clears zero-page counter $26 and waits for it to advance past that threshold."]
+    },
+    {
+      "address": "0xbe1d", "previous": "$BE1D", "current": "WriteEndingRoomCell", "confidence": "confirmed",
+      "evidence": ["The helper maps A and X to the established room-cell update ABI and invokes BuildAndPublishRoomMapCellUpdate."]
+    },
+    {
+      "address": "0xbe25", "previous": "$BE25", "current": "UnusedEndingSetupData", "confidence": "high",
+      "evidence": ["No absolute or table reference targets these twenty bytes between the support code and the first live ending template."]
+    },
+    {
+      "address": "0xbe39", "previous": "$BE39", "current": "EndingSparkTemplate", "confidence": "confirmed",
+      "evidence": ["The ending copies exactly four bytes from here into the state, type, cached-type, and action fields of MagicSparkObject."]
+    },
+    {
+      "address": "0xbe3d", "previous": "$BE3D", "current": "EndingEnemyAiTemplate", "confidence": "confirmed",
+      "evidence": ["Each ending orbit wave copies thirteen bytes from this address into the first enemy AI record."]
+    },
+    {
+      "address": "0xbe4a", "previous": "$BE4A", "current": "EndingRandomObjectTemplate", "confidence": "confirmed",
+      "evidence": ["The random-object phase copies the first four bytes into every enemy object's header."]
+    },
+    {
+      "address": "0xbe4e", "previous": "$BE4E", "current": "UnusedEndingObjectData", "confidence": "high",
+      "evidence": ["No reconstructed reference consumes the seven bytes between the random-object template and initial-message stream."]
+    },
+    {
+      "address": "0xbe55", "previous": "$BE55", "current": "EndingInitialMessageData", "confidence": "confirmed",
+      "evidence": ["The two-pass initial-message loop reads zero-terminated text and alternate PPU destination pairs from this base."]
+    },
+    {
+      "address": "0xbe8f", "previous": "$BE8F", "current": "EndingMessageSequenceStarts", "confidence": "confirmed",
+      "evidence": ["Rotated game-state bits index these three cursors before the main ending-message loop."]
+    },
+    {
+      "address": "0xbe92", "previous": "$BE92", "current": "EndingMessageSequence", "confidence": "confirmed",
+      "evidence": ["The three lists contain message indices and terminate with entries whose high bit is set."]
+    },
+    {
+      "address": "0xbea4", "previous": "$BEA4", "current": "EndingMessageTextOffsets", "confidence": "confirmed",
+      "evidence": ["A message index selects one of ten offsets; the consumer increments the resulting Y value before reading text."]
+    },
+    {
+      "address": "0xbeae", "previous": "$BEAE", "current": "EndingMessageData", "confidence": "confirmed",
+      "evidence": ["The table contains ten zero-terminated ending text payloads followed by their PPU destination bytes."]
+    },
+    {
+      "address": "0xbfaa", "previous": "$BFAA", "current": "RevealCurrentRoomSeal", "confidence": "confirmed",
+      "evidence": ["The requested Seal bit is checked against collected flags and, when absent, selects a room-map position for tile $60."]
+    },
+    {
+      "address": "0xbfb9", "previous": "_label_bank0_bfb9", "current": "FindCurrentRoomSealIndex", "confidence": "confirmed",
+      "evidence": ["The loop shifts the one-hot current-room flag until its set bit yields the Seal-position table index."]
+    },
+    {
+      "address": "0xbfc5", "previous": "_label_bank0_bfc5", "current": "FinishCurrentRoomSealReveal", "confidence": "confirmed",
+      "evidence": ["Already-collected and newly-revealed Seal paths converge at this return."]
+    },
+    {
+      "address": "0xbfc6", "previous": "$BFC6", "current": "SolomonSealRoomMapOffsets", "confidence": "confirmed",
+      "evidence": ["Eight one-hot Seal flags select these eight room-map positions; the upstream listing identifies their corresponding rooms."]
+    },
+    {
+      "address": "0xbfce", "previous": "$BFCE", "current": "PrepareSpecialRoomTrigger", "confidence": "confirmed",
+      "evidence": ["The helper passes mask $02 and RoomStateFlags to WaitForMaskedBitsSet before scripted room activity begins."]
+    },
+    {
+      "address": "0xbfd6", "previous": "$BFD6", "current": "SpecialRoomObjectMapOffsets", "confidence": "confirmed",
+      "evidence": ["Room-index 48 iterates all twelve bytes and marks the selected map cells with inactive object state $90."]
+    },
+    {
+      "address": "0xbfe2", "previous": "$BFE2", "current": "Room20SpecialBlockPlane", "confidence": "confirmed",
+      "evidence": ["The room-index 19 script passes this exact 24-byte plane to ExpandRoomMapBitplane."]
+    },
+    {
+      "address": "0xbffa", "previous": "$BFFA", "current": "Room30SpecialBlockPlane", "confidence": "confirmed",
+      "evidence": ["The room-index 29 script passes this exact 24-byte plane to ExpandRoomMapBitplane."]
+    },
+    {
+      "address": "0xc012", "previous": "$C012", "current": "FillerBeforeC100", "confidence": "confirmed",
+      "evidence": ["Bisqwit's map classifies the unreferenced 238-byte tail ending at $C0FF as FillerBeforeC100."]
     }
   ]
 }

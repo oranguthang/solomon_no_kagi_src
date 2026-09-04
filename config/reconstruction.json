@@ -1322,6 +1322,72 @@
       ]
     },
     {
+      "id": "special_room_scripts",
+      "path": "src/game/special_room_scripts.asm",
+      "segment": "PRG_SPECIAL_ROOM_SCRIPTS",
+      "start": "0xb800",
+      "end": "0xba33",
+      "status": "semantic",
+      "required_labels": [
+        "RunSpecialRoomScriptThread",
+        "DispatchCurrentRoomScript",
+        "SpecialRoomScriptGroupBases",
+        "SpecialRoomScriptOffsets",
+        "RunRoomIndex19BlockTrigger",
+        "RunRoomMapTrigger",
+        "EnablePrimaryEnemyAiPhase",
+        "SpawnType18AtScriptTarget",
+        "RunRoomIndex29BlockTrigger",
+        "RunRoomIndex48ObjectTrigger",
+        "RunRoomIndex51ObjectTrigger",
+        "RunRoomIndex52ObjectTrigger"
+      ]
+    },
+    {
+      "id": "ending_sequence",
+      "path": "src/game/ending_sequence.asm",
+      "segment": "PRG_ENDING_SEQUENCE",
+      "start": "0xba34",
+      "end": "0xbd93",
+      "status": "semantic",
+      "required_labels": [
+        "RunEndingRoomScript",
+        "PrepareNextConvergingEnemy",
+        "AdvanceEndingConvergenceFrame",
+        "BeginEndingObjectFall",
+        "RunEndingFade",
+        "PopulateEndingRandomObjects",
+        "PublishInitialEndingMessage",
+        "PublishNextEndingMessage",
+        "RunNextEndingPaletteStep",
+        "WaitForEndingInput"
+      ]
+    },
+    {
+      "id": "ending_special_room_support",
+      "path": "src/game/ending_and_special_room_support.asm",
+      "segment": "PRG_ENDING_SPECIAL_ROOM_SUPPORT",
+      "start": "0xbd94",
+      "end": "0xc0ff",
+      "status": "semantic",
+      "required_labels": [
+        "EndingPaletteValues",
+        "BuildEndingPpuMessage",
+        "InitializeRandomEndingObject",
+        "WaitForDanaActive",
+        "LoadNextEndingObject",
+        "WaitForEndingSteps",
+        "EndingMessageSequence",
+        "EndingMessageData",
+        "RevealCurrentRoomSeal",
+        "SolomonSealRoomMapOffsets",
+        "PrepareSpecialRoomTrigger",
+        "Room20SpecialBlockPlane",
+        "Room30SpecialBlockPlane",
+        "FillerBeforeC100"
+      ]
+    },
+    {
       "id": "enemy_drop_processing",
       "path": "src/game/red_bottle_item.asm",
       "segment": "PRG_ENEMY_DROP_PROCESSING",
