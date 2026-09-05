@@ -303,7 +303,7 @@ RunType08To0BEnemyAi:
     LDA $87
     LSR A
     BCS DispatchType08To0BAction
-    JSR $AA57
+    JSR CheckEnemyAiDeltaRange
     BCS DispatchType08To0BAction
     JSR CheckDanaHorizontalEnemyOverlap
     BCS DispatchType08To0BAction
@@ -327,7 +327,9 @@ DispatchType08To0BAction:
     JSR JumpWithParams
 
 Type08To0BActionHandlers:
-    .addr $A998, $A9A9, $A9FB
+    .addr UpdateType08To0BPhaseAction
+    .addr UpdateType08To0BHorizontalOrientation
+    .addr UpdateType08To0BVerticalOrientation
     .addr CollectType08To0BFairy
     .addr RunEnemyActionA55C, RunEnemyActionA55C
     .addr UpdateType08To0BMotion

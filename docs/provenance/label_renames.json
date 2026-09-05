@@ -10296,6 +10296,1068 @@
       "evidence": [
         "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
       ]
+    },
+    {
+      "address": "0xa998",
+      "previous": "$A998",
+      "current": "UpdateType08To0BPhaseAction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xa9a8",
+      "previous": "_label_bank0_a9a8",
+      "current": "FinishType08To0BPhaseAction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xa9a9",
+      "previous": "$A9A9",
+      "current": "UpdateType08To0BHorizontalOrientation",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xa9b9",
+      "previous": "_label_bank0_a9b9",
+      "current": "RotateType08To0BHorizontalDirection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xa9d1",
+      "previous": "_label_bank0_a9d1",
+      "current": "MergeType08To0BHorizontalDirection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xa9d8",
+      "previous": "_label_bank0_a9d8",
+      "current": "ReverseType08To0BHorizontalDirection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xa9dc",
+      "previous": "_label_bank0_a9dc",
+      "current": "StoreType08To0BHorizontalDirection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xa9f2",
+      "previous": "_label_bank0_a9f2",
+      "current": "MergeType08To0BHorizontalFlag",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xa9fb",
+      "previous": "$A9FB",
+      "current": "UpdateType08To0BVerticalOrientation",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xaa0c",
+      "previous": "_label_bank0_aa0c",
+      "current": "CompareType08To0BVerticalDirection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xaa21",
+      "previous": "_label_bank0_aa21",
+      "current": "MergeType08To0BVerticalDirection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xaa2b",
+      "previous": "_label_bank0_aa2b",
+      "current": "ReverseType08To0BVerticalDirection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xaa2f",
+      "previous": "_label_bank0_aa2f",
+      "current": "StoreType08To0BVerticalDirection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xaa46",
+      "previous": "_label_bank0_aa46",
+      "current": "MergeType08To0BVerticalFlag",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xaa4c",
+      "previous": "$AA4C",
+      "current": "SetType08To0BMovingAction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xaa57",
+      "previous": "$AA57",
+      "current": "CheckEnemyAiDeltaRange",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xaa59",
+      "previous": "_label_bank0_aa59",
+      "current": "CheckNextEnemyAiDelta",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xaa68",
+      "previous": "_label_bank0_aa68",
+      "current": "FinishEnemyAiDeltaRangeCheck",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xaa69",
+      "previous": "$AA69",
+      "current": "RunType14To17EnemyAi",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xaa6d",
+      "previous": "$AA6D",
+      "current": "RunType18To1BEnemyAi",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xaa6f",
+      "previous": "_label_bank0_aa6f",
+      "current": "UpdateType14To1BPathSelection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xaa76",
+      "previous": "_label_bank0_aa76",
+      "current": "BuildType14To1BPathSelection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xaa7e",
+      "previous": "_label_bank0_aa7e",
+      "current": "ClearType14To1BPathScratch",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xaa97",
+      "previous": "_label_bank0_aa97",
+      "current": "ExpandType14To1BPositionDelta",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xaa9d",
+      "previous": "_label_bank0_aa9d",
+      "current": "ShiftType14To1BPositionDelta",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xaaac",
+      "previous": "_label_bank0_aaac",
+      "current": "ApplyType14To1BPositionDelta",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xaac5",
+      "previous": "_label_bank0_aac5",
+      "current": "SampleType14To1BPathMask",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xaacb",
+      "previous": "_label_bank0_aacb",
+      "current": "SampleNextType14To1BPathCell",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xaaff",
+      "previous": "$AAFF",
+      "current": "Type14To1BPathMaskHandlers",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xab1f",
+      "previous": "$AB1F",
+      "current": "Type14To1BYFractionDeltas",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xab27",
+      "previous": "$AB27",
+      "current": "Type14To1BXFractionDeltas",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xab2f",
+      "previous": "$AB2F",
+      "current": "Type14To1BProbeYOffsets",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xab33",
+      "previous": "$AB33",
+      "current": "Type14To1BProbeXOffsets",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xab37",
+      "previous": "$AB37",
+      "current": "HandleType14To1BPathMask00",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xab4c",
+      "previous": "_label_bank0_ab4c",
+      "current": "FindType14To1BPathDirectionBit",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xab5a",
+      "previous": "_label_bank0_ab5a",
+      "current": "MatchType14To1BPathDirection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xab65",
+      "previous": "_label_bank0_ab65",
+      "current": "CompareType14To1BPathDirection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xab78",
+      "previous": "_label_bank0_ab78",
+      "current": "CommitType14To1BPathSelection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xab7b",
+      "previous": "$AB7B",
+      "current": "Type14To1BExpectedDirections",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xab83",
+      "previous": "$AB83",
+      "current": "Type14To1BReplacementDirections",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xab8b",
+      "previous": "$AB8B",
+      "current": "HandleType14To1BPathMask01",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xab98",
+      "previous": "_label_bank0_ab98",
+      "current": "SetType14To1BPathMask01XDirection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xab9b",
+      "previous": "_label_bank0_ab9b",
+      "current": "SelectType14To1BPathMask01Directions",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xaba5",
+      "previous": "_label_bank0_aba5",
+      "current": "StoreType14To1BPathMask01Direction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xabad",
+      "previous": "_label_bank0_abad",
+      "current": "CommitType14To1BPathCoordinatesFromMask01",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xabb0",
+      "previous": "$ABB0",
+      "current": "HandleType14To1BPathMask02",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xabbd",
+      "previous": "_label_bank0_abbd",
+      "current": "SetType14To1BPathMask02XDirection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xabc0",
+      "previous": "_label_bank0_abc0",
+      "current": "SelectType14To1BPathMask02Directions",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xabca",
+      "previous": "_label_bank0_abca",
+      "current": "StoreType14To1BPathMask02Direction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xabd2",
+      "previous": "$ABD2",
+      "current": "HandleType14To1BPathMask04",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xabdf",
+      "previous": "_label_bank0_abdf",
+      "current": "SetType14To1BPathMask04XDirection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xabe2",
+      "previous": "_label_bank0_abe2",
+      "current": "SelectType14To1BPathMask04Directions",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xabec",
+      "previous": "_label_bank0_abec",
+      "current": "StoreType14To1BPathMask04Direction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xabf4",
+      "previous": "$ABF4",
+      "current": "HandleType14To1BPathMask08",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xac01",
+      "previous": "_label_bank0_ac01",
+      "current": "SetType14To1BPathMask08XDirection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xac04",
+      "previous": "_label_bank0_ac04",
+      "current": "SelectType14To1BPathMask08Directions",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xac0e",
+      "previous": "_label_bank0_ac0e",
+      "current": "StoreType14To1BPathMask08Direction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xac16",
+      "previous": "$AC16",
+      "current": "HandleType14To1BPathMask03",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xac28",
+      "previous": "_label_bank0_ac28",
+      "current": "ClassifyType14To1BPathMask03Direction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xac2b",
+      "previous": "_label_bank0_ac2b",
+      "current": "SelectType14To1BHorizontalDirection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xac39",
+      "previous": "_label_bank0_ac39",
+      "current": "StoreType14To1BHorizontalDirection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xac3e",
+      "previous": "_label_bank0_ac3e",
+      "current": "ClassifyType14To1BPathMask0C",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xac43",
+      "previous": "$AC43",
+      "current": "HandleType14To1BPathMask0C",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xac53",
+      "previous": "_label_bank0_ac53",
+      "current": "CommitType14To1BPathCoordinates",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xac60",
+      "previous": "$AC60",
+      "current": "HandleType14To1BPathMask09",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xac70",
+      "previous": "_label_bank0_ac70",
+      "current": "CommitType14To1BPathMask09Coordinates",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xac72",
+      "previous": "_label_bank0_ac72",
+      "current": "ClassifyType14To1BPathMask09Direction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xac77",
+      "previous": "$AC77",
+      "current": "HandleType14To1BPathMask06",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xac88",
+      "previous": "_label_bank0_ac88",
+      "current": "CommitType14To1BPathMask06Coordinates",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xac8a",
+      "previous": "_label_bank0_ac8a",
+      "current": "ClassifyType14To1BPathMask06Direction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xac8d",
+      "previous": "_label_bank0_ac8d",
+      "current": "SelectType14To1BVerticalDirection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xac9b",
+      "previous": "_label_bank0_ac9b",
+      "current": "StoreType14To1BVerticalDirection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xac9f",
+      "previous": "_label_bank0_ac9f",
+      "current": "HandleType14To1BPathMask0B",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xacb3",
+      "previous": "_label_bank0_acb3",
+      "current": "HandleType14To1BPathMask07",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xacc7",
+      "previous": "_label_bank0_acc7",
+      "current": "HandleType14To1BPathMask0D",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xaccf",
+      "previous": "_label_bank0_accf",
+      "current": "StoreMappedType14To1BPathDirection02",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xacdb",
+      "previous": "_label_bank0_acdb",
+      "current": "HandleType14To1BPathMask0E",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xacef",
+      "previous": "$ACEF",
+      "current": "HandleType14To1BPathMask05",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xacf9",
+      "previous": "$ACF9",
+      "current": "HandleType14To1BPathMask0A",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xad03",
+      "previous": "$AD03",
+      "current": "SetType14To1BYLowNibble0B",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xad0c",
+      "previous": "$AD0C",
+      "current": "SetType14To1BYLowNibble02",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xad15",
+      "previous": "$AD15",
+      "current": "SetType14To1BXLowNibble04",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xad1e",
+      "previous": "$AD1E",
+      "current": "SetType14To1BXLowNibble0A",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xad27",
+      "previous": "$AD27",
+      "current": "Type14To1BDirectionMap0B",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xad2b",
+      "previous": "$AD2B",
+      "current": "Type14To1BDirectionMap07",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xad2f",
+      "previous": "$AD2F",
+      "current": "Type14To1BDirectionMap0D",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xad33",
+      "previous": "$AD33",
+      "current": "Type14To1BDirectionMap0E",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded direction logic, RoomMap probes, and byte-identical assembly confirm this address and path-selection role."
+      ]
+    },
+    {
+      "address": "0xad37",
+      "previous": "$AD37",
+      "current": "RunType1CTo37EnemyAi",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xad3d",
+      "previous": "$AD3D",
+      "current": "Type1CTo37ActionHandlers",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xad45",
+      "previous": "$AD45",
+      "current": "UpdateType1CTo37MapInteraction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xad78",
+      "previous": "_label_bank0_ad78",
+      "current": "FinishType1CTo37MapInteraction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xad79",
+      "previous": "$AD79",
+      "current": "SampleCurrentEnemyRoomMapCollision",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xad8b",
+      "previous": "_label_bank0_ad8b",
+      "current": "SampleNextCurrentEnemyRoomMapCell",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xada8",
+      "previous": "$ADA8",
+      "current": "UpdateType1CTo37LinkedSpawn",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xadd2",
+      "previous": "_label_bank0_add2",
+      "current": "AllocateType1CTo37LinkedEnemy",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xadf3",
+      "previous": "_label_bank0_adf3",
+      "current": "ReserveType1CTo37LinkedEnemy",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xae18",
+      "previous": "_label_bank0_ae18",
+      "current": "FinishType1CTo37LinkedSpawn",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xae19",
+      "previous": "$AE19",
+      "current": "EnemyCollisionProbeOffsets",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xae1e",
+      "previous": "$AE1E",
+      "current": "UpdateType1CTo37LinkedLifetime",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xae34",
+      "previous": "_label_bank0_ae34",
+      "current": "SelectType1CTo37LinkedAction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xae40",
+      "previous": "_label_bank0_ae40",
+      "current": "FinishType1CTo37LinkedLifetime",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xae41",
+      "previous": "$AE41",
+      "current": "UpdateType1CTo37OpenPath",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xae50",
+      "previous": "_label_bank0_ae50",
+      "current": "FinishType1CTo37OpenPath",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xae51",
+      "previous": "$AE51",
+      "current": "RunType5CTo63EnemyAi",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xae57",
+      "previous": "$AE57",
+      "current": "Type5CTo63ActionHandlers",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xae65",
+      "previous": "$AE65",
+      "current": "UpdateType5CTo63LinkedLifetime",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xae7f",
+      "previous": "_label_bank0_ae7f",
+      "current": "FinishType5CTo63LinkedLifetime",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xae80",
+      "previous": "_label_bank0_ae80",
+      "current": "CheckType5CTo63Retirement",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xaead",
+      "previous": "_label_bank0_aead",
+      "current": "KeepType5CTo63ForwardDirection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xaeb2",
+      "previous": "$AEB2",
+      "current": "UpdateType5CTo63ForwardPath",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xaecb",
+      "previous": "_label_bank0_aecb",
+      "current": "UpdateType5CTo63BlockedPath",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xaee1",
+      "previous": "_label_bank0_aee1",
+      "current": "FinishType5CTo63ForwardPath",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xaee2",
+      "previous": "$AEE2",
+      "current": "UpdateType5CTo63Spawn",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xaefb",
+      "previous": "_label_bank0_aefb",
+      "current": "ResetType5CTo63Phase",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xaf02",
+      "previous": "_label_bank0_af02",
+      "current": "HandleType5CTo63Collision",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xaf33",
+      "previous": "_label_bank0_af33",
+      "current": "SelectType5CTo63CollisionAction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xaf45",
+      "previous": "_label_bank0_af45",
+      "current": "CheckType5CTo63CollisionPhase",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xaf5b",
+      "previous": "_label_bank0_af5b",
+      "current": "FinishType5CTo63Collision",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
+      ]
     }
   ]
 }

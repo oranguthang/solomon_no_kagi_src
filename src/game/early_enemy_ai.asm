@@ -25,7 +25,7 @@ RunType00To03Movement:
     LDA $87
     LSR A
     BCS CheckType00To03ActionPhase
-    JSR $AA57
+    JSR CheckEnemyAiDeltaRange
     BCS CheckType00To03ActionPhase
     JSR $A77D
     BCC HandleEnemyCollisionReward
@@ -40,7 +40,7 @@ DeactivateType00To03Enemy:
     JMP DeactivateCurrentEnemy
 
 UpdateType00To03Collision:
-    JSR $AD79
+    JSR SampleCurrentEnemyRoomMapCollision
     LDA $07
     TAX
     AND #$0C
@@ -210,13 +210,13 @@ RunType04To07EnemyAi:
     JMP DeactivateCurrentEnemy
 
 RunType04To07Movement:
-    JSR $AA57
+    JSR CheckEnemyAiDeltaRange
     BCS UpdateType04To07Collision
     JSR $A77D
     BCC ReplaceActiveEnemiesAfterType04To07Collision
 
 UpdateType04To07Collision:
-    JSR $AD79
+    JSR SampleCurrentEnemyRoomMapCollision
     LDA $07
     TAX
     BEQ HandleType04To07OpenPath

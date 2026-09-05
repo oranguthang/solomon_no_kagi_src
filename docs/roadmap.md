@@ -142,6 +142,11 @@ decrease.
 - `$A68C-$A997`: four additional AI families, their inline action tables,
   Dana proximity checks, linked-pair allocation, fairy collection, and
   two-axis motion correction are source-owned;
+- `$A998-$AD36`: the remaining `$08-$0B` orientation actions and the shared
+  `$14-$1B` RoomMap path selector, including its 16-entry mask dispatcher and
+  direction tables, are source-owned;
+- `$AD37-$AF5B`: the shared `$1C-$37` and `$5C-$63` collision-driven action
+  dispatchers, four-cell RoomMap probe, and linked-slot paths are source-owned;
 - `$B28A-$B2A1`: the indexed object/AI record pointer resolvers are isolated
   in `src/game/enemy_pointers.asm`, and all 28 call sites use their symbols;
 - `$B2A2-$B429`: action dispatch for the `$50-$5B` type family, shared

@@ -9,12 +9,12 @@ DispatchEnemyAiHandler:
 
 EnemyAiHandlerTable:
     .addr RunType00To03EnemyAi, RunType04To07EnemyAi, RunType08To0BEnemyAi, $B0FB
-    .addr RunType10To13EnemyAi, $AA69, $AA6D, $AD37
-    .addr $AD37, $AD37, $AD37, $AD37
-    .addr $AD37, $AD37, $AD37, RunType50To5BEnemyAi
+    .addr RunType10To13EnemyAi, RunType14To17EnemyAi, RunType18To1BEnemyAi, RunType1CTo37EnemyAi
+    .addr RunType1CTo37EnemyAi, RunType1CTo37EnemyAi, RunType1CTo37EnemyAi, RunType1CTo37EnemyAi
+    .addr RunType1CTo37EnemyAi, RunType1CTo37EnemyAi, RunType1CTo37EnemyAi, RunType50To5BEnemyAi
     .addr RunType50To5BEnemyAi, RunType50To5BEnemyAi, $B178, $B178
-    .addr $B178, RunType54To5BEnemyAi, RunType54To5BEnemyAi, $AE51
-    .addr $AE51, $AF5C, $AF5C, RunType6CTo6FEnemyAi
+    .addr $B178, RunType54To5BEnemyAi, RunType54To5BEnemyAi, RunType5CTo63EnemyAi
+    .addr RunType5CTo63EnemyAi, $AF5C, $AF5C, RunType6CTo6FEnemyAi
 
 EnemyAiHandlerCount = (* - EnemyAiHandlerTable) / 2
 .assert EnemyAiHandlerCount = 28, error, "unexpected enemy AI handler count"

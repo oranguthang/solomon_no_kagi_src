@@ -19,5 +19,8 @@ The first two targets are source-owned as `RunType00To03EnemyAi` and
 `RunType04To07EnemyAi` in `src/game/early_enemy_ai.asm`. Their shared contact
 path awards score, an extra life, or an inventory effect. Four more handler
 targets are source-owned in `src/game/mid_enemy_ai.asm`: the `$08-$0B`,
-`$10-$13`, `$54-$5B`, and `$6C-$6F` type families. Unreconstructed targets
+`$10-$13`, `$54-$5B`, and `$6C-$6F` type families. The `$14-$17` and `$18-$1B`
+targets and their shared path selector are reconstructed in
+`src/game/pathfinding_enemy_ai.asm`. `src/game/collision_enemy_ai.asm` owns the
+repeated `$1C-$37` target and the `$5C-$63` target. Unreconstructed targets
 stay raw until their behavior families are understood.

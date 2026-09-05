@@ -86,7 +86,8 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/game/nmi_gameplay_interactio
 	src/game/enemy_type_configuration.asm \
 	src/data/enemy_types.asm \
 	src/game/enemy_ai_handlers.asm src/game/early_enemy_ai.asm \
-	src/game/mid_enemy_ai.asm \
+	src/game/mid_enemy_ai.asm src/game/pathfinding_enemy_ai.asm \
+	src/game/collision_enemy_ai.asm \
 	src/game/enemy_position.asm \
 	src/game/enemy_pointers.asm \
 	src/game/enemy_slot_allocation.asm \

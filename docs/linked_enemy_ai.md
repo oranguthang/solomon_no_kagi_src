@@ -45,4 +45,4 @@ and the open/sentinel range beginning at `$F8`.
 
 AI bytes 1, 4, and 5 are named only by their observed phase/delta roles here.
 Enemy-specific identities remain deferred until the remaining surrounding
-handlers in `$A998-$B289` are reconstructed.
+handlers in `$AF5C-$B289` are reconstructed.

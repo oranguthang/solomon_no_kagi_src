@@ -1329,6 +1329,43 @@
       ]
     },
     {
+      "id": "pathfinding_enemy_ai",
+      "path": "src/game/pathfinding_enemy_ai.asm",
+      "segment": "PRG_PATHFINDING_ENEMY_AI",
+      "start": "0xa998",
+      "end": "0xad36",
+      "status": "semantic",
+      "required_labels": [
+        "UpdateType08To0BPhaseAction",
+        "UpdateType08To0BHorizontalOrientation",
+        "UpdateType08To0BVerticalOrientation",
+        "CheckEnemyAiDeltaRange",
+        "RunType14To17EnemyAi",
+        "RunType18To1BEnemyAi",
+        "Type14To1BPathMaskHandlers",
+        "CommitType14To1BPathCoordinates",
+        "Type14To1BDirectionMap0E"
+      ]
+    },
+    {
+      "id": "collision_enemy_ai",
+      "path": "src/game/collision_enemy_ai.asm",
+      "segment": "PRG_COLLISION_ENEMY_AI",
+      "start": "0xad37",
+      "end": "0xaf5b",
+      "status": "semantic",
+      "required_labels": [
+        "RunType1CTo37EnemyAi",
+        "Type1CTo37ActionHandlers",
+        "SampleCurrentEnemyRoomMapCollision",
+        "UpdateType1CTo37LinkedSpawn",
+        "RunType5CTo63EnemyAi",
+        "Type5CTo63ActionHandlers",
+        "UpdateType5CTo63ForwardPath",
+        "UpdateType5CTo63Spawn"
+      ]
+    },
+    {
       "id": "enemy_pointers",
       "path": "src/game/enemy_pointers.asm",
       "segment": "PRG_ENEMY_POINTERS",
@@ -2359,11 +2396,11 @@
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 157,
-    "minimum_documented_prg_bytes": 30478,
-    "minimum_provenance_entries": 1651,
-    "maximum_preservation_lines": 1382,
-    "maximum_generated_labels": 111,
-    "maximum_raw_control_flow_targets": 54
+    "minimum_semantic_modules": 159,
+    "minimum_documented_prg_bytes": 31954,
+    "minimum_provenance_entries": 1769,
+    "maximum_preservation_lines": 485,
+    "maximum_generated_labels": 39,
+    "maximum_raw_control_flow_targets": 26
   }
 }
