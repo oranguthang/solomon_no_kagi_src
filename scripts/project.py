@@ -200,6 +200,7 @@ def command_lint(_args: argparse.Namespace) -> None:
         "config/item_handlers.json",
         "config/enemy_record_pointers.json",
         "config/scheduler_entries.json",
+        "scenarios/runtime_scenarios.json",
         "config/linker/cnrom.cfg",
         "docs/code_quality.md",
         "docs/enemy_movement.md",
@@ -226,6 +227,7 @@ def command_lint(_args: argparse.Namespace) -> None:
         "docs/object_y_clamp.md",
         "docs/pause_thread.md",
         "docs/scheduler.md",
+        "docs/runtime_evidence.md",
         "docs/scheduler_entries.md",
         "docs/startup.md",
         "docs/timer.md",
@@ -233,6 +235,8 @@ def command_lint(_args: argparse.Namespace) -> None:
         "scripts/asm_style.py",
         "scripts/debug_symbols.py",
         "scripts/prg_layout.py",
+        "scripts/runtime_scenarios.py",
+        "scripts/capture_runtime_scenario.lua",
         "scripts/reconstruction_status.py",
         "scripts/enemy_ai_data.py",
         "scripts/item_handler_data.py",
@@ -290,6 +294,7 @@ def command_lint(_args: argparse.Namespace) -> None:
         "config/item_handlers.json",
         "config/enemy_record_pointers.json",
         "config/scheduler_entries.json",
+        "scenarios/runtime_scenarios.json",
         "docs/provenance/label_renames.json",
     ):
         try:

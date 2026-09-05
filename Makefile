@@ -13,8 +13,12 @@ ROM := $(BUILD_DIR)/solomons_key.nes
 LABELS := $(BUILD_DIR)/solomons_key.lbl
 MAP := $(BUILD_DIR)/solomons_key.map
 DEBUG := $(BUILD_DIR)/solomons_key.dbg
-SYMBOL_DIR := $(BUILD_DIR)/symbols
+SYMBOL_DIR := $(BUILD_DIR)
 SYMBOL_SUMMARY := $(BUILD_DIR)/debug_symbols.json
+FCEUX ?= ../fceux_automation/vc/x64/Release/fceux64.exe
+RUNTIME_SCENARIOS := scenarios/runtime_scenarios.json
+RUNTIME_LUA := scripts/capture_runtime_scenario.lua
+RUNTIME_TRACE_DIR := $(BUILD_DIR)/runtime
 DEBUG_SYMBOLS := $(PYTHON) scripts/debug_symbols.py --debug "$(DEBUG)" --map "$(MAP)" \
 	--labels "$(LABELS)" --breakpoints config/debugger_breakpoints.json \
 	--watches config/debugger_watches.json --output-dir "$(SYMBOL_DIR)" \
@@ -118,6 +122,7 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/game/nmi_gameplay_interactio
 .PHONY: all build split verify verify-reference verify-built verify-header \
 	verify-prg verify-chr verify-payload verify-rom verify-assets check-assets \
 	rom-info rom-info-reference rom-info-built symbols validate-symbols \
+	trace-runtime validate-runtime \
 	format format-check lint lint-asm \
 	lint-source lint-project test quality-check check release-check rooms \
 	validate-rooms roundtrip-formats reconstruction-status reconstruction-audit \
@@ -189,6 +194,16 @@ symbols: $(ROM)
 
 validate-symbols: symbols
 	$(DEBUG_SYMBOLS) --check
+
+trace-runtime: symbols
+	$(PYTHON) scripts/runtime_scenarios.py trace --fceux "$(FCEUX)" --rom "$(ROM)" \
+		--lua "$(RUNTIME_LUA)" --scenarios "$(RUNTIME_SCENARIOS)" \
+		--output-dir "$(RUNTIME_TRACE_DIR)"
+	$(MAKE) validate-runtime
+
+validate-runtime:
+	$(PYTHON) scripts/runtime_scenarios.py validate --scenarios "$(RUNTIME_SCENARIOS)" \
+		--trace-dir "$(RUNTIME_TRACE_DIR)"
 
 format:
 	$(PYTHON) scripts/asm_style.py --fix src

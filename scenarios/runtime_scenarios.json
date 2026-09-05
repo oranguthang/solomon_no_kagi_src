@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "rom_sha1": "18102689fd35c7d531a5e6241b06b748accab2f6",
+  "scenarios": [
+    {
+      "id": "cold-boot-idle",
+      "method": "natural cold boot with no controller input",
+      "max_frames": 180,
+      "inputs": [],
+      "expected_events": {
+        "first_nmi": 6,
+        "first_joypad_read": 6,
+        "first_thread_switch": 7
+      },
+      "forbidden_events": [
+        "room_load",
+        "gameplay_start"
+      ],
+      "expected_final": {
+        "frame": "180",
+        "thread": "01",
+        "room": "00",
+        "timer": "00000000",
+        "active_enemies": "00"
+      }
+    },
+    {
+      "id": "start-room-1",
+      "method": "natural cold boot with a deterministic Start pulse",
+      "max_frames": 1000,
+      "inputs": [
+        {"start_frame": 300, "end_frame": 301, "buttons": ["start"]}
+      ],
+      "expected_events": {
+        "first_nmi": 6,
+        "first_joypad_read": 6,
+        "first_thread_switch": 7,
+        "start_input_seen": 301,
+        "room_load": 303,
+        "room_intro": 308,
+        "gameplay_start": 610,
+        "first_timer_tick": 610,
+        "enemy_ai": 610,
+        "dana_control": 611,
+        "object_motion": 611,
+        "object_collision": 611
+      },
+      "expected_final": {
+        "frame": "1000",
+        "thread": "03",
+        "room": "00",
+        "timer": "09030900",
+        "dana_y": "90",
+        "dana_x": "28",
+        "active_enemies": "01"
+      }
+    },
+    {
+      "id": "room-1-walk-right",
+      "method": "natural Room 1 entry followed by deterministic Right input",
+      "max_frames": 900,
+      "inputs": [
+        {"start_frame": 300, "end_frame": 301, "buttons": ["start"]},
+        {"start_frame": 720, "end_frame": 780, "buttons": ["right"]}
+      ],
+      "expected_events": {
+        "first_nmi": 6,
+        "first_joypad_read": 6,
+        "first_thread_switch": 7,
+        "start_input_seen": 301,
+        "room_load": 303,
+        "room_intro": 308,
+        "gameplay_start": 610,
+        "first_timer_tick": 610,
+        "enemy_ai": 610,
+        "dana_control": 611,
+        "object_motion": 611,
+        "object_collision": 611,
+        "right_input_seen": 721,
+        "dana_horizontal_move": 723
+      },
+      "expected_final": {
+        "frame": "900",
+        "thread": "03",
+        "room": "00",
+        "timer": "01050900",
+        "dana_y": "90",
+        "dana_x": "3C",
+        "active_enemies": "01"
+      }
+    },
+    {
+      "id": "room-1-cast-block",
+      "method": "natural Room 1 entry followed by deterministic A input",
+      "max_frames": 900,
+      "inputs": [
+        {"start_frame": 300, "end_frame": 301, "buttons": ["start"]},
+        {"start_frame": 720, "end_frame": 780, "buttons": ["a"]}
+      ],
+      "expected_events": {
+        "first_nmi": 6,
+        "first_joypad_read": 6,
+        "first_thread_switch": 7,
+        "start_input_seen": 301,
+        "room_load": 303,
+        "room_intro": 308,
+        "gameplay_start": 610,
+        "first_timer_tick": 610,
+        "enemy_ai": 610,
+        "dana_control": 611,
+        "object_motion": 611,
+        "object_collision": 611,
+        "a_input_seen": 721,
+        "block_magic_request": 722,
+        "block_created": 722,
+        "room_map_write": 722
+      },
+      "expected_event_details": {
+        "block_magic_request": "TryStartBlockMagicAction",
+        "block_created": "CreateBlockInRoomMap",
+        "room_map_write": "0387=90"
+      },
+      "expected_final": {
+        "frame": "900",
+        "thread": "03",
+        "room": "00",
+        "timer": "01050900",
+        "dana_y": "90",
+        "dana_x": "28",
+        "active_enemies": "01"
+      }
+    }
+  ]
+}

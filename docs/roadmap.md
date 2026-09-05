@@ -281,12 +281,15 @@ decrease.
 - `make prg-layout-audit` checks exact category counts and a complete-layout
   SHA-1 fingerprint as part of the release gate.
 
-### 5. Subsystem documentation and runtime evidence - Planned
+### 5. Subsystem documentation and runtime evidence - In progress
 
 - document contracts for reset, scheduler, room loading, objects, collision,
   rendering, audio, and progression;
 - add deterministic emulator scenarios that bind runtime behavior to semantic
-  source symbols.
+  source symbols;
+- the first FCEUX scenarios now prove cold-boot scheduler activity and the
+  natural Start-to-Room-1 path, core gameplay dispatch, and controller-driven
+  Dana movement and block casting without RAM patches.
 
 ### 6. Data-format round trips - In progress
 

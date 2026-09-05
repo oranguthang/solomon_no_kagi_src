@@ -19,6 +19,8 @@ Super Mario Bros. preservation projects.
   summary still match the current linker symbols
 - `make prg-layout-audit` classifies every PRG byte from source mappings and
   checks the reviewed code/data/stream/padding/vector fingerprint
+- `make trace-runtime` captures deterministic FCEUX boot and Room 1 traces;
+  `make validate-runtime` rechecks their event timing and final RAM state
 - `make release-check` adds byte-identical ROM verification, room-data
   validation and round trips, semantic reconstruction audit, and scheduler
   entry/call-site, enemy-AI and item handler-table, enemy-pointer, and static

@@ -9,8 +9,8 @@ invalidates the addresses in this document.
    `build/native/solomons_key.nes`.
 2. Open the debugger and import `build/native/solomons_key.lbl` if Mesen does
    not discover it automatically.
-   FCEUX users can instead copy the generated `.nl` files from
-   `build/native/symbols/` next to the ROM.
+   FCEUX automatically finds the generated `.nl` files next to the ROM in
+   `build/native/`.
 3. Add the starting watches from `config/debugger_watches.json`. Every entry
    names the RAM symbol anchoring the range; `make validate-symbols` rejects a
    stale address.

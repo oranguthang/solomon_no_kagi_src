@@ -30,6 +30,8 @@ the iNES header, PRG, CHR, headerless payload, full image, and extracted CHR.
 | `symbols` | export audited FCEUX labels and resolved debugger configuration |
 | `validate-symbols` | bind configured breakpoints and watch ranges to current linker symbols |
 | `prg-layout-audit` | classify all 32 KiB as code, data, stream, padding, or vectors |
+| `trace-runtime` | capture and validate deterministic cold-boot and Room 1 FCEUX traces |
+| `validate-runtime` | revalidate existing generated runtime traces without launching FCEUX |
 | `scheduler-audit` | check stacks, static/reviewed dynamic entries, and call counts |
 | `enemy-ai-audit` | check all 28 inline enemy-AI handler pointers |
 | `item-handler-audit` | check all 29 item selectors, pointers, names, and table hash |

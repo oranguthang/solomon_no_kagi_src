@@ -194,6 +194,8 @@ make test        # run Python unit tests
 make quality-check # lint and test without requiring a reference ROM
 make symbols     # export audited FCEUX labels and debugger symbol summary
 make validate-symbols # verify debugger configs against current linker symbols
+make trace-runtime # capture and validate deterministic FCEUX runtime evidence
+make validate-runtime # revalidate already captured runtime traces
 make reconstruction-status # report semantic coverage and remaining raw source
 make reconstruction-audit # validate module ranges, provenance, and thresholds
 make prg-layout-report # report byte-exact code/data/stream/padding coverage
