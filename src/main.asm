@@ -37,6 +37,7 @@
 .include "game/object_x_left_clamp.asm"
 .include "game/object_x_right_clamp.asm"
 .include "game/object_motion_animation.asm"
+.include "data/object_animations.asm"
 .include "graphics/ppu_update_stream.asm"
 .include "graphics/ppu_attribute_read.asm"
 .include "data/pre_startup_padding.asm"

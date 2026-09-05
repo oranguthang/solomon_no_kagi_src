@@ -2,7 +2,6 @@
 
 .segment "PRG_ROOM_MAP_CELL_UPDATE"
 
-RoomTilePatternTable = $D000
 RoomCellTwoByteLiteralCommand = $41
 RoomCellOneByteLiteralCommand = $40
 
@@ -197,3 +196,70 @@ StoreRoomCellAttributeByte:
     LDA #RoomCellOneByteLiteralCommand
     STA RoomCellUpdateAttributeCommand,X
     JMP PublishPpuUpdateBuffer
+
+.segment "PRG_ROOM_TILE_PATTERNS"
+
+; Four bytes per logical tile: attribute palette bits in byte 0's low pair,
+; then top-left, top-right, bottom-left, and bottom-right tile information as
+; consumed by BuildRoomCellUpdateBuffer's overlapping reads
+RoomTilePatternTable:
+    .byte $91, $91, $92, $93
+    .byte $95, $95, $96, $97
+    .byte $41, $41, $42, $43
+    .byte $84, $85, $86, $87
+    .byte $3C, $3D, $3E, $3F
+    .byte $59, $59, $5A, $5B
+    .byte $2F, $8D, $8E, $8F
+    .byte $45, $45, $46, $47
+    .byte $72, $71, $72, $73
+    .byte $62, $65, $66, $67
+    .byte $37, $80, $36, $82
+    .byte $6D, $6D, $6E, $6F
+    .byte $73, $71, $72, $73
+    .byte $61, $65, $66, $67
+    .byte $2D, $99, $9A, $9B
+    .byte $9F, $9D, $9E, $9F
+    .byte $2C, $2D, $2E, $2F
+    .byte $64, $B5, $4E, $4F
+    .byte $4C, $4D, $4E, $4F
+    .byte $7A, $79, $7A, $7B
+    .byte $7D, $7D, $7E, $7F
+    .byte $62, $65, $66, $67
+    .byte $61, $65, $66, $67
+    .byte $2D, $99, $9A, $9B
+    .byte $9F, $9D, $9E, $9F
+    .byte $4D, $4D, $4E, $4F
+    .byte $2E, $8D, $8E, $8F
+    .byte $6E, $6D, $6E, $6F
+    .byte $53, $51, $52, $53
+    .byte $57, $55, $56, $57
+    .byte $5F, $5D, $5E, $5F
+    .byte $77, $75, $76, $77
+    .byte $68, $69, $6A, $6B
+    .byte $8B, $89, $8A, $8B
+    .byte $AF, $AD, $AE, $AF
+    .byte $45, $45, $46, $47
+    .byte $45, $45, $46, $47
+    .byte $34, $35, $36, $37
+    .byte $34, $80, $36, $82
+    .byte $32, $31, $32, $33
+    .byte $37, $35, $36, $37
+    .byte $37, $80, $36, $82
+    .byte $31, $31, $32, $33
+    .byte $3B, $39, $3A, $3B
+    .byte $3B, $81, $3A, $83
+    .byte $33, $31, $32, $33
+    .byte $AB, $A9, $49, $4B
+    .byte $21, $21, $1A, $23
+    .byte $11, $13, $19, $8C
+    .byte $8B, $89, $8A, $8B
+    .byte $17, $1D, $1E, $1F
+    .byte $61, $61, $62, $63
+    .byte $49, $45, $4A, $47
+    .byte $AE, $AD, $AE, $AF
+    .byte $B9, $B9, $BA, $BB
+    .byte $BD, $BD, $BE, $BF
+    .byte $B8, $B9, $BA, $BB
+    .byte $B9, $B9, $BA, $BB
+
+.assert * - RoomTilePatternTable = 58 * 4, error, "unexpected room tile pattern table size"

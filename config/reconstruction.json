@@ -1986,6 +1986,51 @@
         "DemoInputDurations",
         "DemoInputValues"
       ]
+    },
+    {
+      "id": "room_tile_patterns",
+      "path": "src/graphics/room_map_cell_update.asm",
+      "segment": "PRG_ROOM_TILE_PATTERNS",
+      "start": "0xd000",
+      "end": "0xd0e7",
+      "status": "semantic",
+      "required_labels": [
+        "RoomTilePatternTable"
+      ]
+    },
+    {
+      "id": "object_animation_descriptor_pointers",
+      "path": "src/game/object_motion_animation.asm",
+      "segment": "PRG_OBJECT_ANIMATION_DESCRIPTOR_POINTERS",
+      "start": "0xd0e8",
+      "end": "0xd129",
+      "status": "semantic",
+      "required_labels": [
+        "ObjectAnimationDescriptorPointers"
+      ]
+    },
+    {
+      "id": "object_animation_definitions",
+      "path": "src/data/object_animations.asm",
+      "segment": "PRG_OBJECT_ANIMATION_DEFINITIONS",
+      "start": "0xd12a",
+      "end": "0xd699",
+      "status": "semantic",
+      "required_labels": [
+        "ObjectAnimationDescriptorsType00"
+      ]
+    },
+    {
+      "id": "object_animation_frames",
+      "path": "src/data/object_animations.asm",
+      "segment": "PRG_OBJECT_ANIMATION_FRAMES",
+      "start": "0xd69a",
+      "end": "0xd9d2",
+      "status": "semantic",
+      "required_labels": [
+        "ObjectAnimationFrames000",
+        "ObjectAnimationFrames125"
+      ]
     }
   ],
   "thresholds": {

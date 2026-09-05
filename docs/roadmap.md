@@ -211,6 +211,15 @@ decrease.
   terminators and source-owned alongside their decoder;
 - `$CEF1-$CF34`: the attract demo's two parallel 34-byte duration/controller
   tables are source-owned with count and adjacency assertions;
+  - `$D000-$D0E7`: all 58 four-byte logical tile patterns consumed by buffered
+    RoomMap cell updates are source-owned and record-count asserted;
+  - `$D0E8-$D129`: all 33 object-type animation descriptor pointers are
+    source-owned and count asserted;
+  - the complete `$D12A-$D9D2` animation definition/frame layout is guarded by
+    `make object-animation-audit`: 340 descriptors, four variant selectors,
+    126 referenced sequences, 275 frame records, and three reviewed hashes;
+    those definitions are now source-owned as readable macro records with
+    symbolic pointer relationships;
 - split the remaining preservation range into reset/startup, scheduler, room,
   gameplay/object, rendering, audio, static-data, and vector modules at proven
   code/data boundaries;

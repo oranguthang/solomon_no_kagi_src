@@ -88,6 +88,7 @@ the command decoder, both direct-PPU layers, and their small fixed templates.
 The shared PPU address-latch helper owns `$CD53-$CD5E`.
 The two packed title streams own `$CD5F-$CEF0`; the 34-byte demo duration and
 input tables immediately follow at `$CEF1-$CF34`.
+The 58 four-byte logical RoomMap tile patterns own `$D000-$D0E7`.
 `src/preservation/prg.asm` owns the unresolved ranges
 between and after those modules. `src/graphics/chr.asm` includes the ignored CHR payload created by
 `make split`; no CHR bytes are kept in Git.
@@ -228,7 +229,12 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_SET_PPU_ADDRESS` | reset the latch and write the A:X PPU address | 12 |
 | `PRG_TITLE_PACKED_DATA` | record/background and logo packed streams | 402 |
 | `PRG_DEMO_INPUT_DATA` | 34 duration bytes and 34 controller values | 68 |
-| `PRG_POST_DEMO_INPUT_DATA` | unresolved `$CF35-$FFFF` range | 12,491 |
+| `PRG_DATA_BEFORE_ROOM_TILE_PATTERNS` | unresolved `$CF35-$CFFF` range | 203 |
+| `PRG_ROOM_TILE_PATTERNS` | 58 four-byte logical RoomMap tile patterns | 232 |
+| `PRG_OBJECT_ANIMATION_DESCRIPTOR_POINTERS` | 33 object-type animation descriptor pointers | 66 |
+| `PRG_OBJECT_ANIMATION_DEFINITIONS` | 340 action descriptors and four variant selectors | 1,392 |
+| `PRG_OBJECT_ANIMATION_FRAMES` | 275 three-byte sprite frame records in 126 sequences | 825 |
+| `PRG_POST_OBJECT_ANIMATION_FRAMES` | unresolved `$D9D3-$FFFF` range | 9,773 |
 | `PRG_BANK_1` | generated CHR payload (historical name) | 32,768 |
 
 This unusual naming is documented in `config/linker/cnrom.cfg`. Renaming a

@@ -57,6 +57,7 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	src/game/object_x_left_clamp.asm \
 	src/game/object_x_right_clamp.asm \
 	src/game/object_motion_animation.asm \
+	src/data/object_animations.asm \
 	src/graphics/ppu_update_stream.asm \
 	src/graphics/ppu_attribute_read.asm \
 	src/data/pre_startup_padding.asm \
@@ -108,7 +109,8 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	validate-rooms roundtrip-formats reconstruction-status reconstruction-audit \
 	scheduler-report scheduler-audit enemy-ai-report enemy-ai-audit \
 	item-handler-report item-handler-audit \
-	enemy-pointer-report enemy-pointer-audit ppu-update-report ppu-update-audit clean
+	enemy-pointer-report enemy-pointer-audit ppu-update-report ppu-update-audit \
+	object-animation-report object-animation-audit clean
 
 all: verify
 
@@ -229,11 +231,17 @@ ppu-update-report: $(ROM)
 ppu-update-audit: $(ROM)
 	$(PYTHON) scripts/ppu_update_data.py audit --image "$(ROM)"
 
+object-animation-report: $(ROM)
+	$(PYTHON) scripts/object_animation_data.py report --image "$(ROM)"
+
+object-animation-audit: $(ROM)
+	$(PYTHON) scripts/object_animation_data.py audit --image "$(ROM)"
+
 quality-check: lint test
 
 release-check: quality-check verify validate-rooms roundtrip-formats \
 	reconstruction-audit scheduler-audit enemy-ai-audit enemy-pointer-audit \
-	item-handler-audit ppu-update-audit
+	item-handler-audit ppu-update-audit object-animation-audit
 
 check: release-check
 

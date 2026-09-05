@@ -32,7 +32,9 @@ for room-dependent motion without changing the object action.
 
 ## Animation selection
 
-`ObjectAnimationDescriptorPointers` at `$D0E8` is a parallel 33-pointer table.
+`ObjectAnimationDescriptorPointers` at `$D0E8-$D129` is a source-owned,
+parallel 33-pointer table. Its first target at `$D12A` also proves the table's
+end boundary independently of its consumer's 33-type indexing contract.
 Each action selects a four-byte descriptor:
 
 ```text
@@ -48,6 +50,19 @@ bytes 12-16 as a counter, reload delay, packed phase, and animation-data
 pointer, confirming the output contract independently of the table layout.
 See `docs/object_update_pipeline.md`.
 
-The three ROM table families remain inside the preservation range for now;
-their pointer counts and consumers are understood, but their complete payload
-will be extracted as a separate data reconstruction.
+The complete animation descriptor and frame payload is source-owned in
+`src/data/object_animations.asm`. The two motion table families beginning at
+`$D9D3` remain inside the preservation range for now.
+
+`make object-animation-audit` independently locks the reviewed data layout:
+
+- 33 object-type pointers selecting 18 unique descriptor groups;
+- 340 four-byte action descriptors, 44 of which select a variant table;
+- four overlapping four-pointer variant selectors in two eight-pointer tables;
+- 126 referenced animation sequences covering 275 three-byte frame records;
+- exact hashes for the pointer, definition, and frame-data regions.
+
+The corresponding JSON report is available through
+`make object-animation-report`. The manifest lives at
+`config/object_animations.json`; it records structural facts, not speculative
+enemy names.

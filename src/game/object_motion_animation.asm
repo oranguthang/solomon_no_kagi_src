@@ -2,7 +2,6 @@
 
 .segment "PRG_OBJECT_MOTION_ANIMATION"
 
-ObjectAnimationDescriptorPointers = $D0E8
 ObjectMotionSelectorPointers = $D9D3
 ObjectMotionValues = $DB99
 PreserveObjectMotionValue = $40
@@ -108,3 +107,44 @@ StoreObjectAnimationPointer:
     LDA #$00
     STA (TempPointer08),Y
     RTS
+
+.segment "PRG_OBJECT_ANIMATION_DESCRIPTOR_POINTERS"
+
+ObjectAnimationDescriptorPointerCount = 33
+
+ObjectAnimationDescriptorPointers:
+    .word ObjectAnimationDescriptorsType00
+    .word ObjectAnimationDescriptorsType04
+    .word ObjectAnimationDescriptorsType00
+    .word ObjectAnimationDescriptorsType0C
+    .word ObjectAnimationDescriptorsType10
+    .word ObjectAnimationDescriptorsType14
+    .word ObjectAnimationDescriptorsType18
+    .word ObjectAnimationDescriptorsType1C
+    .word ObjectAnimationDescriptorsType20
+    .word ObjectAnimationDescriptorsType24
+    .word ObjectAnimationDescriptorsType28
+    .word ObjectAnimationDescriptorsType28
+    .word ObjectAnimationDescriptorsType30
+    .word ObjectAnimationDescriptorsType34
+    .word ObjectAnimationDescriptorsType30
+    .word ObjectAnimationDescriptorsType34
+    .word ObjectAnimationDescriptorsType30
+    .word ObjectAnimationDescriptorsType34
+    .word ObjectAnimationDescriptorsType30
+    .word ObjectAnimationDescriptorsType34
+    .word ObjectAnimationDescriptorsType50
+    .word ObjectAnimationDescriptorsType50
+    .word ObjectAnimationDescriptorsType50
+    .word ObjectAnimationDescriptorsType5C
+    .word ObjectAnimationDescriptorsType5C
+    .word ObjectAnimationDescriptorsType5C
+    .word ObjectAnimationDescriptorsType68
+    .word ObjectAnimationDescriptorsType68
+    .word ObjectAnimationDescriptorsType70
+    .word ObjectAnimationDescriptorsType70
+    .word ObjectAnimationDescriptorsType78
+    .word ObjectAnimationDescriptorsType78
+    .word ObjectAnimationDescriptorsType80
+
+.assert * - ObjectAnimationDescriptorPointers = ObjectAnimationDescriptorPointerCount * 2, error, "unexpected animation descriptor pointer count"

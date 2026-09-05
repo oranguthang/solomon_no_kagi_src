@@ -35,10 +35,11 @@ handshake and enters directly at buffer construction.
 
 ## Tile and attribute selection
 
-Ordinary tile graphics are four-byte records at `$D000 + tile*4`. Tile `$10`
-can select one of six expanded constellation records at `$0407` when the map
-index falls in either of the two three-cell rows rooted at
-`ConstellationPosition`.
+Ordinary tile graphics are the 58 source-owned four-byte records in
+`RoomTilePatternTable` at `$D000 + tile*4`. A size assertion binds the table to
+that record count. Tile `$10` can select one of six expanded constellation
+records at `$0407` when the map index falls in either of the two three-cell
+rows rooted at `ConstellationPosition`.
 
 `CalculateRoomMapAttributeAddressLow` also returns a quadrant selector in
 `RoomMapUpdatePpuAddressHigh` (`$05`). The builder rotates the existing

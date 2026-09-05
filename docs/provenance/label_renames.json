@@ -6877,6 +6877,606 @@
     {
       "address": "0xcf13", "previous": "$CF13", "current": "DemoInputValues", "confidence": "confirmed",
       "evidence": ["The same 0-$21 index selects one cached controller value from this adjacent 34-byte table."]
+    },
+    {
+      "address": "0xd000", "previous": "$D000", "current": "RoomTilePatternTable", "confidence": "confirmed",
+      "evidence": ["BuildRoomCellUpdateBuffer multiplies a logical tile by four and reads four consecutive bytes from this 232-byte table; the next known table begins at $D0E8."]
+    },
+    {
+      "address": "0xd0e8", "previous": "$D0E8", "current": "ObjectAnimationDescriptorPointers", "confidence": "confirmed",
+     "evidence": ["LoadObjectMotionAndAnimationDefinition indexes this 33-entry little-endian table by the normalized object type; the first target $D12A immediately follows the 66-byte table."]
+    },
+    {
+      "address": "0xd12a", "previous": "$D12A", "current": "ObjectAnimationDescriptorsType00", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of four-byte action descriptors."]
+    },
+    {
+      "address": "0xd1ba", "previous": "$D1BA", "current": "ObjectAnimationDescriptorsType04", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of four-byte action descriptors."]
+    },
+    {
+      "address": "0xd1fa", "previous": "$D1FA", "current": "ObjectAnimationDescriptorsType0C", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of four-byte action descriptors."]
+    },
+    {
+      "address": "0xd21a", "previous": "$D21A", "current": "ObjectAnimationDescriptorsType10", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of four-byte action descriptors."]
+    },
+    {
+      "address": "0xd23a", "previous": "$D23A", "current": "ObjectAnimationDescriptorsType14", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of four-byte action descriptors."]
+    },
+    {
+      "address": "0xd27a", "previous": "$D27A", "current": "ObjectAnimationDescriptorsType18", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of four-byte action descriptors."]
+    },
+    {
+      "address": "0xd28a", "previous": "$D28A", "current": "ObjectAnimationDescriptorsType1C", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of four-byte action descriptors."]
+    },
+    {
+      "address": "0xd2fa", "previous": "$D2FA", "current": "ObjectAnimationVariantSelector00", "confidence": "confirmed",
+      "evidence": ["Audited odd-flag descriptors select this four-entry little-endian variant pointer window."]
+    },
+    {
+      "address": "0xd302", "previous": "$D302", "current": "ObjectAnimationVariantSelector01", "confidence": "confirmed",
+      "evidence": ["Audited odd-flag descriptors select this four-entry little-endian variant pointer window."]
+    },
+    {
+      "address": "0xd30a", "previous": "$D30A", "current": "ObjectAnimationDescriptorsType20", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of four-byte action descriptors."]
+    },
+    {
+      "address": "0xd33a", "previous": "$D33A", "current": "ObjectAnimationDescriptorsType24", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of four-byte action descriptors."]
+    },
+    {
+      "address": "0xd35a", "previous": "$D35A", "current": "ObjectAnimationDescriptorsType28", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of four-byte action descriptors."]
+    },
+    {
+      "address": "0xd36a", "previous": "$D36A", "current": "ObjectAnimationDescriptorsType30", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of four-byte action descriptors."]
+    },
+    {
+      "address": "0xd3aa", "previous": "$D3AA", "current": "ObjectAnimationDescriptorsType34", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of four-byte action descriptors."]
+    },
+    {
+      "address": "0xd3ea", "previous": "$D3EA", "current": "ObjectAnimationDescriptorsType50", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of four-byte action descriptors."]
+    },
+    {
+      "address": "0xd45a", "previous": "$D45A", "current": "ObjectAnimationDescriptorsType5C", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of four-byte action descriptors."]
+    },
+    {
+      "address": "0xd4ca", "previous": "$D4CA", "current": "ObjectAnimationDescriptorsType68", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of four-byte action descriptors."]
+    },
+    {
+      "address": "0xd53a", "previous": "$D53A", "current": "ObjectAnimationDescriptorsType70", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of four-byte action descriptors."]
+    },
+    {
+      "address": "0xd5aa", "previous": "$D5AA", "current": "ObjectAnimationDescriptorsType78", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of four-byte action descriptors."]
+    },
+    {
+      "address": "0xd61a", "previous": "$D61A", "current": "ObjectAnimationDescriptorsType80", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of four-byte action descriptors."]
+    },
+    {
+      "address": "0xd68a", "previous": "$D68A", "current": "ObjectAnimationVariantSelector02", "confidence": "confirmed",
+      "evidence": ["Audited odd-flag descriptors select this four-entry little-endian variant pointer window."]
+    },
+    {
+      "address": "0xd692", "previous": "$D692", "current": "ObjectAnimationVariantSelector03", "confidence": "confirmed",
+      "evidence": ["Audited odd-flag descriptors select this four-entry little-endian variant pointer window."]
+    },
+    {
+      "address": "0xd69a", "previous": "$D69A", "current": "ObjectAnimationFrames000", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd69d", "previous": "$D69D", "current": "ObjectAnimationFrames001", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd6a0", "previous": "$D6A0", "current": "ObjectAnimationFrames002", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd6a3", "previous": "$D6A3", "current": "ObjectAnimationFrames003", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd6a6", "previous": "$D6A6", "current": "ObjectAnimationFrames004", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd6ac", "previous": "$D6AC", "current": "ObjectAnimationFrames005", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd6af", "previous": "$D6AF", "current": "ObjectAnimationFrames006", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd6b5", "previous": "$D6B5", "current": "ObjectAnimationFrames007", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd6b8", "previous": "$D6B8", "current": "ObjectAnimationFrames008", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd6be", "previous": "$D6BE", "current": "ObjectAnimationFrames009", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd6c4", "previous": "$D6C4", "current": "ObjectAnimationFrames010", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd6ca", "previous": "$D6CA", "current": "ObjectAnimationFrames011", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd6d0", "previous": "$D6D0", "current": "ObjectAnimationFrames012", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd6d9", "previous": "$D6D9", "current": "ObjectAnimationFrames013", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd6e2", "previous": "$D6E2", "current": "ObjectAnimationFrames014", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd6eb", "previous": "$D6EB", "current": "ObjectAnimationFrames015", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd6f4", "previous": "$D6F4", "current": "ObjectAnimationFrames016", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd6f7", "previous": "$D6F7", "current": "ObjectAnimationFrames017", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd6fa", "previous": "$D6FA", "current": "ObjectAnimationFrames018", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd6fd", "previous": "$D6FD", "current": "ObjectAnimationFrames019", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd709", "previous": "$D709", "current": "ObjectAnimationFrames020", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd712", "previous": "$D712", "current": "ObjectAnimationFrames021", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd718", "previous": "$D718", "current": "ObjectAnimationFrames022", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd71e", "previous": "$D71E", "current": "ObjectAnimationFrames023", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd724", "previous": "$D724", "current": "ObjectAnimationFrames024", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd72a", "previous": "$D72A", "current": "ObjectAnimationFrames025", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd730", "previous": "$D730", "current": "ObjectAnimationFrames026", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd736", "previous": "$D736", "current": "ObjectAnimationFrames027", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd73c", "previous": "$D73C", "current": "ObjectAnimationFrames028", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd751", "previous": "$D751", "current": "ObjectAnimationFrames029", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd766", "previous": "$D766", "current": "ObjectAnimationFrames030", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd775", "previous": "$D775", "current": "ObjectAnimationFrames031", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd77b", "previous": "$D77B", "current": "ObjectAnimationFrames032", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd781", "previous": "$D781", "current": "ObjectAnimationFrames033", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd787", "previous": "$D787", "current": "ObjectAnimationFrames034", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd78d", "previous": "$D78D", "current": "ObjectAnimationFrames035", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd793", "previous": "$D793", "current": "ObjectAnimationFrames036", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd799", "previous": "$D799", "current": "ObjectAnimationFrames037", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd79f", "previous": "$D79F", "current": "ObjectAnimationFrames038", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd7a5", "previous": "$D7A5", "current": "ObjectAnimationFrames039", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd7ba", "previous": "$D7BA", "current": "ObjectAnimationFrames040", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd7bd", "previous": "$D7BD", "current": "ObjectAnimationFrames041", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd7c0", "previous": "$D7C0", "current": "ObjectAnimationFrames042", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd7c3", "previous": "$D7C3", "current": "ObjectAnimationFrames043", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd7c6", "previous": "$D7C6", "current": "ObjectAnimationFrames044", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd7c9", "previous": "$D7C9", "current": "ObjectAnimationFrames045", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd7cc", "previous": "$D7CC", "current": "ObjectAnimationFrames046", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd7cf", "previous": "$D7CF", "current": "ObjectAnimationFrames047", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd7d2", "previous": "$D7D2", "current": "ObjectAnimationFrames048", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd7d5", "previous": "$D7D5", "current": "ObjectAnimationFrames049", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd7d8", "previous": "$D7D8", "current": "ObjectAnimationFrames050", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd7db", "previous": "$D7DB", "current": "ObjectAnimationFrames051", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd7de", "previous": "$D7DE", "current": "ObjectAnimationFrames052", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd7e1", "previous": "$D7E1", "current": "ObjectAnimationFrames053", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd7e4", "previous": "$D7E4", "current": "ObjectAnimationFrames054", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd7e7", "previous": "$D7E7", "current": "ObjectAnimationFrames055", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd7ed", "previous": "$D7ED", "current": "ObjectAnimationFrames056", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd7f6", "previous": "$D7F6", "current": "ObjectAnimationFrames057", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd802", "previous": "$D802", "current": "ObjectAnimationFrames058", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd808", "previous": "$D808", "current": "ObjectAnimationFrames059", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd80e", "previous": "$D80E", "current": "ObjectAnimationFrames060", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd814", "previous": "$D814", "current": "ObjectAnimationFrames061", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd81a", "previous": "$D81A", "current": "ObjectAnimationFrames062", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd820", "previous": "$D820", "current": "ObjectAnimationFrames063", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd826", "previous": "$D826", "current": "ObjectAnimationFrames064", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd82c", "previous": "$D82C", "current": "ObjectAnimationFrames065", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd832", "previous": "$D832", "current": "ObjectAnimationFrames066", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd838", "previous": "$D838", "current": "ObjectAnimationFrames067", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd83b", "previous": "$D83B", "current": "ObjectAnimationFrames068", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd83e", "previous": "$D83E", "current": "ObjectAnimationFrames069", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd841", "previous": "$D841", "current": "ObjectAnimationFrames070", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd844", "previous": "$D844", "current": "ObjectAnimationFrames071", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd847", "previous": "$D847", "current": "ObjectAnimationFrames072", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd84a", "previous": "$D84A", "current": "ObjectAnimationFrames073", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd84d", "previous": "$D84D", "current": "ObjectAnimationFrames074", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd850", "previous": "$D850", "current": "ObjectAnimationFrames075", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd85c", "previous": "$D85C", "current": "ObjectAnimationFrames076", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd862", "previous": "$D862", "current": "ObjectAnimationFrames077", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd868", "previous": "$D868", "current": "ObjectAnimationFrames078", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd86b", "previous": "$D86B", "current": "ObjectAnimationFrames079", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd86e", "previous": "$D86E", "current": "ObjectAnimationFrames080", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd871", "previous": "$D871", "current": "ObjectAnimationFrames081", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd874", "previous": "$D874", "current": "ObjectAnimationFrames082", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd877", "previous": "$D877", "current": "ObjectAnimationFrames083", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd87a", "previous": "$D87A", "current": "ObjectAnimationFrames084", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd880", "previous": "$D880", "current": "ObjectAnimationFrames085", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd886", "previous": "$D886", "current": "ObjectAnimationFrames086", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd88c", "previous": "$D88C", "current": "ObjectAnimationFrames087", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd892", "previous": "$D892", "current": "ObjectAnimationFrames088", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd895", "previous": "$D895", "current": "ObjectAnimationFrames089", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd898", "previous": "$D898", "current": "ObjectAnimationFrames090", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd89b", "previous": "$D89B", "current": "ObjectAnimationFrames091", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd8a1", "previous": "$D8A1", "current": "ObjectAnimationFrames092", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd8a4", "previous": "$D8A4", "current": "ObjectAnimationFrames093", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd8a7", "previous": "$D8A7", "current": "ObjectAnimationFrames094", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd8b3", "previous": "$D8B3", "current": "ObjectAnimationFrames095", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd8b9", "previous": "$D8B9", "current": "ObjectAnimationFrames096", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd8bf", "previous": "$D8BF", "current": "ObjectAnimationFrames097", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd8c2", "previous": "$D8C2", "current": "ObjectAnimationFrames098", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd8c8", "previous": "$D8C8", "current": "ObjectAnimationFrames099", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd8cb", "previous": "$D8CB", "current": "ObjectAnimationFrames100", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd8d1", "previous": "$D8D1", "current": "ObjectAnimationFrames101", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd8e3", "previous": "$D8E3", "current": "ObjectAnimationFrames102", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd8f5", "previous": "$D8F5", "current": "ObjectAnimationFrames103", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd901", "previous": "$D901", "current": "ObjectAnimationFrames104", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd90d", "previous": "$D90D", "current": "ObjectAnimationFrames105", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd913", "previous": "$D913", "current": "ObjectAnimationFrames106", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd919", "previous": "$D919", "current": "ObjectAnimationFrames107", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd91f", "previous": "$D91F", "current": "ObjectAnimationFrames108", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd928", "previous": "$D928", "current": "ObjectAnimationFrames109", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd92e", "previous": "$D92E", "current": "ObjectAnimationFrames110", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd937", "previous": "$D937", "current": "ObjectAnimationFrames111", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd940", "previous": "$D940", "current": "ObjectAnimationFrames112", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd949", "previous": "$D949", "current": "ObjectAnimationFrames113", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd94f", "previous": "$D94F", "current": "ObjectAnimationFrames114", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd955", "previous": "$D955", "current": "ObjectAnimationFrames115", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd95b", "previous": "$D95B", "current": "ObjectAnimationFrames116", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd961", "previous": "$D961", "current": "ObjectAnimationFrames117", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd96d", "previous": "$D96D", "current": "ObjectAnimationFrames118", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd979", "previous": "$D979", "current": "ObjectAnimationFrames119", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd97f", "previous": "$D97F", "current": "ObjectAnimationFrames120", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd985", "previous": "$D985", "current": "ObjectAnimationFrames121", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd997", "previous": "$D997", "current": "ObjectAnimationFrames122", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd9a6", "previous": "$D9A6", "current": "ObjectAnimationFrames123", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd9b5", "previous": "$D9B5", "current": "ObjectAnimationFrames124", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd9c4", "previous": "$D9C4", "current": "ObjectAnimationFrames125", "confidence": "confirmed",
+      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
     }
   ]
 }
