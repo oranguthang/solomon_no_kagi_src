@@ -244,14 +244,31 @@ DispatchFireballCollisionMask:
     STA TempPointer08 + 1
     JMP (TempPointer08)
 
-; The sixteen destinations remain in the unresolved $AB37-$ACEF range
+FireballCollisionHandlerCount = 16
+
+; Mask $0F reuses the empty-path handler, matching the pathfinding dispatcher
 FireballCollisionHandlerLowBytes:
-    .byte $37, $8B, $B0, $16, $D2, $EF, $77, $B3
-    .byte $F4, $60, $F9, $9F, $43, $C7, $DB, $37
+    .byte <HandleType14To1BPathMask00, <HandleType14To1BPathMask01
+    .byte <HandleType14To1BPathMask02, <HandleType14To1BPathMask03
+    .byte <HandleType14To1BPathMask04, <HandleType14To1BPathMask05
+    .byte <HandleType14To1BPathMask06, <HandleType14To1BPathMask07
+    .byte <HandleType14To1BPathMask08, <HandleType14To1BPathMask09
+    .byte <HandleType14To1BPathMask0A, <HandleType14To1BPathMask0B
+    .byte <HandleType14To1BPathMask0C, <HandleType14To1BPathMask0D
+    .byte <HandleType14To1BPathMask0E, <HandleType14To1BPathMask00
 
 FireballCollisionHandlerHighBytes:
-    .byte $AB, $AB, $AB, $AC, $AB, $AC, $AC, $AC
-    .byte $AB, $AC, $AC, $AC, $AC, $AC, $AC, $AB
+    .byte >HandleType14To1BPathMask00, >HandleType14To1BPathMask01
+    .byte >HandleType14To1BPathMask02, >HandleType14To1BPathMask03
+    .byte >HandleType14To1BPathMask04, >HandleType14To1BPathMask05
+    .byte >HandleType14To1BPathMask06, >HandleType14To1BPathMask07
+    .byte >HandleType14To1BPathMask08, >HandleType14To1BPathMask09
+    .byte >HandleType14To1BPathMask0A, >HandleType14To1BPathMask0B
+    .byte >HandleType14To1BPathMask0C, >HandleType14To1BPathMask0D
+    .byte >HandleType14To1BPathMask0E, >HandleType14To1BPathMask00
+
+.assert FireballCollisionHandlerHighBytes - FireballCollisionHandlerLowBytes = FireballCollisionHandlerCount, error, "unexpected fireball collision handler count"
+.assert * - FireballCollisionHandlerHighBytes = FireballCollisionHandlerCount, error, "unexpected fireball collision handler count"
 
 ; Input is Y in TempPointer08 and X in TempPointer08+1. The returned low
 ; nibble in TempPointer08+1 records solid cells around the fireball bounds

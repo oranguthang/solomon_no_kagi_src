@@ -47,6 +47,14 @@ request, execution of `CreateBlockInRoomMap`, and the resulting write of `$90`
 to RAM address `$0387`, map index `$83`. The expected event detail protects
 both the selected cell and encoded tile value.
 
+`room-1-cast-fireball` uses three declared writes at frame 720 to supply one
+small-fireball inventory slot and shorten its configured lifetime to `$0010`,
+then presses B on frames 720-780. Original code casts and activates the object
+at frame 722, reaches NMI collision processing at 723, clears
+`FireballActive` and enters inactive cleanup at 739, and retires the object at
+747. The trace validates every setup write and the exact RAM addresses changed
+by deactivation and retirement.
+
 `attract-demo-scheduler` supplies no input and waits for the built-in demo. It
 compares a populated object pool with the first-room baseline. Both traces
 preserve the context cycle `3,4,5,6,7,0,1,2`, while their 60-frame switch and
@@ -61,7 +69,7 @@ conversion through `SubtractTimerBy8`, and reaches the next `RoomLoadThread` at
 frame 1136. The final state proves gameplay in internal room `$01`.
 
 These scenarios establish the runtime harness and a reproducible boot-to-play,
-movement, casting, and scheduler-timing baseline. Later subsystem traces should
-add focused, explicitly
-declared state setup where reaching rare mechanics through input alone would
-make the evidence prohibitively slow.
+movement, block/fireball casting, progression, and scheduler-timing baseline.
+Later subsystem traces should add focused, explicitly declared state setup
+where reaching rare mechanics through input alone would make the evidence
+prohibitively slow.

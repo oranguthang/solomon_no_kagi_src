@@ -21,6 +21,8 @@ local ram = {
     mirror = symbol("RoomItemRuntimeData"),
     map = symbol("RoomMap"),
     dana = symbol("DanaObject"),
+    fireball = symbol("FireballObject"),
+    fireball_active = symbol("FireballActive"),
 }
 
 local function byte(address)
@@ -68,6 +70,11 @@ local hooks = {
     {"RunEnemyAiDispatcher", "enemy_ai", true},
     {"TryStartBlockMagicAction", "block_magic_request", true},
     {"CreateBlockInRoomMap", "block_created", true},
+    {"CastFireballFromInventory", "fireball_cast", true},
+    {"ActivateFireball", "fireball_activated", true},
+    {"UpdateActiveFireballCollision", "fireball_collision", true, "fireball_activated"},
+    {"UpdateFireballLifetime", "fireball_lifetime", true, "fireball_activated"},
+    {"CheckInactiveFireballCleanup", "fireball_cleanup", true, "fireball_activated"},
     {"EnterRoomDoor", "door_entered", true},
     {"RoomClearThread", "room_clear", true},
     {"SubtractTimerBy8", "room_bonus_tick", true},
@@ -83,13 +90,15 @@ for _, hook in ipairs(hooks) do
     local routine = hook[1]
     local event = hook[2]
     local requires_gameplay = hook[3]
+    local prerequisite = hook[4]
     memory.registerexecute(symbol(routine), function()
         if routine == "MainGameplayThread" and gameplay_start_frame == nil then
             gameplay_start_frame = emu.framecount()
         end
         if routine == "RoomLoadThread" and seen["room_load"] then
             emit_once("next_room_load", routine)
-        elseif not requires_gameplay or seen["gameplay_start"] then
+        elseif (not requires_gameplay or seen["gameplay_start"])
+            and (prerequisite == nil or seen[prerequisite]) then
             emit_once(event, routine)
         end
         if routine == "SwitchThreads" and seen["gameplay_start"]
@@ -120,6 +129,18 @@ memory.registerwrite(ram.map, 192, function(address, size, value)
         emit_once(
             "room_map_write",
             string.format("%04X=%02X", address, value))
+    end
+end)
+
+memory.registerwrite(ram.fireball_active, 1, function(address, size, value)
+    if seen["fireball_activated"] and value == 0 then
+        emit_once("fireball_deactivated", string.format("%04X=%02X", address, value))
+    end
+end)
+
+memory.registerwrite(ram.fireball, 1, function(address, size, value)
+    if seen["fireball_activated"] and value == 0 then
+        emit_once("fireball_retired", string.format("%04X=%02X", address, value))
     end
 end)
 

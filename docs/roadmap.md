@@ -293,6 +293,9 @@ decrease.
 - the first FCEUX scenarios now prove cold-boot scheduler activity and the
   natural Start-to-Room-1 path, core gameplay dispatch, and controller-driven
   Dana movement and block casting without RAM patches;
+- a three-write controlled inventory/lifetime setup proves B-cast fireball
+  activation, NMI collision service, lifetime deactivation, cleanup, and object
+  retirement at deterministic frames;
 - a controlled, fully declared open-door setup proves the original
   `EnterRoomDoor` to `RoomClearThread` to next-room-load progression, while
   paired Room 1/attract traces prove scheduler-sensitive timer cadence.

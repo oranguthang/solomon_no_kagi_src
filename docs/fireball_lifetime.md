@@ -16,5 +16,12 @@ eight retires the object by clearing its first byte. This establishes a short
 post-expiration cleanup interval without assigning semantics to the remaining
 fireball record fields.
 
+The deterministic `room-1-cast-fireball` scenario supplies one inventory slot
+and lifetime `$0010` through three declared RAM writes, then uses ordinary B
+input. It observes activation at frame 722, the first NMI collision service at
+723, active-state clearing and the cleanup branch at 739, and object retirement
+eight frames later at 747. This binds both phases of the service to runtime
+behavior in the byte-identical build.
+
 The adjacent services at `$A3D7` and `$A3F8` initialize and render object
 records and remain the next evidence boundary.

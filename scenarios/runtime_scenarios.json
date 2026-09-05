@@ -149,6 +149,60 @@
       }
     },
     {
+      "id": "room-1-cast-fireball",
+      "method": "controlled small-fireball inventory followed by deterministic B input",
+      "max_frames": 900,
+      "inputs": [
+        {"start_frame": 300, "end_frame": 301, "buttons": ["start"]},
+        {"start_frame": 720, "end_frame": 780, "buttons": ["b"]}
+      ],
+      "patches": [
+        {"frame": 720, "symbol": "InventorySlotsLow", "value": "0x40", "reason": "seed_small_fireball", "expected_detail": "042F:00>40:seed_small_fireball"},
+        {"frame": 720, "symbol": "FireballLifetimeLo", "value": "0x10", "reason": "shorten_fireball_lifetime_low", "expected_detail": "0432:00>10:shorten_fireball_lifetime_low"},
+        {"frame": 720, "symbol": "FireballLifetimeHi", "value": "0x00", "reason": "shorten_fireball_lifetime_high", "expected_detail": "0433:01>00:shorten_fireball_lifetime_high"}
+      ],
+      "expected_events": {
+        "first_nmi": 6,
+        "first_joypad_read": 6,
+        "first_thread_switch": 7,
+        "start_input_seen": 301,
+        "room_load": 303,
+        "room_intro": 308,
+        "gameplay_start": 610,
+        "first_timer_tick": 610,
+        "enemy_ai": 610,
+        "dana_control": 611,
+        "object_motion": 611,
+        "object_collision": 611,
+        "b_input_seen": 721,
+        "fireball_cast": 722,
+        "fireball_activated": 722,
+        "fireball_collision": 723,
+        "fireball_lifetime": 722,
+        "fireball_deactivated": 739,
+        "fireball_cleanup": 739,
+        "fireball_retired": 747
+      },
+      "expected_event_details": {
+        "fireball_cast": "CastFireballFromInventory",
+        "fireball_activated": "ActivateFireball",
+        "fireball_collision": "UpdateActiveFireballCollision",
+        "fireball_lifetime": "UpdateFireballLifetime",
+        "fireball_deactivated": "042A=00",
+        "fireball_cleanup": "CheckInactiveFireballCleanup",
+        "fireball_retired": "05A7=00"
+      },
+      "expected_final": {
+        "frame": "900",
+        "thread": "03",
+        "room": "00",
+        "timer": "01050900",
+        "dana_y": "90",
+        "dana_x": "28",
+        "active_enemies": "00"
+      }
+    },
+    {
       "id": "attract-demo-scheduler",
       "method": "natural no-input attract demo under a populated object pool",
       "max_frames": 1300,
