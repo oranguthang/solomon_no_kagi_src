@@ -9581,6 +9581,721 @@
     {
       "address": "0xcf35", "previous": "$CF35", "current": "FillerBeforeRoomTilePatterns", "confidence": "confirmed",
       "evidence": ["Bisqwit's map classifies the entire 203-byte gap before $D000 as FillerBeforeD000_203bytes; a size assertion and ROM comparison preserve it exactly."]
+    },
+    {
+      "address": "0xa4b3", "previous": "$A4B3", "current": "RunType00To03EnemyAi", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa4d4", "previous": "_label_bank0_a4d4", "current": "RunType00To03Movement", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa4e3", "previous": "_label_bank0_a4e3", "current": "CheckType00To03ActionPhase", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa4eb", "previous": "_label_bank0_a4eb", "current": "DeactivateType00To03Enemy", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa4ee", "previous": "_label_bank0_a4ee", "current": "UpdateType00To03Collision", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa500", "previous": "_label_bank0_a500", "current": "ClassifyType00To03Collision", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa509", "previous": "_label_bank0_a509", "current": "StopType00To03VerticalMotion", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa512", "previous": "_label_bank0_a512", "current": "ResolveType00To03Collision", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa536", "previous": "_label_bank0_a536", "current": "ClearType00To03Motion", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa54a", "previous": "_label_bank0_a54a", "current": "SelectType00To03HorizontalMotion", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa557", "previous": "_label_bank0_a557", "current": "UseSlowType00To03HorizontalMotion", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa559", "previous": "_label_bank0_a559", "current": "StoreType00To03HorizontalMotion", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa55c", "previous": "$A55C", "current": "RunEnemyActionA55C", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa55d", "previous": "_label_bank0_a55d", "current": "HandleEnemyCollisionReward", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa581", "previous": "_label_bank0_a581", "current": "DispatchEnemyCollisionInventoryReward", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa584", "previous": "_label_bank0_a584", "current": "QueueEnemyItemPresentation", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa58c", "previous": "_label_bank0_a58c", "current": "AwardEnemyCollisionScore", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa590", "previous": "_label_bank0_a590", "current": "SelectEnemyCollisionScoreDigit", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa5a0", "previous": "$A5A0", "current": "EnemyCollisionScoreAmounts", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa5a3", "previous": "$A5A3", "current": "DispatchEnemyCollisionInventoryItem", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa5a6", "previous": "$A5A6", "current": "EnemyCollisionInventoryHandlers", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa5ae", "previous": "$A5AE", "current": "UpgradeSmallFireballInventory", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa5b9", "previous": "_label_bank0_a5b9", "current": "ScanPreviousFireballInventoryByte", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa5bb", "previous": "_label_bank0_a5bb", "current": "ScanPreviousFireballInventorySlot", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa5d2", "previous": "_label_bank0_a5d2", "current": "FinishSmallFireballUpgrade", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa5d3", "previous": "_label_bank0_a5d3", "current": "UpgradeSmallFireballSlot", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa5dd", "previous": "$A5DD", "current": "RunType04To07EnemyAi", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa5e8", "previous": "_label_bank0_a5e8", "current": "RunType04To07Movement", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa5f2", "previous": "_label_bank0_a5f2", "current": "UpdateType04To07Collision", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa5fe", "previous": "_label_bank0_a5fe", "current": "HandleType04To07OpenPath", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa60e", "previous": "_label_bank0_a60e", "current": "StoreRandomType04To07HorizontalMotion", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa612", "previous": "_label_bank0_a612", "current": "UpdateType04To07VerticalMotion", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa620", "previous": "_label_bank0_a620", "current": "SelectType04To07Action", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa627", "previous": "_label_bank0_a627", "current": "StoreType04To07Action", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa62d", "previous": "_label_bank0_a62d", "current": "HandleType04To07BlockedPath", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa63f", "previous": "_label_bank0_a63f", "current": "UseNegativeType04To07VerticalMotion", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa641", "previous": "_label_bank0_a641", "current": "StoreType04To07VerticalMotion", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa643", "previous": "_label_bank0_a643", "current": "SelectType04To07HorizontalMotion", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa650", "previous": "_label_bank0_a650", "current": "CheckAlternateType04To07HorizontalMotion", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa659", "previous": "_label_bank0_a659", "current": "StoreType04To07HorizontalMotion", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa661", "previous": "_label_bank0_a661", "current": "FinishType04To07Movement", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa662", "previous": "_label_bank0_a662", "current": "ReplaceActiveEnemiesAfterType04To07Collision", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa664", "previous": "_label_bank0_a664", "current": "CheckNextEnemyForType04To07Replacement", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa670", "previous": "_label_bank0_a670", "current": "CopyType04To07ReplacementHeader", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa682", "previous": "_label_bank0_a682", "current": "AdvanceType04To07ReplacementScan", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa688", "previous": "$A688", "current": "Type04To07ReplacementHeader", "confidence": "confirmed",
+      "evidence": ["The decoded enemy-AI control flow, record-field accesses, and byte-identical assembly confirm this boundary."]
+    },
+    {
+      "address": "0xa68c",
+      "previous": "$A68C",
+      "current": "RunType10To13EnemyAi",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa692",
+      "previous": "$A692",
+      "current": "Type10To13ActionHandlers",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa696",
+      "previous": "$A696",
+      "current": "UpdateType10To13Action",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa6b4",
+      "previous": "_label_bank0_a6b4",
+      "current": "FinishType10To13Update",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa6b5",
+      "previous": "$A6B5",
+      "current": "AllocateType10To13LinkedEnemy",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa6df",
+      "previous": "_label_bank0_a6df",
+      "current": "FinishType10To13Allocation",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa6e0",
+      "previous": "$A6E0",
+      "current": "RunType6CTo6FEnemyAi",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa6e6",
+      "previous": "$A6E6",
+      "current": "Type6CTo6FActionHandlers",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa6f4",
+      "previous": "$A6F4",
+      "current": "CheckType6CTo6FDanaRange16",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa6f9",
+      "previous": "$A6F9",
+      "current": "UpdateType6CTo6FPhase",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa70a",
+      "previous": "_label_bank0_a70a",
+      "current": "FinishType6CTo6FPhase",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa70b",
+      "previous": "_label_bank0_a70b",
+      "current": "DeactivateType6CTo6FEnemy",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa70e",
+      "previous": "$A70E",
+      "current": "CheckType6CTo6FDanaRange22",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa724",
+      "previous": "_label_bank0_a724",
+      "current": "SetType6CTo6FDirectionBit",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa729",
+      "previous": "_label_bank0_a729",
+      "current": "SelectType6CTo6FAction14",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa72b",
+      "previous": "_label_bank0_a72b",
+      "current": "StoreType6CTo6FAction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa730",
+      "previous": "$A730",
+      "current": "CheckType6CTo6FDanaRange06",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa73e",
+      "previous": "_label_bank0_a73e",
+      "current": "SelectDelayedType6CTo6FAction14",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa742",
+      "previous": "$A742",
+      "current": "ResetType6CTo6FDirection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa751",
+      "previous": "_label_bank0_a751",
+      "current": "ClearType6CTo6FDirectionBit",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa75e",
+      "previous": "$A75E",
+      "current": "CheckDanaEnemyProximityThreshold",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa77c",
+      "previous": "_label_bank0_a77c",
+      "current": "FinishDanaEnemyProximityCheck",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa77d",
+      "previous": "$A77D",
+      "current": "CheckDanaHorizontalEnemyOverlap",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa78a",
+      "previous": "$A78A",
+      "current": "RunType54To5BEnemyAi",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa790",
+      "previous": "$A790",
+      "current": "Type54To5BActionHandlers",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa79e",
+      "previous": "$A79E",
+      "current": "SelectType54To5BActionByDirection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa7a9",
+      "previous": "$A7A9",
+      "current": "UpdateType54To5BLinkedPair",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa7b3",
+      "previous": "_label_bank0_a7b3",
+      "current": "ProbeType54To5BForwardTile",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa7cd",
+      "previous": "_label_bank0_a7cd",
+      "current": "FinishType54To5BUpdate",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa7ce",
+      "previous": "_label_bank0_a7ce",
+      "current": "CheckType54To5BActionPhase",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa7dd",
+      "previous": "_label_bank0_a7dd",
+      "current": "UpdateType54To5BBlockedDirection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa7f3",
+      "previous": "_label_bank0_a7f3",
+      "current": "ReverseType54To5BDirection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa7fd",
+      "previous": "_label_bank0_a7fd",
+      "current": "FinishType54To5BBlockedDirection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa7fe",
+      "previous": "_label_bank0_a7fe",
+      "current": "AllocateType54To5BLinkedPair",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa822",
+      "previous": "_label_bank0_a822",
+      "current": "ActivateType54To5BLinkedPair",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa83f",
+      "previous": "_label_bank0_a83f",
+      "current": "FinishType54To5BPairAllocation",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa840",
+      "previous": "$A840",
+      "current": "RunType08To0BEnemyAi",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa869",
+      "previous": "_label_bank0_a869",
+      "current": "DispatchType08To0BAction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa86f",
+      "previous": "$A86F",
+      "current": "Type08To0BActionHandlers",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa87d",
+      "previous": "$A87D",
+      "current": "CollectType08To0BFairy",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa8ab",
+      "previous": "_label_bank0_a8ab",
+      "current": "StoreType08To0BFairyCount",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa8b9",
+      "previous": "_label_bank0_a8b9",
+      "current": "FinishType08To0BFairyUpdate",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa8ba",
+      "previous": "_label_bank0_a8ba",
+      "current": "CheckType08To0BFairyLifetime",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa8c1",
+      "previous": "_label_bank0_a8c1",
+      "current": "StartType08To0BMapInteraction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa8e4",
+      "previous": "$A8E4",
+      "current": "UpdateType08To0BMotion",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa8f0",
+      "previous": "_label_bank0_a8f0",
+      "current": "StoreType08To0BAction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa8fb",
+      "previous": "_label_bank0_a8fb",
+      "current": "ApplyType08To0BMotionCorrection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa91a",
+      "previous": "_label_bank0_a91a",
+      "current": "SelectType08To0BVerticalAdjustment",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa92b",
+      "previous": "_label_bank0_a92b",
+      "current": "NormalizeType08To0BVerticalDelta",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa931",
+      "previous": "_label_bank0_a931",
+      "current": "CompareType08To0BVerticalLimit",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa93d",
+      "previous": "_label_bank0_a93d",
+      "current": "StoreType08To0BVerticalMotion",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa953",
+      "previous": "_label_bank0_a953",
+      "current": "SelectType08To0BHorizontalAdjustment",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa964",
+      "previous": "_label_bank0_a964",
+      "current": "NormalizeType08To0BHorizontalDelta",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa96a",
+      "previous": "_label_bank0_a96a",
+      "current": "CompareType08To0BHorizontalLimit",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa97a",
+      "previous": "_label_bank0_a97a",
+      "current": "StoreType08To0BHorizontalMotion",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa988",
+      "previous": "$A988",
+      "current": "Type08To0BVerticalAdjustments",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa98c",
+      "previous": "$A98C",
+      "current": "Type08To0BVerticalLimits",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa990",
+      "previous": "$A990",
+      "current": "Type08To0BHorizontalAdjustments",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
+    },
+    {
+      "address": "0xa994",
+      "previous": "$A994",
+      "current": "Type08To0BHorizontalLimits",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action dispatch, enemy-record accesses, and byte-identical assembly confirm this address and control-flow role."
+      ]
     }
   ]
 }

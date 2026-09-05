@@ -14,7 +14,7 @@ evidence, and small tested tools for decoded game data.
   entrypoint; CHR is a private generated asset and is not stored in Git.
 - Confirmed NES registers and high-confidence RAM aliases are separated into
   `src/memory/`.
-- One hundred fifty-five semantic PRG modules own NMI (`$8000-$80FE`), its
+- One hundred fifty-seven semantic PRG modules own NMI (`$8000-$80FE`), its
   gameplay interaction services (`$80FF-$837C`), controller input
   (`$837D-$83C1`), Dana control and object-to-OAM composition
   (`$83C2-$863B`), reset/startup
@@ -27,7 +27,10 @@ evidence, and small tested tools for decoded game data.
   type-specific object/AI configuration at `$A3F8-$A44D` and its table at
   `$A44E-$A468`. The inline 28-entry enemy AI handler dispatcher owns
   `$A469-$A4A5`, followed by its shared position-copy helper at
-  `$A4A6-$A4B2`. Shared object/AI record pointer helpers own `$B28A-$B2A1`,
+  `$A4A6-$A4B2`. Additional enemy AI families continue through `$A997`,
+  including action dispatch, linked-slot allocation, and fairy motion and
+  collection.
+  Shared object/AI record pointer helpers own `$B28A-$B2A1`,
   the free-slot allocator owns `$B42A-$B445`, their split pointer tables own
   `$B446-$B491`, and slot deactivation owns `$B492-$B4B5`.
   Current-record deactivation follows at `$B4B6-$B4C3`.

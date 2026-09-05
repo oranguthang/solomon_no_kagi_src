@@ -1294,6 +1294,41 @@
       ]
     },
     {
+      "id": "early_enemy_ai",
+      "path": "src/game/early_enemy_ai.asm",
+      "segment": "PRG_EARLY_ENEMY_AI",
+      "start": "0xa4b3",
+      "end": "0xa68b",
+      "status": "semantic",
+      "required_labels": [
+        "RunType00To03EnemyAi",
+        "HandleEnemyCollisionReward",
+        "DispatchEnemyCollisionInventoryItem",
+        "UpgradeSmallFireballInventory",
+        "RunType04To07EnemyAi",
+        "ReplaceActiveEnemiesAfterType04To07Collision"
+      ]
+    },
+    {
+      "id": "mid_enemy_ai",
+      "path": "src/game/mid_enemy_ai.asm",
+      "segment": "PRG_MID_ENEMY_AI",
+      "start": "0xa68c",
+      "end": "0xa997",
+      "status": "semantic",
+      "required_labels": [
+        "RunType10To13EnemyAi",
+        "RunType6CTo6FEnemyAi",
+        "CheckDanaEnemyProximityThreshold",
+        "CheckDanaHorizontalEnemyOverlap",
+        "RunType54To5BEnemyAi",
+        "AllocateType54To5BLinkedPair",
+        "RunType08To0BEnemyAi",
+        "CollectType08To0BFairy",
+        "UpdateType08To0BMotion"
+      ]
+    },
+    {
       "id": "enemy_pointers",
       "path": "src/game/enemy_pointers.asm",
       "segment": "PRG_ENEMY_POINTERS",
@@ -2324,11 +2359,11 @@
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 155,
-    "minimum_documented_prg_bytes": 29225,
-    "minimum_provenance_entries": 1546,
-    "maximum_preservation_lines": 2158,
-    "maximum_generated_labels": 183,
-    "maximum_raw_control_flow_targets": 66
+    "minimum_semantic_modules": 157,
+    "minimum_documented_prg_bytes": 30478,
+    "minimum_provenance_entries": 1651,
+    "maximum_preservation_lines": 1382,
+    "maximum_generated_labels": 111,
+    "maximum_raw_control_flow_targets": 54
   }
 }

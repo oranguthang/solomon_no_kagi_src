@@ -137,6 +137,11 @@ decrease.
   pointers are isolated in `src/game/enemy_ai_handlers.asm`;
 - `$A4A6-$A4B2`: the shared current-enemy position-copy helper is isolated in
   `src/game/enemy_position.asm`;
+- `$A4B3-$A68B`: the first two enemy AI families, collision reward dispatch,
+  and small-to-large fireball inventory upgrade are source-owned;
+- `$A68C-$A997`: four additional AI families, their inline action tables,
+  Dana proximity checks, linked-pair allocation, fairy collection, and
+  two-axis motion correction are source-owned;
 - `$B28A-$B2A1`: the indexed object/AI record pointer resolvers are isolated
   in `src/game/enemy_pointers.asm`, and all 28 call sites use their symbols;
 - `$B2A2-$B429`: action dispatch for the `$50-$5B` type family, shared

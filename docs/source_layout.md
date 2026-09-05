@@ -54,6 +54,7 @@ Type-specific object/AI configuration owns `$A3F8-$A44D`.
 Its 27-byte packed flag table follows at `$A44E-$A468`.
 The inline AI handler dispatcher and its 28 pointers own `$A469-$A4A5`.
 The shared current-enemy position helper owns `$A4A6-$A4B2`.
+The first two enemy AI families and collision reward helpers own `$A4B3-$A68B`.
 The two indexed enemy-record pointer resolvers own `$B28A-$B2A1`.
 The free enemy-slot allocator owns `$B42A-$B445`.
 Their split record-pool pointer tables own `$B446-$B491`.
@@ -92,7 +93,7 @@ The two packed title streams own `$CD5F-$CEF0`; the 34-byte demo duration and
 input tables immediately follow at `$CEF1-$CF34`, followed by classified
 filler through `$CFFF`.
 The 58 four-byte logical RoomMap tile patterns own `$D000-$D0E7`.
-`src/preservation/prg.asm` now owns only the unresolved `$A4B3-$B289` range.
+`src/preservation/prg.asm` now owns only the unresolved `$A998-$B289` range.
 `src/graphics/chr.asm` includes the ignored CHR payload created by
 `make split`; no CHR bytes are kept in Git.
 
@@ -184,7 +185,9 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_ENEMY_TYPE_DATA` | packed enemy-type configuration flags | 27 |
 | `PRG_ENEMY_AI_HANDLERS` | inline dispatcher and 28 handler pointers | 61 |
 | `PRG_ENEMY_POSITION` | current-enemy position-copy helper | 13 |
-| `PRG_PRE_ENEMY_POINTERS` | unresolved `$A4B3-$B289` range | 3,543 |
+| `PRG_EARLY_ENEMY_AI` | first two enemy AI families and collision rewards | 473 |
+| `PRG_MID_ENEMY_AI` | four action-dispatched AI families and linked-slot allocation | 780 |
+| `PRG_PRE_ENEMY_POINTERS` | unresolved `$A998-$B289` range | 2,290 |
 | `PRG_ENEMY_POINTERS` | indexed object/AI record pointer resolvers | 24 |
 | `PRG_LINKED_ENEMY_AI` | `$50-$67` action dispatch and linked-slot support | 392 |
 | `PRG_FIND_FREE_ENEMY_SLOT` | seventeen-entry free-slot allocator | 28 |

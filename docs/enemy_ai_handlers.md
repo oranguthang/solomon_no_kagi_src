@@ -15,6 +15,9 @@ the table contains 28 entries but only 14 unique handler addresses.
 `config/enemy_ai_handlers.json`; the audit is part of `make release-check`.
 An assembly assertion independently fixes the source table at 28 entries.
 
-The individual targets remain raw addresses until each behavior family is
-reconstructed. The first local target is `$A4B3`; the short helper at
-`$A4A6-$A4B2` precedes it and is the next code boundary.
+The first two targets are source-owned as `RunType00To03EnemyAi` and
+`RunType04To07EnemyAi` in `src/game/early_enemy_ai.asm`. Their shared contact
+path awards score, an extra life, or an inventory effect. Four more handler
+targets are source-owned in `src/game/mid_enemy_ai.asm`: the `$08-$0B`,
+`$10-$13`, `$54-$5B`, and `$6C-$6F` type families. Unreconstructed targets
+stay raw until their behavior families are understood.

@@ -125,6 +125,8 @@
 .include "data/enemy_types.asm"
 .include "game/enemy_ai_handlers.asm"
 .include "game/enemy_position.asm"
+.include "game/early_enemy_ai.asm"
+.include "game/mid_enemy_ai.asm"
 .include "game/enemy_pointers.asm"
 .include "game/enemy_slot_allocation.asm"
 .include "data/enemy_record_pointers.asm"

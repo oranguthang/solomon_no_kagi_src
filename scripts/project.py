@@ -251,6 +251,8 @@ def command_lint(_args: argparse.Namespace) -> None:
         "src/data/enemy_record_pointers.asm",
         "src/game/enemy_ai_dispatch.asm",
         "src/game/enemy_ai_handlers.asm",
+        "src/game/early_enemy_ai.asm",
+        "src/game/mid_enemy_ai.asm",
         "src/game/enemy_position.asm",
         "src/game/enemy_pointers.asm",
         "src/game/enemy_deactivation.asm",
@@ -391,6 +393,18 @@ def command_lint(_args: argparse.Namespace) -> None:
             "DispatchEnemyAiHandler:",
             "EnemyAiHandlerTable:",
         ),
+        "src/game/early_enemy_ai.asm": (
+            '.segment "PRG_EARLY_ENEMY_AI"',
+            "RunType00To03EnemyAi:",
+            "HandleEnemyCollisionReward:",
+            "RunType04To07EnemyAi:",
+        ),
+        "src/game/mid_enemy_ai.asm": (
+            '.segment "PRG_MID_ENEMY_AI"',
+            "RunType10To13EnemyAi:",
+            "RunType54To5BEnemyAi:",
+            "RunType08To0BEnemyAi:",
+        ),
         "src/game/enemy_position.asm": (
             '.segment "PRG_ENEMY_POSITION"',
             "LoadCurrentEnemyPosition:",
@@ -442,7 +456,7 @@ def command_lint(_args: argparse.Namespace) -> None:
         ),
         "src/preservation/prg.asm": (
             '.segment "PRG_PRE_ENEMY_POINTERS"',
-            "CPU $A4B3",
+            "CPU $A998",
         ),
         "src/graphics/chr.asm": (
             '.segment "PRG_BANK_1"',
