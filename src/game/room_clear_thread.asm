@@ -55,7 +55,7 @@ SelectRoomClearRotationStep:
     JSR RunTransitionObjectOrbit
     JSR Clear30x24NametableRegion
     LDA #$03
-    STA RoomTileset
+    STA ChrBankRequest
     LDX #$01
 
 InitializeRoomClearObjects:

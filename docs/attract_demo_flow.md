@@ -19,7 +19,7 @@ skips that first call. Likewise, code `$22` enters before clearing
 ## Post-game and title stages
 
 Code `$17` first stops competing secondary contexts, sets the fixed scroll and
-tileset, and examines the sign of `RoomStateFlags`. A negative value marks an
+CHR bank, and examines the sign of `RoomStateFlags`. A negative value marks an
 interrupted demo: bit seven is cleared and the post-game summary is skipped.
 The ordinary path clears both nametables and queues static PPU streams
 `$0D-$11`, then waits for either the reused 16-bit counter to reach `$0100` or

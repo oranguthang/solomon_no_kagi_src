@@ -2,6 +2,10 @@
 
 .segment "PRG_NMI"
 
+ChrBankCount = 4
+ChrBankIndexMask = ChrBankCount - 1
+ChrBankRequestConsumed = $80
+
 NMI:
     STX NmiSavedX
     STY NmiSavedY
@@ -38,14 +42,14 @@ ResetRoomMapAttributeReadState:
     STA PpuAttributeReadState
 
 UpdateNmiChrBank:
-    LDA $7D
+    LDA ChrBankRequest
     BMI RestoreNmiPpuMask
-    AND #$03
+    AND #ChrBankIndexMask
     TAX
     LDA ChrBankSelectValues,X
     STA ChrBankSelectValues,X
-    LDA #$80
-    STA $7D
+    LDA #ChrBankRequestConsumed
+    STA ChrBankRequest
 
 RestoreNmiPpuMask:
     LDA PpuMaskShadow
@@ -144,6 +148,8 @@ NmiRestoreRegisters:
 
 ChrBankSelectValues:
     .byte $10, $11, $12, $13
+
+.assert * - ChrBankSelectValues = ChrBankCount, error, "unexpected CHR bank select value count"
 
 WritePpuScroll:
     LDA a:PPU_STATUS

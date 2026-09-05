@@ -68,7 +68,7 @@ SelectRoomIntroMarker:
     PLA
     LSR A
     LSR A
-    STA RoomTileset
+    STA ChrBankRequest
     LDA #$94
     STA MagicSparkObject + ObjectYPositionOffset
     LDA #$70

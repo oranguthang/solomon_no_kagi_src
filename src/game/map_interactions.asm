@@ -7,9 +7,9 @@ MapInteractionObjectVariant = $04
 
 ApplyMapTileInteractionToObject:
     STY MapInteractionMapIndex
-    CMP #$F8
+    CMP #RoomMapImmutableTileMinimum
     BCS ClassifyMapInteractionTile
-    AND #$3F
+    AND #RoomMapTileIdentityMask
     STA RoomMap,Y
 
 ClassifyMapInteractionTile:
@@ -49,7 +49,7 @@ StoreMapInteractionCoordinates:
     STA MapInteractionY
     LDA #MapInteractionObjectVariant
     STA MapInteractionX
-    CPX #$80
+    CPX #RoomMapSolidBit
     LDA #$01
     BCC InitializeMapInteractionObject
     LDA #$04
@@ -175,13 +175,13 @@ InitializeBlockedBlockSpark:
 CreateBlockInRoomMap:
     LDY MapInteractionMapIndex
     LDA RoomMap,Y
-    CMP #$40
+    CMP #RoomMapDecorationBit
     BCC NormalizeBlockSourceTile
     SEC
-    SBC #$40
+    SBC #RoomMapDecorationBit
 
 NormalizeBlockSourceTile:
-    ORA #$80
+    ORA #RoomMapSolidBit
     STA RoomMap,Y
     LDA #MapInteractionObjectVariant
     STA MapInteractionX

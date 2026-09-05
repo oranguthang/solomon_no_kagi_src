@@ -6,9 +6,8 @@ RoomItemHeaderSize = $0A
 RoomItemRuntimeClearCount = $0A
 RoomItemRleBase = $C0
 RoomItemTerminatorBase = $E0
-RoomItemTypeMask = $3F
 RoomItemConstellationBit = $10
-RoomItemTilesetMask = $0C
+RoomItemChrBankMask = $0C
 DoorTile = $02
 AlternateDoorTile = $07
 DemonMirrorTile = $05
@@ -199,7 +198,7 @@ StoreNextRepeatedRoomItem:
 
 DecodeSingleRoomItem:
     STA RoomItemScratch
-    AND #RoomItemTypeMask
+    AND #RoomMapTileIdentityMask
     CMP #$2E
     BCC StoreSingleRoomItem
     LDA RoomStateFlags
@@ -219,10 +218,10 @@ StoreSingleRoomItem:
 DecodeRoomItemTerminator:
     AND #$1F
     TAX
-    AND #RoomItemTilesetMask
+    AND #RoomItemChrBankMask
     LSR A
     LSR A
-    STA RoomTileset
+    STA ChrBankRequest
     TXA
     AND #RoomItemConstellationBit
     BNE DecodeConstellationMetadata

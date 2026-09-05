@@ -1134,7 +1134,7 @@
       "previous": "_label_bank0_9900",
       "current": "DecodeRoomItemTerminator",
       "confidence": "confirmed",
-      "evidence": ["Commands $E0 and above terminate the stream here and decode tileset and constellation bits."]
+      "evidence": ["Commands $E0 and above terminate the stream here and decode the CHR-bank and constellation bits."]
     },
     {
       "address": "0x9913",
@@ -3130,7 +3130,7 @@
       "current": "UpdateNmiChrBank",
       "confidence": "high",
       "evidence": [
-        "Both attribute-read paths converge here; the following block masks the decoded tileset index, selects one of four CNROM values, and writes the selected cartridge bank."
+        "Both attribute-read paths converge here; the following block masks the decoded CHR-bank request, selects one of four CNROM values, and writes the selected cartridge bank."
       ]
     },
     {
@@ -4264,7 +4264,7 @@
       "current": "PrepareRoomIntro",
       "confidence": "confirmed",
       "evidence": [
-        "RoomLoadThread calls this before its intro delay; it formats room/life digits, publishes the intro PPU program, selects a room marker and tileset, and initializes the intro spark object."
+        "RoomLoadThread calls this before its intro delay; it formats room/life digits, publishes the intro PPU program, selects a room marker and CHR bank, and initializes the intro spark object."
       ]
     },
     {

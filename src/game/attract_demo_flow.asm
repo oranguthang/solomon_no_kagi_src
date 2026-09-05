@@ -5,7 +5,7 @@
 AttractContextToKeep = $01
 AttractSoundEffect = $18
 AttractScrollY = $EF
-AttractTileset = $03
+AttractChrBank = $03
 PostGameFirstPpuStream = $0D
 PostGamePpuStreamEnd = $12
 PostGameWaitHigh = $01
@@ -36,8 +36,8 @@ RunPostGameAttractThread:
     JSR AddSoundEffect
     LDA #AttractScrollY
     STA PpuScrollY
-    LDA #AttractTileset
-    STA RoomTileset
+    LDA #AttractChrBank
+    STA ChrBankRequest
     LDA RoomStateFlags
     BPL ShowPostGameSummary
     LDA #$7F
@@ -80,8 +80,8 @@ PrepareTitleScreen:
     JSR AddSoundEffect
     LDA #AttractScrollY
     STA PpuScrollY
-    LDA #AttractTileset
-    STA RoomTileset
+    LDA #AttractChrBank
+    STA ChrBankRequest
     LDA #$00
     STA GameplayFlags
     JSR ClearBothNametables

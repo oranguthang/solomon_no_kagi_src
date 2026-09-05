@@ -41,6 +41,12 @@ that record count. Tile `$10` can select one of six expanded constellation
 records at `$0407` when the map index falls in either of the two three-cell
 rows rooted at `ConstellationPosition`.
 
+The initial full-room renderer first maps decorated, solid, and immutable
+runtime byte classes to pattern indices `$10`, `$00`, and `$03`; values below
+`$40` remain direct pattern indices. Incremental callers provide the already
+selected logical pattern value. The complete byte-class contract is in
+`docs/room_map_tiles.md`.
+
 The first record byte carries two independent values: palette in bits 0-1 and
 the top-left tile in bits 2-7. The next three bytes are the top-right,
 bottom-left, and bottom-right tiles. `make room-data-audit` decodes those five

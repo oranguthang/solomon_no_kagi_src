@@ -125,7 +125,7 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/game/nmi_gameplay_interactio
 	trace-runtime validate-runtime \
 	format format-check lint lint-asm \
 	lint-source lint-project test quality-check check release-check rooms \
-	validate-rooms room-data-audit roundtrip-formats \
+	validate-rooms room-data-audit chr-bank-report chr-bank-audit roundtrip-formats \
 	reconstruction-status reconstruction-audit \
 	prg-layout-report prg-layout-audit format-coverage-audit \
 	scheduler-report scheduler-audit enemy-ai-report enemy-ai-audit \
@@ -234,6 +234,12 @@ validate-rooms: $(ROM)
 room-data-audit: $(ROM)
 	$(PYTHON) scripts/room_data.py --image "$(ROM)" --roundtrip
 
+chr-bank-report: $(ROM)
+	$(PYTHON) scripts/room_data.py --image "$(ROM)" --chr-bank-report --pretty
+
+chr-bank-audit: $(ROM)
+	$(PYTHON) scripts/room_data.py --image "$(ROM)" --chr-bank-audit
+
 roundtrip-formats: room-data-audit ppu-update-audit object-animation-audit \
 	object-motion-audit title-data-audit audio-data-audit format-coverage-audit
 
@@ -310,7 +316,7 @@ quality-check: lint test
 
 release-check: quality-check verify validate-rooms roundtrip-formats \
 	reconstruction-audit prg-layout-audit validate-symbols scheduler-audit \
-	enemy-ai-audit enemy-pointer-audit \
+	enemy-ai-audit enemy-pointer-audit chr-bank-audit \
 	item-handler-audit
 
 check: release-check

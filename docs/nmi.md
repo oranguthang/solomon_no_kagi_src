@@ -29,6 +29,8 @@ frame, then sets bit 7 in `PpuCtrlShadow` before restoring `PPU_CTRL` on exit.
   to two bits, reads the corresponding value, and writes it to an address in
   the CNROM cartridge range. The low two data bits therefore select one of the
   four 8 KiB CHR banks; the high nibble is retained from the original bus value.
+  `ChrBankRequest` is then set to the consumed value `$80`. See
+  `docs/chr_bank_policy.md` for every producer and the per-room profile.
 
 ## Gameplay services
 

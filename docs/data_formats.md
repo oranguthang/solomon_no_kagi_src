@@ -120,7 +120,7 @@ and their complete payloads are expressed symbolically in source.
 
 Normal items are `(type, position)` pairs. `$C0-$DF` encode one repeated type:
 `count = code - $C0 + 1`, followed by the type and `count` position bytes.
-`$00` and `$E0-$EF` terminate the stream and encode the tileset. `$F0-$FB`
+`$00` and `$E0-$EF` terminate the stream and encode the CHR bank. `$F0-$FB`
 encode a constellation plus one position and also terminate the stream.
 
 The runtime decoder is reconstructed at `$97C8-$9952`. Its supporting tables

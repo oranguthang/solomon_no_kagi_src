@@ -15,7 +15,7 @@ It performs four stages:
 2. Initializes timer rate, door/key tiles, and both Demon Mirror positions.
 3. Decodes normal `(type, position)` records and `$C0-$DF` repeated records
    directly into `RoomMap`.
-4. Decodes the terminator's tileset and optional constellation state.
+4. Decodes the terminator's CHR bank and optional constellation state.
 
 Room index `$32` has an additional table-driven randomized placement pass:
 16 item types are written at positions selected from a wrapping 32-entry list

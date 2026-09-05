@@ -5,7 +5,7 @@
 GameplayExitWorkerContext = $03
 GameplayExitCounter = GameplayUpdateCount
 GameplayExitObjectState = TempPointer02
-GameplayExitRoomTileset = $03
+GameplayExitChrBank = $03
 GameplayExitMaskStepCount = $18
 GameplayExitMaskStepDelay = $04
 TimeOverDisplayDelay = $64
@@ -78,8 +78,8 @@ ShowTimeOverMessage:
     STA PpuMaskShadow
     STA a:PPU_MASK
     JSR Clear30x24NametableRegion
-    LDA #GameplayExitRoomTileset
-    STA RoomTileset
+    LDA #GameplayExitChrBank
+    STA ChrBankRequest
     LDA #<TimeOverPpuUpdateStream
     STA PpuUpdateStreamPointer
     LDA #>TimeOverPpuUpdateStream
@@ -251,7 +251,7 @@ ResetPostGameCounters:
     STY FireballLifetimeHi
     LDX #$03
     STX InventorySlotCount
-    STX RoomTileset
+    STX ChrBankRequest
     LDY #PostGameSoundEffect
     JSR AddSoundEffect
     LDA #PostGamePpuStreamIndex

@@ -7,7 +7,15 @@ expands the current room's two fixed block planes.
 
 RoomMap is 224 bytes arranged as 16x14 cells. Initialization fills it with
 tile `$10`, then overwrites the first and last 16-cell rows with sentinel
-`$F8`. The 16x12 playable area therefore occupies indices `$10-$CF`.
+`$F8`. The 16x12 playable area therefore occupies indices `$10-$CF`. These
+relationships are shared as `RoomMapWidth`, `RoomMapHeight`,
+`RoomMapPlayableHeight`, and the playable-boundary constants in
+`src/memory/ram.inc`; assembly assertions pin the resulting `$E0/$10/$CF`
+layout.
+
+The two block planes expand to `$90` and `$F8`. In the shared byte contract,
+the former is `RoomMapSolidBit | $10`; the latter begins the immutable tile
+range. See `docs/room_map_tiles.md` for the collision and rendering classes.
 
 ## ROM addressing
 

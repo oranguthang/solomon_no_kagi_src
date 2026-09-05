@@ -219,6 +219,8 @@ make ppu-update-report # decode all 18 static PPU update streams as JSON
 make ppu-update-audit # verify pointers, coverage, hashes, and byte round trips
 make audio-data-audit # verify audio pointers, hashes, reachability, and round trips
 make room-data-audit # round-trip rooms, tile patterns, and Demon Mirror data
+make chr-bank-report # list the gameplay rooms assigned to each CHR bank
+make chr-bank-audit # verify the complete 53-room CHR-bank profile
 make roundtrip-formats # aggregate every byte-level format round trip
 make format-coverage-audit # prove every classified stream byte has one codec owner
 python scripts/room_data.py --image "Solomon's Key (U) [!].nes" --source-enemies # regenerate room enemy ASM
@@ -261,6 +263,8 @@ docs/enemy_lifetime.md       room enemy lifetime transition and carry contract
 docs/linked_enemy_ai.md      linked-slot allocation and action dispatch
 docs/gameplay_exit_transition.md cooperative death, TIME OVER, and GDV flow
 docs/attract_demo_flow.md    post-game, title, and recorded demo control
+docs/chr_bank_policy.md      complete CNROM request and screen/room bank policy
+docs/room_map_tiles.md       RoomMap byte classes, collision, and rendering
 docs/title_screen.md         packed title renderer and record presentation
 scripts/project.py         split, verify, lint, and safe build helpers
 scripts/asm_style.py       shared ca65 formatter and style checker

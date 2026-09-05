@@ -17,6 +17,12 @@ BITPLANE_SIZE = ROOM_WIDTH * ROOM_HEIGHT // 8
 BLOCK_BYTES_PER_ROOM = BITPLANE_SIZE * 2
 ROOM_TILE_PATTERN_COUNT = 58
 ROOM_TILE_PATTERN_SIZE = 4
+EXPECTED_ROOM_CHR_BANKS = (
+    0, 0, 1, 0, 2, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 2, 2,
+    0, 1, 0, 1, 2, 1, 2, 2, 1, 1, 1, 0, 1, 1, 2, 0, 2, 2,
+    1, 1, 2, 2, 0, 1, 1, 2, 1, 1, 0, 2, 2, 0, 0, 1, 2,
+)
+EXPECTED_ROOM_CHR_BANK_COUNTS = (17, 21, 15, 0)
 
 # Offsets within the 32 KiB PRG. Published file offsets include the 16-byte
 # iNES header, hence the $10 difference from the ROM-map document.
@@ -332,13 +338,13 @@ def decode_items(prg: bytes, room_index: int) -> dict[str, object]:
     commands: list[dict[str, object]] = []
     constellation: dict[str, object] | None = None
     cursor = offset + 10
-    tileset = 0
+    chr_bank = 0
     while True:
         code = prg[cursor]
         cursor += 1
         if code == 0 or 0xE0 <= code <= 0xEF:
             commands.append({"kind": "end", "opcode": code})
-            tileset = (code >> 2) & 3
+            chr_bank = (code >> 2) & 3
             break
         if 0xF0 <= code <= 0xFB:
             constellation = {"type": code, "position": position(prg[cursor])}
@@ -350,7 +356,7 @@ def decode_items(prg: bytes, room_index: int) -> dict[str, object]:
                 }
             )
             cursor += 1
-            tileset = (code >> 2) & 3
+            chr_bank = (code >> 2) & 3
             break
         if 0xC0 <= code <= 0xDF:
             count = code - 0xC0 + 1
@@ -381,7 +387,7 @@ def decode_items(prg: bytes, room_index: int) -> dict[str, object]:
         "prg_offset": offset,
         "encoded_size": cursor - offset,
         "metadata": metadata,
-        "tileset": tileset,
+        "chr_bank": chr_bank,
         "constellation": constellation,
         "items": items,
         "commands": commands,
@@ -843,6 +849,55 @@ def roundtrip_rooms(prg: bytes) -> dict[str, int]:
     return {"rooms": len(rooms), "format_families": 6, "checked_bytes": checked_bytes}
 
 
+def group_room_chr_banks(room_banks: Iterable[int]) -> dict[int, list[int]]:
+    """Group one-based room numbers by decoded 8 KiB CHR bank."""
+    groups = {bank: [] for bank in range(4)}
+    for room_number, bank in enumerate(room_banks, start=1):
+        if bank not in groups:
+            raise RoomDataError(f"room {room_number} has invalid CHR bank {bank}")
+        groups[bank].append(room_number)
+    return groups
+
+
+def decode_room_chr_banks(prg: bytes) -> tuple[int, ...]:
+    banks: list[int] = []
+    for index in range(ROOM_COUNT):
+        decoded = decode_items(prg, index)
+        bank = decoded.get("chr_bank")
+        if not isinstance(bank, int):
+            raise RoomDataError(f"room {index + 1} has no decoded CHR bank")
+        banks.append(bank)
+    return tuple(banks)
+
+
+def room_chr_bank_groups(prg: bytes) -> dict[int, list[int]]:
+    return group_room_chr_banks(decode_room_chr_banks(prg))
+
+
+def audit_room_chr_banks(prg: bytes) -> dict[int, list[int]]:
+    banks = decode_room_chr_banks(prg)
+    if banks != EXPECTED_ROOM_CHR_BANKS:
+        room_number = next(
+            index + 1
+            for index, (actual, expected) in enumerate(
+                zip(banks, EXPECTED_ROOM_CHR_BANKS)
+            )
+            if actual != expected
+        )
+        raise RoomDataError(
+            f"room {room_number} CHR bank is {banks[room_number - 1]}, "
+            f"expected {EXPECTED_ROOM_CHR_BANKS[room_number - 1]}"
+        )
+    groups = group_room_chr_banks(banks)
+    counts = tuple(len(groups[bank]) for bank in range(4))
+    if counts != EXPECTED_ROOM_CHR_BANK_COUNTS:
+        raise RoomDataError(
+            f"unexpected room CHR bank counts: {counts}, "
+            f"expected {EXPECTED_ROOM_CHR_BANK_COUNTS}"
+        )
+    return groups
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--image", required=True, help="iNES image or bare 32 KiB PRG")
@@ -873,6 +928,16 @@ def main() -> int:
         action="store_true",
         help="decode and re-encode every room-data record and pointer table",
     )
+    parser.add_argument(
+        "--chr-bank-report",
+        action="store_true",
+        help="report one-based room numbers grouped by decoded CHR bank",
+    )
+    parser.add_argument(
+        "--chr-bank-audit",
+        action="store_true",
+        help="verify the decoded gameplay-room CHR bank profile",
+    )
     args = parser.parse_args()
     try:
         prg = extract_prg(Path(args.image).read_bytes())
@@ -892,6 +957,27 @@ def main() -> int:
                 f"families across {result['rooms']} rooms "
                 f"({result['checked_bytes']} checked bytes)"
             )
+            return 0
+        if args.chr_bank_report:
+            groups = room_chr_bank_groups(prg)
+            result = {
+                "banks": [
+                    {
+                        "bank": bank,
+                        "room_count": len(groups[bank]),
+                        "rooms": groups[bank],
+                    }
+                    for bank in range(4)
+                ]
+            }
+            print(json.dumps(result, indent=2 if args.pretty else None))
+            return 0
+        if args.chr_bank_audit:
+            groups = audit_room_chr_banks(prg)
+            counts = ", ".join(
+                f"bank {bank}={len(groups[bank])}" for bank in range(4)
+            )
+            print(f"[OK] room CHR banks: {counts} across {ROOM_COUNT} rooms")
             return 0
         if args.validate:
             rooms = [decode_room(prg, index) for index in range(ROOM_COUNT)]

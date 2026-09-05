@@ -16,6 +16,8 @@ registers, commits OAM page `$02`, selects one of four CNROM CHR banks through
 `ChrBankSelectValues`, and finishes by restoring the PPU control shadow and
 CPU registers. `WritePpuScroll` resets the PPU write latch by reading
 `PPU_STATUS`, then performs the X and Y writes to `PPU_SCROLL`.
+The complete request lifecycle and all room/screen assignments are documented
+in `docs/chr_bank_policy.md` and checked by `make chr-bank-audit`.
 
 The adjacent `$80FF-$837C` NMI gameplay module runs alternating 17-enemy
 overlap scans, constructs the fireball's four-cell RoomMap collision mask,

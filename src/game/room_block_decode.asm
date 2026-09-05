@@ -4,14 +4,10 @@
 
 RoomBlockBytesPerPlane = $18
 RoomBlockBytesPerRoom = RoomBlockBytesPerPlane * 2
-RoomMapStorageSize = $E0
-RoomMapRowWidth = $10
-RoomMapInteriorLastIndex = $CF
-RoomMapBottomBoundaryBase = RoomMap + RoomMapInteriorLastIndex
 RoomMapInteriorTile = $10
-RoomMapBoundaryTile = $F8
-BrownBlockTile = $90
-WhiteBlockTile = $F8
+RoomMapBoundaryTile = RoomMapImmutableTileMinimum
+BrownBlockTile = RoomMapSolidBit | RoomMapInteriorTile
+WhiteBlockTile = RoomMapImmutableTileMinimum
 BitsPerBlockByte = $08
 
 InitializeRoomBlockMap:
@@ -23,16 +19,16 @@ FillRoomMapInterior:
     DEX
     BNE FillRoomMapInterior
     LDA #RoomMapBoundaryTile
-    LDX #RoomMapRowWidth - 1
+    LDX #RoomMapWidth - 1
 
 FillRoomMapTopBoundary:
     STA RoomMap,X
     DEX
     BPL FillRoomMapTopBoundary
-    LDX #RoomMapRowWidth
+    LDX #RoomMapWidth
 
 FillRoomMapBottomBoundary:
-    STA RoomMapBottomBoundaryBase,X
+    STA RoomMapBottomBoundary - 1,X
     DEX
     BNE FillRoomMapBottomBoundary
     STX RoomBlockDataPointer + 1
@@ -72,7 +68,7 @@ ScaleRoomBlockDataOffset:
 
 ExpandRoomMapBitplane:
     STA RoomBlockTile
-    LDX #RoomMapInteriorLastIndex
+    LDX #RoomMapPlayableLastIndex
     LDY #RoomBlockBytesPerPlane - 1
     STY RoomBlockByteIndex
 
@@ -95,3 +91,7 @@ AdvanceRoomBlockBit:
     DEC RoomBlockByteIndex
     BPL LoadNextRoomBlockByte
     RTS
+
+.assert RoomMapStorageSize = $E0, error, "unexpected RoomMap storage size"
+.assert RoomMapPlayableFirstIndex = $10, error, "unexpected RoomMap playable start"
+.assert RoomMapPlayableLastIndex = $CF, error, "unexpected RoomMap playable end"

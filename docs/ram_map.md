@@ -26,7 +26,7 @@ range is understood.
 | `$0040-$0053` | 20 non-Dana object Y sort keys used by the NMI OAM composer | confirmed |
 | `$0054-$0067` | parallel sorted object order and overlap-group markers | confirmed |
 | `$0068-$0077` | per-row object allowances used for scanline sprite selection | high |
-| `$007C-$007D` | room-state flags and decoded tileset | high |
+| `$007C-$007D` | room-state flags and one-shot CHR-bank request | confirmed |
 | `$007E` | most recent block-cast target map index | high |
 | `$007F` | most recent head-collision target map index | high |
 | `$0078` | global game-state flags; pause thread modifies bits 1-2 | high |

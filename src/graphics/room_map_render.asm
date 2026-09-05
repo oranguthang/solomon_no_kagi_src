@@ -2,16 +2,12 @@
 
 .segment "PRG_ROOM_MAP_RENDER"
 
-RoomMapRenderStartIndex = $D0
-RoomMapRenderStopIndex = $11
-RoomMapColumnMask = $0F
+RoomMapRenderStartIndex = RoomMapPlayableLastIndex + 1
+RoomMapRenderStopIndex = RoomMapPlayableFirstIndex + 1
 NametableAttributeHigh = $23
-SolidRoomMapTile = $F8
-SpecialRoomMapTile = $80
-DecoratedRoomMapTile = $40
-SolidRoomMapTileClass = $03
-SpecialRoomMapTileClass = $00
-DecoratedRoomMapTileClass = $10
+ImmutableRoomMapPatternIndex = $03
+SolidRoomMapPatternIndex = $00
+DecoratedRoomMapPatternIndex = $10
 
 DrawRoomMapToNametable:
     LDA a:PpuUpdateStreamPointer + 1
@@ -37,14 +33,14 @@ DrawNextRoomMapCell:
     STA RoomRenderAttributeByte
     LDX RoomRenderMapIndex
     LDA RoomMap,X
-    LDX #SolidRoomMapTileClass
-    CMP #SolidRoomMapTile
+    LDX #ImmutableRoomMapPatternIndex
+    CMP #RoomMapImmutableTileMinimum
     BCS SelectRoomMapTileClass
-    CMP #SpecialRoomMapTile
-    LDX #SpecialRoomMapTileClass
+    CMP #RoomMapSolidBit
+    LDX #SolidRoomMapPatternIndex
     BCS SelectRoomMapTileClass
-    LDX #DecoratedRoomMapTileClass
-    CMP #DecoratedRoomMapTile
+    LDX #DecoratedRoomMapPatternIndex
+    CMP #RoomMapDecorationBit
     BCS SelectRoomMapTileClass
     TAX
 

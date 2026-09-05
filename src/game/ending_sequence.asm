@@ -150,7 +150,7 @@ WaitForNextEndingFrame:
     JSR WaitForEndingSteps
     JSR Clear32x26NametableRegion
     LDA #$03
-    STA RoomTileset
+    STA ChrBankRequest
 
 WaitForEndingPpuBuffer:
     LDA PpuUpdateStreamPointer + 1

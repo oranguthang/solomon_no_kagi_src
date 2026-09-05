@@ -20,6 +20,16 @@ class RoomDataTests(unittest.TestCase):
         self.assertEqual(room_data.rotate_left_3(0x20), 1)
         self.assertEqual(room_data.rotate_left_3(0xFF), 0xFF)
 
+    def test_groups_rooms_by_chr_bank(self) -> None:
+        self.assertEqual(
+            room_data.group_room_chr_banks((0, 2, 0, 3)),
+            {0: [1, 3], 1: [], 2: [2], 3: [4]},
+        )
+
+    def test_rejects_invalid_room_chr_bank(self) -> None:
+        with self.assertRaisesRegex(room_data.RoomDataError, "invalid CHR bank 4"):
+            room_data.group_room_chr_banks((0, 4))
+
     def test_room_tile_patterns_split_palette_from_top_left_tile(self) -> None:
         prg = bytearray(32_768)
         pattern_bytes = bytes((0x91, 0x91, 0x92, 0x93)) * 58

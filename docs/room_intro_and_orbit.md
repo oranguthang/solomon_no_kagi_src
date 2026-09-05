@@ -34,7 +34,8 @@ Room indices `$30+` select one of three fixed eight-tile names. The source
 preserves the literal ROM spelling `PRINSESS`, followed by ` SOLOMON` and
 ` HIDDEN `. Later special indices clamp to the third string. The intro also
 derives a marker tile from four-room groups, publishes it at RoomMap index
-`$49`, stores the group as `RoomTileset`, and initializes `MagicSparkObject`.
+`$49`, stores the group as `ChrBankRequest`, and initializes
+`MagicSparkObject`.
 
 ## Entry animation
 

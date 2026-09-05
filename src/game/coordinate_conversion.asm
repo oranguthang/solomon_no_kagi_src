@@ -10,7 +10,7 @@ ConvertPixelCoordinatesToMapIndex:
     LDA CoordinateY
     SEC
     SBC #RoomMapTopPixel
-    AND #$F0
+    AND #RoomMapRowMask
     STA MapCellIndex
     LDA CoordinateX
     SEC
@@ -26,7 +26,7 @@ ConvertPixelCoordinatesToMapIndex:
     RTS
 
 ConvertMapIndexToPixelCoordinates:
-    LDA #$0F
+    LDA #RoomMapColumnMask
     AND MapCellIndex
     ASL A
     ASL A
@@ -34,7 +34,7 @@ ConvertMapIndexToPixelCoordinates:
     ASL A
     ADC #RoomMapLeftPixel
     STA CoordinateX
-    LDA #$F0
+    LDA #RoomMapRowMask
     AND MapCellIndex
     CLC
     ADC #RoomMapTopPixel
@@ -42,3 +42,4 @@ ConvertMapIndexToPixelCoordinates:
     RTS
 
 .assert RoomMapCellSize = 16, error, "room map cells must remain 16 pixels"
+.assert RoomMapWidth = 16, error, "room map rows must remain 16 cells"
