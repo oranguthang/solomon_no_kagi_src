@@ -13,6 +13,12 @@ Super Mario Bros. preservation projects.
 - `make lint` runs every linter
 - `make test` runs the Python unit-test suite
 - `make quality-check` runs lint and tests without requiring a reference ROM
+- `make symbols` validates ld65 source mappings and exports FCEUX ROM/RAM
+  labels plus a machine-readable debugger summary
+- `make validate-symbols` proves that the debugger configs and generated
+  summary still match the current linker symbols
+- `make prg-layout-audit` classifies every PRG byte from source mappings and
+  checks the reviewed code/data/stream/padding/vector fingerprint
 - `make release-check` adds byte-identical ROM verification, room-data
   validation and round trips, semantic reconstruction audit, and scheduler
   entry/call-site, enemy-AI and item handler-table, enemy-pointer, and static

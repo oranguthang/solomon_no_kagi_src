@@ -5,13 +5,19 @@ invalidates the addresses in this document.
 
 ## Mesen 2 setup
 
-1. Run `make verify` and open `build/native/solomons_key.nes`.
+1. Run `make verify` and `make symbols`, then open
+   `build/native/solomons_key.nes`.
 2. Open the debugger and import `build/native/solomons_key.lbl` if Mesen does
    not discover it automatically.
-3. Add the starting watches from `config/debugger_watches.json`.
+   FCEUX users can instead copy the generated `.nl` files from
+   `build/native/symbols/` next to the ROM.
+3. Add the starting watches from `config/debugger_watches.json`. Every entry
+   names the RAM symbol anchoring the range; `make validate-symbols` rejects a
+   stale address.
 4. Add only the breakpoints needed for the current question from
-   `config/debugger_breakpoints.json`; the scheduler breakpoint is extremely
-   hot and should normally log conditionally rather than pause.
+   `config/debugger_breakpoints.json`; every breakpoint is checked against both
+   the ld65 debug database and VICE label file. The scheduler breakpoint is
+   extremely hot and should normally log conditionally rather than pause.
 5. Record ROM SHA-1, room, input frame, PC, context index, SP, and affected RAM
    bytes with every observation.
 

@@ -13,6 +13,12 @@ ROM := $(BUILD_DIR)/solomons_key.nes
 LABELS := $(BUILD_DIR)/solomons_key.lbl
 MAP := $(BUILD_DIR)/solomons_key.map
 DEBUG := $(BUILD_DIR)/solomons_key.dbg
+SYMBOL_DIR := $(BUILD_DIR)/symbols
+SYMBOL_SUMMARY := $(BUILD_DIR)/debug_symbols.json
+DEBUG_SYMBOLS := $(PYTHON) scripts/debug_symbols.py --debug "$(DEBUG)" --map "$(MAP)" \
+	--labels "$(LABELS)" --breakpoints config/debugger_breakpoints.json \
+	--watches config/debugger_watches.json --output-dir "$(SYMBOL_DIR)" \
+	--rom-name "$(notdir $(ROM))" --summary "$(SYMBOL_SUMMARY)"
 SOURCE_FILES := src/main.asm src/system/nmi.asm src/game/nmi_gameplay_interactions.asm \
 	src/system/controller_input.asm src/game/nmi_dana_and_sprites.asm \
 	src/game/object_update.asm src/game/object_motion.asm \
@@ -111,9 +117,11 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/game/nmi_gameplay_interactio
 
 .PHONY: all build split verify verify-reference verify-built verify-header \
 	verify-prg verify-chr verify-payload verify-rom verify-assets check-assets \
-	rom-info rom-info-reference rom-info-built format format-check lint lint-asm \
+	rom-info rom-info-reference rom-info-built symbols validate-symbols \
+	format format-check lint lint-asm \
 	lint-source lint-project test quality-check check release-check rooms \
 	validate-rooms roundtrip-formats reconstruction-status reconstruction-audit \
+	prg-layout-report prg-layout-audit \
 	scheduler-report scheduler-audit enemy-ai-report enemy-ai-audit \
 	item-handler-report item-handler-audit \
 	enemy-pointer-report enemy-pointer-audit ppu-update-report ppu-update-audit \
@@ -176,6 +184,12 @@ rom-info-built: $(ROM)
 
 rom-info: rom-info-reference rom-info-built
 
+symbols: $(ROM)
+	$(DEBUG_SYMBOLS)
+
+validate-symbols: symbols
+	$(DEBUG_SYMBOLS) --check
+
 format:
 	$(PYTHON) scripts/asm_style.py --fix src
 	$(MAKE) lint
@@ -209,6 +223,12 @@ reconstruction-status:
 
 reconstruction-audit: $(ROM)
 	$(PYTHON) scripts/reconstruction_status.py audit --map "$(MAP)" --labels "$(LABELS)"
+
+prg-layout-report: $(ROM)
+	$(PYTHON) scripts/prg_layout.py report --debug "$(DEBUG)" --config config/prg_layout.json
+
+prg-layout-audit: $(ROM)
+	$(PYTHON) scripts/prg_layout.py audit --debug "$(DEBUG)" --config config/prg_layout.json
 
 scheduler-report: $(ROM)
 	$(PYTHON) scripts/scheduler_data.py report --image "$(ROM)"
@@ -261,7 +281,8 @@ audio-data-audit: $(ROM)
 quality-check: lint test
 
 release-check: quality-check verify validate-rooms roundtrip-formats \
-	reconstruction-audit scheduler-audit enemy-ai-audit enemy-pointer-audit \
+	reconstruction-audit prg-layout-audit validate-symbols scheduler-audit \
+	enemy-ai-audit enemy-pointer-audit \
 	item-handler-audit ppu-update-audit object-animation-audit object-motion-audit \
 	audio-data-audit
 

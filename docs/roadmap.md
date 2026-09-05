@@ -269,13 +269,17 @@ decrease.
   ledger with address, confidence, and evidence;
 - replace generated labels and raw control-flow targets only when static or
   runtime evidence supports a behavioral name;
-- export debugger symbols with the confirmed RAM aliases.
+- debugger breakpoints and watch ranges are bound to current ld65 symbols;
+  `make symbols` exports FCEUX ROM/RAM labels and a resolved JSON summary.
 
-### 4. Code/data boundary classification - Planned
+### 4. Code/data boundary classification - Complete
 
-- classify every PRG byte as code, table, stream, padding, vector, or unresolved;
-- ensure no instruction decoder silently consumes embedded data;
-- expose coverage through the reconstruction audit.
+- all 32 KiB of PRG are classified from ld65 source spans as code, ordinary
+  data, encoded streams, padding, or CPU vectors;
+- nested operand spans are resolved in favor of their containing instruction,
+  while explicit data directives inside code segments remain data;
+- `make prg-layout-audit` checks exact category counts and a complete-layout
+  SHA-1 fingerprint as part of the release gate.
 
 ### 5. Subsystem documentation and runtime evidence - Planned
 

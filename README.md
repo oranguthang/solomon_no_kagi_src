@@ -192,8 +192,12 @@ make lint        # validate assembly style, repository, and source contracts
 make lint-source # validate manifests, includes, and tracked-binary policy
 make test        # run Python unit tests
 make quality-check # lint and test without requiring a reference ROM
+make symbols     # export audited FCEUX labels and debugger symbol summary
+make validate-symbols # verify debugger configs against current linker symbols
 make reconstruction-status # report semantic coverage and remaining raw source
 make reconstruction-audit # validate module ranges, provenance, and thresholds
+make prg-layout-report # report byte-exact code/data/stream/padding coverage
+make prg-layout-audit # verify the complete PRG classification fingerprint
 make scheduler-report # decode scheduler stack and entry tables as JSON
 make object-animation-report # decode object animation definitions as JSON
 make object-motion-report # decode object motion definitions as JSON
