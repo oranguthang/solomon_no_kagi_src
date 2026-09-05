@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Decode all 53 Solomon's Key (USA) room records as JSON."""
+"""Decode all 53 Solomon's Key room records as JSON."""
 
 from __future__ import annotations
 
 import argparse
+from dataclasses import dataclass
 import json
 from pathlib import Path
 import sys
@@ -25,20 +26,85 @@ EXPECTED_ROOM_CHR_BANKS = (
 EXPECTED_ROOM_CHR_BANK_COUNTS = (17, 21, 15, 0)
 
 # Offsets within the 32 KiB PRG. Published file offsets include the 16-byte
-# iNES header, hence the $10 difference from the ROM-map document.
-MIRROR_SCHEDULE_TABLE = 0x5C00
-MIRROR_ENEMY_SET_TABLE = 0x5C20
-MIRROR_SCHEDULE_DATA = 0x5C42
+# iNES header, hence the $10 difference from the ROM-map document. The USA and
+# Japan room formats share addresses; the Europe revision moves this complete
+# data area $80 bytes earlier.
+
+
+@dataclass(frozen=True)
+class RoomDataLayout:
+    name: str
+    room_tile_pattern_data: int
+    mirror_schedule_table: int
+    mirror_enemy_set_table: int
+    mirror_schedule_data: int
+    enemy_pointer_table: int
+    block_data: int
+    item_pointer_table: int
+    item_data_end: int
+    audio_engine: int
+
+
+USA_ROOM_DATA_LAYOUT = RoomDataLayout(
+    name="usa",
+    room_tile_pattern_data=0x5000,
+    mirror_schedule_table=0x5C00,
+    mirror_enemy_set_table=0x5C20,
+    mirror_schedule_data=0x5C42,
+    enemy_pointer_table=0x5CEC,
+    block_data=0x602C,
+    item_pointer_table=0x6A1C,
+    item_data_end=0x6FC4,
+    audio_engine=0x7000,
+)
+JAPAN_ROOM_DATA_LAYOUT = RoomDataLayout(
+    name="japan",
+    room_tile_pattern_data=0x5000,
+    mirror_schedule_table=0x5C00,
+    mirror_enemy_set_table=0x5C20,
+    mirror_schedule_data=0x5C42,
+    enemy_pointer_table=0x5CEC,
+    block_data=0x602C,
+    item_pointer_table=0x6A1C,
+    item_data_end=0x6FC4,
+    audio_engine=0x7000,
+)
+EUROPE_ROOM_DATA_LAYOUT = RoomDataLayout(
+    name="europe",
+    room_tile_pattern_data=0x4F80,
+    mirror_schedule_table=0x5B80,
+    mirror_enemy_set_table=0x5BA0,
+    mirror_schedule_data=0x5BC2,
+    enemy_pointer_table=0x5C6C,
+    block_data=0x5FAC,
+    item_pointer_table=0x699C,
+    item_data_end=0x6F44,
+    audio_engine=0x6F80,
+)
+ROOM_DATA_LAYOUTS = {
+    layout.name: layout
+    for layout in (
+        USA_ROOM_DATA_LAYOUT,
+        JAPAN_ROOM_DATA_LAYOUT,
+        EUROPE_ROOM_DATA_LAYOUT,
+    )
+}
+
+# Compatibility names for source-generation tools and callers that target the
+# reconstructed USA image.
+ROOM_TILE_PATTERN_DATA = USA_ROOM_DATA_LAYOUT.room_tile_pattern_data
+MIRROR_SCHEDULE_TABLE = USA_ROOM_DATA_LAYOUT.mirror_schedule_table
+MIRROR_ENEMY_SET_TABLE = USA_ROOM_DATA_LAYOUT.mirror_enemy_set_table
+MIRROR_SCHEDULE_DATA = USA_ROOM_DATA_LAYOUT.mirror_schedule_data
 MIRROR_SCHEDULE_COUNT = 16
 MIRROR_SCHEDULE_SIZE = 8
 MIRROR_ENEMY_SET_COUNT = 17
 MIRROR_ENEMY_SET_LOOP_BASE = 0x90
-ROOM_TILE_PATTERN_DATA = 0x5000
-ENEMY_POINTER_TABLE = 0x5CEC
-BLOCK_DATA = 0x602C
-ITEM_POINTER_TABLE = 0x6A1C
-ITEM_DATA_END = 0x6FC4
-AUDIO_ENGINE = 0x7000
+ENEMY_POINTER_TABLE = USA_ROOM_DATA_LAYOUT.enemy_pointer_table
+BLOCK_DATA = USA_ROOM_DATA_LAYOUT.block_data
+ITEM_POINTER_TABLE = USA_ROOM_DATA_LAYOUT.item_pointer_table
+ITEM_DATA_END = USA_ROOM_DATA_LAYOUT.item_data_end
+AUDIO_ENGINE = USA_ROOM_DATA_LAYOUT.audio_engine
 
 
 class RoomDataError(ValueError):
@@ -69,13 +135,16 @@ def rotate_left_3(value: int) -> int:
     return ((value & 0x1F) << 3) | (value >> 5)
 
 
-def decode_room_tile_patterns(prg: bytes) -> list[dict[str, int]]:
-    end = ROOM_TILE_PATTERN_DATA + ROOM_TILE_PATTERN_COUNT * ROOM_TILE_PATTERN_SIZE
+def decode_room_tile_patterns(
+    prg: bytes, layout: RoomDataLayout = USA_ROOM_DATA_LAYOUT
+) -> list[dict[str, int]]:
+    start = layout.room_tile_pattern_data
+    end = start + ROOM_TILE_PATTERN_COUNT * ROOM_TILE_PATTERN_SIZE
     if len(prg) < end:
         raise RoomDataError("truncated RoomMap tile pattern table")
     patterns: list[dict[str, int]] = []
     for index in range(ROOM_TILE_PATTERN_COUNT):
-        offset = ROOM_TILE_PATTERN_DATA + index * ROOM_TILE_PATTERN_SIZE
+        offset = start + index * ROOM_TILE_PATTERN_SIZE
         first, top_right, bottom_left, bottom_right = prg[offset : offset + 4]
         patterns.append(
             {
@@ -194,10 +263,14 @@ def encode_split_pointers(offsets: Iterable[int]) -> bytes:
     )
 
 
-def decode_mirror_schedules(prg: bytes) -> list[dict[str, object]]:
+def decode_mirror_schedules(
+    prg: bytes, layout: RoomDataLayout = USA_ROOM_DATA_LAYOUT
+) -> list[dict[str, object]]:
     schedules: list[dict[str, object]] = []
     for index in range(MIRROR_SCHEDULE_COUNT):
-        offset = split_pointer(prg, MIRROR_SCHEDULE_TABLE, index, MIRROR_SCHEDULE_COUNT)
+        offset = split_pointer(
+            prg, layout.mirror_schedule_table, index, MIRROR_SCHEDULE_COUNT
+        )
         data = prg[offset : offset + MIRROR_SCHEDULE_SIZE]
         if len(data) != MIRROR_SCHEDULE_SIZE:
             raise RoomDataError(f"truncated Demon Mirror schedule {index}")
@@ -226,15 +299,17 @@ def encode_mirror_schedule(schedule: dict[str, object]) -> bytes:
     return bytes(initial + loop)
 
 
-def decode_mirror_enemy_sets(prg: bytes) -> list[dict[str, object]]:
+def decode_mirror_enemy_sets(
+    prg: bytes, layout: RoomDataLayout = USA_ROOM_DATA_LAYOUT
+) -> list[dict[str, object]]:
     enemy_sets: list[dict[str, object]] = []
     for index in range(MIRROR_ENEMY_SET_COUNT):
         offset = split_pointer(
-            prg, MIRROR_ENEMY_SET_TABLE, index, MIRROR_ENEMY_SET_COUNT
+            prg, layout.mirror_enemy_set_table, index, MIRROR_ENEMY_SET_COUNT
         )
         cursor = offset
         enemy_types: list[int] = []
-        while cursor < ENEMY_POINTER_TABLE:
+        while cursor < layout.enemy_pointer_table:
             value = prg[cursor]
             cursor += 1
             if value >= MIRROR_ENEMY_SET_LOOP_BASE:
@@ -267,8 +342,12 @@ def encode_mirror_enemy_set(enemy_set: dict[str, object]) -> bytes:
     return bytes(enemy_types + [MIRROR_ENEMY_SET_LOOP_BASE + loop_offset])
 
 
-def decode_enemies(prg: bytes, room_index: int) -> dict[str, object]:
-    offset = split_pointer(prg, ENEMY_POINTER_TABLE, room_index, ROOM_COUNT)
+def decode_enemies(
+    prg: bytes,
+    room_index: int,
+    layout: RoomDataLayout = USA_ROOM_DATA_LAYOUT,
+) -> dict[str, object]:
+    offset = split_pointer(prg, layout.enemy_pointer_table, room_index, ROOM_COUNT)
     encoded_lifetime = prg[offset]
     enemies: list[dict[str, object]] = []
     cursor = offset + 1
@@ -310,8 +389,12 @@ def encode_enemies(stream: dict[str, object]) -> bytes:
     return bytes(output)
 
 
-def decode_items(prg: bytes, room_index: int) -> dict[str, object]:
-    offset = split_pointer(prg, ITEM_POINTER_TABLE, room_index, ROOM_COUNT)
+def decode_items(
+    prg: bytes,
+    room_index: int,
+    layout: RoomDataLayout = USA_ROOM_DATA_LAYOUT,
+) -> dict[str, object]:
+    offset = split_pointer(prg, layout.item_pointer_table, room_index, ROOM_COUNT)
     header = prg[offset : offset + 10]
     if len(header) != 10:
         raise RoomDataError("truncated item metadata")
@@ -470,8 +553,12 @@ def encode_items(stream: dict[str, object]) -> bytes:
     return bytes(output)
 
 
-def decode_blocks(prg: bytes, room_index: int) -> dict[str, object]:
-    offset = BLOCK_DATA + room_index * BLOCK_BYTES_PER_ROOM
+def decode_blocks(
+    prg: bytes,
+    room_index: int,
+    layout: RoomDataLayout = USA_ROOM_DATA_LAYOUT,
+) -> dict[str, object]:
+    offset = layout.block_data + room_index * BLOCK_BYTES_PER_ROOM
     brown = decode_bitplane(prg[offset : offset + BITPLANE_SIZE])
     white = decode_bitplane(
         prg[offset + BITPLANE_SIZE : offset + BLOCK_BYTES_PER_ROOM]
@@ -491,21 +578,27 @@ def encode_blocks(blocks: dict[str, object]) -> bytes:
     return encode_bitplane(brown) + encode_bitplane(white)
 
 
-def decode_room(prg: bytes, room_index: int) -> dict[str, object]:
+def decode_room(
+    prg: bytes,
+    room_index: int,
+    layout: RoomDataLayout = USA_ROOM_DATA_LAYOUT,
+) -> dict[str, object]:
     if not 0 <= room_index < ROOM_COUNT:
         raise RoomDataError(f"room index outside 0..{ROOM_COUNT - 1}: {room_index}")
     return {
         "room": room_index + 1,
         "index": room_index,
-        "blocks": decode_blocks(prg, room_index),
-        "enemy_stream": decode_enemies(prg, room_index),
-        "item_stream": decode_items(prg, room_index),
+        "blocks": decode_blocks(prg, room_index, layout),
+        "enemy_stream": decode_enemies(prg, room_index, layout),
+        "item_stream": decode_items(prg, room_index, layout),
     }
 
 
-def emit_enemy_source(prg: bytes) -> str:
+def emit_enemy_source(
+    prg: bytes, layout: RoomDataLayout = USA_ROOM_DATA_LAYOUT
+) -> str:
     """Render all room enemy pointers and records as readable ca65 source."""
-    rooms = [decode_enemies(prg, index) for index in range(ROOM_COUNT)]
+    rooms = [decode_enemies(prg, index, layout) for index in range(ROOM_COUNT)]
     labels = [f"RoomEnemyStream{index + 1:02d}" for index in range(ROOM_COUNT)]
     lines = [
         "; Per-room enemy pointers, encoded lifetimes, and spawn records",
@@ -566,7 +659,7 @@ def emit_enemy_source(prg: bytes) -> str:
                 f"${encode_position(enemy_position):02X}"
             )
         lines.append("    EndRoomEnemyStream")
-    data_size = BLOCK_DATA - rooms[0]["prg_offset"]
+    data_size = layout.block_data - rooms[0]["prg_offset"]
     if not isinstance(data_size, int):
         raise RoomDataError("invalid room enemy data extent")
     lines.extend(
@@ -580,7 +673,9 @@ def emit_enemy_source(prg: bytes) -> str:
     return "\n".join(lines)
 
 
-def emit_block_source(prg: bytes) -> str:
+def emit_block_source(
+    prg: bytes, layout: RoomDataLayout = USA_ROOM_DATA_LAYOUT
+) -> str:
     """Render all 53 paired room block bitplanes as readable ca65 source."""
     lines = [
         "; Paired 16x12 brown/breakable and white/solid room bitplanes",
@@ -592,7 +687,7 @@ def emit_block_source(prg: bytes) -> str:
     ]
     for room_index in range(ROOM_COUNT):
         label = "RoomBlockData" if room_index == 0 else f"RoomBlockDataRoom{room_index + 1:02d}"
-        blocks = decode_blocks(prg, room_index)
+        blocks = decode_blocks(prg, room_index, layout)
         encoded = encode_blocks(blocks)
         lines.append(f"{label}:")
         lines.append("; Brown/breakable block plane")
@@ -615,9 +710,11 @@ def emit_block_source(prg: bytes) -> str:
     return "\n".join(lines)
 
 
-def emit_item_source(prg: bytes) -> str:
+def emit_item_source(
+    prg: bytes, layout: RoomDataLayout = USA_ROOM_DATA_LAYOUT
+) -> str:
     """Render all room item pointers, metadata, and commands as ca65 source."""
-    rooms = [decode_items(prg, index) for index in range(ROOM_COUNT)]
+    rooms = [decode_items(prg, index, layout) for index in range(ROOM_COUNT)]
     labels = [f"RoomItemStream{index + 1:02d}" for index in range(ROOM_COUNT)]
     lines = [
         "; Per-room metadata and compressed item placement commands",
@@ -756,7 +853,7 @@ def emit_item_source(prg: bytes) -> str:
             "PreAudioPadding:",
         )
     )
-    padding = prg[ITEM_DATA_END:AUDIO_ENGINE]
+    padding = prg[layout.item_data_end : layout.audio_engine]
     for offset in range(0, len(padding), 8):
         row = padding[offset : offset + 8]
         lines.append("    .byte " + ", ".join(f"${value:02X}" for value in row))
@@ -771,11 +868,13 @@ def emit_item_source(prg: bytes) -> str:
     return "\n".join(lines)
 
 
-def roundtrip_rooms(prg: bytes) -> dict[str, int]:
-    rooms = [decode_room(prg, index) for index in range(ROOM_COUNT)]
-    mirror_schedules = decode_mirror_schedules(prg)
-    mirror_enemy_sets = decode_mirror_enemy_sets(prg)
-    tile_patterns = decode_room_tile_patterns(prg)
+def roundtrip_rooms(
+    prg: bytes, layout: RoomDataLayout = USA_ROOM_DATA_LAYOUT
+) -> dict[str, int]:
+    rooms = [decode_room(prg, index, layout) for index in range(ROOM_COUNT)]
+    mirror_schedules = decode_mirror_schedules(prg, layout)
+    mirror_enemy_sets = decode_mirror_enemy_sets(prg, layout)
+    tile_patterns = decode_room_tile_patterns(prg, layout)
     enemy_offsets: list[int] = []
     item_offsets: list[int] = []
     checked_bytes = 0
@@ -803,9 +902,13 @@ def roundtrip_rooms(prg: bytes) -> dict[str, int]:
 
     enemy_pointers = encode_split_pointers(enemy_offsets)
     item_pointers = encode_split_pointers(item_offsets)
-    if enemy_pointers != prg[ENEMY_POINTER_TABLE : ENEMY_POINTER_TABLE + len(enemy_pointers)]:
+    if enemy_pointers != prg[
+        layout.enemy_pointer_table : layout.enemy_pointer_table + len(enemy_pointers)
+    ]:
         raise RoomDataError("enemy pointer-table round trip differs")
-    if item_pointers != prg[ITEM_POINTER_TABLE : ITEM_POINTER_TABLE + len(item_pointers)]:
+    if item_pointers != prg[
+        layout.item_pointer_table : layout.item_pointer_table + len(item_pointers)
+    ]:
         raise RoomDataError("item pointer-table round trip differs")
     checked_bytes += len(enemy_pointers) + len(item_pointers)
 
@@ -819,7 +922,8 @@ def roundtrip_rooms(prg: bytes) -> dict[str, int]:
         checked_bytes += len(encoded)
     schedule_pointers = encode_split_pointers(schedule_offsets)
     if schedule_pointers != prg[
-        MIRROR_SCHEDULE_TABLE : MIRROR_SCHEDULE_TABLE + len(schedule_pointers)
+        layout.mirror_schedule_table : layout.mirror_schedule_table
+        + len(schedule_pointers)
     ]:
         raise RoomDataError("Demon Mirror schedule pointer round trip differs")
     checked_bytes += len(schedule_pointers)
@@ -834,14 +938,16 @@ def roundtrip_rooms(prg: bytes) -> dict[str, int]:
         checked_bytes += len(encoded)
     enemy_set_pointers = encode_split_pointers(enemy_set_offsets)
     if enemy_set_pointers != prg[
-        MIRROR_ENEMY_SET_TABLE : MIRROR_ENEMY_SET_TABLE + len(enemy_set_pointers)
+        layout.mirror_enemy_set_table : layout.mirror_enemy_set_table
+        + len(enemy_set_pointers)
     ]:
         raise RoomDataError("Demon Mirror enemy-set pointer round trip differs")
     checked_bytes += len(enemy_set_pointers)
 
     encoded_tile_patterns = encode_room_tile_patterns(tile_patterns)
     if encoded_tile_patterns != prg[
-        ROOM_TILE_PATTERN_DATA : ROOM_TILE_PATTERN_DATA + len(encoded_tile_patterns)
+        layout.room_tile_pattern_data : layout.room_tile_pattern_data
+        + len(encoded_tile_patterns)
     ]:
         raise RoomDataError("RoomMap tile pattern round trip differs")
     checked_bytes += len(encoded_tile_patterns)
@@ -859,10 +965,12 @@ def group_room_chr_banks(room_banks: Iterable[int]) -> dict[int, list[int]]:
     return groups
 
 
-def decode_room_chr_banks(prg: bytes) -> tuple[int, ...]:
+def decode_room_chr_banks(
+    prg: bytes, layout: RoomDataLayout = USA_ROOM_DATA_LAYOUT
+) -> tuple[int, ...]:
     banks: list[int] = []
     for index in range(ROOM_COUNT):
-        decoded = decode_items(prg, index)
+        decoded = decode_items(prg, index, layout)
         bank = decoded.get("chr_bank")
         if not isinstance(bank, int):
             raise RoomDataError(f"room {index + 1} has no decoded CHR bank")
@@ -870,12 +978,16 @@ def decode_room_chr_banks(prg: bytes) -> tuple[int, ...]:
     return tuple(banks)
 
 
-def room_chr_bank_groups(prg: bytes) -> dict[int, list[int]]:
-    return group_room_chr_banks(decode_room_chr_banks(prg))
+def room_chr_bank_groups(
+    prg: bytes, layout: RoomDataLayout = USA_ROOM_DATA_LAYOUT
+) -> dict[int, list[int]]:
+    return group_room_chr_banks(decode_room_chr_banks(prg, layout))
 
 
-def audit_room_chr_banks(prg: bytes) -> dict[int, list[int]]:
-    banks = decode_room_chr_banks(prg)
+def audit_room_chr_banks(
+    prg: bytes, layout: RoomDataLayout = USA_ROOM_DATA_LAYOUT
+) -> dict[int, list[int]]:
+    banks = decode_room_chr_banks(prg, layout)
     if banks != EXPECTED_ROOM_CHR_BANKS:
         room_number = next(
             index + 1
@@ -901,6 +1013,12 @@ def audit_room_chr_banks(prg: bytes) -> dict[int, list[int]]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--image", required=True, help="iNES image or bare 32 KiB PRG")
+    parser.add_argument(
+        "--layout",
+        choices=tuple(ROOM_DATA_LAYOUTS),
+        default="usa",
+        help="regional PRG layout (default: usa)",
+    )
     parser.add_argument("--room", type=int, help="one-based room number (default: all)")
     parser.add_argument("--pretty", action="store_true")
     parser.add_argument(
@@ -941,17 +1059,18 @@ def main() -> int:
     args = parser.parse_args()
     try:
         prg = extract_prg(Path(args.image).read_bytes())
+        layout = ROOM_DATA_LAYOUTS[args.layout]
         if args.source_enemies:
-            print(emit_enemy_source(prg), end="")
+            print(emit_enemy_source(prg, layout), end="")
             return 0
         if args.source_blocks:
-            print(emit_block_source(prg), end="")
+            print(emit_block_source(prg, layout), end="")
             return 0
         if args.source_items:
-            print(emit_item_source(prg), end="")
+            print(emit_item_source(prg, layout), end="")
             return 0
         if args.roundtrip:
-            result = roundtrip_rooms(prg)
+            result = roundtrip_rooms(prg, layout)
             print(
                 f"[OK] round-tripped {result['format_families']} room format "
                 f"families across {result['rooms']} rooms "
@@ -959,7 +1078,7 @@ def main() -> int:
             )
             return 0
         if args.chr_bank_report:
-            groups = room_chr_bank_groups(prg)
+            groups = room_chr_bank_groups(prg, layout)
             result = {
                 "banks": [
                     {
@@ -973,14 +1092,14 @@ def main() -> int:
             print(json.dumps(result, indent=2 if args.pretty else None))
             return 0
         if args.chr_bank_audit:
-            groups = audit_room_chr_banks(prg)
+            groups = audit_room_chr_banks(prg, layout)
             counts = ", ".join(
                 f"bank {bank}={len(groups[bank])}" for bank in range(4)
             )
             print(f"[OK] room CHR banks: {counts} across {ROOM_COUNT} rooms")
             return 0
         if args.validate:
-            rooms = [decode_room(prg, index) for index in range(ROOM_COUNT)]
+            rooms = [decode_room(prg, index, layout) for index in range(ROOM_COUNT)]
             enemy_count = sum(
                 len(room["enemy_stream"]["enemies"]) for room in rooms
             )
@@ -991,9 +1110,11 @@ def main() -> int:
             )
             return 0
         if args.room is None:
-            result: object = [decode_room(prg, index) for index in range(ROOM_COUNT)]
+            result: object = [
+                decode_room(prg, index, layout) for index in range(ROOM_COUNT)
+            ]
         else:
-            result = decode_room(prg, args.room - 1)
+            result = decode_room(prg, args.room - 1, layout)
     except (OSError, RoomDataError, IndexError) as exc:
         print(f"[ERROR] {exc}", file=sys.stderr)
         return 1

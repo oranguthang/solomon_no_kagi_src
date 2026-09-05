@@ -12,6 +12,37 @@ import room_data
 
 
 class RoomDataTests(unittest.TestCase):
+    def test_europe_layout_moves_room_data_earlier(self) -> None:
+        usa = room_data.USA_ROOM_DATA_LAYOUT
+        japan = room_data.JAPAN_ROOM_DATA_LAYOUT
+        europe = room_data.EUROPE_ROOM_DATA_LAYOUT
+        fields = (
+            "room_tile_pattern_data",
+            "mirror_schedule_table",
+            "mirror_enemy_set_table",
+            "mirror_schedule_data",
+            "enemy_pointer_table",
+            "block_data",
+            "item_pointer_table",
+            "item_data_end",
+            "audio_engine",
+        )
+        for field in fields:
+            self.assertEqual(getattr(japan, field), getattr(usa, field))
+            self.assertEqual(getattr(europe, field), getattr(usa, field) - 0x80)
+
+    def test_block_decoder_uses_selected_regional_layout(self) -> None:
+        prg = bytearray(32_768)
+        data = bytes([0x80]) + bytes(room_data.BLOCK_BYTES_PER_ROOM - 1)
+        start = room_data.EUROPE_ROOM_DATA_LAYOUT.block_data
+        prg[start : start + len(data)] = data
+        europe = room_data.decode_blocks(
+            bytes(prg), 0, room_data.EUROPE_ROOM_DATA_LAYOUT
+        )
+        usa = room_data.decode_blocks(bytes(prg), 0)
+        self.assertEqual(europe["brown"], [{"x": 0, "y": 0}])
+        self.assertEqual(usa["brown"], [])
+
     def test_position_encoding(self) -> None:
         self.assertEqual(room_data.position(0xB5), {"x": 5, "y": 10, "raw": 0xB5})
         self.assertEqual(room_data.position(0x05)["y"], -1)
