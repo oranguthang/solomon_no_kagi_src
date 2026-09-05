@@ -150,6 +150,51 @@
       }
     },
     {
+      "id": "room-1-life-loss-reload",
+      "method": "controlled death-thread request followed by the original life-loss and room-reload flow",
+      "max_frames": 1800,
+      "inputs": [
+        {"start_frame": 300, "end_frame": 301, "buttons": ["start"]}
+      ],
+      "patches": [
+        {"frame": 720, "symbol": "PendingThreadStarts", "value": "0x31", "reason": "queue_dana_death_thread", "expected_detail": "041F:00>31:queue_dana_death_thread"}
+      ],
+      "expected_events": {
+        "first_nmi": 6,
+        "first_joypad_read": 6,
+        "first_thread_switch": 7,
+        "start_input_seen": 301,
+        "room_load": 303,
+        "room_intro": 308,
+        "gameplay_start": 610,
+        "first_timer_tick": 610,
+        "dana_death": 721,
+        "death_animation_finished": 804,
+        "gameplay_exit": 853,
+        "life_loss_reload": 853,
+        "life_decremented": 853,
+        "next_room_load": 854
+      },
+      "expected_event_details": {
+        "dana_death": "RunDanaDeathTransition",
+        "death_animation_finished": "FinishDanaDeathAnimation",
+        "gameplay_exit": "FinalizeGameplayExit",
+        "life_loss_reload": "ReloadRoomAfterLifeLoss",
+        "life_decremented": "0452=02",
+        "next_room_load": "RoomLoadThread"
+      },
+      "expected_final": {
+        "frame": "1800",
+        "thread": "03",
+        "room": "00",
+        "timer": "04000900",
+        "dana_y": "90",
+        "dana_x": "28",
+        "active_enemies": "02",
+        "remaining_lives": "02"
+      }
+    },
+    {
       "id": "room-1-cast-block",
       "method": "natural Room 1 entry followed by deterministic A input",
       "max_frames": 900,

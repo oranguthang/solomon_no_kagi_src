@@ -43,10 +43,10 @@ exist in 1.0, but they do not broaden its preservation contract beyond USA.
 - Every stream-classified PRG byte has exactly one decoder/encoder owner. Room,
   PPU, title, animation, motion, and audio formats round-trip against the built
   image.
-- Nine deterministic FCEUX scenarios cover cold boot, normal room entry,
-  movement, pause/resume, both casting paths, room completion, scheduler/timer
-  behavior, and audio channel priority. Controlled writes are declared in the
-  scenario manifest and checked by the validator.
+- Ten deterministic FCEUX scenarios cover cold boot, normal room entry,
+  movement, pause/resume, life loss and room reload, both casting paths, room
+  completion, scheduler/timer behavior, and audio channel priority. Controlled
+  writes are declared in the scenario manifest and checked by the validator.
 - ld65 labels, FCEUX symbols, breakpoints, and RAM watches are generated from
   the current source and checked for stale addresses.
 
@@ -75,7 +75,7 @@ make source-1-audit
 
 It first runs `make release-check`, including the machine-readable contract in
 `config/source_reconstruction_1_0.json`, then freshly captures and validates all
-nine runtime scenarios. A previously generated trace cannot satisfy this gate
+ten runtime scenarios. A previously generated trace cannot satisfy this gate
 because `trace-runtime` invokes the emulator for each run before validation.
 
 Passing an individual hash, unit-test, or trace layer is insufficient. The

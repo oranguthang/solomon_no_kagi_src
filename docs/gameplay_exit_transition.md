@@ -59,3 +59,16 @@ Every route clears the gameplay nametable, starts the selected context, resets
 fireball and Dana state, and stops context 3. Exact gameplay meanings for
 unresolved flag bits remain expressed as local masks instead of stronger RAM
 aliases.
+
+## Runtime evidence
+
+The deterministic `room-1-life-loss-reload` scenario enters Room 1 naturally,
+then places scheduler code `$31` in `PendingThreadStarts` at frame 720. This is
+the scenario's only controlled write. It does not patch object, life, or timer
+data, any ROM byte, or the scheduler stack. Context 0 consumes the request and
+enters
+`RunDanaDeathTransition` at frame 721. Dana reaches the `$D1` fall boundary at
+804, and `FinalizeGameplayExit` selects `ReloadRoomAfterLifeLoss` at 853. The
+original routine stores two remaining lives and starts `RoomLoadThread` on
+frame 854. By frame 1800 the same room is back in main gameplay with Dana at
+the normal Room 1 start position.

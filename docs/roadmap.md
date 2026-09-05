@@ -339,7 +339,7 @@ proves the full contract.
 
 Those criteria are now encoded in `config/source_reconstruction_1_0.json` and
 documented in `docs/source_reconstruction_1_0.md`. `make source-1-audit` runs
-the complete static release gate and then freshly captures all nine committed
+the complete static release gate and then freshly captures all ten committed
 runtime scenarios. The annotated release tag is created only after that command
 passes on the reviewed `main` commit.
 

@@ -49,6 +49,14 @@ The timer remains unchanged while pause is active, Dana control is forbidden
 inside that interval, and its first post-resume execution is required on frame
 804. No RAM or control-flow patch is used.
 
+`room-1-life-loss-reload` makes one declared write to the scheduler request
+mailbox at frame 720, selecting the documented context-three death entry `$31`.
+Original code begins Dana's fall on frame 721, reaches its `$D1` boundary on
+804, runs shared exit cleanup on 853, decrements `RemainingLives` from three to
+two, and re-enters `RoomLoadThread` on 854. Its final state requires the same
+room to be running again at frame 1800. It does not patch life, object, or timer
+data, any ROM byte, or the scheduler stack.
+
 `room-1-cast-block` presses A on frames 720-780. It observes the block-magic
 request, execution of `CreateBlockInRoomMap`, and the resulting write of `$90`
 to RAM address `$0387`, map index `$83`. The expected event detail protects
@@ -82,9 +90,9 @@ code then executes `EnterRoomDoor` and `RoomClearThread`, starts timer-to-score
 conversion through `SubtractTimerBy8`, and reaches the next `RoomLoadThread` at
 frame 1136. The final state proves gameplay in internal room `$01`.
 
-These nine scenarios establish the runtime harness and a reproducible
+These ten scenarios establish the runtime harness and a reproducible
 boot-to-play, movement, pause/resume, block/fireball casting, progression, and
-scheduler-timing baseline.
+life-loss/reload, and scheduler-timing baseline.
 Later subsystem traces should add focused, explicitly declared state setup
 where reaching rare mechanics through input alone would make the evidence
 prohibitively slow.

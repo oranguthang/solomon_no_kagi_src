@@ -48,6 +48,7 @@ def trace_rows() -> list[dict[str, str]]:
             "dana_y": "00",
             "dana_x": "00",
             "active_enemies": "00",
+            "remaining_lives": "00",
         },
         {
             "frame": "1",
@@ -59,6 +60,7 @@ def trace_rows() -> list[dict[str, str]]:
             "dana_y": "00",
             "dana_x": "00",
             "active_enemies": "00",
+            "remaining_lives": "00",
         },
         {
             "frame": "10",
@@ -70,6 +72,7 @@ def trace_rows() -> list[dict[str, str]]:
             "dana_y": "00",
             "dana_x": "00",
             "active_enemies": "00",
+            "remaining_lives": "00",
         },
     ]
 

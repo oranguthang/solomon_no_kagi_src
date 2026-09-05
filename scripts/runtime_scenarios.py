@@ -23,6 +23,7 @@ REQUIRED_COLUMNS = {
     "dana_y",
     "dana_x",
     "active_enemies",
+    "remaining_lives",
 }
 BUTTONS = frozenset({"a", "b", "select", "start", "up", "down", "left", "right"})
 

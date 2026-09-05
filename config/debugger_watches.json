@@ -11,6 +11,7 @@
     {"address": "0x0304", "size": 192, "symbol": "RoomMap", "name": "Room-map working range", "confidence": "tentative"},
     {"address": "0x03e4", "size": 2, "symbol": "Joypad1Cached", "name": "Cached joypad state", "confidence": "high"},
     {"address": "0x03e6", "size": 26, "symbol": "PpuUpdateBuffer", "name": "PPU update buffer", "confidence": "confirmed"},
+    {"address": "0x041f", "size": 4, "symbol": "PendingThreadStarts", "name": "Pending scheduler thread starts", "confidence": "confirmed"},
     {"address": "0x0423", "size": 3, "symbol": "SoundEffectQueue", "name": "Pending audio command mailboxes", "confidence": "confirmed"},
     {"address": "0x0428", "size": 1, "symbol": "CurrentRoomIndex", "name": "Current room index", "confidence": "confirmed"},
     {"address": "0x042a", "size": 1, "symbol": "FireballActive", "name": "Fireball active flag", "confidence": "high"},

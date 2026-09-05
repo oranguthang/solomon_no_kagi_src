@@ -30,6 +30,7 @@
     "start-room-1",
     "room-1-walk-right",
     "room-1-pause-resume",
+    "room-1-life-loss-reload",
     "room-1-cast-block",
     "room-1-cast-fireball",
     "audio-channel-priority",

@@ -24,6 +24,8 @@
     {"address": "0xa3a4", "symbol": "UpdateFireballLifetime", "name": "Update fireball lifetime", "kind": "execute", "confidence": "high"},
     {"address": "0xa3cc", "symbol": "CheckInactiveFireballCleanup", "name": "Check inactive fireball cleanup", "kind": "execute", "confidence": "high"},
     {"address": "0xb42a", "symbol": "FindFreeEnemySlotIndex", "name": "Find free enemy slot", "kind": "execute", "confidence": "high"},
-    {"address": "0xc45b", "symbol": "ClassifyDanaMapTileInteraction", "name": "Classify Dana map-tile interaction", "kind": "execute", "confidence": "high"}
+    {"address": "0xc45b", "symbol": "ClassifyDanaMapTileInteraction", "name": "Classify Dana map-tile interaction", "kind": "execute", "confidence": "high"},
+    {"address": "0xc7e7", "symbol": "RunDanaDeathTransition", "name": "Dana death transition", "kind": "execute", "confidence": "confirmed"},
+    {"address": "0xc832", "symbol": "FinalizeGameplayExit", "name": "Finalize gameplay exit", "kind": "execute", "confidence": "confirmed"}
   ]
 }

@@ -8,6 +8,7 @@ local patch_spec = os.getenv("SOLOMON_RUNTIME_PATCHES") or ""
 local output = assert(io.open(output_path, "w"))
 local audio_probe = scenario == "audio-channel-priority"
 local pause_probe = scenario == "room-1-pause-resume"
+local death_probe = scenario == "room-1-life-loss-reload"
 
 local function symbol(name)
     local address = debugger.getsymboloffset(name)
@@ -31,6 +32,7 @@ local ram = {
     audio_pointer = symbol("TempPointer08"),
     audio_hardware_index = symbol("TempPointer08") + 2,
     game_state = symbol("GameStateFlags"),
+    remaining_lives = symbol("RemainingLives"),
 }
 
 local function byte(address)
@@ -52,10 +54,10 @@ end
 
 local function emit(event, detail)
     output:write(string.format(
-        "%d,%s,%s,%02X,%02X,%s,%02X,%02X,%02X\n",
+        "%d,%s,%s,%02X,%02X,%s,%02X,%02X,%02X,%02X\n",
         emu.framecount(), event, detail or "", byte(ram.thread), byte(ram.room),
         timer_digits(), byte(ram.dana + 7), byte(ram.dana + 10),
-        byte(ram.mirror + 11)))
+        byte(ram.mirror + 11), byte(ram.remaining_lives)))
     output:flush()
 end
 
@@ -76,6 +78,10 @@ local hooks = {
     {"PrepareRoomIntro", "room_intro"},
     {"MainGameplayThread", "gameplay_start"},
     {"PauseGameThread", "pause_thread", true},
+    {"RunDanaDeathTransition", "dana_death", true},
+    {"FinishDanaDeathAnimation", "death_animation_finished", true},
+    {"FinalizeGameplayExit", "gameplay_exit", true},
+    {"ReloadRoomAfterLifeLoss", "life_loss_reload", true},
     {"DecrementTimer", "first_timer_tick"},
     {"UpdateDanaControlState", "dana_control", true},
     {"UpdateObjectMotionAndCollision", "object_motion", true},
@@ -239,6 +245,12 @@ memory.registerwrite(ram.game_state, 1, function(address, size, value)
     end
 end)
 
+memory.registerwrite(ram.remaining_lives, 1, function(address, size, value)
+    if death_probe and seen["dana_death"] then
+        emit_once("life_decremented", string.format("%04X=%02X", address, value))
+    end
+end)
+
 memory.registerwrite(ram.map, 192, function(address, size, value)
     if seen["block_magic_request"] then
         emit_once(
@@ -316,7 +328,8 @@ local function controller_for_frame(frame)
     return state
 end
 
-output:write("frame,event,detail,thread,room,timer,dana_y,dana_x,active_enemies\n")
+output:write(
+    "frame,event,detail,thread,room,timer,dana_y,dana_x,active_enemies,remaining_lives\n")
 emit("trace_start", scenario)
 
 local previous_dana_x = byte(ram.dana + 10)
