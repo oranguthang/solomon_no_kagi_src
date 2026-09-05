@@ -13,11 +13,32 @@ counter, duration reload, envelope counter, and envelope volume. `$04F6` is an
 eight-bit active mask. The update pass rotates that mask once per record, so
 the current channel is presented in carry and later in bit 7.
 
-The publishing pass treats the virtual records as four pairs. It selects one
-record from each pair using the corresponding two active bits, writes volume,
-sweep, and a dirty period to the matching APU register group, then enables the
-four ordinary APU voices through `$4015`. This statically proves the pairing;
-which member wins under every music/SFX overlap still needs an emulator trace.
+The publishing pass treats the virtual records as four fixed pairs:
+
+| APU voice | Primary virtual channel | Secondary virtual channel |
+| --- | ---: | ---: |
+| pulse 1 | 0 | 1 |
+| pulse 2 | 2 | 3 |
+| triangle | 4 | 5 |
+| noise | 6 | 7 |
+
+`AudioPrimaryVirtualChannelBits` (`$55`) selects the even-numbered member. If
+that bit is active it wins; otherwise the publisher advances to the odd
+secondary record. It writes volume, sweep, and a dirty period to the matching
+APU register group, then enables the four ordinary voices through `$4015`.
+
+The `audio-channel-priority` runtime scenario proves both levels of priority.
+At frame 721 mailbox slot 2 starts block-create command `$07` on virtual 4,
+then slot 0 starts fireball-cast command `$0A` on the same record. The later
+slot-0 command leaves stream `$FB72` installed, proving that the descending
+mailbox scan gives lower slots precedence when commands overlap. Virtual 4
+then owns triangle until frame 737, when background virtual 5 resumes.
+
+At frame 761 block-remove command `$08` activates virtual 6. Noise switches
+from background virtual 7 to primary 6 with active mask `$CA`, then returns to
+7 at frame 780 with the original `$8A` mask. No music descriptor is restarted:
+the secondary streams continue advancing while hidden and become audible
+again as soon as the corresponding primary stops.
 
 ## Stream interpreter
 

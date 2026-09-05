@@ -6,6 +6,7 @@ local max_frames = assert(tonumber(os.getenv("SOLOMON_RUNTIME_MAX_FRAMES")))
 local input_spec = os.getenv("SOLOMON_RUNTIME_INPUTS") or ""
 local patch_spec = os.getenv("SOLOMON_RUNTIME_PATCHES") or ""
 local output = assert(io.open(output_path, "w"))
+local audio_probe = scenario == "audio-channel-priority"
 
 local function symbol(name)
     local address = debugger.getsymboloffset(name)
@@ -24,10 +25,18 @@ local ram = {
     dana = symbol("DanaObject"),
     fireball = symbol("FireballObject"),
     fireball_active = symbol("FireballActive"),
+    audio_state = symbol("AudioChannelState"),
+    audio_active = symbol("AudioActiveChannelMask"),
+    audio_pointer = symbol("TempPointer08"),
+    audio_hardware_index = symbol("TempPointer08") + 2,
 }
 
 local function byte(address)
     return memory.readbyte(address)
+end
+
+local function word(address)
+    return byte(address) + 0x100 * byte(address + 1)
 end
 
 local function timer_digits()
@@ -132,6 +141,58 @@ for _, hook in ipairs(hooks) do
                 timer_window_initial_ticks = pending_ticks
             elseif pending_ticks > timer_window_steady_max_ticks then
                 timer_window_steady_max_ticks = pending_ticks
+            end
+        end
+    end)
+end
+
+local audio_current_command = 0
+local audio_routes = {}
+if audio_probe then
+    memory.registerexecute(symbol("StartQueuedSoundEffect"), function()
+        if emu.framecount() >= 700 then
+            audio_current_command = memory.getregister("y") or 0
+            emit(
+                "audio_command_start",
+                string.format(
+                    "slot=%d;command=%02X",
+                    memory.getregister("x") or 0,
+                    audio_current_command))
+        end
+    end)
+
+    memory.registerexecute(symbol("InitializeSoundEffectChannel"), function()
+        if emu.framecount() >= 700 then
+            local descriptor = word(ram.audio_pointer)
+            local offset = memory.getregister("y") or 0
+            local virtual_channel = memory.getregister("a") or 0
+            local stream = word(descriptor + offset + 1)
+            emit(
+                "audio_virtual_start",
+                string.format(
+                    "command=%02X;virtual=%d;stream=%04X",
+                    audio_current_command,
+                    virtual_channel,
+                    stream))
+        end
+    end)
+
+    memory.registerexecute(symbol("WriteCurrentApuChannel"), function()
+        if emu.framecount() >= 700 then
+            local hardware_index = byte(ram.audio_hardware_index)
+            local apu_channel = 3 - hardware_index
+            local pointer = word(ram.audio_pointer)
+            local virtual_channel = math.floor(
+                (pointer - ram.audio_state) / 0x10)
+            if audio_routes[apu_channel] ~= virtual_channel then
+                audio_routes[apu_channel] = virtual_channel
+                emit(
+                    "audio_route",
+                    string.format(
+                        "apu=%d;virtual=%d;mask=%02X",
+                        apu_channel,
+                        virtual_channel,
+                        byte(ram.audio_active)))
             end
         end
     end)

@@ -3,6 +3,10 @@
 AudioChannelState = $0456
 AudioChannelStateStride = $10
 AudioVirtualChannelCount = 8
+AudioHardwareChannelLastIndex = 3
+AudioInitialChannelPairMask = $03
+AudioPrimaryVirtualChannelBits = $55
+AudioEnabledHardwareChannelMask = $0F
 AudioDurationCounter = $04D6
 AudioDurationReload = $04D7
 AudioEnvelopeCounter = $04D8
@@ -77,16 +81,19 @@ AdvanceVirtualAudioChannel:
     STA AudioChannelPointer
     LDA #>AudioChannelState
     STA AudioChannelPointer + 1
-    LDA #$03
+    LDA #AudioHardwareChannelLastIndex
     STA AudioHardwareChannelIndex
-    LDA #$03
+    LDA #AudioInitialChannelPairMask
     STA AudioChannelMask
 
+; Pairs 0/1, 2/3, 4/5, and 6/7 feed pulse 1, pulse 2, triangle,
+; and noise. An active even-numbered primary wins; the odd secondary resumes
+; automatically when its primary becomes inactive
 PublishNextApuChannel:
     LDA AudioActiveChannelMask
     AND AudioChannelMask
     BEQ SelectSecondaryVirtualChannel
-    AND #$55
+    AND #AudioPrimaryVirtualChannelBits
     BNE SelectPrimaryVirtualChannel
 
 SelectSecondaryVirtualChannel:
@@ -106,7 +113,7 @@ AdvanceApuChannelMask:
     ASL AudioChannelMask
     DEC AudioHardwareChannelIndex
     BPL PublishNextApuChannel
-    LDA #$0F
+    LDA #AudioEnabledHardwareChannelMask
     STA a:APU_SND_CHN
     RTS
 

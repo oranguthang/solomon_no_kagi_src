@@ -55,6 +55,13 @@ at frame 722, reaches NMI collision processing at 723, clears
 747. The trace validates every setup write and the exact RAM addresses changed
 by deactivation and retirement.
 
+`audio-channel-priority` starts Room 1 normally and injects three reviewed
+mailbox requests without changing ROM code. Its event series records command
+consumption, descriptor stream installation, the virtual channel selected for
+each APU voice, and the complete active mask. It proves descending mailbox
+precedence and temporary even-over-odd channel stealing on triangle and noise;
+the exact frames and streams are part of the committed scenario contract.
+
 `attract-demo-scheduler` supplies no input and waits for the built-in demo. It
 compares a populated object pool with the first-room baseline. Both traces
 preserve the context cycle `3,4,5,6,7,0,1,2`, while their 60-frame switch and

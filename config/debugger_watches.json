@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "watches": [
+    {"address": "0x0008", "size": 4, "symbol": "TempPointer08", "name": "Audio engine scratch pointer and channel index", "confidence": "confirmed"},
     {"address": "0x0012", "size": 8, "symbol": "ThreadStackPointers", "name": "Thread stack pointers", "confidence": "high"},
     {"address": "0x0023", "size": 1, "symbol": "GameplayUpdateCount", "name": "Pending gameplay NMI ticks", "confidence": "confirmed"},
     {"address": "0x0028", "size": 1, "symbol": "GameplayFlags", "name": "Gameplay flags", "confidence": "high"},
@@ -9,6 +10,7 @@
     {"address": "0x0304", "size": 192, "symbol": "RoomMap", "name": "Room-map working range", "confidence": "tentative"},
     {"address": "0x03e4", "size": 2, "symbol": "Joypad1Cached", "name": "Cached joypad state", "confidence": "high"},
     {"address": "0x03e6", "size": 26, "symbol": "PpuUpdateBuffer", "name": "PPU update buffer", "confidence": "confirmed"},
+    {"address": "0x0423", "size": 3, "symbol": "SoundEffectQueue", "name": "Pending audio command mailboxes", "confidence": "confirmed"},
     {"address": "0x0428", "size": 1, "symbol": "CurrentRoomIndex", "name": "Current room index", "confidence": "confirmed"},
     {"address": "0x042a", "size": 1, "symbol": "FireballActive", "name": "Fireball active flag", "confidence": "high"},
     {"address": "0x042f", "size": 1, "symbol": "InventorySlotsLow", "name": "Low fireball inventory slots", "confidence": "high"},
@@ -18,6 +20,8 @@
     {"address": "0x043c", "size": 11, "symbol": "RoomItemRuntimeData", "name": "Demon Mirror runtime", "confidence": "confirmed"},
     {"address": "0x044a", "size": 8, "symbol": "ScoreDigits", "name": "Score digits", "confidence": "high"},
     {"address": "0x0452", "size": 3, "symbol": "RemainingLives", "name": "Lives and fairies", "confidence": "high"},
+    {"address": "0x0456", "size": 128, "symbol": "AudioChannelState", "name": "Eight virtual audio channel records", "confidence": "confirmed"},
+    {"address": "0x04f6", "size": 1, "symbol": "AudioActiveChannelMask", "name": "Virtual audio channel active mask", "confidence": "confirmed"},
     {"address": "0x04f7", "size": 136, "symbol": "EnemyAiState", "name": "Enemy AI state", "confidence": "tentative"},
     {"address": "0x04f7", "size": 25, "symbol": "EnemyAiState", "name": "Transition-orbit state", "confidence": "confirmed"},
     {"address": "0x057f", "size": 420, "symbol": "DanaObject", "name": "Gameplay object pool", "confidence": "high"},

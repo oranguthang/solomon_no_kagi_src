@@ -1,8 +1,6 @@
 # Unknowns and research queue
 
-1. Prove sound-command priorities and virtual-to-hardware channel stealing at
-   runtime, then assign musical names only where trace evidence supports them.
-2. Compare USA, Japan, and Europe PRG revisions without merging assumptions
+1. Compare USA, Japan, and Europe PRG revisions without merging assumptions
    from one profile into another.
 
 ## Resolved questions
@@ -46,6 +44,11 @@
   incremental-render-only patterns, identifies the two modifiable item
   quartets, and preserves the unreachable `$23/$24` handler-table overflow as
   original behavior. See `docs/room_map_tiles.md`.
+- Audio mailbox and channel priority are now runtime-proven. Commands are
+  consumed from slot 2 down to slot 0, so a lower occupied slot wins an
+  overlapping virtual record; even virtual channels 0/2/4/6 temporarily own
+  their paired APU voice over odd background channels 1/3/5/7. See
+  `docs/audio_engine.md` and the `audio-channel-priority` scenario.
 - Timer-service frequency and scheduler switch rate under low and high object
   load are reproduced by the Room 1 and attract-demo runtime scenarios.
   `GameplayUpdateCount` is now proven to preserve every serviced gameplay NMI
