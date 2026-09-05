@@ -24,7 +24,10 @@ Super Mario Bros. preservation projects.
 - `make release-check` adds byte-identical ROM verification, room-data
   validation and round trips, semantic reconstruction audit, and scheduler
   entry/call-site, enemy-AI and item handler-table, enemy-pointer, and static
-  PPU-stream audits
+  PPU-stream audits; it also cross-checks the Source Reconstruction 1.0
+  manifest
+- `make source-1-audit` adds a fresh emulator capture and validation of all
+  eight committed runtime scenarios to the complete static release gate
 - `make check` is the full release check
 
 The former address-ordered preservation listing has been eliminated. New

@@ -1,7 +1,14 @@
 # Unknowns and research queue
 
+Source Reconstruction 1.0 has no unresolved question that blocks its fixed USA
+profile. Neutral names remain where the original developers' historical intent
+cannot be proven; those are evidence boundaries, not missing binary ownership.
+
+## Deferred to Source Reconstruction 2.0
+
 1. Compare USA, Japan, and Europe PRG revisions without merging assumptions
-   from one profile into another.
+   from one profile into another. Region-specific source builds, PAL timing,
+   and independent identity gates are explicitly outside the 1.0 contract.
 
 ## Resolved questions
 

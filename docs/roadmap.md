@@ -266,7 +266,7 @@ decrease.
   proven code/data boundaries;
 - address order and `make verify` were preserved after every split.
 
-### 3. Semantic naming and provenance - In progress
+### 3. Semantic naming and provenance - Complete for 1.0
 
 - every accepted ROM-label rename enters the machine-readable provenance
   ledger with address, confidence, and evidence;
@@ -274,6 +274,9 @@ decrease.
   runtime evidence supports a behavioral name;
 - debugger breakpoints and watch ranges are bound to current ld65 symbols;
   `make symbols` exports FCEUX ROM/RAM labels and a resolved JSON summary.
+- all 1,838 source labels are semantic or accepted original names, all renamed
+  labels have provenance, and no generated address label or raw numeric
+  control-flow target remains.
 
 ### 4. Code/data boundary classification - Complete
 
@@ -284,7 +287,7 @@ decrease.
 - `make prg-layout-audit` checks exact category counts and a complete-layout
   SHA-1 fingerprint as part of the release gate.
 
-### 5. Subsystem documentation and runtime evidence - In progress
+### 5. Subsystem documentation and runtime evidence - Complete for 1.0
 
 - document contracts for reset, scheduler, room loading, objects, collision,
   rendering, audio, and progression;
@@ -302,6 +305,10 @@ decrease.
   `EnterRoomDoor` to `RoomClearThread` to next-room-load progression, while
   paired Room 1/attract traces prove scheduler-sensitive timer cadence and
   lossless catch-up of every serviced gameplay NMI tick.
+- a controlled audio-mailbox scenario proves descending request-slot priority,
+  even-over-odd virtual-channel ownership, and background-channel resumption;
+- additional rare-mechanic traces are welcome 2.0 evidence rather than a reason
+  to keep the fixed USA 1.0 preservation contract indefinitely open.
 
 ### 6. Data-format round trips - Complete
 
@@ -323,21 +330,28 @@ decrease.
 - additional semantic codecs for fixed-size data tables remain useful future
   refinements, but no stream-classified PRG byte is outside the aggregate gate.
 
-### 7. Source Reconstruction 1.0 release - Planned
+### 7. Source Reconstruction 1.0 release - Tag-ready
 
 Release only when the fixed PRG is entirely owned by reviewed semantic modules,
 all code/data boundaries are classified, required runtime scenarios and format
 round trips pass, unknowns are explicitly registered, and one aggregate audit
 proves the full contract.
 
+Those criteria are now encoded in `config/source_reconstruction_1_0.json` and
+documented in `docs/source_reconstruction_1_0.md`. `make source-1-audit` runs
+the complete static release gate and then freshly captures all eight committed
+runtime scenarios. The annotated release tag is created only after that command
+passes on the reviewed `main` commit.
+
 ## Semantic reconstruction 2.0
 
-- full scheduler and object lifecycle documentation;
-- room decode/encode round trips for all 53 rooms;
-- object, enemy, item, and collision dispatch tables;
-- expand the existing deterministic movement, casting, room-completion, and
-  scheduler-sensitive timing scenarios to rarer mechanics;
-- region profiles for Japanese and European releases.
+- region-specific source builds and identity gates for the Japanese and
+  European releases, without importing assumptions between profiles;
+- explicit PAL timing and audio comparisons against the fixed USA baseline;
+- expand the existing deterministic movement, casting, room-completion,
+  scheduler-sensitive timing, and audio scenarios to rarer mechanics;
+- deepen historical-intent research where 1.0 deliberately retains neutral,
+  behaviorally correct names.
 
 Castle Excellent / Castlequest research is related but intentionally outside
 this repository's byte-identity contract. It should receive its own project so

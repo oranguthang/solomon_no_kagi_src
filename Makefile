@@ -124,7 +124,8 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/game/nmi_gameplay_interactio
 	rom-info rom-info-reference rom-info-built symbols validate-symbols \
 	trace-runtime validate-runtime \
 	format format-check lint lint-asm \
-	lint-source lint-project test quality-check check release-check rooms \
+	lint-source lint-project test quality-check check release-audit release-check \
+	source-1-audit rooms \
 	validate-rooms room-data-audit chr-bank-report chr-bank-audit roundtrip-formats \
 	reconstruction-status reconstruction-audit \
 	prg-layout-report prg-layout-audit format-coverage-audit \
@@ -249,6 +250,11 @@ reconstruction-status:
 reconstruction-audit: $(ROM)
 	$(PYTHON) scripts/reconstruction_status.py audit --map "$(MAP)" --labels "$(LABELS)"
 
+release-audit: $(ROM)
+	$(PYTHON) scripts/reconstruction_status.py release-audit \
+		--map "$(MAP)" --labels "$(LABELS)" \
+		--release config/source_reconstruction_1_0.json
+
 prg-layout-report: $(ROM)
 	$(PYTHON) scripts/prg_layout.py report --debug "$(DEBUG)" --config config/prg_layout.json
 
@@ -317,7 +323,9 @@ quality-check: lint test
 release-check: quality-check verify validate-rooms roundtrip-formats \
 	reconstruction-audit prg-layout-audit validate-symbols scheduler-audit \
 	enemy-ai-audit enemy-pointer-audit chr-bank-audit \
-	item-handler-audit
+	item-handler-audit release-audit
+
+source-1-audit: release-check trace-runtime
 
 check: release-check
 

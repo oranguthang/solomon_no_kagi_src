@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "status": "tag-ready",
+  "tag": "source-reconstruction-1.0",
+  "profile": "usa",
+  "asset_manifest": "assets/manifest.json",
+  "runtime_manifest": "scenarios/runtime_scenarios.json",
+  "reference": {
+    "name": "Solomon's Key (USA)",
+    "file_sha1": "18102689fd35c7d531a5e6241b06b748accab2f6",
+    "prg_sha1": "4e8c6c33897e6c0dc6297f67e8f5699b1b5ca4e6",
+    "chr_sha1": "59f98252ca72dd3908964e2ad70aba5dda2e84bf"
+  },
+  "reconstruction_metrics": {
+    "semantic_modules": 160,
+    "documented_prg_bytes": 32768,
+    "documented_prg_percent": 100.0,
+    "preservation_lines": 0,
+    "semantic_labels": 1838,
+    "provenance_entries": 1836,
+    "confirmed_provenance": 1733,
+    "high_provenance": 102,
+    "tentative_provenance": 1,
+    "unknown_provenance": 0,
+    "generated_labels": 0,
+    "raw_control_flow_targets": 0
+  },
+  "runtime_scenarios": [
+    "cold-boot-idle",
+    "start-room-1",
+    "room-1-walk-right",
+    "room-1-cast-block",
+    "room-1-cast-fireball",
+    "audio-channel-priority",
+    "attract-demo-scheduler",
+    "room-1-door-transition"
+  ],
+  "required_documents": [
+    "README.md",
+    "docs/source_reconstruction_1_0.md",
+    "docs/architecture.md",
+    "docs/source_layout.md",
+    "docs/ram_map.md",
+    "docs/data_formats.md",
+    "docs/runtime_evidence.md",
+    "docs/audio_engine.md",
+    "docs/object_record.md",
+    "docs/room_map_tiles.md",
+    "docs/naming.md",
+    "docs/provenance.md",
+    "docs/unknowns.md",
+    "docs/verification.md"
+  ],
+  "required_make_targets": [
+    "build",
+    "split",
+    "verify",
+    "format",
+    "format-check",
+    "lint",
+    "test",
+    "roundtrip-formats",
+    "trace-runtime",
+    "release-audit",
+    "release-check",
+    "source-1-audit"
+  ],
+  "deferred_to_2_0": [
+    "Japanese and European release profiles",
+    "region-specific source builds and byte-identity gates",
+    "additional rare-mechanic runtime scenarios"
+  ]
+}

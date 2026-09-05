@@ -8,6 +8,9 @@ evidence, and small tested tools for decoded game data.
 
 ## Current status
 
+- **Source Reconstruction 1.0 is tag-ready for the fixed USA profile.** Its
+  stable contract and tag procedure are in
+  [`docs/source_reconstruction_1_0.md`](docs/source_reconstruction_1_0.md).
 - The complete 65,552-byte iNES image assembles byte-for-byte.
 - `make verify` checks the header, PRG, CHR, complete payload, and complete file.
 - The complete PRG is assembled from registered semantic and classified-data
@@ -122,10 +125,11 @@ evidence, and small tested tools for decoded game data.
 - Initial Mesen watches and breakpoints live under `config/` with a trace
   workflow in `docs/debugger_workflow.md`.
 
-The address-ordered preservation listing has been eliminated. Some low-level
-operands and generated labels remain intentionally neutral pending stronger
-runtime evidence, while the permanent verification gate protects byte identity
-during further semantic refinement.
+The address-ordered preservation listing has been eliminated. No generated
+address labels or raw numeric control-flow targets remain. Low-level constants
+stay intentionally neutral where stronger historical intent is unproven, while
+the permanent verification gate protects byte identity during later semantic
+refinement.
 
 ## Reference image
 
@@ -198,6 +202,7 @@ make trace-runtime # capture and validate deterministic FCEUX runtime evidence
 make validate-runtime # revalidate already captured runtime traces
 make reconstruction-status # report semantic coverage and remaining raw source
 make reconstruction-audit # validate module ranges, provenance, and thresholds
+make release-audit # cross-check the machine-readable Source 1.0 contract
 make prg-layout-report # report byte-exact code/data/stream/padding coverage
 make prg-layout-audit # verify the complete PRG classification fingerprint
 make scheduler-report # decode scheduler stack and entry tables as JSON
@@ -228,6 +233,7 @@ python scripts/room_data.py --image "Solomon's Key (U) [!].nes" --source-blocks 
 python scripts/room_data.py --image "Solomon's Key (U) [!].nes" --source-items # regenerate room item ASM
 python scripts/audio_data.py source --image "Solomon's Key (U) [!].nes" # regenerate audio ASM
 make release-check # complete static, test, identity, and room-data gate
+make source-1-audit # release-check plus fresh capture of all runtime scenarios
 make check       # alias for release-check
 make rooms       # decode all 53 rooms as JSON
 make validate-rooms # structurally decode every room without JSON output

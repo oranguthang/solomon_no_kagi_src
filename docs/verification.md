@@ -42,7 +42,9 @@ the iNES header, PRG, CHR, headerless payload, full image, and extracted CHR.
 | `object-motion-audit` | round-trip 524 bytes of pointers, selectors, and vectors |
 | `title-data-audit` | round-trip packed title streams and the adjacent attract-demo tables |
 | `audio-data-audit` | check audio pointers, reachability, hashes, and byte round trips |
+| `release-audit` | cross-check the Source Reconstruction 1.0 identity, metrics, scenarios, documents, and targets |
 | `release-check` | lint, tests, ROM verification, symbols, format round trips, and subsystem audits |
+| `source-1-audit` | run `release-check`, then freshly capture and validate all runtime scenarios |
 | `check` | alias for `release-check` |
 
 Focused region targets deliberately compare only their named output region.
@@ -80,6 +82,7 @@ make split
 make verify-prg
 make verify
 make release-check
+make source-1-audit
 ```
 
 `make clean` removes only `build/`; it preserves the ignored extracted CHR so a

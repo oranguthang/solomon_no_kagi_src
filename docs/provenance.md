@@ -40,3 +40,24 @@ not part of the project history.
 with its linked address, previous identifier, confidence, and concise evidence.
 `make reconstruction-audit` rejects duplicate entries, missing evidence,
 missing source labels, and any disagreement with the ld65 label file.
+
+## Source Reconstruction 1.0 confidence review
+
+The release ledger contains 1,836 renamed labels: 1,733 `confirmed`, 102
+`high`, one `tentative`, and no `unknown` entries. Two accepted original labels
+complete the 1,838 semantic source-label inventory without rename records.
+`make release-audit` freezes this distribution alongside the complete label
+count, so confidence cannot be silently promoted or discarded.
+
+The 1.0 review examined every `high` and `tentative` entry. The `high` group
+retains names supported by converging static evidence without claiming runtime
+proof. The sole tentative entry, `PreTimerWarningTableBytes`, deliberately says
+only where the three bytes lie; their resemblance to a timer PPU command is
+recorded as a hypothesis because no direct consumer has been proved.
+
+Large confirmed groups such as room streams, animation-frame boundaries, and
+audio bytecode entries assert exact structural identities established by their
+reviewed pointers and lossless codecs. They do not claim that every record is
+observed during the runtime scenarios. Behavioral names are confirmed only
+where exhaustive local code or a focused trace directly establishes the stated
+effect, consistent with `docs/naming.md`.

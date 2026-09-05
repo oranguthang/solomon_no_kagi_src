@@ -21,6 +21,7 @@ MAP_SEGMENT_RE = re.compile(
     r"^(\S+)\s+([0-9A-Fa-f]{6})\s+([0-9A-Fa-f]{6})\s+([0-9A-Fa-f]{6})\s+[0-9A-Fa-f]{5}\s*$"
 )
 LABEL_FILE_RE = re.compile(r"^al\s+([0-9A-Fa-f]{6})\s+\.?([^\s]+)\s*$")
+MAKE_TARGET_RE = re.compile(r"^([A-Za-z0-9_.-]+)(?:\s+[^:]*)?:")
 CONFIDENCE_LEVELS = {"confirmed", "high", "tentative", "unknown"}
 
 
@@ -35,6 +36,17 @@ def load_json(path: Path) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise ValueError(f"expected a JSON object: {path}")
     return value
+
+
+def parse_make_targets(path: Path) -> set[str]:
+    targets: set[str] = set()
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if line.startswith((" ", "\t", ".")):
+            continue
+        match = MAKE_TARGET_RE.match(line)
+        if match:
+            targets.add(match.group(1))
+    return targets
 
 
 def parse_number(value: object, field: str) -> int:
@@ -127,6 +139,23 @@ def collect_metrics(project_root: Path, manifest: dict[str, Any]) -> dict[str, A
     }
 
 
+def collect_provenance_metrics(ledger: dict[str, Any]) -> dict[str, int]:
+    entries = ledger.get("entries")
+    if not isinstance(entries, list):
+        return {}
+    counts = {
+        confidence: sum(entry.get("confidence") == confidence for entry in entries)
+        for confidence in CONFIDENCE_LEVELS
+    }
+    return {
+        "provenance_entries": len(entries),
+        "confirmed_provenance": counts["confirmed"],
+        "high_provenance": counts["high"],
+        "tentative_provenance": counts["tentative"],
+        "unknown_provenance": counts["unknown"],
+    }
+
+
 def validate(
     project_root: Path,
     manifest: dict[str, Any],
@@ -140,6 +169,7 @@ def validate(
     if ledger.get("schema_version") != 1:
         errors.append("unsupported label provenance schema")
     metrics = collect_metrics(project_root, manifest)
+    metrics.update(collect_provenance_metrics(ledger))
     source = source_labels(project_root)
     segments = parse_linker_map(map_path)
     linked_labels = parse_label_file(labels_path)
@@ -247,27 +277,126 @@ def validate(
     return metrics, errors
 
 
+def validate_release_paths(
+    project_root: Path, release: dict[str, Any]
+) -> list[str]:
+    errors: list[str] = []
+    documents = release.get("required_documents")
+    if not isinstance(documents, list) or not all(
+        isinstance(value, str) for value in documents
+    ):
+        errors.append("required_documents must be a list of paths")
+    else:
+        for relative in documents:
+            if not (project_root / relative).is_file():
+                errors.append(f"required release document is missing: {relative}")
+
+    targets = release.get("required_make_targets")
+    if not isinstance(targets, list) or not all(
+        isinstance(value, str) for value in targets
+    ):
+        errors.append("required_make_targets must be a list of names")
+    else:
+        makefile_targets = parse_make_targets(project_root / "Makefile")
+        for target in targets:
+            if target not in makefile_targets:
+                errors.append(f"required Make target is missing: {target}")
+
+    deferred = release.get("deferred_to_2_0")
+    if not isinstance(deferred, list) or not deferred:
+        errors.append("deferred_to_2_0 must explicitly record later scope")
+    return errors
+
+
+def validate_release(
+    project_root: Path,
+    release: dict[str, Any],
+    metrics: dict[str, Any],
+) -> list[str]:
+    errors: list[str] = []
+    if release.get("schema_version") != 1:
+        errors.append("unsupported Source Reconstruction 1.0 manifest schema")
+    if release.get("status") != "tag-ready":
+        errors.append("Source Reconstruction 1.0 status is not tag-ready")
+    if release.get("tag") != "source-reconstruction-1.0":
+        errors.append("Source Reconstruction 1.0 tag name differs")
+
+    asset_path = project_root / str(release.get("asset_manifest", ""))
+    runtime_path = project_root / str(release.get("runtime_manifest", ""))
+    assets = load_json(asset_path)
+    runtime = load_json(runtime_path)
+    if assets.get("schema_version") != 1:
+        errors.append("unsupported asset manifest schema")
+    if runtime.get("schema_version") != 1:
+        errors.append("unsupported runtime manifest schema")
+
+    reference = release.get("reference")
+    asset_reference = assets.get("reference_rom")
+    if not isinstance(reference, dict) or not isinstance(asset_reference, dict):
+        errors.append("release and asset reference contracts must be objects")
+    else:
+        for field in ("file_sha1", "prg_sha1", "chr_sha1"):
+            if reference.get(field) != asset_reference.get(field):
+                errors.append(f"release {field} differs from asset manifest")
+        if runtime.get("rom_sha1") != reference.get("file_sha1"):
+            errors.append("runtime ROM SHA-1 differs from release reference")
+
+    expected_metrics = release.get("reconstruction_metrics")
+    if not isinstance(expected_metrics, dict):
+        errors.append("reconstruction_metrics must be an object")
+    else:
+        for name, expected in expected_metrics.items():
+            if metrics.get(name) != expected:
+                errors.append(
+                    f"release metric {name} differs: "
+                    f"expected {expected}, got {metrics.get(name)}"
+                )
+
+    expected_scenarios = release.get("runtime_scenarios")
+    actual_scenarios = runtime.get("scenarios")
+    if not isinstance(expected_scenarios, list) or not all(
+        isinstance(value, str) for value in expected_scenarios
+    ):
+        errors.append("runtime_scenarios must be a list of names")
+    elif not isinstance(actual_scenarios, list):
+        errors.append("runtime scenario manifest has no scenario list")
+    else:
+        actual_names = [scenario.get("id") for scenario in actual_scenarios]
+        if actual_names != expected_scenarios:
+            errors.append("runtime scenario order differs from release manifest")
+
+    errors.extend(validate_release_paths(project_root, release))
+    return errors
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=("report", "audit"))
+    parser.add_argument("command", choices=("report", "audit", "release-audit"))
     parser.add_argument("--project-root", type=Path, default=Path(__file__).resolve().parent.parent)
     parser.add_argument("--manifest", type=Path)
     parser.add_argument("--ledger", type=Path)
     parser.add_argument("--map", dest="map_path", type=Path)
     parser.add_argument("--labels", type=Path)
+    parser.add_argument("--release", type=Path)
     args = parser.parse_args()
     root = args.project_root.resolve()
     manifest_path = args.manifest or root / "config" / "reconstruction.json"
     ledger_path = args.ledger or root / "docs" / "provenance" / "label_renames.json"
     map_path = args.map_path or root / "build" / "native" / "solomons_key.map"
     labels_path = args.labels or root / "build" / "native" / "solomons_key.lbl"
+    release_path = args.release or root / "config" / "source_reconstruction_1_0.json"
     try:
         manifest = load_json(manifest_path)
         ledger = load_json(ledger_path)
         if args.command == "report":
-            print(json.dumps(collect_metrics(root, manifest), indent=2, sort_keys=True))
+            metrics = collect_metrics(root, manifest)
+            metrics.update(collect_provenance_metrics(ledger))
+            print(json.dumps(metrics, indent=2, sort_keys=True))
             return 0
         metrics, errors = validate(root, manifest, ledger, map_path, labels_path)
+        if args.command == "release-audit":
+            release = load_json(release_path)
+            errors.extend(validate_release(root, release, metrics))
     except (OSError, ValueError, KeyError, json.JSONDecodeError) as exc:
         print(f"[ERROR] {exc}", file=sys.stderr)
         return 1
@@ -276,14 +405,23 @@ def main() -> int:
             print(f"[ERROR] {error}", file=sys.stderr)
         print(f"[FAIL] Reconstruction audit found {len(errors)} error(s)", file=sys.stderr)
         return 1
-    print(
-        "[OK] Reconstruction inventory: "
-        f"{metrics['semantic_modules']} semantic module, "
-        f"{metrics['documented_prg_bytes']}/{manifest['reference_prg_size']} PRG bytes "
-        f"({metrics['documented_prg_percent']:.3f}%), "
-        f"{metrics['generated_labels']} generated labels, "
-        f"{metrics['raw_control_flow_targets']} raw control-flow targets"
-    )
+    if args.command == "release-audit":
+        print(
+            "[OK] Source Reconstruction 1.0 contract: "
+            f"{metrics['semantic_modules']} modules, "
+            f"{metrics['documented_prg_bytes']} PRG bytes, "
+            f"{metrics['semantic_labels']} semantic labels, "
+            f"{metrics['provenance_entries']} provenance entries"
+        )
+    else:
+        print(
+            "[OK] Reconstruction inventory: "
+            f"{metrics['semantic_modules']} semantic module, "
+            f"{metrics['documented_prg_bytes']}/{manifest['reference_prg_size']} "
+            f"PRG bytes ({metrics['documented_prg_percent']:.3f}%), "
+            f"{metrics['generated_labels']} generated labels, "
+            f"{metrics['raw_control_flow_targets']} raw control-flow targets"
+        )
     return 0
 
 
