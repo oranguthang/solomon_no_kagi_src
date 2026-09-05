@@ -229,6 +229,8 @@ decrease.
     macro-structured source and round-trip checked;
   - `$E02C-$EA1B`: all 53 paired room block bitplanes are source-owned,
     reproducibly emitted, and round-trip checked;
+  - `$EA1C-$EFC3`: all 53 room-item pointers, metadata headers, and compressed
+    placement streams are macro-structured source and round-trip checked;
 - split the remaining preservation range into reset/startup, scheduler, room,
   gameplay/object, rendering, audio, static-data, and vector modules at proven
   code/data boundaries;

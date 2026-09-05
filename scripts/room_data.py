@@ -552,6 +552,147 @@ def emit_block_source(prg: bytes) -> str:
     return "\n".join(lines)
 
 
+def emit_item_source(prg: bytes) -> str:
+    """Render all room item pointers, metadata, and commands as ca65 source."""
+    rooms = [decode_items(prg, index) for index in range(ROOM_COUNT)]
+    labels = [f"RoomItemStream{index + 1:02d}" for index in range(ROOM_COUNT)]
+    lines = [
+        "; Per-room metadata and compressed item placement commands",
+        "",
+        "RoomItemStreamCount = 53",
+        "",
+        ".macro RoomItemHeader mirror_2_schedule, mirror_1_schedule, mirror_2_enemy_set, mirror_1_enemy_set, status_rate, door_position, key_position, player_start_position, mirror_1_position, mirror_2_position",
+        "    .byte mirror_2_schedule, mirror_1_schedule",
+        "    .byte mirror_2_enemy_set, mirror_1_enemy_set, status_rate",
+        "    .byte door_position, key_position, player_start_position",
+        "    .byte mirror_1_position, mirror_2_position",
+        ".endmacro",
+        "",
+        ".macro RoomItemRecord item_type, map_position",
+        "    .byte item_type, map_position",
+        ".endmacro",
+        "",
+        ".macro BeginRoomItemRepeat item_type, repeat_count",
+        "    .byte $C0 + repeat_count - 1, item_type",
+        ".endmacro",
+        "",
+        ".macro EndRoomItemStream opcode",
+        "    .byte opcode",
+        ".endmacro",
+        "",
+        ".macro RoomConstellationItem opcode, map_position",
+        "    .byte opcode, map_position",
+        ".endmacro",
+        "",
+        '.segment "PRG_ROOM_ITEM_POINTERS"',
+        "",
+        "RoomItemPointerLowTable:",
+    ]
+    for index in range(0, ROOM_COUNT, 2):
+        row = labels[index : index + 2]
+        lines.append("    .byte " + ", ".join(f"<{label}" for label in row))
+    lines.extend(("", "RoomItemPointerHighTable:"))
+    for index in range(0, ROOM_COUNT, 2):
+        row = labels[index : index + 2]
+        lines.append("    .byte " + ", ".join(f">{label}" for label in row))
+    lines.extend(
+        (
+            "",
+            ".assert RoomItemPointerHighTable - RoomItemPointerLowTable = "
+            "RoomItemStreamCount, error, \"unexpected room item pointer count\"",
+            ".assert * - RoomItemPointerHighTable = RoomItemStreamCount, "
+            "error, \"unexpected room item pointer count\"",
+            "",
+            '.segment "PRG_ROOM_ITEM_DATA"',
+            "",
+        )
+    )
+    for label, stream in zip(labels, rooms):
+        metadata = stream.get("metadata")
+        commands = stream.get("commands")
+        if not isinstance(metadata, dict) or not isinstance(commands, list):
+            raise RoomDataError("decoded item stream has invalid fields")
+        header_fields = [
+            metadata.get("mirror_2_schedule"),
+            metadata.get("mirror_1_schedule"),
+            metadata.get("mirror_2_enemy_set"),
+            metadata.get("mirror_1_enemy_set"),
+            metadata.get("status_rate_raw"),
+        ]
+        for field in ("door", "key", "player_start", "mirror_1", "mirror_2"):
+            value = metadata.get(field)
+            if not isinstance(value, dict):
+                raise RoomDataError(f"invalid item metadata position: {field}")
+            header_fields.append(encode_position(value))
+        if any(not isinstance(value, int) for value in header_fields):
+            raise RoomDataError("decoded item metadata has invalid scalar fields")
+        lines.append(f"{label}:")
+        lines.append(
+            "    RoomItemHeader "
+            + ", ".join(f"${value:02X}" for value in header_fields)
+        )
+        for command in commands:
+            if not isinstance(command, dict):
+                raise RoomDataError("decoded item command is invalid")
+            kind = command.get("kind")
+            if kind == "item":
+                item_type = command.get("type")
+                item_position = command.get("position")
+                if not isinstance(item_type, int) or not isinstance(item_position, dict):
+                    raise RoomDataError("decoded item record has invalid fields")
+                lines.append(
+                    f"    RoomItemRecord ${item_type:02X}, "
+                    f"${encode_position(item_position):02X}"
+                )
+            elif kind == "repeat":
+                item_type = command.get("type")
+                positions = command.get("positions")
+                if not isinstance(item_type, int) or not isinstance(positions, list):
+                    raise RoomDataError("decoded repeated-item command is invalid")
+                lines.append(
+                    f"    BeginRoomItemRepeat ${item_type:02X}, {len(positions)}"
+                )
+                encoded_positions = []
+                for value in positions:
+                    if not isinstance(value, dict):
+                        raise RoomDataError("decoded repeated-item position is invalid")
+                    encoded_positions.append(encode_position(value))
+                for offset in range(0, len(encoded_positions), 8):
+                    row = encoded_positions[offset : offset + 8]
+                    lines.append(
+                        "    .byte " + ", ".join(f"${value:02X}" for value in row)
+                    )
+            elif kind == "constellation":
+                opcode = command.get("opcode")
+                item_position = command.get("position")
+                if not isinstance(opcode, int) or not isinstance(item_position, dict):
+                    raise RoomDataError("decoded constellation command is invalid")
+                lines.append(
+                    f"    RoomConstellationItem ${opcode:02X}, "
+                    f"${encode_position(item_position):02X}"
+                )
+            elif kind == "end":
+                opcode = command.get("opcode")
+                if not isinstance(opcode, int):
+                    raise RoomDataError("decoded item terminator is invalid")
+                lines.append(f"    EndRoomItemStream ${opcode:02X}")
+            else:
+                raise RoomDataError(f"unknown decoded item command: {kind!r}")
+    data_size = max(
+        int(stream["prg_offset"]) + int(stream["encoded_size"])
+        for stream in rooms
+    ) - int(rooms[0]["prg_offset"])
+    lines.extend(
+        (
+            "",
+            f".assert * - {labels[0]} = ${data_size:04X}, error, "
+            '"unexpected room item data size"',
+            "",
+        )
+    )
+    return "\n".join(lines)
+
+
 def roundtrip_rooms(prg: bytes) -> dict[str, int]:
     rooms = [decode_room(prg, index) for index in range(ROOM_COUNT)]
     mirror_schedules = decode_mirror_schedules(prg)
@@ -638,6 +779,11 @@ def main() -> int:
         help="emit reviewed ca65 source for all room block data",
     )
     parser.add_argument(
+        "--source-items",
+        action="store_true",
+        help="emit reviewed ca65 source for all room item data",
+    )
+    parser.add_argument(
         "--validate",
         action="store_true",
         help="decode every room and print only a structural summary",
@@ -655,6 +801,9 @@ def main() -> int:
             return 0
         if args.source_blocks:
             print(emit_block_source(prg), end="")
+            return 0
+        if args.source_items:
+            print(emit_item_source(prg), end="")
             return 0
         if args.roundtrip:
             result = roundtrip_rooms(prg)

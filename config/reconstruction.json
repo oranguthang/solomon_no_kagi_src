@@ -2160,6 +2160,30 @@
         "RoomBlockData",
         "RoomBlockDataRoom53"
       ]
+    },
+    {
+      "id": "room_item_pointers",
+      "path": "src/data/room_items.asm",
+      "segment": "PRG_ROOM_ITEM_POINTERS",
+      "start": "0xea1c",
+      "end": "0xea85",
+      "status": "semantic",
+      "required_labels": [
+        "RoomItemPointerLowTable",
+        "RoomItemPointerHighTable"
+      ]
+    },
+    {
+      "id": "room_item_data",
+      "path": "src/data/room_items.asm",
+      "segment": "PRG_ROOM_ITEM_DATA",
+      "start": "0xea86",
+      "end": "0xefc3",
+      "status": "semantic",
+      "required_labels": [
+        "RoomItemStream01",
+        "RoomItemStream53"
+      ]
     }
   ],
   "thresholds": {

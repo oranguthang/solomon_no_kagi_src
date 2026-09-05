@@ -113,6 +113,12 @@ The tested codec is `scripts/room_data.py`. Its JSON keeps raw type values and
 the original item command grouping so that naming uncertainty or RLE expansion
 does not corrupt the lossless structural result.
 
+The 53-entry split pointer table at `$EA1C-$EA85` and every metadata/command
+stream at `$EA86-$EFC3` are source-owned in `src/data/room_items.asm`. Named
+macros preserve header, individual-item, repeated-item, constellation, and
+terminator boundaries. The reviewed source can be regenerated with
+`scripts/room_data.py --source-items`.
+
 `make roundtrip-formats` decodes and re-encodes all 53 block-plane records,
 enemy streams, item metadata/command streams, and both 53-entry split-pointer
 tables. It also round-trips all 16 Demon Mirror schedules, 17 enemy-set

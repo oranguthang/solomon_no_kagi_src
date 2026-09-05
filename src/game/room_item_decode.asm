@@ -2,8 +2,6 @@
 
 .segment "PRG_ROOM_ITEM_DECODE"
 
-RoomItemPointerLowTable = $EA1C
-RoomItemPointerHighTable = $EA51
 RoomItemHeaderSize = $0A
 RoomItemRuntimeClearCount = $0A
 RoomItemRleBase = $C0

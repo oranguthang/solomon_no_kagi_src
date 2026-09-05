@@ -59,6 +59,8 @@ evidence, and small tested tools for decoded game data.
   All 53 split room-enemy pointers and 53 losslessly round-tripped spawn streams
   are source-owned at `$DCEC-$E02B`.
   All 53 paired brown/white room block bitplanes continue through `$EA1B`.
+  All 53 split room-item pointers, metadata headers, and compressed placement
+  streams are source-owned at `$EA1C-$EFC3`.
   The common PPU latch/address writer owns `$CD53-$CD5E`.
   Pixel/room-map conversion owns `$918A-$91B8` and all 31 callers use symbols.
   Direct CPU-to-PPU transfer state owns `$96DC-$970A` and all 13 boundary calls
@@ -196,6 +198,7 @@ make ppu-update-audit # verify pointers, coverage, hashes, and byte round trips
 make roundtrip-formats # round-trip rooms and Demon Mirror data
 python scripts/room_data.py --image "Solomon's Key (U) [!].nes" --source-enemies # regenerate room enemy ASM
 python scripts/room_data.py --image "Solomon's Key (U) [!].nes" --source-blocks # regenerate room block ASM
+python scripts/room_data.py --image "Solomon's Key (U) [!].nes" --source-items # regenerate room item ASM
 make release-check # complete static, test, identity, and room-data gate
 make check       # alias for release-check
 make rooms       # decode all 53 rooms as JSON

@@ -74,6 +74,17 @@ class RoomDataTests(unittest.TestCase):
         self.assertEqual(decoded["commands"][0]["kind"], "repeat")
         self.assertEqual(room_data.encode_items(decoded), encoded)
 
+        low = bytes((cpu_address & 0xFF,)) * room_data.ROOM_COUNT
+        high = bytes((cpu_address >> 8,)) * room_data.ROOM_COUNT
+        table = room_data.ITEM_POINTER_TABLE
+        prg[table : table + room_data.ROOM_COUNT] = low
+        prg[table + room_data.ROOM_COUNT : table + room_data.ROOM_COUNT * 2] = high
+        source = room_data.emit_item_source(bytes(prg))
+        self.assertIn("RoomItemStream01:", source)
+        self.assertIn("BeginRoomItemRepeat $22, 2", source)
+        self.assertIn("RoomConstellationItem $F0, $98", source)
+        self.assertIn("RoomItemStream53:", source)
+
     def test_split_pointer_round_trip(self) -> None:
         offsets = [0x0100, 0x1234, 0x7FFF]
         encoded = room_data.encode_split_pointers(offsets)

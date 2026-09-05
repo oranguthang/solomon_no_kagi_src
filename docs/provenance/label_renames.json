@@ -8149,6 +8149,226 @@
     {
       "address": "0xe9ec", "previous": "$E9EC", "current": "RoomBlockDataRoom53", "confidence": "confirmed",
       "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xea1c", "previous": "$EA1C", "current": "RoomItemPointerLowTable", "confidence": "confirmed",
+      "evidence": ["The room decoder indexes this half of the 53-entry split pointer table; the room codec reproduces every resolved stream address."]
+    },
+    {
+      "address": "0xea51", "previous": "$EA51", "current": "RoomItemPointerHighTable", "confidence": "confirmed",
+      "evidence": ["The room decoder indexes this half of the 53-entry split pointer table; the room codec reproduces every resolved stream address."]
+    },
+    {
+      "address": "0xea86", "previous": "$EA86", "current": "RoomItemStream01", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xea9e", "previous": "$EA9E", "current": "RoomItemStream02", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xeaaf", "previous": "$EAAF", "current": "RoomItemStream03", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xeac2", "previous": "$EAC2", "current": "RoomItemStream04", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xeadb", "previous": "$EADB", "current": "RoomItemStream05", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xeaf5", "previous": "$EAF5", "current": "RoomItemStream06", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xeb16", "previous": "$EB16", "current": "RoomItemStream07", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xeb39", "previous": "$EB39", "current": "RoomItemStream08", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xeb62", "previous": "$EB62", "current": "RoomItemStream09", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xeb74", "previous": "$EB74", "current": "RoomItemStream10", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xeb8b", "previous": "$EB8B", "current": "RoomItemStream11", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xeb9e", "previous": "$EB9E", "current": "RoomItemStream12", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xebbb", "previous": "$EBBB", "current": "RoomItemStream13", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xebe5", "previous": "$EBE5", "current": "RoomItemStream14", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xec19", "previous": "$EC19", "current": "RoomItemStream15", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xec38", "previous": "$EC38", "current": "RoomItemStream16", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xec59", "previous": "$EC59", "current": "RoomItemStream17", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xec73", "previous": "$EC73", "current": "RoomItemStream18", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xec8a", "previous": "$EC8A", "current": "RoomItemStream19", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xec9f", "previous": "$EC9F", "current": "RoomItemStream20", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xecb0", "previous": "$ECB0", "current": "RoomItemStream21", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xeccb", "previous": "$ECCB", "current": "RoomItemStream22", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xece0", "previous": "$ECE0", "current": "RoomItemStream23", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xecff", "previous": "$ECFF", "current": "RoomItemStream24", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xed1d", "previous": "$ED1D", "current": "RoomItemStream25", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xed41", "previous": "$ED41", "current": "RoomItemStream26", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xed6c", "previous": "$ED6C", "current": "RoomItemStream27", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xed85", "previous": "$ED85", "current": "RoomItemStream28", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xeda2", "previous": "$EDA2", "current": "RoomItemStream29", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xedc2", "previous": "$EDC2", "current": "RoomItemStream30", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xedd7", "previous": "$EDD7", "current": "RoomItemStream31", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xedea", "previous": "$EDEA", "current": "RoomItemStream32", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xee0f", "previous": "$EE0F", "current": "RoomItemStream33", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xee27", "previous": "$EE27", "current": "RoomItemStream34", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xee3a", "previous": "$EE3A", "current": "RoomItemStream35", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xee53", "previous": "$EE53", "current": "RoomItemStream36", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xee6e", "previous": "$EE6E", "current": "RoomItemStream37", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xee8d", "previous": "$EE8D", "current": "RoomItemStream38", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xeea6", "previous": "$EEA6", "current": "RoomItemStream39", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xeeb9", "previous": "$EEB9", "current": "RoomItemStream40", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xeece", "previous": "$EECE", "current": "RoomItemStream41", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xeee2", "previous": "$EEE2", "current": "RoomItemStream42", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xeef7", "previous": "$EEF7", "current": "RoomItemStream43", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xef0c", "previous": "$EF0C", "current": "RoomItemStream44", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xef1f", "previous": "$EF1F", "current": "RoomItemStream45", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xef38", "previous": "$EF38", "current": "RoomItemStream46", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xef4f", "previous": "$EF4F", "current": "RoomItemStream47", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xef64", "previous": "$EF64", "current": "RoomItemStream48", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xef7d", "previous": "$EF7D", "current": "RoomItemStream49", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xef8e", "previous": "$EF8E", "current": "RoomItemStream50", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xef9d", "previous": "$EF9D", "current": "RoomItemStream51", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xefaa", "previous": "$EFAA", "current": "RoomItemStream52", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xefb7", "previous": "$EFB7", "current": "RoomItemStream53", "confidence": "confirmed",
+      "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
     }
   ]
 }
