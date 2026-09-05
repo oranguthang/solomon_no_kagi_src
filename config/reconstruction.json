@@ -2031,6 +2031,40 @@
         "ObjectAnimationFrames000",
         "ObjectAnimationFrames125"
       ]
+    },
+    {
+      "id": "object_motion_selector_pointers",
+      "path": "src/data/object_motion.asm",
+      "segment": "PRG_OBJECT_MOTION_SELECTOR_POINTERS",
+      "start": "0xd9d3",
+      "end": "0xda14",
+      "status": "semantic",
+      "required_labels": [
+        "ObjectMotionSelectorPointers"
+      ]
+    },
+    {
+      "id": "object_motion_selectors",
+      "path": "src/data/object_motion.asm",
+      "segment": "PRG_OBJECT_MOTION_SELECTORS",
+      "start": "0xda15",
+      "end": "0xdb98",
+      "status": "semantic",
+      "required_labels": [
+        "ObjectMotionSelectorsType00",
+        "ObjectMotionSelectorsType24"
+      ]
+    },
+    {
+      "id": "object_motion_values",
+      "path": "src/data/object_motion.asm",
+      "segment": "PRG_OBJECT_MOTION_VALUES",
+      "start": "0xdb99",
+      "end": "0xdbde",
+      "status": "semantic",
+      "required_labels": [
+        "ObjectMotionValues"
+      ]
     }
   ],
   "thresholds": {

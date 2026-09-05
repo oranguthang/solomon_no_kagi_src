@@ -234,7 +234,10 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_OBJECT_ANIMATION_DESCRIPTOR_POINTERS` | 33 object-type animation descriptor pointers | 66 |
 | `PRG_OBJECT_ANIMATION_DEFINITIONS` | 340 action descriptors and four variant selectors | 1,392 |
 | `PRG_OBJECT_ANIMATION_FRAMES` | 275 three-byte sprite frame records in 126 sequences | 825 |
-| `PRG_POST_OBJECT_ANIMATION_FRAMES` | unresolved `$D9D3-$FFFF` range | 9,773 |
+| `PRG_OBJECT_MOTION_SELECTOR_POINTERS` | 33 object-type motion selector pointers | 66 |
+| `PRG_OBJECT_MOTION_SELECTORS` | 20 shared action-selector groups | 388 |
+| `PRG_OBJECT_MOTION_VALUES` | 35 paired Y/X motion vectors | 70 |
+| `PRG_POST_OBJECT_MOTION_VALUES` | unresolved `$DBDF-$FFFF` range | 9,249 |
 | `PRG_BANK_1` | generated CHR payload (historical name) | 32,768 |
 
 This unusual naming is documented in `config/linker/cnrom.cfg`. Renaming a

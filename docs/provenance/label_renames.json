@@ -7476,7 +7476,95 @@
     },
     {
       "address": "0xd9c4", "previous": "$D9C4", "current": "ObjectAnimationFrames125", "confidence": "confirmed",
-      "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+     "evidence": ["The animation audit identifies this referenced sequence boundary inside the contiguous three-byte frame-record region."]
+    },
+    {
+      "address": "0xd9d3", "previous": "$D9D3", "current": "ObjectMotionSelectorPointers", "confidence": "confirmed",
+      "evidence": ["LoadObjectMotionAndAnimationDefinition indexes this 33-entry table by normalized object type to select an action-selector group."]
+    },
+    {
+      "address": "0xda15", "previous": "$DA15", "current": "ObjectMotionSelectorsType00", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of action-indexed motion selectors."]
+    },
+    {
+      "address": "0xda35", "previous": "$DA35", "current": "ObjectMotionSelectorsType50", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of action-indexed motion selectors."]
+    },
+    {
+      "address": "0xda51", "previous": "$DA51", "current": "ObjectMotionSelectorsType14", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of action-indexed motion selectors."]
+    },
+    {
+      "address": "0xda55", "previous": "$DA55", "current": "ObjectMotionSelectorsType1C", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of action-indexed motion selectors."]
+    },
+    {
+      "address": "0xda69", "previous": "$DA69", "current": "ObjectMotionSelectorsType20", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of action-indexed motion selectors."]
+    },
+    {
+      "address": "0xda6d", "previous": "$DA6D", "current": "ObjectMotionSelectorsType28", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of action-indexed motion selectors."]
+    },
+    {
+      "address": "0xda75", "previous": "$DA75", "current": "ObjectMotionSelectorsType18", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of action-indexed motion selectors."]
+    },
+    {
+      "address": "0xda79", "previous": "$DA79", "current": "ObjectMotionSelectorsType30", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of action-indexed motion selectors."]
+    },
+    {
+      "address": "0xda89", "previous": "$DA89", "current": "ObjectMotionSelectorsType34", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of action-indexed motion selectors."]
+    },
+    {
+      "address": "0xda99", "previous": "$DA99", "current": "ObjectMotionSelectorsType38", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of action-indexed motion selectors."]
+    },
+    {
+      "address": "0xdaa9", "previous": "$DAA9", "current": "ObjectMotionSelectorsType3C", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of action-indexed motion selectors."]
+    },
+    {
+      "address": "0xdab9", "previous": "$DAB9", "current": "ObjectMotionSelectorsType54", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of action-indexed motion selectors."]
+    },
+    {
+      "address": "0xdad5", "previous": "$DAD5", "current": "ObjectMotionSelectorsType58", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of action-indexed motion selectors."]
+    },
+    {
+      "address": "0xdad9", "previous": "$DAD9", "current": "ObjectMotionSelectorsType04", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of action-indexed motion selectors."]
+    },
+    {
+      "address": "0xdaf1", "previous": "$DAF1", "current": "ObjectMotionSelectorsType64", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of action-indexed motion selectors."]
+    },
+    {
+      "address": "0xdb0d", "previous": "$DB0D", "current": "ObjectMotionSelectorsType68", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of action-indexed motion selectors."]
+    },
+    {
+      "address": "0xdb29", "previous": "$DB29", "current": "ObjectMotionSelectorsType70", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of action-indexed motion selectors."]
+    },
+    {
+      "address": "0xdb45", "previous": "$DB45", "current": "ObjectMotionSelectorsType74", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of action-indexed motion selectors."]
+    },
+    {
+      "address": "0xdb61", "previous": "$DB61", "current": "ObjectMotionSelectorsType78", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of action-indexed motion selectors."]
+    },
+    {
+      "address": "0xdb7d", "previous": "$DB7D", "current": "ObjectMotionSelectorsType24", "confidence": "confirmed",
+      "evidence": ["The audited object-type pointer table selects this boundary of action-indexed motion selectors."]
+    },
+    {
+      "address": "0xdb99", "previous": "$DB99", "current": "ObjectMotionValues", "confidence": "confirmed",
+      "evidence": ["Nonnegative action selectors index this complete table of 35 paired Y/X motion values."]
     }
   ]
 }

@@ -2,8 +2,6 @@
 
 .segment "PRG_OBJECT_MOTION_ANIMATION"
 
-ObjectMotionSelectorPointers = $D9D3
-ObjectMotionValues = $DB99
 PreserveObjectMotionValue = $40
 
 ObjectDefinitionPointer = $000A

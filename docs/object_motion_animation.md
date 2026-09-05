@@ -30,6 +30,18 @@ A negative selector is a room-state mask. The loader intersects it with
 uses that value for a second lookup in the same selector table. This accounts
 for room-dependent motion without changing the object action.
 
+`make object-motion-audit` locks the full adjacent layout before source
+extraction: 33 object-type pointers, 20 unique selector groups containing 388
+action bytes, and 35 paired Y/X motion vectors. It also rejects any nonnegative
+selector outside the vector table and checks independent SHA-1 values for all
+three regions. `make object-motion-report` emits the decoded JSON view from the
+built ROM using `config/object_motion.json`.
+
+The complete `$D9D3-$DBDE` range is now source-owned in the 523-line
+`src/data/object_motion.asm`. Its macros distinguish direct vector indices
+from negative room-state selectors, and its pointer table uses the same
+type-group symbols as the selector payload.
+
 ## Animation selection
 
 `ObjectAnimationDescriptorPointers` at `$D0E8-$D129` is a source-owned,
@@ -51,8 +63,8 @@ pointer, confirming the output contract independently of the table layout.
 See `docs/object_update_pipeline.md`.
 
 The complete animation descriptor and frame payload is source-owned in
-`src/data/object_animations.asm`. The two motion table families beginning at
-`$D9D3` remain inside the preservation range for now.
+`src/data/object_animations.asm`; the adjacent motion pointer, selector, and
+vector families are source-owned in `src/data/object_motion.asm`.
 
 `make object-animation-audit` independently locks the reviewed data layout:
 

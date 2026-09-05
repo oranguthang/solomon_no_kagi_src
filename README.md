@@ -14,7 +14,7 @@ evidence, and small tested tools for decoded game data.
   entrypoint; CHR is a private generated asset and is not stored in Git.
 - Confirmed NES registers and high-confidence RAM aliases are separated into
   `src/memory/`.
-- One hundred thirty-two semantic PRG modules own NMI (`$8000-$80FE`), controller input
+- One hundred thirty-five semantic PRG modules own NMI (`$8000-$80FE`), controller input
   (`$837D-$83C1`), reset/startup
   (`$8C00-$8D5E`), the cooperative scheduler (`$8D5F-$8E46`), and the main
   gameplay thread (`$A000-$A04B`), plus countdown timer arithmetic and warning
@@ -52,6 +52,8 @@ evidence, and small tested tools for decoded game data.
   `$D0E8-$D129`.
   All 340 action descriptors, four variant selectors, 126 referenced animation
   sequences, and 275 three-byte frame records continue through `$D9D2`.
+  Object-type motion pointers, 20 action-selector groups, and all 35 paired Y/X
+  motion vectors are source-owned at `$D9D3-$DBDE`.
   The common PPU latch/address writer owns `$CD53-$CD5E`.
   Pixel/room-map conversion owns `$918A-$91B8` and all 31 callers use symbols.
   Direct CPU-to-PPU transfer state owns `$96DC-$970A` and all 13 boundary calls
@@ -95,6 +97,8 @@ evidence, and small tested tools for decoded game data.
   and ten-byte metadata headers for all 53 room records.
 - `scripts/object_animation_data.py` validates all 33 type pointers, 340
   action descriptors, four variant selectors, and 275 animation frame records.
+- `scripts/object_motion_data.py` validates all 33 motion-table pointers, 20
+  selector groups, 388 action selectors, and 35 paired Y/X vectors.
 - Architecture, RAM, room formats, provenance, naming policy, and unknowns are
   recorded under `docs/`.
 - Initial Mesen watches and breakpoints live under `config/` with a trace
@@ -174,6 +178,7 @@ make reconstruction-status # report semantic coverage and remaining raw source
 make reconstruction-audit # validate module ranges, provenance, and thresholds
 make scheduler-report # decode scheduler stack and entry tables as JSON
 make object-animation-report # decode object animation definitions as JSON
+make object-motion-report # decode object motion definitions as JSON
 make scheduler-audit # check static/reviewed dynamic entries and call inventory
 make enemy-ai-report # decode the 28-entry AI handler appendix
 make enemy-ai-audit # compare every handler pointer with its reviewed manifest

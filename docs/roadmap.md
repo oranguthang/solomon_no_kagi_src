@@ -220,6 +220,9 @@ decrease.
     126 referenced sequences, 275 frame records, and three reviewed hashes;
     those definitions are now source-owned as readable macro records with
     symbolic pointer relationships;
+  - `$D9D3-$DBDE` object motion data is structurally audited as 33 type
+    pointers, 20 selector groups, 388 action selectors, and 35 Y/X vectors;
+    it is now source-owned as macro records with symbolic group pointers;
 - split the remaining preservation range into reset/startup, scheduler, room,
   gameplay/object, rendering, audio, static-data, and vector modules at proven
   code/data boundaries;
