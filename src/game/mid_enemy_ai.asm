@@ -18,7 +18,7 @@ UpdateType10To13Action:
     LDA (EnemyObjectPointer),Y
     AND #$03
     TAX
-    JSR $AFB6
+    JSR SpawnLinkedEnemyAtOffset
     LDY #ObjectActionOffset
     TYA
     AND (EnemyObjectPointer),Y
@@ -184,12 +184,12 @@ RunType54To5BEnemyAi:
 
 Type54To5BActionHandlers:
     .addr RunEnemyActionA55C
-    .addr $B008
+    .addr UpdateLinkedEnemyDirectionState
     .addr SelectType54To5BActionByDirection
-    .addr RunEnemyActionB1B5
+    .addr UpdatePairedEnemyState
     .addr RunEnemyActionA55C
     .addr UpdateType54To5BLinkedPair
-    .addr RunEnemyActionB18F
+    .addr ClearCurrentEnemyLinkedSlots
 
 SelectType54To5BActionByDirection:
     LDY #ObjectActionOffset
@@ -207,7 +207,7 @@ UpdateType54To5BLinkedPair:
     BNE AllocateType54To5BLinkedPair
 
 ProbeType54To5BForwardTile:
-    JSR $B0CE
+    JSR CheckEnemyForwardCollisionBit
     BNE UpdateType54To5BBlockedDirection
     LDA #$02
     LDY #ObjectActionOffset

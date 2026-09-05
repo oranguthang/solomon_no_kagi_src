@@ -17,9 +17,10 @@ action byte 3 right twice. The resulting selector enters a seven-address
 retire the current slot after AI phase `$11`, begin horizontal movement, or
 run the single-linked-slot state machine.
 
-The adjacent `$B178` handler for types `$5C-$67` remains in preservation, but
-its inline appendix already calls `SetEnemyHorizontalStepAndFacing` and
-`UpdateLinkedEnemyPairSpawn` in this reconstructed range.
+The adjacent `$B178` handler is reconstructed as `RunType48To53EnemyAi` in
+`src/game/late_enemy_ai.asm`; its inline appendix calls
+`SetEnemyHorizontalStepAndFacing` and `UpdateLinkedEnemyPairSpawn` in this
+range.
 
 ## Linked slots
 
@@ -44,5 +45,5 @@ linked-slot paths distinguish occupied tiles, interactive tiles below `$F8`,
 and the open/sentinel range beginning at `$F8`.
 
 AI bytes 1, 4, and 5 are named only by their observed phase/delta roles here.
-Enemy-specific identities remain deferred until the remaining surrounding
-handlers in `$AF5C-$B289` are reconstructed.
+Enemy-specific creature names remain deferred until runtime traces bind each
+numeric type group to an observed room entity.

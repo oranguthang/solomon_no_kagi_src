@@ -34,10 +34,9 @@ RoomMap sign-bit tests and returns their packed low-nibble collision mask.
 
 Before dispatch, the routine temporarily makes `EnemyAiPointer` address
 `FireballActive` and `EnemyObjectPointer` address `FireballObject`. The
-16-entry split handler table targets code in the still-unresolved
-`$AB37-$ACEF` range. The exact handler semantics remain intentionally open,
-but the pointer setup, mask construction, and all table destinations are
-statically confirmed and assemble byte-for-byte.
+16-entry split handler table targets the path-mask handlers reconstructed in
+`src/game/pathfinding_enemy_ai.asm`. The pointer setup, mask construction, and
+all table destinations are statically confirmed and assemble byte-for-byte.
 
 ## Dana action requests
 

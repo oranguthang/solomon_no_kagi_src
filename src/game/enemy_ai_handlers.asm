@@ -8,13 +8,13 @@ DispatchEnemyAiHandler:
     JSR JumpWithParams
 
 EnemyAiHandlerTable:
-    .addr RunType00To03EnemyAi, RunType04To07EnemyAi, RunType08To0BEnemyAi, $B0FB
+    .addr RunType00To03EnemyAi, RunType04To07EnemyAi, RunType08To0BEnemyAi, RunType0CTo0FEnemyAi
     .addr RunType10To13EnemyAi, RunType14To17EnemyAi, RunType18To1BEnemyAi, RunType1CTo37EnemyAi
     .addr RunType1CTo37EnemyAi, RunType1CTo37EnemyAi, RunType1CTo37EnemyAi, RunType1CTo37EnemyAi
     .addr RunType1CTo37EnemyAi, RunType1CTo37EnemyAi, RunType1CTo37EnemyAi, RunType50To5BEnemyAi
-    .addr RunType50To5BEnemyAi, RunType50To5BEnemyAi, $B178, $B178
-    .addr $B178, RunType54To5BEnemyAi, RunType54To5BEnemyAi, RunType5CTo63EnemyAi
-    .addr RunType5CTo63EnemyAi, $AF5C, $AF5C, RunType6CTo6FEnemyAi
+    .addr RunType50To5BEnemyAi, RunType50To5BEnemyAi, RunType48To53EnemyAi, RunType48To53EnemyAi
+    .addr RunType48To53EnemyAi, RunType54To5BEnemyAi, RunType54To5BEnemyAi, RunType5CTo63EnemyAi
+    .addr RunType5CTo63EnemyAi, RunType64To6BEnemyAi, RunType64To6BEnemyAi, RunType6CTo6FEnemyAi
 
 EnemyAiHandlerCount = (* - EnemyAiHandlerTable) / 2
 .assert EnemyAiHandlerCount = 28, error, "unexpected enemy AI handler count"
@@ -36,12 +36,6 @@ EnemyMapOpenTileMinimum = $F8
 EnemyFacingActionBase = $14
 EnemyPairActionBase = $0C
 EnemySingleLinkActionBase = $16
-
-; Still-preserved action handlers referenced by the two inline appendices
-RunEnemyActionAF70 = $AF70
-RunEnemyActionB18F = $B18F
-RunEnemyActionB1B5 = $B1B5
-ClearLinkedEnemySlots = $B19E
 
 SetEnemyHorizontalStepAndFacing:
     LDY #ObjectXMotionOffset
@@ -168,7 +162,7 @@ RunType50To5BEnemyAi:
 Type50To5BActionHandlers:
     .addr DeactivateType50To5BAtPhase11
     .addr BeginType50To5BHorizontalStep
-    .addr RunEnemyActionAF70
+    .addr SetEnemyMovingAction18
     .addr RunEnemyActionA55C
     .addr RunEnemyActionA55C
     .addr UpdateSingleLinkedEnemy
@@ -270,6 +264,8 @@ CheckSingleLinkedEnemyPhase:
     LDA #EnemyLinkedStateBit
     ORA (EnemyObjectPointer),Y
     STA (EnemyObjectPointer),Y
+
+ClearSingleLinkedEnemyState:
     LDY #EnemyAiFlagsOffset
     LDA #$FE
     AND (EnemyAiPointer),Y

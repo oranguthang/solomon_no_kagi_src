@@ -10,11 +10,11 @@ evidence, and small tested tools for decoded game data.
 
 - The complete 65,552-byte iNES image assembles byte-for-byte.
 - `make verify` checks the header, PRG, CHR, complete payload, and complete file.
-- The address-ordered PRG source is included by a small `src/main.asm`
-  entrypoint; CHR is a private generated asset and is not stored in Git.
+- The complete PRG is assembled from registered semantic and classified-data
+  modules; CHR is a private generated asset and is not stored in Git.
 - Confirmed NES registers and high-confidence RAM aliases are separated into
   `src/memory/`.
-- One hundred fifty-nine semantic PRG modules own NMI (`$8000-$80FE`), its
+- One hundred sixty semantic PRG modules own NMI (`$8000-$80FE`), its
   gameplay interaction services (`$80FF-$837C`), controller input
   (`$837D-$83C1`), Dana control and object-to-OAM composition
   (`$83C2-$863B`), reset/startup
@@ -27,7 +27,7 @@ evidence, and small tested tools for decoded game data.
   type-specific object/AI configuration at `$A3F8-$A44D` and its table at
   `$A44E-$A468`. The inline 28-entry enemy AI handler dispatcher owns
   `$A469-$A4A5`, followed by its shared position-copy helper at
-  `$A4A6-$A4B2`. Additional enemy AI families continue through `$AF5B`,
+  `$A4A6-$A4B2`. Additional enemy AI families continue through `$B289`,
   including action dispatch, linked-slot allocation, fairy motion/collection,
   and a 16-way RoomMap path selector.
   Shared object/AI record pointer helpers own `$B28A-$B2A1`,
@@ -122,10 +122,10 @@ evidence, and small tested tools for decoded game data.
 - Initial Mesen watches and breakpoints live under `config/` with a trace
   workflow in `docs/debugger_workflow.md`.
 
-The preservation source is not yet a fully semantic modular disassembly.
-Most operands and generated labels still use raw addresses. The byte-identical
-baseline is intentionally frozen first; semantic renames and subsystem splits
-can now proceed behind a permanent verification gate.
+The address-ordered preservation listing has been eliminated. Some low-level
+operands and generated labels remain intentionally neutral pending stronger
+runtime evidence, while the permanent verification gate protects byte identity
+during further semantic refinement.
 
 ## Reference image
 
@@ -333,7 +333,6 @@ src/game/current_enemy_deactivation.asm retirement, lifetime, and adjacent fille
 src/game/active_object_states.asm update active non-Dana record states
 src/game/object_pointer.asm non-Dana object-record pointer resolver
 src/game/non_dana_object_deactivation.asm clear the non-Dana object pool
-src/preservation/prg.asm   remaining address-ordered PRG source
 src/graphics/chr.asm       `.incbin` wrapper for ignored generated CHR
 src/memory/                hardware and RAM symbol registries
 tests/                     tooling and codec tests

@@ -19,11 +19,11 @@ Super Mario Bros. preservation projects.
   PPU-stream audits
 - `make check` is the full release check
 
-The address-ordered `src/preservation/prg.asm` is intentionally monolithic at
-this stage. Module-size limits and semantic symbol-prefix rules from the more
-mature sibling projects will be introduced only as routines and data tables are
-identified and moved into named modules. Formatting is safe now because the
-release check rebuilds the ROM and compares every byte with the reference.
+The former address-ordered preservation listing has been eliminated. New
+semantic refinements should continue to follow understood subsystem boundaries
+and remain registered in the reconstruction manifest. Formatting remains safe
+because the release check rebuilds the ROM and compares every byte with the
+reference.
 
 Comments that contain only an address, optionally followed by encoded bytes,
 such as `; $B173` or `; $82AD D0 01`, are rejected as

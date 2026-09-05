@@ -11358,6 +11358,600 @@
       "evidence": [
         "The decoded collision mask, action dispatch, linked-slot accesses, and byte-identical assembly confirm this address."
       ]
+    },
+    {
+      "address": "0xaf5c",
+      "previous": "$AF5C",
+      "current": "RunType64To6BEnemyAi",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xaf62",
+      "previous": "$AF62",
+      "current": "Type64To6BActionHandlers",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xaf70",
+      "previous": "$AF70",
+      "current": "SetEnemyMovingAction18",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xaf7b",
+      "previous": "$AF7B",
+      "current": "UpdateType64To6BLinkedSpawn",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xaf9f",
+      "previous": "_label_bank0_af9f",
+      "current": "SelectType64To6BLinkedAction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xafab",
+      "previous": "_label_bank0_afab",
+      "current": "CheckType64To6BSpawnPhase",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xafb6",
+      "previous": "$AFB6",
+      "current": "SpawnLinkedEnemyAtOffset",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb001",
+      "previous": "_label_bank0_b001",
+      "current": "FinishType64To6BLinkedSpawn",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb002",
+      "previous": "$B002",
+      "current": "LinkedEnemySpawnYOffsets",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb008",
+      "previous": "$B008",
+      "current": "UpdateLinkedEnemyDirectionState",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb021",
+      "previous": "_label_bank0_b021",
+      "current": "CheckLinkedEnemyDirectionPhase",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb033",
+      "previous": "_label_bank0_b033",
+      "current": "FinishLinkedEnemyDirectionUpdate",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb034",
+      "previous": "_label_bank0_b034",
+      "current": "CheckLinkedEnemyReplacementPhase",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb046",
+      "previous": "_label_bank0_b046",
+      "current": "ReplaceLinkedEnemyObjectHeader",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb048",
+      "previous": "_label_bank0_b048",
+      "current": "CopyLinkedEnemyReplacementHeader",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb051",
+      "previous": "$B051",
+      "current": "LinkedEnemyReplacementHeader",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb055",
+      "previous": "$B055",
+      "current": "UpdateType64To6BSpawn",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb06b",
+      "previous": "_label_bank0_b06b",
+      "current": "CheckType64To6BSpawnPhaseAgain",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb097",
+      "previous": "_label_bank0_b097",
+      "current": "FinishType64To6BSpawn",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb098",
+      "previous": "_label_bank0_b098",
+      "current": "CheckType64To6BSpawnDirection",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb0a3",
+      "previous": "_label_bank0_b0a3",
+      "current": "HandleType64To6BBlockedSpawn",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb0b7",
+      "previous": "_label_bank0_b0b7",
+      "current": "CheckType64To6BBlockedPhase",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb0cd",
+      "previous": "_label_bank0_b0cd",
+      "current": "FinishType64To6BBlockedSpawn",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb0ce",
+      "previous": "$B0CE",
+      "current": "CheckEnemyForwardCollisionBit",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb0d9",
+      "previous": "_label_bank0_b0d9",
+      "current": "ApplyEnemyForwardCollisionMask",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb0de",
+      "previous": "$B0DE",
+      "current": "CheckEnemyDeltaDirectionThreshold",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb0e7",
+      "previous": "_label_bank0_b0e7",
+      "current": "CompareEnemyDeltaThreshold",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb0fa",
+      "previous": "_label_bank0_b0fa",
+      "current": "FinishEnemyDeltaDirectionCheck",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb0fb",
+      "previous": "$B0FB",
+      "current": "RunType0CTo0FEnemyAi",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb101",
+      "previous": "$B101",
+      "current": "Type0CTo0FActionHandlers",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb107",
+      "previous": "$B107",
+      "current": "UpdateType0CTo0FPhaseAction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb117",
+      "previous": "_label_bank0_b117",
+      "current": "FinishType0CTo0FPhaseAction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb118",
+      "previous": "$B118",
+      "current": "UpdateType0CTo0FMapInteraction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb130",
+      "previous": "_label_bank0_b130",
+      "current": "ApplyType0CTo0FMapInteraction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb149",
+      "previous": "_label_bank0_b149",
+      "current": "FinishType0CTo0FMapInteraction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb14a",
+      "previous": "$B14A",
+      "current": "DeactivateType0CTo0FAtPhase0F",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb153",
+      "previous": "_label_bank0_b153",
+      "current": "DeactivateType0CTo0FEnemy",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb156",
+      "previous": "$B156",
+      "current": "SelectEnemyCollisionMapCoordinates",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb15a",
+      "previous": "_label_bank0_b15a",
+      "current": "FindEnemyCollisionDirectionBit",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb173",
+      "previous": "$B173",
+      "current": "EnemyCollisionCoordinateOffsets",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb178",
+      "previous": "$B178",
+      "current": "RunType48To53EnemyAi",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb181",
+      "previous": "$B181",
+      "current": "Type48To53ActionHandlers",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb18f",
+      "previous": "$B18F",
+      "current": "ClearCurrentEnemyLinkedSlots",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb19e",
+      "previous": "$B19E",
+      "current": "ClearLinkedEnemySlots",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb1aa",
+      "previous": "_label_bank0_b1aa",
+      "current": "FinishClearCurrentEnemyLinkedSlots",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb1ab",
+      "previous": "$B1AB",
+      "current": "ClearNextLinkedEnemySlot",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb1b5",
+      "previous": "$B1B5",
+      "current": "UpdatePairedEnemyState",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb1df",
+      "previous": "_label_bank0_b1df",
+      "current": "CheckPairedEnemyReturnPhase",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb1f3",
+      "previous": "_label_bank0_b1f3",
+      "current": "CheckPairedEnemyReleasePhase",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb218",
+      "previous": "_label_bank0_b218",
+      "current": "FinishPairedEnemyStateUpdate",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb219",
+      "previous": "$B219",
+      "current": "LoadPairedEnemyObjectState",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb225",
+      "previous": "_label_bank0_b225",
+      "current": "ActivatePairedEnemyAttack",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb25a",
+      "previous": "_label_bank0_b25a",
+      "current": "SelectPairedEnemyXOffset",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb264",
+      "previous": "$B264",
+      "current": "ApplyForwardEnemyMapInteraction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0xb289",
+      "previous": "_label_bank0_b289",
+      "current": "FinishForwardEnemyMapInteraction",
+      "confidence": "confirmed",
+      "evidence": [
+        "The decoded action table, collision helpers, linked-slot state, and byte-identical assembly confirm this address."
+      ]
+    },
+    {
+      "address": "0x8055",
+      "previous": "_label_bank0_8055",
+      "current": "RestoreNmiPpuMask",
+      "confidence": "confirmed",
+      "evidence": [
+        "The NMI restores PpuMaskShadow here after CHR-bank publication."
+      ]
+    },
+    {
+      "address": "0x8065",
+      "previous": "_label_bank0_8065",
+      "current": "RunNmiGameplayServices",
+      "confidence": "confirmed",
+      "evidence": [
+        "The stack-depth gate enters gameplay interaction and input processing here."
+      ]
+    },
+    {
+      "address": "0x8087",
+      "previous": "_label_bank0_8087",
+      "current": "UpdateNmiGameplayFrame",
+      "confidence": "confirmed",
+      "evidence": [
+        "Pause-request paths skip to this Dana and object update entry."
+      ]
+    },
+    {
+      "address": "0x808c",
+      "previous": "_label_bank0_808c",
+      "current": "IncrementGameplayFrameCounters",
+      "confidence": "confirmed",
+      "evidence": [
+        "The eight-iteration loop increments GameplayFrameCounters."
+      ]
+    },
+    {
+      "address": "0x809f",
+      "previous": "_label_bank0_809f",
+      "current": "AdvanceDemonMirrorSpawnTimer",
+      "confidence": "confirmed",
+      "evidence": [
+        "Fireball lifetime carry paths converge before incrementing DemonMirrorSpawnTimerLo/Hi."
+      ]
+    },
+    {
+      "address": "0x80a7",
+      "previous": "_label_bank0_80a7",
+      "current": "HandleDanaNmiActions",
+      "confidence": "confirmed",
+      "evidence": [
+        "The active-Dana gate begins block-magic and fireball input requests here."
+      ]
+    },
+    {
+      "address": "0x80bc",
+      "previous": "_label_bank0_80bc",
+      "current": "CheckNmiFireballInput",
+      "confidence": "confirmed",
+      "evidence": [
+        "The second shifted controller bit gates TryStartFireballAction."
+      ]
+    },
+    {
+      "address": "0x80c4",
+      "previous": "_label_bank0_80c4",
+      "current": "ClearNmiActionRequestFlag",
+      "confidence": "confirmed",
+      "evidence": [
+        "This block clears bit zero of GameplayFlags after no action request succeeds."
+      ]
+    },
+    {
+      "address": "0x80ca",
+      "previous": "_label_bank0_80ca",
+      "current": "FinishNmiDanaActionRequests",
+      "confidence": "confirmed",
+      "evidence": [
+        "All Dana action paths converge before the post-gameplay NMI services."
+      ]
+    },
+    {
+      "address": "0x80cd",
+      "previous": "_label_bank0_80cd",
+      "current": "AdvanceNmiFrameCounter",
+      "confidence": "confirmed",
+      "evidence": [
+        "Pause and active gameplay paths converge on the NMI frame increment."
+      ]
+    },
+    {
+      "address": "0xb402",
+      "previous": "$B402",
+      "current": "ClearSingleLinkedEnemyState",
+      "confidence": "confirmed",
+      "evidence": [
+        "The paired-enemy return path enters here to clear AI link state and retire linked slots."
+      ]
     }
   ]
 }

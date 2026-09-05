@@ -255,6 +255,7 @@ def command_lint(_args: argparse.Namespace) -> None:
         "src/game/mid_enemy_ai.asm",
         "src/game/pathfinding_enemy_ai.asm",
         "src/game/collision_enemy_ai.asm",
+        "src/game/late_enemy_ai.asm",
         "src/game/enemy_position.asm",
         "src/game/enemy_pointers.asm",
         "src/game/enemy_deactivation.asm",
@@ -419,6 +420,12 @@ def command_lint(_args: argparse.Namespace) -> None:
             "SampleCurrentEnemyRoomMapCollision:",
             "RunType5CTo63EnemyAi:",
         ),
+        "src/game/late_enemy_ai.asm": (
+            '.segment "PRG_LATE_ENEMY_AI"',
+            "RunType64To6BEnemyAi:",
+            "RunType0CTo0FEnemyAi:",
+            "RunType48To53EnemyAi:",
+        ),
         "src/game/enemy_position.asm": (
             '.segment "PRG_ENEMY_POSITION"',
             "LoadCurrentEnemyPosition:",
@@ -467,10 +474,6 @@ def command_lint(_args: argparse.Namespace) -> None:
             "EnemyAiRecordPointerHighTable:",
             "ObjectRecordPointerLowTable:",
             "ObjectRecordPointerHighTable:",
-        ),
-        "src/preservation/prg.asm": (
-            '.segment "PRG_PRE_ENEMY_POINTERS"',
-            "CPU $AF5C",
         ),
         "src/graphics/chr.asm": (
             '.segment "PRG_BANK_1"',

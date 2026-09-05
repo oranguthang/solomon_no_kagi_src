@@ -39,7 +39,7 @@ ResetRoomMapAttributeReadState:
 
 UpdateNmiChrBank:
     LDA $7D
-    BMI _label_bank0_8055
+    BMI RestoreNmiPpuMask
     AND #$03
     TAX
     LDA ChrBankSelectValues,X
@@ -47,81 +47,81 @@ UpdateNmiChrBank:
     LDA #$80
     STA $7D
 
-_label_bank0_8055:
+RestoreNmiPpuMask:
     LDA PpuMaskShadow
     STA a:PPU_MASK
     TSX
     TXA
     AND #$1F
     CMP #$08
-    BCS _label_bank0_8065
+    BCS RunNmiGameplayServices
     BCC NmiRestoreRegisters
 
-_label_bank0_8065:
+RunNmiGameplayServices:
     JSR CheckGameplayObjectInteractions
     LDA $78
     TAX
     AND #$02
-    BNE _label_bank0_80cd
+    BNE AdvanceNmiFrameCounter
     LDA #$10
     AND Joypad1Cached
-    BEQ _label_bank0_8087
+    BEQ UpdateNmiGameplayFrame
     TXA
     ROR A
-    BCC _label_bank0_8087
+    BCC UpdateNmiGameplayFrame
     LDA #$02
     ORA $78
     STA $78
     LDA #$21
     JSR QueuePendingThreadStart
-    BPL _label_bank0_80cd
+    BPL AdvanceNmiFrameCounter
 
-_label_bank0_8087:
+UpdateNmiGameplayFrame:
     JSR UpdateDanaControlState
     LDX #$07
 
-_label_bank0_808c:
+IncrementGameplayFrameCounters:
     INC $20,X
     DEX
-    BPL _label_bank0_808c
+    BPL IncrementGameplayFrameCounters
     JSR UpdateActiveFireballCollision
     JSR UpdateActiveObjects
     INC FireballLifeCounter1Lo
-    BNE _label_bank0_809f
+    BNE AdvanceDemonMirrorSpawnTimer
     INC FireballLifeCounter1Hi
 
-_label_bank0_809f:
+AdvanceDemonMirrorSpawnTimer:
     INC $043C
-    BNE _label_bank0_80a7
+    BNE HandleDanaNmiActions
     INC $043D
 
-_label_bank0_80a7:
+HandleDanaNmiActions:
     LDA DanaObject
     CMP #$C0
-    BCC _label_bank0_80c4
+    BCC ClearNmiActionRequestFlag
     ROR A
-    BCS _label_bank0_80ca
+    BCS FinishNmiDanaActionRequests
     LDA Joypad1Cached
     ASL A
-    BCC _label_bank0_80bc
+    BCC CheckNmiFireballInput
     JSR TryStartBlockMagicAction
-    BCS _label_bank0_80ca
+    BCS FinishNmiDanaActionRequests
 
-_label_bank0_80bc:
+CheckNmiFireballInput:
     ASL A
-    BCC _label_bank0_80c4
+    BCC ClearNmiActionRequestFlag
     JSR TryStartFireballAction
-    BCS _label_bank0_80ca
+    BCS FinishNmiDanaActionRequests
 
-_label_bank0_80c4:
+ClearNmiActionRequestFlag:
     LDA #$FE
     AND $28
     STA $28
 
-_label_bank0_80ca:
+FinishNmiDanaActionRequests:
     JMP RunNmiPostGameplayServices
 
-_label_bank0_80cd:
+AdvanceNmiFrameCounter:
     INC NmiFrameCounter
 
 RunNmiPostGameplayServices:

@@ -28,7 +28,7 @@ UpdateType1CTo37MapInteraction:
     JSR LoadEnemyObjectPointer
     LDA TempPointer04 + 3
     BEQ FinishType1CTo37MapInteraction
-    JSR $B156
+    JSR SelectEnemyCollisionMapCoordinates
     JSR ConvertPixelCoordinatesToMapIndex
     TAY
     LDA RoomMap,Y
@@ -104,7 +104,7 @@ AllocateType1CTo37LinkedEnemy:
     AND #$40
     BEQ ReserveType1CTo37LinkedEnemy
     LDA TempPointer04 + 3
-    JSR $B156
+    JSR SelectEnemyCollisionMapCoordinates
     JSR ConvertPixelCoordinatesToMapIndex
     LDA RoomMap,X
     CMP #$F8
@@ -181,12 +181,12 @@ RunType5CTo63EnemyAi:
 
 Type5CTo63ActionHandlers:
     .addr UpdateType5CTo63LinkedLifetime
-    .addr $B008
-    .addr RunEnemyActionAF70
+    .addr UpdateLinkedEnemyDirectionState
+    .addr SetEnemyMovingAction18
     .addr RunEnemyActionA55C
     .addr UpdateType5CTo63ForwardPath
     .addr UpdateType5CTo63Spawn
-    .addr RunEnemyActionB18F
+    .addr ClearCurrentEnemyLinkedSlots
 
 UpdateType5CTo63LinkedLifetime:
     LDY #EnemyAiPhaseOffset
@@ -201,7 +201,7 @@ UpdateType5CTo63LinkedLifetime:
     LDA (EnemyObjectPointer),Y
     ORA #$02
     STA (EnemyObjectPointer),Y
-    JSR $B264
+    JSR ApplyForwardEnemyMapInteraction
 
 FinishType5CTo63LinkedLifetime:
     RTS
@@ -239,7 +239,7 @@ UpdateType5CTo63ForwardPath:
     LDA (EnemyObjectPointer),Y
     AND #$02
     BNE UpdateType5CTo63BlockedPath
-    JSR $B0CE
+    JSR CheckEnemyForwardCollisionBit
     BNE HandleType5CTo63Collision
     LDY #ObjectActionOffset
     LDA #$01
@@ -267,7 +267,7 @@ FinishType5CTo63ForwardPath:
 UpdateType5CTo63Spawn:
     LDA #$08
     STA TempPointer00
-    JSR $B0DE
+    JSR CheckEnemyDeltaDirectionThreshold
     BCS HandleType5CTo63Collision
     LDY #ObjectActionOffset
     LDA (EnemyObjectPointer),Y
@@ -286,7 +286,7 @@ ResetType5CTo63Phase:
     RTS
 
 HandleType5CTo63Collision:
-    JSR $B0CE
+    JSR CheckEnemyForwardCollisionBit
     BEQ SelectType5CTo63CollisionAction
     LDY #ObjectXMotionOffset
     LDA (EnemyObjectPointer),Y

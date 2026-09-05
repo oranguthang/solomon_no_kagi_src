@@ -87,7 +87,7 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/game/nmi_gameplay_interactio
 	src/data/enemy_types.asm \
 	src/game/enemy_ai_handlers.asm src/game/early_enemy_ai.asm \
 	src/game/mid_enemy_ai.asm src/game/pathfinding_enemy_ai.asm \
-	src/game/collision_enemy_ai.asm \
+	src/game/collision_enemy_ai.asm src/game/late_enemy_ai.asm \
 	src/game/enemy_position.asm \
 	src/game/enemy_pointers.asm \
 	src/game/enemy_slot_allocation.asm \
@@ -107,7 +107,6 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/game/nmi_gameplay_interactio
 	src/game/key_item.asm src/game/door_item.asm \
 	src/game/gameplay_pool_clear.asm \
 	src/game/coordinate_delta.asm \
-	src/preservation/prg.asm \
 	src/graphics/chr.asm src/memory/hardware.inc src/memory/ram.inc
 
 .PHONY: all build split verify verify-reference verify-built verify-header \

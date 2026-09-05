@@ -109,12 +109,17 @@ def collect_metrics(project_root: Path, manifest: dict[str, Any]) -> dict[str, A
     )
     prg_size = parse_number(manifest.get("reference_prg_size"), "reference_prg_size")
     preservation = project_root / "src" / "preservation" / "prg.asm"
+    preservation_lines = (
+        len(preservation.read_text(encoding="utf-8").splitlines())
+        if preservation.is_file()
+        else 0
+    )
     return {
         "assembly_files": len(paths),
         "semantic_modules": len(modules),
         "documented_prg_bytes": documented_bytes,
         "documented_prg_percent": round(documented_bytes * 100.0 / prg_size, 3),
-        "preservation_lines": len(preservation.read_text(encoding="utf-8").splitlines()),
+        "preservation_lines": preservation_lines,
         "source_labels": len(labels),
         "semantic_labels": len(labels) - generated,
         "generated_labels": generated,

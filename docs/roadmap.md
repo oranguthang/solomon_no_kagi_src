@@ -39,7 +39,7 @@ These are non-regression bounds, not a completion claim. As reconstruction
 advances, semantic coverage must increase while the three legacy counts only
 decrease.
 
-### 2. Mechanical modularization - In progress
+### 2. Mechanical modularization - Complete
 
 - `$8000-$80FE`: NMI, CNROM bank selection, OAM DMA, and PPU scroll commit are
   isolated in `src/system/nmi.asm`;
@@ -147,6 +147,9 @@ decrease.
   direction tables, are source-owned;
 - `$AD37-$AF5B`: the shared `$1C-$37` and `$5C-$63` collision-driven action
   dispatchers, four-cell RoomMap probe, and linked-slot paths are source-owned;
+- `$AF5C-$B289`: the final `$64-$6B`, `$0C-$0F`, and `$48-$53` handlers,
+  collision-direction helpers, linked cleanup, and paired-enemy state paths
+  are source-owned; the legacy preservation listing is eliminated;
 - `$B28A-$B2A1`: the indexed object/AI record pointer resolvers are isolated
   in `src/game/enemy_pointers.asm`, and all 28 call sites use their symbols;
 - `$B2A2-$B429`: action dispatch for the `$50-$5B` type family, shared
@@ -255,10 +258,10 @@ decrease.
   - `$F368-$FFFF`: all timing/envelope tables, 26 sound-effect descriptors,
     114 reachable audio stream entries, and the three CPU vectors are
     symbolic source guarded by the audio-data audit;
-- split the remaining preservation range into reset/startup, scheduler, room,
-  gameplay/object, rendering, audio, static-data, and vector modules at proven
-  code/data boundaries;
-- preserve address order and `make verify` after every split.
+- the former preservation range is fully split into reset/startup, scheduler,
+  room, gameplay/object, rendering, audio, static-data, and vector modules at
+  proven code/data boundaries;
+- address order and `make verify` were preserved after every split.
 
 ### 3. Semantic naming and provenance - In progress
 

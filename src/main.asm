@@ -129,6 +129,7 @@
 .include "game/mid_enemy_ai.asm"
 .include "game/pathfinding_enemy_ai.asm"
 .include "game/collision_enemy_ai.asm"
+.include "game/late_enemy_ai.asm"
 .include "game/enemy_pointers.asm"
 .include "game/enemy_slot_allocation.asm"
 .include "data/enemy_record_pointers.asm"
@@ -152,5 +153,4 @@
 .include "game/door_item.asm"
 .include "game/gameplay_pool_clear.asm"
 .include "game/coordinate_delta.asm"
-.include "preservation/prg.asm"
 .include "graphics/chr.asm"

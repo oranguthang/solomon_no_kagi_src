@@ -28,7 +28,6 @@ and on every tenth fairy takes the extra-life presentation path. Its motion
 routine uses four small signed-adjustment/limit tables at `$A988-$A997` to
 update object Y and X motion while retaining a direction value in AI byte 6.
 
-Several action targets beyond this range remain raw addresses because their
-implementations still live in preservation source. The module nevertheless
-assembles to exactly 780 bytes, and `make verify-prg` proves it is identical to
-the original PRG image.
+Action targets beyond this range now resolve to symbols in the later enemy-AI
+modules. This module assembles to exactly 780 bytes, and `make verify-prg`
+proves it is identical to the original PRG image.

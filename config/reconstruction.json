@@ -1366,6 +1366,26 @@
       ]
     },
     {
+      "id": "late_enemy_ai",
+      "path": "src/game/late_enemy_ai.asm",
+      "segment": "PRG_LATE_ENEMY_AI",
+      "start": "0xaf5c",
+      "end": "0xb289",
+      "status": "semantic",
+      "required_labels": [
+        "RunType64To6BEnemyAi",
+        "SpawnLinkedEnemyAtOffset",
+        "UpdateLinkedEnemyDirectionState",
+        "CheckEnemyForwardCollisionBit",
+        "RunType0CTo0FEnemyAi",
+        "SelectEnemyCollisionMapCoordinates",
+        "RunType48To53EnemyAi",
+        "ClearLinkedEnemySlots",
+        "UpdatePairedEnemyState",
+        "ApplyForwardEnemyMapInteraction"
+      ]
+    },
+    {
       "id": "enemy_pointers",
       "path": "src/game/enemy_pointers.asm",
       "segment": "PRG_ENEMY_POINTERS",
@@ -2396,11 +2416,11 @@
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 159,
-    "minimum_documented_prg_bytes": 31954,
-    "minimum_provenance_entries": 1769,
-    "maximum_preservation_lines": 485,
-    "maximum_generated_labels": 39,
-    "maximum_raw_control_flow_targets": 26
+    "minimum_semantic_modules": 160,
+    "minimum_documented_prg_bytes": 32768,
+    "minimum_provenance_entries": 1835,
+    "maximum_preservation_lines": 0,
+    "maximum_generated_labels": 0,
+    "maximum_raw_control_flow_targets": 0
   }
 }

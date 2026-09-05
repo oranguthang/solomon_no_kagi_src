@@ -22,5 +22,6 @@ targets are source-owned in `src/game/mid_enemy_ai.asm`: the `$08-$0B`,
 `$10-$13`, `$54-$5B`, and `$6C-$6F` type families. The `$14-$17` and `$18-$1B`
 targets and their shared path selector are reconstructed in
 `src/game/pathfinding_enemy_ai.asm`. `src/game/collision_enemy_ai.asm` owns the
-repeated `$1C-$37` target and the `$5C-$63` target. Unreconstructed targets
-stay raw until their behavior families are understood.
+repeated `$1C-$37` target and the `$5C-$63` target. The remaining `$0C-$0F`,
+`$48-$53`, and `$64-$6B` targets are source-owned in
+`src/game/late_enemy_ai.asm`; all 28 table entries are now symbolic.

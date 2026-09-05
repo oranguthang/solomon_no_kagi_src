@@ -27,7 +27,7 @@ RunType00To03Movement:
     BCS CheckType00To03ActionPhase
     JSR CheckEnemyAiDeltaRange
     BCS CheckType00To03ActionPhase
-    JSR $A77D
+    JSR CheckDanaHorizontalEnemyOverlap
     BCC HandleEnemyCollisionReward
 
 CheckType00To03ActionPhase:
@@ -212,7 +212,7 @@ RunType04To07EnemyAi:
 RunType04To07Movement:
     JSR CheckEnemyAiDeltaRange
     BCS UpdateType04To07Collision
-    JSR $A77D
+    JSR CheckDanaHorizontalEnemyOverlap
     BCC ReplaceActiveEnemiesAfterType04To07Collision
 
 UpdateType04To07Collision:
