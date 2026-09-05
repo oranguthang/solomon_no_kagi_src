@@ -8369,6 +8369,826 @@
     {
       "address": "0xefb7", "previous": "$EFB7", "current": "RoomItemStream53", "confidence": "confirmed",
       "evidence": ["The indexed room pointer selects this ten-byte metadata header and compressed placement stream; the room codec round-trips its exact command grouping."]
+    },
+    {
+      "address": "0xefc4", "previous": "$EFC4", "current": "PreAudioPadding", "confidence": "confirmed",
+      "evidence": ["This exact 60-byte non-code range fills the gap between the final room-item stream and the aligned audio entry at $F000."]
+    },
+    {
+      "address": "0xf000", "previous": "$F000", "current": "UpdateAudio", "confidence": "confirmed",
+      "evidence": ["NMI calls this entry once per enabled audio tick; it consumes queued effects, advances eight virtual channels, and publishes four APU voices."]
+    },
+    {
+      "address": "0xf002", "previous": "_label_bank0_f002", "current": "StartNextQueuedSoundEffect", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf00a", "previous": "_label_bank0_f00a", "current": "ContinueSoundEffectQueue", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf01d", "previous": "_label_bank0_f01d", "current": "UpdateNextVirtualAudioChannel", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf025", "previous": "_label_bank0_f025", "current": "StoreRotatedActiveChannelMask", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf034", "previous": "_label_bank0_f034", "current": "UpdateVirtualChannelEnvelopeTimer", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf03e", "previous": "_label_bank0_f03e", "current": "ApplyVirtualChannelEnvelope", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf041", "previous": "_label_bank0_f041", "current": "AdvanceVirtualAudioChannel", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf068", "previous": "_label_bank0_f068", "current": "PublishNextApuChannel", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf073", "previous": "_label_bank0_f073", "current": "SelectSecondaryVirtualChannel", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf07c", "previous": "_label_bank0_f07c", "current": "SelectPrimaryVirtualChannel", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf082", "previous": "$F082", "current": "AdvanceToNextApuChannel", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf085", "previous": "$F085", "current": "AdvanceApuChannelMask", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf093", "previous": "$F093", "current": "AdvanceAudioChannelPointer", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf0a1", "previous": "$F0A1", "current": "WriteCurrentApuChannel", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf0bb", "previous": "_label_bank0_f0bb", "current": "UseStandardChannelVolume", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf0be", "previous": "_label_bank0_f0be", "current": "WriteApuChannelVolume", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf0cc", "previous": "_label_bank0_f0cc", "current": "WriteApuChannelPeriodIfDirty", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf0e6", "previous": "_label_bank0_f0e6", "current": "FinishApuChannelWrite", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf0e7", "previous": "$F0E7", "current": "UpdateVirtualChannelEnvelope", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf0fa", "previous": "_label_bank0_f0fa", "current": "UseConfiguredEnvelopeStep", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf0ff", "previous": "_label_bank0_f0ff", "current": "ApplyChannelEnvelopeStep", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf10b", "previous": "_label_bank0_f10b", "current": "StoreChannelVolume", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf112", "previous": "$F112", "current": "ReloadVirtualChannelEnvelope", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf134", "previous": "$F134", "current": "StartQueuedSoundEffect", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf151", "previous": "_label_bank0_f151", "current": "ReadNextSoundEffectChannel", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf158", "previous": "_label_bank0_f158", "current": "InitializeSoundEffectChannel", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf183", "previous": "_label_bank0_f183", "current": "BuildActiveChannelBit", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf190", "previous": "$F190", "current": "DecodeAudioStream", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf1a4", "previous": "_label_bank0_f1a4", "current": "DecodeNextAudioToken", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf1b2", "previous": "_label_bank0_f1b2", "current": "DecodeDurationToken", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf1c2", "previous": "_label_bank0_f1c2", "current": "DecodeNoteToken", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf1e6", "previous": "_label_bank0_f1e6", "current": "DecodePitchedNote", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf1ed", "previous": "_label_bank0_f1ed", "current": "MuteAudioChannel", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf1f7", "previous": "_label_bank0_f1f7", "current": "LookUpNotePeriod", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf20d", "previous": "_label_bank0_f20d", "current": "ShiftNotePeriodByOctave", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf214", "previous": "_label_bank0_f214", "current": "StoreNotePeriod", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf221", "previous": "_label_bank0_f221", "current": "FinishAudioToken", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf235", "previous": "$F235", "current": "DispatchAudioCommand", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf246", "previous": "$F246", "current": "AudioCommandHandlerTable", "confidence": "confirmed",
+      "evidence": ["The command dispatcher masks opcodes to $F0-$F9, doubles the index, and tail-jumps through these ten little-endian handler pointers."]
+    },
+    {
+      "address": "0xf25a", "previous": "$F25A", "current": "AudioCommandF0SetSequence", "confidence": "confirmed",
+      "evidence": ["The ten-entry audio command table selects this handler, and its stream/state operations establish the opcode-specific name."]
+    },
+    {
+      "address": "0xf275", "previous": "$F275", "current": "AudioCommandF1SetControl", "confidence": "confirmed",
+      "evidence": ["The ten-entry audio command table selects this handler, and its stream/state operations establish the opcode-specific name."]
+    },
+    {
+      "address": "0xf289", "previous": "$F289", "current": "AudioCommandF2Jump", "confidence": "confirmed",
+      "evidence": ["The ten-entry audio command table selects this handler, and its stream/state operations establish the opcode-specific name."]
+    },
+    {
+      "address": "0xf296", "previous": "$F296", "current": "AudioCommandF3Call", "confidence": "confirmed",
+      "evidence": ["The ten-entry audio command table selects this handler, and its stream/state operations establish the opcode-specific name."]
+    },
+    {
+      "address": "0xf2c0", "previous": "$F2C0", "current": "AudioCommandF4Return", "confidence": "confirmed",
+      "evidence": ["The ten-entry audio command table selects this handler, and its stream/state operations establish the opcode-specific name."]
+    },
+    {
+      "address": "0xf2d7", "previous": "$F2D7", "current": "AudioCommandF5BeginLoop", "confidence": "confirmed",
+      "evidence": ["The ten-entry audio command table selects this handler, and its stream/state operations establish the opcode-specific name."]
+    },
+    {
+      "address": "0xf300", "previous": "$F300", "current": "AudioCommandF6EndLoop", "confidence": "confirmed",
+      "evidence": ["The ten-entry audio command table selects this handler, and its stream/state operations establish the opcode-specific name."]
+    },
+    {
+      "address": "0xf31e", "previous": "_label_bank0_f31e", "current": "FinishAudioLoop", "confidence": "confirmed",
+      "evidence": ["Internal audio call and branch flow plus the surrounding virtual-channel state operations establish this stage of the sound-driver update."]
+    },
+    {
+      "address": "0xf328", "previous": "$F328", "current": "AudioCommandF7SetSweep", "confidence": "confirmed",
+      "evidence": ["The ten-entry audio command table selects this handler, and its stream/state operations establish the opcode-specific name."]
+    },
+    {
+      "address": "0xf343", "previous": "$F343", "current": "AudioCommandF8SetVolume", "confidence": "confirmed",
+      "evidence": ["The ten-entry audio command table selects this handler, and its stream/state operations establish the opcode-specific name."]
+    },
+    {
+      "address": "0xf357", "previous": "$F357", "current": "AudioCommandF9StopChannel", "confidence": "confirmed",
+      "evidence": ["The ten-entry audio command table selects this handler, and its stream/state operations establish the opcode-specific name."]
+    },
+    {
+      "address": "0xf368", "previous": "$F368", "current": "AudioPeriodTable", "confidence": "confirmed",
+      "evidence": ["The note decoder indexes twelve little-endian APU timer periods here after isolating and doubling the note nibble."]
+    },
+    {
+      "address": "0xf380", "previous": "$F380", "current": "AudioDurationTable", "confidence": "confirmed",
+      "evidence": ["Duration tokens mask to a six-bit index and load their channel counter/reload value from this 26-byte table."]
+    },
+    {
+      "address": "0xf39a", "previous": "$F39A", "current": "AudioEnvelopePointerTable", "confidence": "confirmed",
+      "evidence": ["Audio command $F0 doubles its argument and resolves one of these eight pointers; the envelope reload path consumes duration/volume pairs."]
+    },
+    {
+      "address": "0xf3aa", "previous": "$F3AA", "current": "AudioEnvelope00", "confidence": "confirmed",
+      "evidence": ["The indexed envelope pointer resolves this complete sequence of duration/volume pairs, bounded by the next reviewed pointer."]
+    },
+    {
+      "address": "0xf3ca", "previous": "$F3CA", "current": "AudioEnvelope01", "confidence": "confirmed",
+      "evidence": ["The indexed envelope pointer resolves this complete sequence of duration/volume pairs, bounded by the next reviewed pointer."]
+    },
+    {
+      "address": "0xf3ea", "previous": "$F3EA", "current": "AudioEnvelope02", "confidence": "confirmed",
+      "evidence": ["The indexed envelope pointer resolves this complete sequence of duration/volume pairs, bounded by the next reviewed pointer."]
+    },
+    {
+      "address": "0xf3fc", "previous": "$F3FC", "current": "AudioEnvelope03", "confidence": "confirmed",
+      "evidence": ["The indexed envelope pointer resolves this complete sequence of duration/volume pairs, bounded by the next reviewed pointer."]
+    },
+    {
+      "address": "0xf424", "previous": "$F424", "current": "AudioEnvelope04", "confidence": "confirmed",
+      "evidence": ["The indexed envelope pointer resolves this complete sequence of duration/volume pairs, bounded by the next reviewed pointer."]
+    },
+    {
+      "address": "0xf43e", "previous": "$F43E", "current": "AudioEnvelope05", "confidence": "confirmed",
+      "evidence": ["The indexed envelope pointer resolves this complete sequence of duration/volume pairs, bounded by the next reviewed pointer."]
+    },
+    {
+      "address": "0xf458", "previous": "$F458", "current": "AudioEnvelope06", "confidence": "confirmed",
+      "evidence": ["The indexed envelope pointer resolves this complete sequence of duration/volume pairs, bounded by the next reviewed pointer."]
+    },
+    {
+      "address": "0xf45c", "previous": "$F45C", "current": "AudioEnvelope07", "confidence": "confirmed",
+      "evidence": ["The indexed envelope pointer resolves this complete sequence of duration/volume pairs, bounded by the next reviewed pointer."]
+    },
+    {
+      "address": "0xf47c", "previous": "$F47C", "current": "SoundEffectPointerTable", "confidence": "confirmed",
+      "evidence": ["The queued command minus one is doubled to select one of these 26 little-endian sound-effect descriptor pointers."]
+    },
+    {
+      "address": "0xf4b0", "previous": "$F4B0", "current": "SoundEffectDescriptor01", "confidence": "confirmed",
+      "evidence": ["The reviewed effect pointer resolves this descriptor; its high-bit first selector also terminates the preceding overlapping descriptor."]
+    },
+    {
+      "address": "0xf4b9", "previous": "$F4B9", "current": "SoundEffectDescriptor02", "confidence": "confirmed",
+      "evidence": ["The reviewed effect pointer resolves this descriptor; its high-bit first selector also terminates the preceding overlapping descriptor."]
+    },
+    {
+      "address": "0xf4c2", "previous": "$F4C2", "current": "SoundEffectDescriptor03", "confidence": "confirmed",
+      "evidence": ["The reviewed effect pointer resolves this descriptor; its high-bit first selector also terminates the preceding overlapping descriptor."]
+    },
+    {
+      "address": "0xf4d4", "previous": "$F4D4", "current": "SoundEffectDescriptor04", "confidence": "confirmed",
+      "evidence": ["The reviewed effect pointer resolves this descriptor; its high-bit first selector also terminates the preceding overlapping descriptor."]
+    },
+    {
+      "address": "0xf4dd", "previous": "$F4DD", "current": "SoundEffectDescriptor05", "confidence": "confirmed",
+      "evidence": ["The reviewed effect pointer resolves this descriptor; its high-bit first selector also terminates the preceding overlapping descriptor."]
+    },
+    {
+      "address": "0xf4e9", "previous": "$F4E9", "current": "SoundEffectDescriptor06", "confidence": "confirmed",
+      "evidence": ["The reviewed effect pointer resolves this descriptor; its high-bit first selector also terminates the preceding overlapping descriptor."]
+    },
+    {
+      "address": "0xf4f2", "previous": "$F4F2", "current": "SoundEffectDescriptor07", "confidence": "confirmed",
+      "evidence": ["The reviewed effect pointer resolves this descriptor; its high-bit first selector also terminates the preceding overlapping descriptor."]
+    },
+    {
+      "address": "0xf4f5", "previous": "$F4F5", "current": "SoundEffectDescriptor08", "confidence": "confirmed",
+      "evidence": ["The reviewed effect pointer resolves this descriptor; its high-bit first selector also terminates the preceding overlapping descriptor."]
+    },
+    {
+      "address": "0xf4f8", "previous": "$F4F8", "current": "SoundEffectDescriptor09", "confidence": "confirmed",
+      "evidence": ["The reviewed effect pointer resolves this descriptor; its high-bit first selector also terminates the preceding overlapping descriptor."]
+    },
+    {
+      "address": "0xf4fe", "previous": "$F4FE", "current": "SoundEffectDescriptor10", "confidence": "confirmed",
+      "evidence": ["The reviewed effect pointer resolves this descriptor; its high-bit first selector also terminates the preceding overlapping descriptor."]
+    },
+    {
+      "address": "0xf501", "previous": "$F501", "current": "SoundEffectDescriptor11", "confidence": "confirmed",
+      "evidence": ["The reviewed effect pointer resolves this descriptor; its high-bit first selector also terminates the preceding overlapping descriptor."]
+    },
+    {
+      "address": "0xf504", "previous": "$F504", "current": "SoundEffectDescriptor12", "confidence": "confirmed",
+      "evidence": ["The reviewed effect pointer resolves this descriptor; its high-bit first selector also terminates the preceding overlapping descriptor."]
+    },
+    {
+      "address": "0xf510", "previous": "$F510", "current": "SoundEffectDescriptor13", "confidence": "confirmed",
+      "evidence": ["The reviewed effect pointer resolves this descriptor; its high-bit first selector also terminates the preceding overlapping descriptor."]
+    },
+    {
+      "address": "0xf513", "previous": "$F513", "current": "SoundEffectDescriptor14", "confidence": "confirmed",
+      "evidence": ["The reviewed effect pointer resolves this descriptor; its high-bit first selector also terminates the preceding overlapping descriptor."]
+    },
+    {
+      "address": "0xf516", "previous": "$F516", "current": "SoundEffectDescriptor15", "confidence": "confirmed",
+      "evidence": ["The reviewed effect pointer resolves this descriptor; its high-bit first selector also terminates the preceding overlapping descriptor."]
+    },
+    {
+      "address": "0xf51f", "previous": "$F51F", "current": "SoundEffectDescriptor16", "confidence": "confirmed",
+      "evidence": ["The reviewed effect pointer resolves this descriptor; its high-bit first selector also terminates the preceding overlapping descriptor."]
+    },
+    {
+      "address": "0xf52b", "previous": "$F52B", "current": "SoundEffectDescriptor17", "confidence": "confirmed",
+      "evidence": ["The reviewed effect pointer resolves this descriptor; its high-bit first selector also terminates the preceding overlapping descriptor."]
+    },
+    {
+      "address": "0xf52e", "previous": "$F52E", "current": "SoundEffectDescriptor18", "confidence": "confirmed",
+      "evidence": ["The reviewed effect pointer resolves this descriptor; its high-bit first selector also terminates the preceding overlapping descriptor."]
+    },
+    {
+      "address": "0xf531", "previous": "$F531", "current": "SoundEffectDescriptor19", "confidence": "confirmed",
+      "evidence": ["The reviewed effect pointer resolves this descriptor; its high-bit first selector also terminates the preceding overlapping descriptor."]
+    },
+    {
+      "address": "0xf537", "previous": "$F537", "current": "SoundEffectDescriptor20", "confidence": "confirmed",
+      "evidence": ["The reviewed effect pointer resolves this descriptor; its high-bit first selector also terminates the preceding overlapping descriptor."]
+    },
+    {
+      "address": "0xf543", "previous": "$F543", "current": "SoundEffectDescriptor21", "confidence": "confirmed",
+      "evidence": ["The reviewed effect pointer resolves this descriptor; its high-bit first selector also terminates the preceding overlapping descriptor."]
+    },
+    {
+      "address": "0xf555", "previous": "$F555", "current": "SoundEffectDescriptor22", "confidence": "confirmed",
+      "evidence": ["The reviewed effect pointer resolves this descriptor; its high-bit first selector also terminates the preceding overlapping descriptor."]
+    },
+    {
+      "address": "0xf55e", "previous": "$F55E", "current": "SoundEffectDescriptor23", "confidence": "confirmed",
+      "evidence": ["The reviewed effect pointer resolves this descriptor; its high-bit first selector also terminates the preceding overlapping descriptor."]
+    },
+    {
+      "address": "0xf561", "previous": "$F561", "current": "SoundEffectDescriptor24", "confidence": "confirmed",
+      "evidence": ["The reviewed effect pointer resolves this descriptor; its high-bit first selector also terminates the preceding overlapping descriptor."]
+    },
+    {
+      "address": "0xf579", "previous": "$F579", "current": "SoundEffectDescriptor25", "confidence": "confirmed",
+      "evidence": ["The reviewed effect pointer resolves this descriptor; its high-bit first selector also terminates the preceding overlapping descriptor."]
+    },
+    {
+      "address": "0xf585", "previous": "$F585", "current": "SoundEffectDescriptor26", "confidence": "confirmed",
+      "evidence": ["The reviewed effect pointer resolves this descriptor; its high-bit first selector also terminates the preceding overlapping descriptor."]
+    },
+    {
+      "address": "0xf592", "previous": "$F592", "current": "AudioStream000", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf5b9", "previous": "$F5B9", "current": "AudioStream001", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf5e7", "previous": "$F5E7", "current": "AudioStream002", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf608", "previous": "$F608", "current": "AudioStream003", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf629", "previous": "$F629", "current": "AudioStream004", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf646", "previous": "$F646", "current": "AudioStream005", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf64b", "previous": "$F64B", "current": "AudioStream006", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf650", "previous": "$F650", "current": "AudioStream007", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf689", "previous": "$F689", "current": "AudioStream008", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf6c6", "previous": "$F6C6", "current": "AudioStream009", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf6df", "previous": "$F6DF", "current": "AudioStream010", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf6e8", "previous": "$F6E8", "current": "AudioStream011", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf6f1", "previous": "$F6F1", "current": "AudioStream012", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf702", "previous": "$F702", "current": "AudioStream013", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf713", "previous": "$F713", "current": "AudioStream014", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf724", "previous": "$F724", "current": "AudioStream015", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf7e8", "previous": "$F7E8", "current": "AudioStream016", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf800", "previous": "$F800", "current": "AudioStream017", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf80b", "previous": "$F80B", "current": "AudioStream018", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf817", "previous": "$F817", "current": "AudioStream019", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf823", "previous": "$F823", "current": "AudioStream020", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf82d", "previous": "$F82D", "current": "AudioStream021", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf83f", "previous": "$F83F", "current": "AudioStream022", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf84d", "previous": "$F84D", "current": "AudioStream023", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf85a", "previous": "$F85A", "current": "AudioStream024", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf873", "previous": "$F873", "current": "AudioStream025", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf882", "previous": "$F882", "current": "AudioStream026", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf889", "previous": "$F889", "current": "AudioStream027", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf896", "previous": "$F896", "current": "AudioStream028", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf8d3", "previous": "$F8D3", "current": "AudioStream029", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf8ec", "previous": "$F8EC", "current": "AudioStream030", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf8fe", "previous": "$F8FE", "current": "AudioStream031", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf905", "previous": "$F905", "current": "AudioStream032", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf912", "previous": "$F912", "current": "AudioStream033", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf94f", "previous": "$F94F", "current": "AudioStream034", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf974", "previous": "$F974", "current": "AudioStream035", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf999", "previous": "$F999", "current": "AudioStream036", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf9b1", "previous": "$F9B1", "current": "AudioStream037", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf9f7", "previous": "$F9F7", "current": "AudioStream038", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xf9fc", "previous": "$F9FC", "current": "AudioStream039", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfa42", "previous": "$FA42", "current": "AudioStream040", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfa47", "previous": "$FA47", "current": "AudioStream041", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfa9b", "previous": "$FA9B", "current": "AudioStream042", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfaa2", "previous": "$FAA2", "current": "AudioStream043", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfacd", "previous": "$FACD", "current": "AudioStream044", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfadd", "previous": "$FADD", "current": "AudioStream045", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfae9", "previous": "$FAE9", "current": "AudioStream046", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfaf0", "previous": "$FAF0", "current": "AudioStream047", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfb05", "previous": "$FB05", "current": "AudioStream048", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfb1a", "previous": "$FB1A", "current": "AudioStream049", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfb1e", "previous": "$FB1E", "current": "AudioStream050", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfb30", "previous": "$FB30", "current": "AudioStream051", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfb3f", "previous": "$FB3F", "current": "AudioStream052", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfb5f", "previous": "$FB5F", "current": "AudioStream053", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfb72", "previous": "$FB72", "current": "AudioStream054", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfb88", "previous": "$FB88", "current": "AudioStream055", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfb8f", "previous": "$FB8F", "current": "AudioStream056", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfb96", "previous": "$FB96", "current": "AudioStream057", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfb9d", "previous": "$FB9D", "current": "AudioStream058", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfba7", "previous": "$FBA7", "current": "AudioStream059", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfbae", "previous": "$FBAE", "current": "AudioStream060", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfbcc", "previous": "$FBCC", "current": "AudioStream061", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfbd3", "previous": "$FBD3", "current": "AudioStream062", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfbed", "previous": "$FBED", "current": "AudioStream063", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfbf7", "previous": "$FBF7", "current": "AudioStream064", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfc11", "previous": "$FC11", "current": "AudioStream065", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfc1b", "previous": "$FC1B", "current": "AudioStream066", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfc25", "previous": "$FC25", "current": "AudioStream067", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfcbb", "previous": "$FCBB", "current": "AudioStream068", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfcd8", "previous": "$FCD8", "current": "AudioStream069", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfd3a", "previous": "$FD3A", "current": "AudioStream070", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfd57", "previous": "$FD57", "current": "AudioStream071", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfd83", "previous": "$FD83", "current": "AudioStream072", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfe07", "previous": "$FE07", "current": "AudioStream073", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfe0f", "previous": "$FE0F", "current": "AudioStream074", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfe18", "previous": "$FE18", "current": "AudioStream075", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfe21", "previous": "$FE21", "current": "AudioStream076", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfe2a", "previous": "$FE2A", "current": "AudioStream077", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfe33", "previous": "$FE33", "current": "AudioStream078", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfe41", "previous": "$FE41", "current": "AudioStream079", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfe5a", "previous": "$FE5A", "current": "AudioStream080", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfe68", "previous": "$FE68", "current": "AudioStream081", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfe77", "previous": "$FE77", "current": "AudioStream082", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfe81", "previous": "$FE81", "current": "AudioStream083", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfe88", "previous": "$FE88", "current": "AudioStream084", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfe8d", "previous": "$FE8D", "current": "AudioStream085", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfe94", "previous": "$FE94", "current": "AudioStream086", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfe99", "previous": "$FE99", "current": "AudioStream087", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfea5", "previous": "$FEA5", "current": "AudioStream088", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfeb3", "previous": "$FEB3", "current": "AudioStream089", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfef7", "previous": "$FEF7", "current": "AudioStream090", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfefe", "previous": "$FEFE", "current": "AudioStream091", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xff13", "previous": "$FF13", "current": "AudioStream092", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xff28", "previous": "$FF28", "current": "AudioStream093", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xff37", "previous": "$FF37", "current": "AudioStream094", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xff48", "previous": "$FF48", "current": "AudioStream095", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xff59", "previous": "$FF59", "current": "AudioStream096", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xff62", "previous": "$FF62", "current": "AudioStream097", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xff7a", "previous": "$FF7A", "current": "AudioStream098", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xff81", "previous": "$FF81", "current": "AudioStream099", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xff88", "previous": "$FF88", "current": "AudioStream100", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xff8f", "previous": "$FF8F", "current": "AudioStream101", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xff96", "previous": "$FF96", "current": "AudioStream102", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xff9a", "previous": "$FF9A", "current": "AudioStream103", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xff9e", "previous": "$FF9E", "current": "AudioStream104", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xffa2", "previous": "$FFA2", "current": "AudioStream105", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xffa6", "previous": "$FFA6", "current": "AudioStream106", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xffb6", "previous": "$FFB6", "current": "AudioStream107", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xffc6", "previous": "$FFC6", "current": "AudioStream108", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xffd6", "previous": "$FFD6", "current": "AudioStream109", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xffdd", "previous": "$FFDD", "current": "AudioStream110", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xffe0", "previous": "$FFE0", "current": "AudioStream111", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xffe3", "previous": "$FFE3", "current": "AudioStream112", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfff3", "previous": "$FFF3", "current": "AudioStream113", "confidence": "confirmed",
+      "evidence": ["A sound-effect descriptor or symbolic $F2/$F3 bytecode pointer reaches this entry, whose decoded path round-trips byte-for-byte."]
+    },
+    {
+      "address": "0xfffa", "previous": "$FFFA", "current": "CpuVectors", "confidence": "confirmed",
+      "evidence": ["The final six PRG bytes encode the NMI, Reset, and IRQ little-endian CPU vectors and assemble back to the original image."]
     }
   ]
 }

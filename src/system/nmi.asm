@@ -128,7 +128,7 @@ _label_bank0_80cd:
     LDA $78
     AND #$04
     BNE NmiRestoreRegisters
-    JSR $F000
+    JSR UpdateAudio
 
 NmiRestoreRegisters:
     LDX NmiSavedX

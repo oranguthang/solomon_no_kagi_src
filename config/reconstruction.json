@@ -2184,6 +2184,94 @@
         "RoomItemStream01",
         "RoomItemStream53"
       ]
+    },
+    {
+      "id": "pre_audio_padding",
+      "path": "src/data/room_items.asm",
+      "segment": "PRG_FILLER_BEFORE_AUDIO",
+      "start": "0xefc4",
+      "end": "0xefff",
+      "status": "semantic",
+      "required_labels": [
+        "PreAudioPadding"
+      ]
+    },
+    {
+      "id": "audio_engine",
+      "path": "src/system/audio_engine.asm",
+      "segment": "PRG_AUDIO_ENGINE",
+      "start": "0xf000",
+      "end": "0xf367",
+      "status": "semantic",
+      "required_labels": [
+        "UpdateAudio",
+        "StartQueuedSoundEffect",
+        "DecodeAudioStream",
+        "AudioCommandHandlerTable",
+        "AudioCommandF0SetSequence",
+        "AudioCommandF9StopChannel"
+      ]
+    },
+    {
+      "id": "audio_timing_tables",
+      "path": "src/data/audio.asm",
+      "segment": "PRG_AUDIO_TIMING_TABLES",
+      "start": "0xf368",
+      "end": "0xf399",
+      "status": "semantic",
+      "required_labels": [
+        "AudioPeriodTable",
+        "AudioDurationTable"
+      ]
+    },
+    {
+      "id": "audio_envelopes",
+      "path": "src/data/audio.asm",
+      "segment": "PRG_AUDIO_ENVELOPES",
+      "start": "0xf39a",
+      "end": "0xf47b",
+      "status": "semantic",
+      "required_labels": [
+        "AudioEnvelopePointerTable",
+        "AudioEnvelope00",
+        "AudioEnvelope07"
+      ]
+    },
+    {
+      "id": "sound_effect_data",
+      "path": "src/data/audio.asm",
+      "segment": "PRG_SOUND_EFFECT_DATA",
+      "start": "0xf47c",
+      "end": "0xf591",
+      "status": "semantic",
+      "required_labels": [
+        "SoundEffectPointerTable",
+        "SoundEffectDescriptor01",
+        "SoundEffectDescriptor26"
+      ]
+    },
+    {
+      "id": "audio_streams",
+      "path": "src/data/audio.asm",
+      "segment": "PRG_AUDIO_STREAMS",
+      "start": "0xf592",
+      "end": "0xfff9",
+      "status": "semantic",
+      "required_labels": [
+        "AudioStream000",
+        "AudioStream113"
+      ]
+    },
+    {
+      "id": "cpu_vectors",
+      "path": "src/data/audio.asm",
+      "segment": "VECTORS",
+      "start": "0xfffa",
+      "end": "0xffff",
+      "status": "semantic",
+      "required_labels": [
+        "CpuVectors"
+      ]
     }
   ],
   "thresholds": {

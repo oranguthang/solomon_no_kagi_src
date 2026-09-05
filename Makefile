@@ -47,6 +47,8 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	src/game/room_item_decode.asm src/data/room_item_decode.asm \
 	src/game/room_block_decode.asm src/data/room_blocks.asm \
 	src/data/room_items.asm \
+	src/system/audio_engine.asm \
+	src/data/audio.asm \
 	src/game/dana_actions.asm \
 	src/system/counter_wait.asm \
 	src/game/map_interactions.asm src/game/coordinate_object_overlap.asm \
@@ -114,7 +116,8 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	item-handler-report item-handler-audit \
 	enemy-pointer-report enemy-pointer-audit ppu-update-report ppu-update-audit \
 	object-animation-report object-animation-audit \
-	object-motion-report object-motion-audit clean
+	object-motion-report object-motion-audit \
+	audio-data-report audio-data-audit clean
 
 all: verify
 
@@ -247,11 +250,18 @@ object-motion-report: $(ROM)
 object-motion-audit: $(ROM)
 	$(PYTHON) scripts/object_motion_data.py audit --image "$(ROM)"
 
+audio-data-report: $(ROM)
+	$(PYTHON) scripts/audio_data.py report --image "$(ROM)"
+
+audio-data-audit: $(ROM)
+	$(PYTHON) scripts/audio_data.py audit --image "$(ROM)"
+
 quality-check: lint test
 
 release-check: quality-check verify validate-rooms roundtrip-formats \
 	reconstruction-audit scheduler-audit enemy-ai-audit enemy-pointer-audit \
-	item-handler-audit ppu-update-audit object-animation-audit object-motion-audit
+	item-handler-audit ppu-update-audit object-animation-audit object-motion-audit \
+	audio-data-audit
 
 check: release-check
 

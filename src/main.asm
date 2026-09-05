@@ -89,6 +89,8 @@
 .include "game/room_block_decode.asm"
 .include "data/room_blocks.asm"
 .include "data/room_items.asm"
+.include "system/audio_engine.asm"
+.include "data/audio.asm"
 .include "game/dana_actions.asm"
 .include "system/counter_wait.asm"
 .include "game/map_interactions.asm"

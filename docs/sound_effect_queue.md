@@ -16,8 +16,13 @@ clobbered:  one byte of SoundEffectQueue
 for an empty byte from index 2 downward. Slot 0 is a fallback rather than a
 tested free slot: if slots 2 and 1 are occupied, the new request overwrites
 slot 0. Consequently this is not a FIFO; it is a small set of pending command
-mailboxes whose consumer and command priority rules still belong to the audio
-driver reconstruction.
+mailboxes.
+
+`UpdateAudio` at `$F000` scans slots 2 through 0 once per NMI audio tick. A
+nonzero command is cleared before `StartQueuedSoundEffect` indexes the pointer
+table at `$F47C`. Each descriptor activates one or more of the eight virtual
+channels. The exact command-level priority policy still needs runtime traces,
+but the complete consumer control flow is now source-owned.
 
 The routine saves the caller's `A`, pushes the incoming `Y` command, performs
 the slot search with `Y`, then restores and stores the command before restoring

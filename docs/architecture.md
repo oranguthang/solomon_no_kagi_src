@@ -145,9 +145,13 @@ Gameplay producers submit a sound-effect command in `Y` through
 `AddSoundEffect`. The routine preserves `A` and places the command in the
 three-byte `$0423-$0425` request area. It prefers the first empty slot while
 searching indices 2 and 1; index 0 is overwritten as the fallback when both
-higher slots are occupied. This producer-side behavior is proven, while the
-consumer, command meanings, priority rules, music data, and APU driver remain
-to be reconstructed. See `docs/sound_effect_queue.md`.
+higher slots are occupied. `UpdateAudio` consumes all three slots, advances
+eight virtual channels, and publishes one selected record from each pair to
+the four APU voices. Its `$F0-$F9` stream commands cover pointer selection,
+jump/call/return, counted loops, sweep, volume, and channel stop. Remaining
+audio tables and stream payloads at `$F368-$FFF9` are also source-owned and
+machine-audited; priority details still need runtime evidence. See
+`docs/sound_effect_queue.md` and `docs/audio_engine.md`.
 
 ## Runtime objects
 

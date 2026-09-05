@@ -231,6 +231,12 @@ decrease.
     reproducibly emitted, and round-trip checked;
   - `$EA1C-$EFC3`: all 53 room-item pointers, metadata headers, and compressed
     placement streams are macro-structured source and round-trip checked;
+  - `$EFC4-$F367`: pre-audio padding and the complete NMI sound consumer,
+    eight virtual-channel updates, APU publication, and ten command handlers
+    are source-owned;
+  - `$F368-$FFFF`: all timing/envelope tables, 26 sound-effect descriptors,
+    114 reachable audio stream entries, and the three CPU vectors are
+    symbolic source guarded by the audio-data audit;
 - split the remaining preservation range into reset/startup, scheduler, room,
   gameplay/object, rendering, audio, static-data, and vector modules at proven
   code/data boundaries;

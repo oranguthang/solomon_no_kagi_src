@@ -588,3 +588,17 @@ RoomItemStream53:
     EndRoomItemStream $E8
 
 .assert * - RoomItemStream01 = $053E, error, "unexpected room item data size"
+
+.segment "PRG_FILLER_BEFORE_AUDIO"
+
+PreAudioPadding:
+    .byte $00, $FF, $00, $FF, $00, $FF, $00, $FF
+    .byte $00, $FF, $00, $FF, $FF, $00, $FF, $00
+    .byte $FF, $00, $FF, $00, $FF, $00, $BF, $00
+    .byte $FF, $00, $FF, $00, $00, $FF, $00, $FF
+    .byte $00, $FF, $00, $FF, $00, $FF, $00, $FF
+    .byte $00, $FF, $00, $BF, $FF, $00, $FF, $00
+    .byte $FF, $00, $FF, $00, $FF, $00, $FF, $00
+    .byte $FF, $00, $FF, $00
+
+.assert * - PreAudioPadding = $003C, error, "unexpected pre-audio padding size"

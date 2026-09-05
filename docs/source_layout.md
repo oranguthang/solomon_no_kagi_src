@@ -247,7 +247,13 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_ROOM_BLOCK_DATA` | 53 paired 24-byte block bitplanes | 2,544 |
 | `PRG_ROOM_ITEM_POINTERS` | 53 split room-item stream pointers | 106 |
 | `PRG_ROOM_ITEM_DATA` | 53 metadata and compressed item streams | 1,342 |
-| `PRG_POST_ROOM_ITEM_DATA` | unresolved `$EFC4-$FFFF` range | 4,156 |
+| `PRG_FILLER_BEFORE_AUDIO` | classified padding before the audio entry | 60 |
+| `PRG_AUDIO_ENGINE` | virtual-channel sequencer and command handlers | 872 |
+| `PRG_AUDIO_TIMING_TABLES` | 12 periods and 26 duration values | 50 |
+| `PRG_AUDIO_ENVELOPES` | eight pointers and 105 duration/volume pairs | 226 |
+| `PRG_SOUND_EFFECT_DATA` | 26 pointers and 75 channel assignments | 278 |
+| `PRG_AUDIO_STREAMS` | complete reachable audio bytecode | 2,664 |
+| `VECTORS` | NMI, Reset, and IRQ vectors | 6 |
 | `PRG_BANK_1` | generated CHR payload (historical name) | 32,768 |
 
 This unusual naming is documented in `config/linker/cnrom.cfg`. Renaming a

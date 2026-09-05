@@ -55,6 +55,9 @@ range is understood.
 | `$044A-$0451` | eight unpacked decimal score digits, most significant first | confirmed |
 | `$0452` | remaining lives | high |
 | `$0453-$0454` | collected and queued fairies | high |
+| `$0456-$04D5` | eight 16-byte virtual audio-channel records | confirmed |
+| `$04D6-$04F5` | eight interleaved duration/reload/envelope/volume records | confirmed |
+| `$04F6` | rotating active virtual-channel bitset | confirmed |
 | `$05BE` | total extra lives acquired; overlaps auxiliary-object byte 3 | high |
 | `$04F7-$057E` | 17 eight-byte enemy AI records; bytes 6-7 can hold two linked slot indices | high |
 | `$057F-$070F` | `$14`-byte gameplay object records | high |

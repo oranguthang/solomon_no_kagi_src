@@ -28,6 +28,8 @@ MIRROR_ENEMY_SET_LOOP_BASE = 0x90
 ENEMY_POINTER_TABLE = 0x5CEC
 BLOCK_DATA = 0x602C
 ITEM_POINTER_TABLE = 0x6A1C
+ITEM_DATA_END = 0x6FC4
+AUDIO_ENGINE = 0x7000
 
 
 class RoomDataError(ValueError):
@@ -687,6 +689,21 @@ def emit_item_source(prg: bytes) -> str:
             "",
             f".assert * - {labels[0]} = ${data_size:04X}, error, "
             '"unexpected room item data size"',
+            "",
+            '.segment "PRG_FILLER_BEFORE_AUDIO"',
+            "",
+            "PreAudioPadding:",
+        )
+    )
+    padding = prg[ITEM_DATA_END:AUDIO_ENGINE]
+    for offset in range(0, len(padding), 8):
+        row = padding[offset : offset + 8]
+        lines.append("    .byte " + ", ".join(f"${value:02X}" for value in row))
+    lines.extend(
+        (
+            "",
+            f".assert * - PreAudioPadding = ${len(padding):04X}, error, "
+            '"unexpected pre-audio padding size"',
             "",
         )
     )

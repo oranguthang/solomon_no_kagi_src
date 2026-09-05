@@ -61,6 +61,10 @@ evidence, and small tested tools for decoded game data.
   All 53 paired brown/white room block bitplanes continue through `$EA1B`.
   All 53 split room-item pointers, metadata headers, and compressed placement
   streams are source-owned at `$EA1C-$EFC3`.
+  Classified pre-audio padding and the NMI-driven eight-channel sequencer,
+  APU publisher, and `$F0-$F9` command handlers continue through `$F367`.
+  Timing and envelope tables, all 26 sound-effect descriptors, the complete
+  reachable audio bytecode, and CPU vectors own `$F368-$FFFF`.
   The common PPU latch/address writer owns `$CD53-$CD5E`.
   Pixel/room-map conversion owns `$918A-$91B8` and all 31 callers use symbols.
   Direct CPU-to-PPU transfer state owns `$96DC-$970A` and all 13 boundary calls
@@ -106,6 +110,8 @@ evidence, and small tested tools for decoded game data.
   action descriptors, four variant selectors, and 275 animation frame records.
 - `scripts/object_motion_data.py` validates all 33 motion-table pointers, 20
   selector groups, 388 action selectors, and 35 paired Y/X vectors.
+- `scripts/audio_data.py` validates the period/duration/envelope tables, 26
+  effect descriptors, and complete reachability of the audio bytecode range.
 - Architecture, RAM, room formats, provenance, naming policy, and unknowns are
   recorded under `docs/`.
 - Initial Mesen watches and breakpoints live under `config/` with a trace
@@ -186,6 +192,7 @@ make reconstruction-audit # validate module ranges, provenance, and thresholds
 make scheduler-report # decode scheduler stack and entry tables as JSON
 make object-animation-report # decode object animation definitions as JSON
 make object-motion-report # decode object motion definitions as JSON
+make audio-data-report # decode audio tables, descriptors, and streams as JSON
 make scheduler-audit # check static/reviewed dynamic entries and call inventory
 make enemy-ai-report # decode the 28-entry AI handler appendix
 make enemy-ai-audit # compare every handler pointer with its reviewed manifest
@@ -195,10 +202,12 @@ make enemy-pointer-report # decode the split object/AI record pointer tables
 make enemy-pointer-audit # verify pointer bases, strides, and counts
 make ppu-update-report # decode all 18 static PPU update streams as JSON
 make ppu-update-audit # verify pointers, coverage, hashes, and byte round trips
+make audio-data-audit # verify audio pointers, hashes, reachability, and round trips
 make roundtrip-formats # round-trip rooms and Demon Mirror data
 python scripts/room_data.py --image "Solomon's Key (U) [!].nes" --source-enemies # regenerate room enemy ASM
 python scripts/room_data.py --image "Solomon's Key (U) [!].nes" --source-blocks # regenerate room block ASM
 python scripts/room_data.py --image "Solomon's Key (U) [!].nes" --source-items # regenerate room item ASM
+python scripts/audio_data.py source --image "Solomon's Key (U) [!].nes" # regenerate audio ASM
 make release-check # complete static, test, identity, and room-data gate
 make check       # alias for release-check
 make rooms       # decode all 53 rooms as JSON
@@ -257,6 +266,7 @@ src/game/special_room_scripts.asm 53-entry room script dispatcher and triggers
 src/game/ending_sequence.asm room-index 49 ending sequence
 src/game/ending_and_special_room_support.asm ending and special-room support
 src/system/sound_effect_queue.asm three-slot sound command producer
+src/system/audio_engine.asm NMI audio sequencer, command VM, and APU publisher
 src/system/ppu_update_buffer.asm publish shared RAM program to NMI
 src/graphics/ppu_attribute_read.asm NMI RoomMap attribute-byte reader
 src/system/jump_with_params.asm inline appendix tail-dispatch ABI

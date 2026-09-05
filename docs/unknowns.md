@@ -16,8 +16,8 @@
    Tecmo Bunnies, and the Pages of Time and Space.
 7. Prove timer service frequency under scheduler load and reproduce known
    timing volatility with a deterministic emulator scenario.
-8. Reconstruct the sound-request consumer, command priorities, music/SFX
-   pointer tables, and APU ownership.
+8. Prove sound-command priorities and virtual-to-hardware channel stealing at
+   runtime, then assign musical names only where trace evidence supports them.
 9. Compare USA, Japan, and Europe PRG revisions without merging assumptions
    from one profile into another.
 10. Prove the exact meanings of Dana record bytes 3 and 5 plus fireball setup
