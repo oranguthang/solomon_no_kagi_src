@@ -60,6 +60,8 @@ PpuAttributeReadState = $0029
 PpuAttributeReadIdleState = $00
 PpuAttributeReadCompleteState = $80
 PpuAttributeReadTimeoutState = $A8
+DanaSavedAction = $002A
+DanaSavedYMotion = $002B
 EnemyAiPointer = $002C
 RoomEnemyPointer = $002C
 EnemyObjectPointer = $002E
@@ -174,6 +176,7 @@ EnemyAiFirstLinkedSlotOffset = $06
 EnemyAiSecondLinkedSlotOffset = $07
 
 ObjectRecordSize = $14
+ActiveObjectStateMinimum = $C0
 ObjectStateOffset = $00
 ObjectTypeOffset = $01
 ObjectCachedTypeOffset = $02

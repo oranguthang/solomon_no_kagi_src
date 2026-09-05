@@ -2,7 +2,9 @@
 
 .segment "PRG_DANA_ACTIONS"
 
+HeadCollisionX = $0000
 DanaHeadCollisionBits = $0001
+FireballSourceAction = $0000
 DanaActionY = $0004
 DanaActionX = $0005
 DanaBlockCastTarget = $007E
@@ -32,7 +34,7 @@ EncodeHeadCollisionSide:
     TXA
     CLC
     ADC #$04
-    STA $00
+    STA HeadCollisionX
     STA DanaActionX
     JSR ConvertPixelCoordinatesToMapIndex
     TAY
@@ -42,12 +44,12 @@ EncodeHeadCollisionSide:
     ROL DanaHeadCollisionBits
     CLC
     LDA #$F8
-    ADC $00
-    STA $00
+    ADC HeadCollisionX
+    STA HeadCollisionX
     CLC
     LDA #$09
-    ADC $00
-    EOR $00
+    ADC HeadCollisionX
+    EOR HeadCollisionX
     AND #$F0
     BEQ ReadSecondHeadCollisionCell
     INX
@@ -94,13 +96,13 @@ StoreHeadCollisionTarget:
 
 SpawnHeadCollisionSpark:
     LDX #<MagicSparkObject
-    STX $00
+    STX MapInteractionObjectPointer
     LDX #>MagicSparkObject
-    STX $01
+    STX MapInteractionObjectPointer + 1
     STY DanaActionY
     JSR ApplyMapTileInteractionToObject
     LDA #$09
-    STA MagicSparkObject + $03
+    STA MagicSparkObject + ObjectActionOffset
 
 WaitAfterHeadCollision:
     JSR ResetAndSelectGameplayDelayCounter
@@ -113,9 +115,9 @@ FinishHeadCollisionAction:
 CastFireballFromInventory:
     LDY #$00
     STY GameplayDelayCounter
-    LDA FireballObject
+    LDA FireballObject + ObjectStateOffset
     BMI FinishFireballCast
-    LDA $2A
+    LDA DanaSavedAction
     CMP #$18
     LDX #$02
     BCC StoreFireballCastPose
@@ -123,7 +125,7 @@ CastFireballFromInventory:
 
 StoreFireballCastPose:
     STX FireballCastingPose
-    STA $00
+    STA FireballSourceAction
     AND #$01
     STA FireballDirectionIndex
     LSR A
@@ -134,10 +136,10 @@ StoreFireballCastPose:
 PositionFireballHorizontally:
     ADC DanaXPosition
     STA FireballObject + ObjectXPositionOffset
-    LDA $00
+    LDA FireballSourceAction
     AND #$FC
-    STY FireballObject + $03
-    STY FireballObject + $02
+    STY FireballObject + ObjectActionOffset
+    STY FireballObject + ObjectCachedTypeOffset
     STY FireballLifeCounter1Lo
     STY FireballLifeCounter1Hi
     CMP #$10
@@ -167,9 +169,9 @@ ConsumeNextFireballInventorySlot:
     LDA #$10
 
 ActivateFireball:
-    STA FireballObject + $01
+    STA FireballObject + ObjectTypeOffset
     LDA #$C0
-    STA FireballObject
+    STA FireballObject + ObjectStateOffset
     ASL A
     STA FireballActive
     JSR BuildFireballInventoryDisplayUpdate
@@ -181,7 +183,7 @@ CastOrRemoveBlock:
     LDA #$00
     STA GameplayDelayCounter
     STA RoomMapUpdateIndex
-    LDA $2A
+    LDA DanaSavedAction
     LDX #$08
     AND #$FC
     CMP #$10
@@ -195,7 +197,7 @@ SelectBlockCastVerticalOffset:
     CLC
     ADC DanaActionY
     STA DanaActionY
-    LDA $2A
+    LDA DanaSavedAction
     ROR A
     LDA #$15
     BCC SelectBlockCastHorizontalOffset
@@ -208,19 +210,19 @@ SelectBlockCastHorizontalOffset:
     JSR ConvertPixelCoordinatesToMapIndex
     TAY
     LDX #<MagicSparkObject
-    STX $00
+    STX MapInteractionObjectPointer
     LDX #>MagicSparkObject
-    STX $01
+    STX MapInteractionObjectPointer + 1
     LDA RoomMap,Y
     STY DanaBlockCastTarget
     BMI RemoveBlockAtTarget
 
 CreateBlockAtTarget:
     JSR TryCreateBlockAtMapCell
-    LDA MagicSparkObject
+    LDA MagicSparkObject + ObjectStateOffset
     BPL WaitForBlockCast
     LDY #SolidBlockRemoveSound
-    LDA MagicSparkObject + $03
+    LDA MagicSparkObject + ObjectActionOffset
     CMP #$02
     BCS QueueBlockCastSound
     LDY #BlockCreateSound
@@ -232,9 +234,9 @@ WaitForBlockCast:
     LDX #GameplayDelayCounter
     LDA #$0F
     JSR WaitForZeroPageCounterAboveThreshold
-    LDA MagicSparkObject
+    LDA MagicSparkObject + ObjectStateOffset
     BPL FinishBlockCast
-    LDA MagicSparkObject + $03
+    LDA MagicSparkObject + ObjectActionOffset
     CMP #$02
     BCS FinishBlockCast
     LDA MagicSparkObject + ObjectYPositionOffset
@@ -269,12 +271,12 @@ FinishDanaCasting:
     JSR WaitForZeroPageCounterAboveThreshold
 
 FinishBlockCast:
-    LDA DanaObject
+    LDA DanaObject + ObjectStateOffset
     AND #$FE
     ORA #$20
-    STA DanaObject
-    LDA $2A
-    STA DanaObject + $03
+    STA DanaObject + ObjectStateOffset
+    LDA DanaSavedAction
+    STA DanaObject + ObjectActionOffset
     ROR A
     LDA #$FC
     BCC RestoreDanaHorizontalPosition
@@ -283,8 +285,8 @@ FinishBlockCast:
 RestoreDanaHorizontalPosition:
     ADC DanaXPosition
     STA DanaXPosition
-    LDA $2B
-    STA DanaObject + $05
+    LDA DanaSavedYMotion
+    STA DanaObject + ObjectYMotionOffset
 
 FinishDanaAction:
     LDX Joypad1Cached
@@ -297,6 +299,6 @@ FinishDanaAction:
 
 DeactivateMagicSpark:
     LDA #$00
-    STA MagicSparkObject
+    STA MagicSparkObject + ObjectStateOffset
     LDA #$01
     JSR StopThread

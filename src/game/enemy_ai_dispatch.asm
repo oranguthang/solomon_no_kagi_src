@@ -2,6 +2,8 @@
 
 .segment "PRG_ENEMY_AI_DISPATCH"
 
+EnemyAiDispatchTypeMinimum = $14
+
 RunEnemyAiDispatcher:
     LDX #EnemyObjectCount - 1
 
@@ -16,13 +18,13 @@ CheckNextEnemyAiSlot:
     STA EnemyObjectPointer
     LDA EnemyObjectPointerHighTable,X
     STA EnemyObjectPointer + 1
-    LDY #$00
+    LDY #ObjectStateOffset
     LDA (EnemyObjectPointer),Y
-    CMP #$C0
+    CMP #ActiveObjectStateMinimum
     BCC NextEnemyAiSlot
-    INY
+    INY  ; ObjectTypeOffset immediately follows ObjectStateOffset
     LDA (EnemyObjectPointer),Y
-    SBC #$14
+    SBC #EnemyAiDispatchTypeMinimum
     BCC NextEnemyAiSlot
     JSR DispatchEnemyAiHandler
 

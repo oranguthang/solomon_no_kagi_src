@@ -9,9 +9,6 @@ CollisionTargetX = $000D
 FireballPreviousCollisionMask = $000E
 FireballCurrentCollisionMask = $000F
 
-DanaActionStateSnapshot = $002A
-DanaActionMotionSnapshot = $002B
-
 DanaActionRequestBlockMagic = $11
 DanaActionRequestFireball = $13
 DanaEnemyCollisionThreadCode = $31
@@ -390,7 +387,7 @@ TryStartDanaAction:
     SBC #$10
     CMP #$0C
     BCS RejectDanaAction
-    STX DanaActionStateSnapshot
+    STX DanaSavedAction
     CMP #$04
     TXA
     AND #$01
@@ -409,7 +406,7 @@ OffsetDanaCastingPosition:
     ADC DanaXPosition
     STA DanaXPosition
     LDA DanaObject + ObjectYMotionOffset
-    STA DanaActionMotionSnapshot
+    STA DanaSavedYMotion
     INC GameplayFlags
     LDA DanaObject + ObjectStateOffset
     AND #$DE

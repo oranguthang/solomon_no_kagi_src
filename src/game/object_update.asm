@@ -2,7 +2,6 @@
 
 .segment "PRG_OBJECT_UPDATE"
 
-ActiveObjectStateMinimum = $C0
 LastObjectRecordIndex = ObjectRecordCount - 1
 CurrentObjectUpdateIndex = $000D
 

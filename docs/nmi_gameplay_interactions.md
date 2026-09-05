@@ -46,9 +46,10 @@ The A-button and B-button NMI paths enter `TryStartBlockMagicAction` and
 `CastFireballFromInventory`.
 
 The shared setup rejects incompatible gameplay flags and Dana actions outside
-`$10-$1B`. An accepted request snapshots Dana's action and Y-motion in
-`$002A-$002B`, selects the casting pose, shifts Dana's X coordinate, marks the
-action active, and submits the code through `QueuePendingThreadStart`.
+`$10-$1B`. An accepted request snapshots Dana's action and Y-motion as
+`DanaSavedAction` and `DanaSavedYMotion`, selects the casting pose, shifts
+Dana's X coordinate, marks the action active, and submits the code through
+`QueuePendingThreadStart`.
 
 That queue has four slots at `$041F-$0422`. It searches slots 3 through 1 for
 zero and uses slot 0 as the fallback. Startup drains the same array and calls

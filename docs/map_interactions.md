@@ -21,8 +21,11 @@ header initializer writes state `$C6`, variant `$04`, sentinel `$FF` in byte
 2, and a tile-dependent action byte. Nonnegative source tiles are then queued
 for redraw through `BuildAndPublishRoomMapCellUpdate`.
 
-The entry has six external callers: two Dana action paths and four unresolved
-enemy behavior paths. Every call now uses the semantic symbol.
+The entry has six external callers. `HandleDanaHeadCollision` and
+`RemoveBlockAtTarget` supply the magic-spark record. The four enemy paths are
+`UpdateType1CTo37MapInteraction`, `AllocateSingleLinkedEnemy`,
+`UpdateType0CTo0FMapInteraction`, and `ApplyForwardEnemyMapInteraction`.
+Every call uses the semantic symbol and the shared zero-page aliases.
 
 ## Creating a block
 
@@ -48,10 +51,10 @@ Depending on occupancy, the routine either:
 through `MapInteractionObjectPointer`:
 
 ```text
-byte 0 = MapInteractionY
-byte 1 = MapInteractionX
-byte 2 = $FF
-byte 3 = A, unless A is negative
+ObjectStateOffset      = MapInteractionY
+ObjectTypeOffset       = MapInteractionX
+ObjectCachedTypeOffset = $FF
+ObjectActionOffset     = A, unless A is negative
 ```
 
 Eleven static calls use this symbol: eight external call sites and three paths

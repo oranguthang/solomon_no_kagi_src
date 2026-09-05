@@ -62,7 +62,7 @@ InitializeMapInteractionObject:
     TXA
     BMI FinishMapInteraction
     STY RoomMapUpdateIndex
-    STY DanaObject + $02
+    STY DanaObject + ObjectCachedTypeOffset
     JMP BuildAndPublishRoomMapCellUpdate
 
 FinishMapInteraction:
@@ -112,7 +112,7 @@ CheckNextEnemyForBlockOverlap:
     BEQ CreateBlockInRoomMap
 
 HandleEnemyBlockOverlap:
-    LDY #$01
+    LDY #ObjectTypeOffset
     LDA (OverlapObjectPointer),Y
     BPL PositionBlockSparkFromEnemy
     DEY
@@ -208,7 +208,7 @@ AdvanceRoomMapTileVariant:
     JMP BuildAndPublishRoomMapCellUpdate
 
 InitializeObjectStateHeader:
-    LDY #$03
+    LDY #ObjectActionOffset
     CMP #$00
     BMI SkipObjectActionByte
     STA (MapInteractionObjectPointer),Y

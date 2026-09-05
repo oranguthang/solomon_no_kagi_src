@@ -45,9 +45,10 @@ a nonnegative value calls `TryCreateBlockAtMapCell`. Both operations use the
 magic-spark object at `$0593`, wait on `GameplayDelayCounter`, and request
 map-cell updates through `BuildAndPublishRoomMapCellUpdate`.
 
-The NMI request path snapshots Dana's action and Y-motion at `$002A-$002B`.
-It stores the fireball direction index at `$0430`; the cast entry derives the
-fireball configuration from that index and the casting pose at `$0431`.
+The NMI request path snapshots `ObjectActionOffset` and `ObjectYMotionOffset`
+as `DanaSavedAction` and `DanaSavedYMotion` at `$002A-$002B`. It stores the
+fireball direction index at `$0430`; the cast entry derives the fireball
+configuration from that index and the casting pose at `$0431`.
 
 The shared `$9C12` continuation restores Dana's action state and position. The
 final `$9C3A` path filters the cached controller bits, deactivates the magic
