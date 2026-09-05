@@ -20,6 +20,11 @@ BLOCK_BYTES_PER_ROOM = BITPLANE_SIZE * 2
 # iNES header, hence the $10 difference from the ROM-map document.
 MIRROR_SCHEDULE_TABLE = 0x5C00
 MIRROR_ENEMY_SET_TABLE = 0x5C20
+MIRROR_SCHEDULE_DATA = 0x5C42
+MIRROR_SCHEDULE_COUNT = 16
+MIRROR_SCHEDULE_SIZE = 8
+MIRROR_ENEMY_SET_COUNT = 17
+MIRROR_ENEMY_SET_LOOP_BASE = 0x90
 ENEMY_POINTER_TABLE = 0x5CEC
 BLOCK_DATA = 0x602C
 ITEM_POINTER_TABLE = 0x6A1C
@@ -124,6 +129,79 @@ def encode_split_pointers(offsets: Iterable[int]) -> bytes:
     return bytes(address & 0xFF for address in cpu_addresses) + bytes(
         address >> 8 for address in cpu_addresses
     )
+
+
+def decode_mirror_schedules(prg: bytes) -> list[dict[str, object]]:
+    schedules: list[dict[str, object]] = []
+    for index in range(MIRROR_SCHEDULE_COUNT):
+        offset = split_pointer(prg, MIRROR_SCHEDULE_TABLE, index, MIRROR_SCHEDULE_COUNT)
+        data = prg[offset : offset + MIRROR_SCHEDULE_SIZE]
+        if len(data) != MIRROR_SCHEDULE_SIZE:
+            raise RoomDataError(f"truncated Demon Mirror schedule {index}")
+        schedules.append(
+            {
+                "index": index,
+                "prg_offset": offset,
+                "initial_phase": list(data[:4]),
+                "loop_phase": list(data[4:]),
+            }
+        )
+    return schedules
+
+
+def encode_mirror_schedule(schedule: dict[str, object]) -> bytes:
+    initial = schedule.get("initial_phase")
+    loop = schedule.get("loop_phase")
+    if (
+        not isinstance(initial, list)
+        or not isinstance(loop, list)
+        or len(initial) != 4
+        or len(loop) != 4
+        or any(not isinstance(value, int) or not 0 <= value <= 0xFF for value in initial + loop)
+    ):
+        raise RoomDataError(f"invalid Demon Mirror schedule: {schedule!r}")
+    return bytes(initial + loop)
+
+
+def decode_mirror_enemy_sets(prg: bytes) -> list[dict[str, object]]:
+    enemy_sets: list[dict[str, object]] = []
+    for index in range(MIRROR_ENEMY_SET_COUNT):
+        offset = split_pointer(
+            prg, MIRROR_ENEMY_SET_TABLE, index, MIRROR_ENEMY_SET_COUNT
+        )
+        cursor = offset
+        enemy_types: list[int] = []
+        while cursor < ENEMY_POINTER_TABLE:
+            value = prg[cursor]
+            cursor += 1
+            if value >= MIRROR_ENEMY_SET_LOOP_BASE:
+                enemy_sets.append(
+                    {
+                        "index": index,
+                        "prg_offset": offset,
+                        "encoded_size": cursor - offset,
+                        "enemy_types": enemy_types,
+                        "loop_offset": value - MIRROR_ENEMY_SET_LOOP_BASE,
+                    }
+                )
+                break
+            enemy_types.append(value)
+        else:
+            raise RoomDataError(f"unterminated Demon Mirror enemy set {index}")
+    return enemy_sets
+
+
+def encode_mirror_enemy_set(enemy_set: dict[str, object]) -> bytes:
+    enemy_types = enemy_set.get("enemy_types")
+    loop_offset = enemy_set.get("loop_offset")
+    if not isinstance(enemy_types, list) or any(
+        not isinstance(value, int) or not 0 <= value < MIRROR_ENEMY_SET_LOOP_BASE
+        for value in enemy_types
+    ):
+        raise RoomDataError(f"invalid Demon Mirror enemy types: {enemy_types!r}")
+    if not isinstance(loop_offset, int) or not 0 <= loop_offset <= 0x6F:
+        raise RoomDataError(f"invalid Demon Mirror loop offset: {loop_offset!r}")
+    return bytes(enemy_types + [MIRROR_ENEMY_SET_LOOP_BASE + loop_offset])
 
 
 def decode_enemies(prg: bytes, room_index: int) -> dict[str, object]:
@@ -364,6 +442,8 @@ def decode_room(prg: bytes, room_index: int) -> dict[str, object]:
 
 def roundtrip_rooms(prg: bytes) -> dict[str, int]:
     rooms = [decode_room(prg, index) for index in range(ROOM_COUNT)]
+    mirror_schedules = decode_mirror_schedules(prg)
+    mirror_enemy_sets = decode_mirror_enemy_sets(prg)
     enemy_offsets: list[int] = []
     item_offsets: list[int] = []
     checked_bytes = 0
@@ -396,7 +476,38 @@ def roundtrip_rooms(prg: bytes) -> dict[str, int]:
     if item_pointers != prg[ITEM_POINTER_TABLE : ITEM_POINTER_TABLE + len(item_pointers)]:
         raise RoomDataError("item pointer-table round trip differs")
     checked_bytes += len(enemy_pointers) + len(item_pointers)
-    return {"rooms": len(rooms), "format_families": 3, "checked_bytes": checked_bytes}
+
+    schedule_offsets: list[int] = []
+    for schedule in mirror_schedules:
+        offset = int(schedule["prg_offset"])
+        encoded = encode_mirror_schedule(schedule)
+        if encoded != prg[offset : offset + len(encoded)]:
+            raise RoomDataError(f"Demon Mirror schedule {schedule['index']} differs")
+        schedule_offsets.append(offset)
+        checked_bytes += len(encoded)
+    schedule_pointers = encode_split_pointers(schedule_offsets)
+    if schedule_pointers != prg[
+        MIRROR_SCHEDULE_TABLE : MIRROR_SCHEDULE_TABLE + len(schedule_pointers)
+    ]:
+        raise RoomDataError("Demon Mirror schedule pointer round trip differs")
+    checked_bytes += len(schedule_pointers)
+
+    enemy_set_offsets: list[int] = []
+    for enemy_set in mirror_enemy_sets:
+        offset = int(enemy_set["prg_offset"])
+        encoded = encode_mirror_enemy_set(enemy_set)
+        if encoded != prg[offset : offset + len(encoded)]:
+            raise RoomDataError(f"Demon Mirror enemy set {enemy_set['index']} differs")
+        enemy_set_offsets.append(offset)
+        checked_bytes += len(encoded)
+    enemy_set_pointers = encode_split_pointers(enemy_set_offsets)
+    if enemy_set_pointers != prg[
+        MIRROR_ENEMY_SET_TABLE : MIRROR_ENEMY_SET_TABLE + len(enemy_set_pointers)
+    ]:
+        raise RoomDataError("Demon Mirror enemy-set pointer round trip differs")
+    checked_bytes += len(enemy_set_pointers)
+
+    return {"rooms": len(rooms), "format_families": 5, "checked_bytes": checked_bytes}
 
 
 def main() -> int:

@@ -26,12 +26,12 @@ the iNES header, PRG, CHR, headerless payload, full image, and extracted CHR.
 | `check-assets` | alias for `verify-assets` |
 | `verify` | aggregate of every target above |
 | `rom-info` | print and validate identities for original and built images |
-| `roundtrip-formats` | losslessly decode/encode all room records and pointer tables |
+| `roundtrip-formats` | losslessly decode/encode room and Demon Mirror records/pointers |
 | `scheduler-audit` | check stacks, static/reviewed dynamic entries, and call counts |
 | `enemy-ai-audit` | check all 28 inline enemy-AI handler pointers |
 | `item-handler-audit` | check all 29 item selectors, pointers, names, and table hash |
 | `ppu-update-audit` | check 18 static stream pointers, coverage, hashes, and byte round trips |
-| `release-check` | lint, tests, verification, format round trips, reconstruction, scheduler, AI, pointer, and PPU-stream audits |
+| `release-check` | lint, tests, ROM verification, format round trips, and subsystem audits |
 | `check` | alias for `release-check` |
 
 Focused region targets deliberately compare only their named output region.

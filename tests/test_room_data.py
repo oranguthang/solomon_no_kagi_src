@@ -62,6 +62,35 @@ class RoomDataTests(unittest.TestCase):
         encoded = room_data.encode_split_pointers(offsets)
         self.assertEqual(encoded, bytes((0x00, 0x34, 0xFF, 0x81, 0x92, 0xFF)))
 
+    def test_mirror_schedule_round_trip(self) -> None:
+        prg = bytearray(32_768)
+        offset = 0x1000
+        cpu_address = offset + 0x8000
+        table = room_data.MIRROR_SCHEDULE_TABLE
+        count = room_data.MIRROR_SCHEDULE_COUNT
+        prg[table : table + count] = bytes((cpu_address & 0xFF,)) * count
+        prg[table + count : table + count * 2] = bytes((cpu_address >> 8,)) * count
+        encoded = bytes((0x84, 0x21, 0x08, 0x42, 0x08, 0x42, 0x10, 0x84))
+        prg[offset : offset + len(encoded)] = encoded
+        schedule = room_data.decode_mirror_schedules(bytes(prg))[0]
+        self.assertEqual(schedule["initial_phase"], [0x84, 0x21, 0x08, 0x42])
+        self.assertEqual(room_data.encode_mirror_schedule(schedule), encoded)
+
+    def test_mirror_enemy_set_round_trip(self) -> None:
+        prg = bytearray(32_768)
+        offset = 0x1000
+        cpu_address = offset + 0x8000
+        table = room_data.MIRROR_ENEMY_SET_TABLE
+        count = room_data.MIRROR_ENEMY_SET_COUNT
+        prg[table : table + count] = bytes((cpu_address & 0xFF,)) * count
+        prg[table + count : table + count * 2] = bytes((cpu_address >> 8,)) * count
+        encoded = bytes((0x50, 0x51, 0x5C, 0x90))
+        prg[offset : offset + len(encoded)] = encoded
+        enemy_set = room_data.decode_mirror_enemy_sets(bytes(prg))[0]
+        self.assertEqual(enemy_set["enemy_types"], [0x50, 0x51, 0x5C])
+        self.assertEqual(enemy_set["loop_offset"], 0)
+        self.assertEqual(room_data.encode_mirror_enemy_set(enemy_set), encoded)
+
     def test_extracts_prg_from_ines(self) -> None:
         header = b"NES\x1a" + bytes((2, 4, 0x30, 0)) + bytes(8)
         prg = bytes([0xA5]) * 32_768

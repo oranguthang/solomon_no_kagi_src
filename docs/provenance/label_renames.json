@@ -7564,7 +7564,159 @@
     },
     {
       "address": "0xdb99", "previous": "$DB99", "current": "ObjectMotionValues", "confidence": "confirmed",
-      "evidence": ["Nonnegative action selectors index this complete table of 35 paired Y/X motion values."]
+     "evidence": ["Nonnegative action selectors index this complete table of 35 paired Y/X motion values."]
+    },
+    {
+      "address": "0xdbdf", "previous": "$DBDF", "current": "FillerBeforeDemonMirrorData", "confidence": "confirmed",
+      "evidence": ["This 33-byte non-referenced pattern exactly fills the gap between the motion vectors and the aligned Demon Mirror pointer tables."]
+    },
+    {
+      "address": "0xdc00", "previous": "$DC00", "current": "DemonMirrorSchedulePointerLowTable", "confidence": "confirmed",
+      "evidence": ["Room metadata decoding indexes this split low-byte table to resolve a reviewed Demon Mirror data pointer."]
+    },
+    {
+      "address": "0xdc10", "previous": "$DC10", "current": "DemonMirrorSchedulePointerHighTable", "confidence": "confirmed",
+      "evidence": ["Room metadata decoding indexes this adjacent split high-byte table to complete a reviewed Demon Mirror data pointer."]
+    },
+    {
+      "address": "0xdc20", "previous": "$DC20", "current": "DemonMirrorEnemySetPointerLowTable", "confidence": "confirmed",
+      "evidence": ["Room metadata decoding indexes this split low-byte table to resolve a reviewed Demon Mirror data pointer."]
+    },
+    {
+      "address": "0xdc31", "previous": "$DC31", "current": "DemonMirrorEnemySetPointerHighTable", "confidence": "confirmed",
+      "evidence": ["Room metadata decoding indexes this adjacent split high-byte table to complete a reviewed Demon Mirror data pointer."]
+    },
+    {
+      "address": "0xdc42", "previous": "$DC42", "current": "DemonMirrorSchedule00", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this audited eight-byte spawn schedule consumed in two four-byte phases."]
+    },
+    {
+      "address": "0xdc4a", "previous": "$DC4A", "current": "DemonMirrorSchedule01", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this audited eight-byte spawn schedule consumed in two four-byte phases."]
+    },
+    {
+      "address": "0xdc52", "previous": "$DC52", "current": "DemonMirrorSchedule02", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this audited eight-byte spawn schedule consumed in two four-byte phases."]
+    },
+    {
+      "address": "0xdc5a", "previous": "$DC5A", "current": "DemonMirrorSchedule03", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this audited eight-byte spawn schedule consumed in two four-byte phases."]
+    },
+    {
+      "address": "0xdc62", "previous": "$DC62", "current": "DemonMirrorSchedule04", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this audited eight-byte spawn schedule consumed in two four-byte phases."]
+    },
+    {
+      "address": "0xdc6a", "previous": "$DC6A", "current": "DemonMirrorSchedule05", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this audited eight-byte spawn schedule consumed in two four-byte phases."]
+    },
+    {
+      "address": "0xdc72", "previous": "$DC72", "current": "DemonMirrorSchedule06", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this audited eight-byte spawn schedule consumed in two four-byte phases."]
+    },
+    {
+      "address": "0xdc7a", "previous": "$DC7A", "current": "DemonMirrorSchedule07", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this audited eight-byte spawn schedule consumed in two four-byte phases."]
+    },
+    {
+      "address": "0xdc82", "previous": "$DC82", "current": "DemonMirrorSchedule08", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this audited eight-byte spawn schedule consumed in two four-byte phases."]
+    },
+    {
+      "address": "0xdc8a", "previous": "$DC8A", "current": "DemonMirrorSchedule09", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this audited eight-byte spawn schedule consumed in two four-byte phases."]
+    },
+    {
+      "address": "0xdc92", "previous": "$DC92", "current": "DemonMirrorSchedule10", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this audited eight-byte spawn schedule consumed in two four-byte phases."]
+    },
+    {
+      "address": "0xdc9a", "previous": "$DC9A", "current": "DemonMirrorSchedule11", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this audited eight-byte spawn schedule consumed in two four-byte phases."]
+    },
+    {
+      "address": "0xdca2", "previous": "$DCA2", "current": "DemonMirrorSchedule12", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this audited eight-byte spawn schedule consumed in two four-byte phases."]
+    },
+    {
+      "address": "0xdcaa", "previous": "$DCAA", "current": "DemonMirrorSchedule13", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this audited eight-byte spawn schedule consumed in two four-byte phases."]
+    },
+    {
+      "address": "0xdcb2", "previous": "$DCB2", "current": "DemonMirrorSchedule14", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this audited eight-byte spawn schedule consumed in two four-byte phases."]
+    },
+    {
+      "address": "0xdcba", "previous": "$DCBA", "current": "DemonMirrorSchedule15", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this audited eight-byte spawn schedule consumed in two four-byte phases."]
+    },
+    {
+      "address": "0xdcc2", "previous": "$DCC2", "current": "DemonMirrorEnemySet00", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this complete enemy-type stream ending in the $90 loop command."]
+    },
+    {
+      "address": "0xdcc4", "previous": "$DCC4", "current": "DemonMirrorEnemySet01", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this complete enemy-type stream ending in the $90 loop command."]
+    },
+    {
+      "address": "0xdcc6", "previous": "$DCC6", "current": "DemonMirrorEnemySet02", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this complete enemy-type stream ending in the $90 loop command."]
+    },
+    {
+      "address": "0xdcc8", "previous": "$DCC8", "current": "DemonMirrorEnemySet03", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this complete enemy-type stream ending in the $90 loop command."]
+    },
+    {
+      "address": "0xdccb", "previous": "$DCCB", "current": "DemonMirrorEnemySet04", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this complete enemy-type stream ending in the $90 loop command."]
+    },
+    {
+      "address": "0xdcce", "previous": "$DCCE", "current": "DemonMirrorEnemySet05", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this complete enemy-type stream ending in the $90 loop command."]
+    },
+    {
+      "address": "0xdcd0", "previous": "$DCD0", "current": "DemonMirrorEnemySet06", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this complete enemy-type stream ending in the $90 loop command."]
+    },
+    {
+      "address": "0xdcd4", "previous": "$DCD4", "current": "DemonMirrorEnemySet07", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this complete enemy-type stream ending in the $90 loop command."]
+    },
+    {
+      "address": "0xdcd8", "previous": "$DCD8", "current": "DemonMirrorEnemySet08", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this complete enemy-type stream ending in the $90 loop command."]
+    },
+    {
+      "address": "0xdcda", "previous": "$DCDA", "current": "DemonMirrorEnemySet09", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this complete enemy-type stream ending in the $90 loop command."]
+    },
+    {
+      "address": "0xdcdc", "previous": "$DCDC", "current": "DemonMirrorEnemySet10", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this complete enemy-type stream ending in the $90 loop command."]
+    },
+    {
+      "address": "0xdcde", "previous": "$DCDE", "current": "DemonMirrorEnemySet11", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this complete enemy-type stream ending in the $90 loop command."]
+    },
+    {
+      "address": "0xdce0", "previous": "$DCE0", "current": "DemonMirrorEnemySet12", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this complete enemy-type stream ending in the $90 loop command."]
+    },
+    {
+      "address": "0xdce2", "previous": "$DCE2", "current": "DemonMirrorEnemySet13", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this complete enemy-type stream ending in the $90 loop command."]
+    },
+    {
+      "address": "0xdce4", "previous": "$DCE4", "current": "DemonMirrorEnemySet14", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this complete enemy-type stream ending in the $90 loop command."]
+    },
+    {
+      "address": "0xdce6", "previous": "$DCE6", "current": "DemonMirrorEnemySet15", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this complete enemy-type stream ending in the $90 loop command."]
+    },
+    {
+      "address": "0xdcea", "previous": "$DCEA", "current": "DemonMirrorEnemySet16", "confidence": "confirmed",
+      "evidence": ["The corresponding split pointer selects this complete enemy-type stream ending in the $90 loop command."]
     }
   ]
 }

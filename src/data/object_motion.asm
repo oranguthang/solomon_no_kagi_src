@@ -521,3 +521,14 @@ ObjectMotionValues:
     ObjectMotionVector $80, $52
 
 .assert * - ObjectMotionValues = 35 * 2, error, "unexpected object motion vector count"
+
+.segment "PRG_FILLER_BEFORE_DEMON_MIRROR_DATA"
+
+FillerBeforeDemonMirrorData:
+    .byte $00, $00, $FF, $00
+    .byte $FF, $00, $FF, $00, $FF, $00, $FF, $00
+    .byte $FF, $00, $FF, $00, $FF, $FF, $00, $FF
+    .byte $00, $FF, $00, $FF, $00, $FF, $00, $FF
+    .byte $00, $FF, $00, $FF, $00
+
+.assert * - FillerBeforeDemonMirrorData = 33, error, "unexpected pre-Demon-Mirror filler size"

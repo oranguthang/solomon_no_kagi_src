@@ -2065,6 +2065,65 @@
       "required_labels": [
         "ObjectMotionValues"
       ]
+    },
+    {
+      "id": "filler_before_demon_mirror_data",
+      "path": "src/data/object_motion.asm",
+      "segment": "PRG_FILLER_BEFORE_DEMON_MIRROR_DATA",
+      "start": "0xdbdf",
+      "end": "0xdbff",
+      "status": "semantic",
+      "required_labels": [
+        "FillerBeforeDemonMirrorData"
+      ]
+    },
+    {
+      "id": "demon_mirror_schedule_pointers",
+      "path": "src/game/demon_mirror_schedule.asm",
+      "segment": "PRG_DEMON_MIRROR_SCHEDULE_POINTERS",
+      "start": "0xdc00",
+      "end": "0xdc1f",
+      "status": "semantic",
+      "required_labels": [
+        "DemonMirrorSchedulePointerLowTable",
+        "DemonMirrorSchedulePointerHighTable"
+      ]
+    },
+    {
+      "id": "demon_mirror_enemy_set_pointers",
+      "path": "src/game/demon_mirror_schedule.asm",
+      "segment": "PRG_DEMON_MIRROR_ENEMY_SET_POINTERS",
+      "start": "0xdc20",
+      "end": "0xdc41",
+      "status": "semantic",
+      "required_labels": [
+        "DemonMirrorEnemySetPointerLowTable",
+        "DemonMirrorEnemySetPointerHighTable"
+      ]
+    },
+    {
+      "id": "demon_mirror_schedule_data",
+      "path": "src/game/demon_mirror_schedule.asm",
+      "segment": "PRG_DEMON_MIRROR_SCHEDULE_DATA",
+      "start": "0xdc42",
+      "end": "0xdcc1",
+      "status": "semantic",
+      "required_labels": [
+        "DemonMirrorSchedule00",
+        "DemonMirrorSchedule15"
+      ]
+    },
+    {
+      "id": "demon_mirror_enemy_set_data",
+      "path": "src/game/demon_mirror_schedule.asm",
+      "segment": "PRG_DEMON_MIRROR_ENEMY_SET_DATA",
+      "start": "0xdcc2",
+      "end": "0xdceb",
+      "status": "semantic",
+      "required_labels": [
+        "DemonMirrorEnemySet00",
+        "DemonMirrorEnemySet16"
+      ]
     }
   ],
   "thresholds": {

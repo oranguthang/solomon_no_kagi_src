@@ -4,10 +4,6 @@
 
 RoomItemPointerLowTable = $EA1C
 RoomItemPointerHighTable = $EA51
-DemonMirrorSchedulePointerLowTable = $DC00
-DemonMirrorSchedulePointerHighTable = $DC10
-DemonMirrorEnemySetPointerLowTable = $DC20
-DemonMirrorEnemySetPointerHighTable = $DC31
 RoomItemHeaderSize = $0A
 RoomItemRuntimeClearCount = $0A
 RoomItemRleBase = $C0

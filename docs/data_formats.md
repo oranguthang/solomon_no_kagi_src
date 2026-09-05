@@ -83,6 +83,11 @@ Every item stream begins with ten bytes:
 | 8 | mirror 1 position |
 | 9 | mirror 2 position |
 
+The schedule indices address 16 eight-byte records at `$DC42-$DCC1`. The enemy
+set indices address 17 streams at `$DCC2-$DCEB`; bytes below `$90` are object
+types and `$90+n` resets the reader offset to `n`. Both split pointer families
+and their complete payloads are expressed symbolically in source.
+
 Normal items are `(type, position)` pairs. `$C0-$DF` encode one repeated type:
 `count = code - $C0 + 1`, followed by the type and `count` position bytes.
 `$00` and `$E0-$EF` terminate the stream and encode the tileset. `$F0-$FB`
@@ -100,8 +105,9 @@ does not corrupt the lossless structural result.
 
 `make roundtrip-formats` decodes and re-encodes all 53 block-plane records,
 enemy streams, item metadata/command streams, and both 53-entry split-pointer
-tables. It compares every encoded result directly with the built PRG and is
-part of `make release-check`.
+tables. It also round-trips all 16 Demon Mirror schedules, 17 enemy-set
+streams, and both of their split-pointer tables. The gate compares all 5,060
+encoded bytes directly with the built PRG and is part of `make release-check`.
 
 ## Nametable clear descriptors
 

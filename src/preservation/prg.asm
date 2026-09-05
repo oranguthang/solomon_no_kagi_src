@@ -2969,73 +2969,7 @@ _label_bank0_b289:
     .byte $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $ff, $00, $ff
     .byte $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00
 
-.segment "PRG_POST_OBJECT_MOTION_VALUES"
-
-    .byte $00, $00, $ff, $00
-    .byte $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $ff, $00, $ff
-    .byte $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00, $ff, $00
-
-; DEMON MIRROR SPAWN RATE TABLE
-; 16 pointers to demon mirror spawn rate data, e.g., rate 1 = $dc42, rate 16 = $dcba
-; low bytes
-    .byte $42, $4a, $52
-    .byte $5a, $62, $6a, $72, $7a, $82, $8a, $92, $9a, $a2, $aa, $b2, $ba
-; high bytes
-    .byte $dc, $dc, $dc
-    .byte $dc, $dc, $dc, $dc, $dc, $dc, $dc, $dc, $dc, $dc, $dc, $dc, $dc
-
-; DEMON MIRROR ENEMY SETS TABLE
-; 17 pointers to demon mirror enemy sets data, e.g., set 1 = $dcc2, set 17 = $dcea
-; low bytes
-    .byte $c2, $c4, $c6
-    .byte $c8, $cb, $ce, $d0, $d4, $d8, $da, $dc, $de, $e0, $e2, $e4, $e6, $ea
-; high bytes
-    .byte $dc, $dc
-    .byte $dc, $dc, $dc, $dc, $dc, $dc, $dc, $dc, $dc, $dc, $dc, $dc, $dc, $dc, $dc
-
-; DEMON MIRROR SPAWN RATE DATA
-; 16 elements, each 8 bytes long
-; Each associated with one of the 17 enemy sets
-; First 4 bytes define level start schedule
-; Second 4 bytes define looping schedule
-; Bytes are bitmasks, bit set means an enemy spawns at that time
-    .byte $00, $00, $00, $00, $00, $00, $00, $00
-    .byte $88, $88, $88, $88, $88, $88, $88, $88
-    .byte $84, $21, $08, $42, $08, $42, $10, $84
-    .byte $00, $44, $44, $44, $44, $44, $44, $44
-    .byte $92, $49, $24, $92, $24, $92, $49, $24
-    .byte $22, $22, $22, $22, $22, $22, $22, $22
-    .byte $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
-    .byte $f5, $52, $49, $f5, $49, $f5, $52, $49
-    .byte $05, $55, $55, $55, $55, $55, $55, $55
-    .byte $00, $00, $00, $00, $00, $00, $00, $01
-    .byte $80, $80, $80, $80, $80, $80, $80, $80
-    .byte $a0, $a0, $a0, $a0, $a0, $a0, $a0, $a0
-    .byte $44, $44, $44, $44, $44, $44, $44, $44
-    .byte $00, $01, $00, $00, $00, $00, $00, $00
-    .byte $00, $11, $11, $11, $11, $11, $11, $11
-    .byte $00, $22, $22, $22, $22, $22, $22, $22
-
-; DEMON MIRROR ENEMY SETS DATA
-; Mirrors in a level are associated with one of these 17 sets
-; Bytes are ENEMY TYPES, followed by a delimiter, 0x90
-    .byte $78, $90
-    .byte $50, $90
-    .byte $51, $90
-    .byte $50, $51, $90
-    .byte $51, $50, $90
-    .byte $5c, $90
-    .byte $50, $51, $5c, $90
-    .byte $51, $50, $5c, $90
-    .byte $58, $90
-    .byte $54, $90
-    .byte $55, $90
-    .byte $60, $90
-    .byte $59, $90
-    .byte $64, $90
-    .byte $70, $90
-    .byte $54, $55, $60, $90
-    .byte $59, $90
+.segment "PRG_POST_DEMON_MIRROR_DATA"
 
 ; ENEMY DATA TABLE
 ; pointers to each level's enemy data, e.g., level 1 = $dd56, level 53 = $e02a

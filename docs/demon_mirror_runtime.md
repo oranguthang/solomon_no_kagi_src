@@ -11,6 +11,11 @@ Room metadata decoding resolves two eight-byte schedule pointers at
 `$0036/$0038`, two variable-length enemy-set pointers at `$003A/$003C`, and
 two mirror Y/X positions at `$0441-$0444`.
 
+The ROM definitions are source-owned at `$DC00-$DCEB` in
+`src/game/demon_mirror_schedule.asm`: split pointers select 16 fixed-size
+schedules and 17 variable-length enemy-set streams. Count, adjacency, and total
+payload assertions guard all four data segments.
+
 The NMI increments the shared 16-bit counter at `$043C-$043D`. The mirror
 runtime uses the following adjacent bytes:
 
@@ -70,6 +75,9 @@ enemy sequence without a separate length field.
 
 After the pending bits are consumed, `$043E` retains only its low six phase
 bits and schedule sampling may resume.
+
+All 17 streams end with `$90`, which is the compact loop command `$90+0` and
+therefore restarts each stream at byte zero after its last enemy type.
 
 The older Bisqwit map called `$A04C/$A0A7` possible fireball AI. The resolved
 schedule/enemy-set pointers, mirror coordinates, two-slot state, and skchain

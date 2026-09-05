@@ -223,6 +223,8 @@ decrease.
   - `$D9D3-$DBDE` object motion data is structurally audited as 33 type
     pointers, 20 selector groups, 388 action selectors, and 35 Y/X vectors;
     it is now source-owned as macro records with symbolic group pointers;
+  - `$DBDF-$DCEB`: the pre-table filler plus all Demon Mirror schedule and
+    cyclic enemy-set pointers/payloads are classified and source-owned;
 - split the remaining preservation range into reset/startup, scheduler, room,
   gameplay/object, rendering, audio, static-data, and vector modules at proven
   code/data boundaries;
@@ -252,10 +254,11 @@ decrease.
 ### 6. Data-format round trips - In progress
 
 - `make roundtrip-formats` now decodes and re-encodes all 53 block-plane
-  records, enemy streams, item metadata/command streams, and their two split
-  pointer tables, comparing 4,824 encoded bytes with the built PRG;
-- mirror schedules, mirror enemy sets, graphics metadata, audio, and other
-  discovered streams remain to be specified and added to the same gate.
+  records, enemy streams, item metadata/command streams, all 16 Demon Mirror
+  schedules, all 17 mirror enemy sets, and all four split pointer families,
+  comparing 5,060 encoded bytes with the built PRG;
+- graphics metadata, audio, and other discovered streams remain to be
+  specified and added to the same gate.
 
 ### 7. Source Reconstruction 1.0 release - Planned
 
