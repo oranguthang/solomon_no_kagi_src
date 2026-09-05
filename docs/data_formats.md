@@ -7,6 +7,7 @@ iNES file. Runtime pointers address the same bytes at CPU `$8000-$FFFF`.
 
 | Section | PRG offset | Size / count |
 | --- | ---: | ---: |
+| RoomMap tile patterns | `$5000` | 58 x 4 bytes |
 | Demon Mirror schedule pointers | `$5C00` | 16 split pointers |
 | Demon Mirror enemy-set pointers | `$5C20` | 17 split pointers |
 | Enemy stream pointers | `$5CEC` | 53 split pointers |
@@ -15,6 +16,25 @@ iNES file. Runtime pointers address the same bytes at CPU `$8000-$FFFF`.
 
 Pointer tables store all low bytes first and all high bytes second. A runtime
 pointer is converted to a PRG offset by subtracting `$8000`.
+
+## RoomMap tile patterns
+
+The 58 records at CPU `$D000-$D0E7` map logical RoomMap values to one palette
+and four pattern-table tiles. Each record occupies only four bytes because the
+palette and top-left tile overlap:
+
+```text
+byte 0 bits 0-1 = attribute palette
+byte 0 bits 2-7 = top-left tile bits 2-7
+byte 1          = top-right tile
+byte 2          = bottom-left tile
+byte 3          = bottom-right tile
+```
+
+The consumer masks byte 0 with `$03` for the attribute quadrant and with
+`$FC` for the top-left tile. The room-data codec splits those values into
+independent semantic fields and recombines them, rejecting a top-left value
+whose low bits would overlap the palette.
 
 ## Demon Mirror schedules and enemy sets
 
@@ -56,7 +76,7 @@ top-to-bottom, MSB-first logical ordering while filling RoomMap indices
 
 All 2,544 encoded bytes are source-owned in `src/data/room_blocks.asm` and can
 be regenerated from a reviewed ROM with `scripts/room_data.py --source-blocks`.
-The existing `make roundtrip-formats` check independently decodes and re-encodes
+The existing `make room-data-audit` check independently decodes and re-encodes
 every bitplane.
 
 ## Enemy stream
@@ -119,11 +139,29 @@ macros preserve header, individual-item, repeated-item, constellation, and
 terminator boundaries. The reviewed source can be regenerated with
 `scripts/room_data.py --source-items`.
 
-`make roundtrip-formats` decodes and re-encodes all 53 block-plane records,
+`make room-data-audit` decodes and re-encodes all 53 block-plane records,
 enemy streams, item metadata/command streams, and both 53-entry split-pointer
 tables. It also round-trips all 16 Demon Mirror schedules, 17 enemy-set
 streams, and both of their split-pointer tables. The gate compares all 5,060
-encoded bytes directly with the built PRG and is part of `make release-check`.
+encoded bytes directly with the built PRG. Its RoomMap pattern codec adds 232
+bytes, bringing the room-domain total to 5,292 checked bytes.
+
+`make roundtrip-formats` is the aggregate byte-level codec gate. It includes
+the room-data contract above, all 18 static PPU update streams, and every
+reachable audio command stream. It also independently decodes and re-encodes
+all object-animation pointers, descriptors, variant selectors, and frame
+records plus all object-motion pointers, action selectors, and Y/X vectors.
+The packed title codec contributes both command/literal streams, including an
+independent reconstruction of the cursor opcodes and all 402 encoded bytes.
+It also reconstructs the adjacent 34 duration/controller pairs from named NES
+buttons, covering another 68 bytes of attract-demo data.
+It is part of `make release-check`.
+
+`make format-coverage-audit` binds these codecs to linker segment names. It
+requires every segment classified as `stream` to have exactly one codec owner;
+unknown, missing, duplicated, or non-stream ownership is rejected. The seven
+owned segments total 8,113 bytes, exactly matching the stream byte count from
+`make prg-layout-audit`.
 
 ## Nametable clear descriptors
 

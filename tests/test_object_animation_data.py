@@ -6,7 +6,11 @@ import unittest
 from scripts.object_animation_data import (
     collect_report,
     decode_descriptors,
+    decode_frame_records,
     decode_words,
+    encode_descriptors,
+    encode_frame_records,
+    encode_words,
     validate_report,
 )
 
@@ -16,6 +20,7 @@ class ObjectAnimationDataTests(unittest.TestCase):
         prg = bytearray(32_768)
         prg[0:6] = bytes((0x2A, 0xD1, 0xBA, 0xD1, 0x1A, 0xD6))
         self.assertEqual(decode_words(bytes(prg), 0x8000, 3), [0xD12A, 0xD1BA, 0xD61A])
+        self.assertEqual(encode_words([0xD12A, 0xD1BA, 0xD61A]), prg[0:6])
 
     def test_decodes_direct_and_variant_descriptors(self) -> None:
         prg = bytearray(32_768)
@@ -26,6 +31,14 @@ class ObjectAnimationDataTests(unittest.TestCase):
         self.assertEqual(direct.data_pointer, 0xD69A)
         self.assertTrue(variant.uses_variants)
         self.assertEqual(variant.data_pointer, 0xD68A)
+        self.assertEqual(encode_descriptors([direct, variant]), prg[0:8])
+
+    def test_frame_records_round_trip_without_field_guesses(self) -> None:
+        prg = bytearray(32_768)
+        prg[0:6] = bytes((0x81, 0x22, 0x43, 0x04, 0x85, 0x66))
+        records = decode_frame_records(bytes(prg), 0x8000, 2)
+        self.assertEqual(records[0].payload, (0x81, 0x22, 0x43))
+        self.assertEqual(encode_frame_records(records), prg[0:6])
 
     def test_collects_a_minimal_complete_layout(self) -> None:
         prg = bytearray(32_768)
@@ -51,6 +64,8 @@ class ObjectAnimationDataTests(unittest.TestCase):
         report = collect_report(bytes(prg), manifest)
         self.assertEqual(report["object_type_pointers"], [0x8010])
         self.assertEqual(report["frame_sequence_starts"], [0x8020])
+        self.assertTrue(report["round_trip"])
+        self.assertEqual(report["round_trip_size"], 9)
         self.assertEqual(validate_report(report, manifest), [])
 
     def test_rejects_descriptor_range_past_prg(self) -> None:
@@ -69,6 +84,7 @@ class ObjectAnimationDataTests(unittest.TestCase):
             "definition_coverage_exact": True,
             "invalid_variant_references": [],
             "invalid_frame_pointers": [],
+            "round_trip": True,
         }
         manifest = {
             "object_type_pointers": ["0xd12a"],

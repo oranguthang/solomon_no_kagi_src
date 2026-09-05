@@ -203,6 +203,10 @@ make prg-layout-audit # verify the complete PRG classification fingerprint
 make scheduler-report # decode scheduler stack and entry tables as JSON
 make object-animation-report # decode object animation definitions as JSON
 make object-motion-report # decode object motion definitions as JSON
+make object-animation-audit # round-trip animation pointers, descriptors, and frames
+make object-motion-audit # round-trip motion pointers, selectors, and vectors
+make title-data-report # decode packed title and attract-demo records as JSON
+make title-data-audit # round-trip title streams and parallel demo-input tables
 make audio-data-report # decode audio tables, descriptors, and streams as JSON
 make scheduler-audit # check static/reviewed dynamic entries and call inventory
 make enemy-ai-report # decode the 28-entry AI handler appendix
@@ -214,7 +218,9 @@ make enemy-pointer-audit # verify pointer bases, strides, and counts
 make ppu-update-report # decode all 18 static PPU update streams as JSON
 make ppu-update-audit # verify pointers, coverage, hashes, and byte round trips
 make audio-data-audit # verify audio pointers, hashes, reachability, and round trips
-make roundtrip-formats # round-trip rooms and Demon Mirror data
+make room-data-audit # round-trip rooms, tile patterns, and Demon Mirror data
+make roundtrip-formats # aggregate every byte-level format round trip
+make format-coverage-audit # prove every classified stream byte has one codec owner
 python scripts/room_data.py --image "Solomon's Key (U) [!].nes" --source-enemies # regenerate room enemy ASM
 python scripts/room_data.py --image "Solomon's Key (U) [!].nes" --source-blocks # regenerate room block ASM
 python scripts/room_data.py --image "Solomon's Key (U) [!].nes" --source-items # regenerate room item ASM

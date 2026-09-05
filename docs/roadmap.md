@@ -233,16 +233,19 @@ decrease.
 - `$CF35-$CFFF`: Bisqwit's complete 203-byte `FillerBeforeD000_203bytes`
   range is explicitly classified and size-asserted beside the demo data;
   - `$D000-$D0E7`: all 58 four-byte logical tile patterns consumed by buffered
-    RoomMap cell updates are source-owned and record-count asserted;
+    RoomMap cell updates are source-owned, record-count asserted, and
+    semantically round-trip checked;
   - `$D0E8-$D129`: all 33 object-type animation descriptor pointers are
     source-owned and count asserted;
   - the complete `$D12A-$D9D2` animation definition/frame layout is guarded by
     `make object-animation-audit`: 340 descriptors, four variant selectors,
-    126 referenced sequences, 275 frame records, and three reviewed hashes;
+    126 referenced sequences, 275 frame records, three reviewed hashes, and a
+    2,283-byte decode/encode round trip including its pointer table;
     those definitions are now source-owned as readable macro records with
     symbolic pointer relationships;
   - `$D9D3-$DBDE` object motion data is structurally audited as 33 type
-    pointers, 20 selector groups, 388 action selectors, and 35 Y/X vectors;
+    pointers, 20 selector groups, 388 action selectors, and 35 Y/X vectors,
+    with all 524 bytes reconstructed from the decoded records;
     it is now source-owned as macro records with symbolic group pointers;
   - `$DBDF-$DCEB`: the pre-table filler plus all Demon Mirror schedule and
     cyclic enemy-set pointers/payloads are classified and source-owned;
@@ -294,14 +297,25 @@ decrease.
   `EnterRoomDoor` to `RoomClearThread` to next-room-load progression, while
   paired Room 1/attract traces prove scheduler-sensitive timer cadence.
 
-### 6. Data-format round trips - In progress
+### 6. Data-format round trips - Complete
 
-- `make roundtrip-formats` now decodes and re-encodes all 53 block-plane
+- `make room-data-audit` decodes and re-encodes all 53 block-plane
   records, enemy streams, item metadata/command streams, all 16 Demon Mirror
   schedules, all 17 mirror enemy sets, and all four split pointer families,
-  comparing 5,060 encoded bytes with the built PRG;
-- graphics metadata, audio, and other discovered streams remain to be
-  specified and added to the same gate.
+  plus 58 RoomMap tile patterns, comparing 5,292 encoded bytes with the built
+  PRG;
+- `make roundtrip-formats` aggregates that contract with byte-level codecs for
+  all 18 static PPU update streams, object animation, object motion, and every
+  reachable audio command stream;
+- both packed title streams are decoded into 25 semantic cursor commands and
+  17 literal runs, then all 402 bytes are re-encoded and compared;
+- all 34 attract-demo duration/controller pairs are decoded to named button
+  sets and re-encoded, including the terminal duration alias at their boundary;
+- `make format-coverage-audit` proves that all seven stream-classified linker
+  segments have exactly one codec owner and that their 8,113 bytes match the
+  complete PRG stream classification;
+- additional semantic codecs for fixed-size data tables remain useful future
+  refinements, but no stream-classified PRG byte is outside the aggregate gate.
 
 ### 7. Source Reconstruction 1.0 release - Planned
 

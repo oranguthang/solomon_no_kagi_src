@@ -63,24 +63,45 @@ class LayoutTests(unittest.TestCase):
                 "prg_start": "0x8000",
                 "prg_end": "0x8003",
                 "segment_overrides": {"stream": ["PRG_TEST"]},
+                "stream_codecs": {"test-codec": ["PRG_TEST"]},
             }
             report = prg_layout.classify_layout(debug, config)
             self.assertEqual(report["byte_counts"]["stream"], 4)
             self.assertEqual(report["range_counts"]["stream"], 1)
+            self.assertEqual(report["stream_codec_coverage"]["covered_bytes"], 4)
+            self.assertTrue(report["stream_codec_coverage"]["exact"])
+
+    def test_stream_codec_coverage_rejects_duplicate_owner(self) -> None:
+        counts = {"PRG_TEST": {"stream": 4}}
+        config = {
+            "stream_codecs": {
+                "first": ["PRG_TEST"],
+                "second": ["PRG_TEST"],
+            }
+        }
+        coverage = prg_layout.collect_stream_codec_coverage(
+            config, counts, {"PRG_TEST": "stream"}
+        )
+        self.assertFalse(coverage["exact"])
+        self.assertEqual(coverage["covered_bytes"], 0)
+        self.assertIn("multiple codec owners", coverage["errors"][0])
 
     def test_audit_detects_changed_layout_fingerprint(self) -> None:
         report = {
             "classified_bytes": 4,
             "layout_sha1": "actual",
-            "byte_counts": {"code": 4},
+            "byte_counts": {"code": 4, "stream": 0},
             "range_counts": {"code": 1},
+            "stream_codec_coverage": {"errors": [], "covered_bytes": 0},
         }
         config = {
+            "stream_codecs": {},
             "expected": {
                 "classified_bytes": 4,
                 "layout_sha1": "expected",
-                "byte_counts": {"code": 4},
+                "byte_counts": {"code": 4, "stream": 0},
                 "range_counts": {"code": 1},
+                "stream_codec_bytes": 0,
             }
         }
         self.assertEqual(len(prg_layout.audit_expected(report, config)), 1)

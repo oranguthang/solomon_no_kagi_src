@@ -24,9 +24,27 @@
       "VECTORS"
     ]
   },
+  "stream_codecs": {
+    "ppu-update-audit": [
+      "PRG_STATIC_PPU_UPDATE_STREAMS"
+    ],
+    "room-data-audit": [
+      "PRG_ROOM_ENEMY_DATA",
+      "PRG_ROOM_BLOCK_DATA",
+      "PRG_ROOM_ITEM_DATA"
+    ],
+    "title-data-audit": [
+      "PRG_TITLE_PACKED_DATA",
+      "PRG_DEMO_INPUT_DATA"
+    ],
+    "audio-data-audit": [
+      "PRG_AUDIO_STREAMS"
+    ]
+  },
   "expected": {
     "classified_bytes": 32768,
     "layout_sha1": "6e89182265c898e9dea2c20eb892c86315351ddb",
+    "stream_codec_bytes": 8113,
     "byte_counts": {
       "code": 17192,
       "data": 6127,

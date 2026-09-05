@@ -55,3 +55,15 @@ Both packed streams are source-owned in `PRG_TITLE_PACKED_DATA`. The first is
 155 bytes and ends at `$CDF9`; the second is 247 bytes and ends at `$CEF0`.
 Each includes its `$7F` terminator, and assembly assertions preserve their
 exact adjacency and sizes.
+
+`make title-data-audit` independently decodes the two streams into semantic
+cursor commands and literal runs, reproduces the carry-dependent PPU address
+calculation, and re-encodes all 402 bytes. The reviewed manifest records 25
+commands, 17 literal runs, 377 literal tiles, exact boundaries, and SHA-1
+fingerprints in `config/title_data.json`. `make title-data-report` exposes the
+decoded commands, target PPU addresses, and tiles as JSON.
+
+The same adjacent-data audit includes the attract demo's 34 duration and
+controller bytes at `$CEF1-$CF34`. Controller masks are decoded to named NES
+buttons before re-encoding; see `docs/attract_demo_flow.md` for playback
+semantics.

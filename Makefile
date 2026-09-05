@@ -125,14 +125,15 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/game/nmi_gameplay_interactio
 	trace-runtime validate-runtime \
 	format format-check lint lint-asm \
 	lint-source lint-project test quality-check check release-check rooms \
-	validate-rooms roundtrip-formats reconstruction-status reconstruction-audit \
-	prg-layout-report prg-layout-audit \
+	validate-rooms room-data-audit roundtrip-formats \
+	reconstruction-status reconstruction-audit \
+	prg-layout-report prg-layout-audit format-coverage-audit \
 	scheduler-report scheduler-audit enemy-ai-report enemy-ai-audit \
 	item-handler-report item-handler-audit \
 	enemy-pointer-report enemy-pointer-audit ppu-update-report ppu-update-audit \
 	object-animation-report object-animation-audit \
 	object-motion-report object-motion-audit \
-	audio-data-report audio-data-audit clean
+	title-data-report title-data-audit audio-data-report audio-data-audit clean
 
 all: verify
 
@@ -230,8 +231,11 @@ rooms: $(ROM)
 validate-rooms: $(ROM)
 	$(PYTHON) scripts/room_data.py --image "$(ROM)" --validate
 
-roundtrip-formats: $(ROM)
+room-data-audit: $(ROM)
 	$(PYTHON) scripts/room_data.py --image "$(ROM)" --roundtrip
+
+roundtrip-formats: room-data-audit ppu-update-audit object-animation-audit \
+	object-motion-audit title-data-audit audio-data-audit format-coverage-audit
 
 reconstruction-status:
 	$(PYTHON) scripts/reconstruction_status.py report
@@ -244,6 +248,9 @@ prg-layout-report: $(ROM)
 
 prg-layout-audit: $(ROM)
 	$(PYTHON) scripts/prg_layout.py audit --debug "$(DEBUG)" --config config/prg_layout.json
+
+format-coverage-audit: $(ROM)
+	$(PYTHON) scripts/prg_layout.py format-audit --debug "$(DEBUG)" --config config/prg_layout.json
 
 scheduler-report: $(ROM)
 	$(PYTHON) scripts/scheduler_data.py report --image "$(ROM)"
@@ -287,6 +294,12 @@ object-motion-report: $(ROM)
 object-motion-audit: $(ROM)
 	$(PYTHON) scripts/object_motion_data.py audit --image "$(ROM)"
 
+title-data-report: $(ROM)
+	$(PYTHON) scripts/title_data.py report --image "$(ROM)"
+
+title-data-audit: $(ROM)
+	$(PYTHON) scripts/title_data.py audit --image "$(ROM)"
+
 audio-data-report: $(ROM)
 	$(PYTHON) scripts/audio_data.py report --image "$(ROM)"
 
@@ -298,8 +311,7 @@ quality-check: lint test
 release-check: quality-check verify validate-rooms roundtrip-formats \
 	reconstruction-audit prg-layout-audit validate-symbols scheduler-audit \
 	enemy-ai-audit enemy-pointer-audit \
-	item-handler-audit ppu-update-audit object-animation-audit object-motion-audit \
-	audio-data-audit
+	item-handler-audit
 
 check: release-check
 

@@ -14,12 +14,19 @@ try:
     from .object_animation_data import (
         cpu_slice,
         decode_words,
+        encode_words,
         parse_number,
         sha1_range,
     )
     from .room_data import RoomDataError, extract_prg
 except ImportError:
-    from object_animation_data import cpu_slice, decode_words, parse_number, sha1_range
+    from object_animation_data import (
+        cpu_slice,
+        decode_words,
+        encode_words,
+        parse_number,
+        sha1_range,
+    )
     from room_data import RoomDataError, extract_prg
 
 
@@ -28,6 +35,12 @@ class MotionVector:
     index: int
     y_velocity: int
     x_velocity: int
+
+
+def encode_selectors(selectors: list[int]) -> bytes:
+    if any(not 0 <= selector <= 0xFF for selector in selectors):
+        raise RoomDataError("object motion selector is outside byte range")
+    return bytes(selectors)
 
 
 def load_manifest(path: Path) -> dict[str, Any]:
@@ -57,6 +70,15 @@ def decode_motion_vectors(
     ]
 
 
+def encode_motion_vectors(vectors: list[MotionVector]) -> bytes:
+    encoded = bytearray()
+    for vector in vectors:
+        if not 0 <= vector.y_velocity <= 0xFF or not 0 <= vector.x_velocity <= 0xFF:
+            raise RoomDataError("object motion component is outside byte range")
+        encoded.extend((vector.y_velocity, vector.x_velocity))
+    return bytes(encoded)
+
+
 def collect_report(prg: bytes, manifest: dict[str, Any]) -> dict[str, object]:
     pointer_address = parse_number(
         manifest.get("pointer_table_address"), "pointer_table_address"
@@ -68,7 +90,8 @@ def collect_report(prg: bytes, manifest: dict[str, Any]) -> dict[str, object]:
         manifest.get("selector_data_start"), "selector_data_start"
     )
     selector_end = parse_number(manifest.get("selector_data_end"), "selector_data_end")
-    selector_coverage: set[int] = set()
+    selector_coverage: list[int] = []
+    selector_round_trip = True
     selector_groups: list[dict[str, object]] = []
     direct_selectors: list[int] = []
     room_state_masks: list[int] = []
@@ -80,7 +103,10 @@ def collect_report(prg: bytes, manifest: dict[str, Any]) -> dict[str, object]:
         data = cpu_slice(
             prg, address, address + count - 1, "object motion selector group"
         )
-        selector_coverage.update(range(address, address + count))
+        selector_coverage.extend(range(address, address + count))
+        selector_round_trip &= encode_selectors(list(data)) == cpu_slice(
+            prg, address, address + count - 1, "object motion selector group"
+        )
         direct_selectors.extend(value for value in data if value < 0x80)
         room_state_masks.extend(value for value in data if value >= 0x80)
         selector_groups.append(
@@ -96,6 +122,22 @@ def collect_report(prg: bytes, manifest: dict[str, Any]) -> dict[str, object]:
         set(selector for selector in direct_selectors if selector >= vector_count)
     )
 
+    pointer_round_trip = encode_words(type_pointers) == cpu_slice(
+        prg,
+        pointer_address,
+        pointer_address + len(type_pointers) * 2 - 1,
+        "object motion pointer table",
+    )
+    selector_coverage_exact = sorted(selector_coverage) == list(
+        range(selector_start, selector_end + 1)
+    )
+    vector_round_trip = encode_motion_vectors(vectors) == cpu_slice(
+        prg,
+        vector_address,
+        vector_address + vector_count * 2 - 1,
+        "object motion vectors",
+    )
+
     return {
         "pointer_table_address": pointer_address,
         "object_type_pointers": type_pointers,
@@ -104,8 +146,7 @@ def collect_report(prg: bytes, manifest: dict[str, Any]) -> dict[str, object]:
         "selector_count": len(direct_selectors) + len(room_state_masks),
         "direct_selector_count": len(direct_selectors),
         "room_state_mask_count": len(room_state_masks),
-        "selector_coverage_exact": selector_coverage
-        == set(range(selector_start, selector_end + 1)),
+        "selector_coverage_exact": selector_coverage_exact,
         "invalid_direct_selectors": invalid_direct_selectors,
         "motion_vector_count": len(vectors),
         "motion_vectors": [
@@ -131,6 +172,18 @@ def collect_report(prg: bytes, manifest: dict[str, Any]) -> dict[str, object]:
             vector_address + vector_count * 2 - 1,
             "object motion vectors",
         ),
+        "pointer_round_trip": pointer_round_trip,
+        "selector_round_trip": selector_round_trip,
+        "vector_round_trip": vector_round_trip,
+        "round_trip": pointer_round_trip
+        and selector_coverage_exact
+        and selector_round_trip
+        and vector_round_trip,
+        "round_trip_size": len(type_pointers) * 2
+        + selector_end
+        - selector_start
+        + 1
+        + vector_count * 2,
         "selector_groups": selector_groups,
     }
 
@@ -159,6 +212,8 @@ def validate_report(report: dict[str, object], manifest: dict[str, Any]) -> list
         errors.append("motion selector groups do not exactly cover their data range")
     if report.get("invalid_direct_selectors"):
         errors.append("direct motion selectors exceed the motion vector table")
+    if not report.get("round_trip"):
+        errors.append("decoded object motion data does not round-trip byte-for-byte")
     return errors
 
 
@@ -289,7 +344,8 @@ def main() -> int:
         f"{report['object_type_count']} type pointers, "
         f"{report['selector_group_count']} selector groups, "
         f"{report['selector_count']} action selectors, and "
-        f"{report['motion_vector_count']} Y/X vectors"
+        f"{report['motion_vector_count']} Y/X vectors; "
+        f"{report['round_trip_size']} bytes round-tripped"
     )
     return 0
 

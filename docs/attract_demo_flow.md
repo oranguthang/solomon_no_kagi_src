@@ -56,3 +56,13 @@ the attract loop through the shared exit machinery.
 `DemoInputDurations` and `DemoInputValues` each contain exactly `$22` bytes.
 Assembly assertions bind that count to the playback limit and require the
 tables to remain adjacent.
+
+The playback loop reads `DemoInputDurations,X` before comparing X with `$22`.
+At exhaustion it therefore reads the first byte of the adjacent input table as
+one final duration. That byte is zero, so the deliberate boundary alias adds a
+single final wait before exit without indexing another controller value.
+
+`make title-data-audit` decodes all 34 entries into inclusive durations and
+named button sets, checks that boundary alias, and re-encodes both parallel
+tables byte-for-byte. Their independent and aggregate SHA-1 fingerprints live
+in `config/title_data.json`.

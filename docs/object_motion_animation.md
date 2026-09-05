@@ -34,8 +34,10 @@ for room-dependent motion without changing the object action.
 extraction: 33 object-type pointers, 20 unique selector groups containing 388
 action bytes, and 35 paired Y/X motion vectors. It also rejects any nonnegative
 selector outside the vector table and checks independent SHA-1 values for all
-three regions. `make object-motion-report` emits the decoded JSON view from the
-built ROM using `config/object_motion.json`.
+three regions. Its encoder additionally reconstructs all 524 bytes from the
+decoded pointer, selector, and vector records and compares them byte-for-byte.
+`make object-motion-report` emits the decoded JSON view from the built ROM
+using `config/object_motion.json`.
 
 The complete `$D9D3-$DBDE` range is now source-owned in the 523-line
 `src/data/object_motion.asm`. Its macros distinguish direct vector indices
@@ -72,7 +74,8 @@ vector families are source-owned in `src/data/object_motion.asm`.
 - 340 four-byte action descriptors, 44 of which select a variant table;
 - four overlapping four-pointer variant selectors in two eight-pointer tables;
 - 126 referenced animation sequences covering 275 three-byte frame records;
-- exact hashes for the pointer, definition, and frame-data regions.
+- exact hashes for the pointer, definition, and frame-data regions;
+- byte-for-byte reconstruction of all 2,283 bytes from decoded records.
 
 The corresponding JSON report is available through
 `make object-animation-report`. The manifest lives at

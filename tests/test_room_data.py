@@ -20,6 +20,41 @@ class RoomDataTests(unittest.TestCase):
         self.assertEqual(room_data.rotate_left_3(0x20), 1)
         self.assertEqual(room_data.rotate_left_3(0xFF), 0xFF)
 
+    def test_room_tile_patterns_split_palette_from_top_left_tile(self) -> None:
+        prg = bytearray(32_768)
+        pattern_bytes = bytes((0x91, 0x91, 0x92, 0x93)) * 58
+        start = room_data.ROOM_TILE_PATTERN_DATA
+        prg[start : start + len(pattern_bytes)] = pattern_bytes
+        patterns = room_data.decode_room_tile_patterns(bytes(prg))
+        self.assertEqual(
+            patterns[0],
+            {
+                "index": 0,
+                "palette": 1,
+                "top_left": 0x90,
+                "top_right": 0x91,
+                "bottom_left": 0x92,
+                "bottom_right": 0x93,
+            },
+        )
+        self.assertEqual(room_data.encode_room_tile_patterns(patterns), pattern_bytes)
+
+    def test_room_tile_pattern_encoder_rejects_palette_overlap(self) -> None:
+        patterns = [
+            {
+                "index": index,
+                "palette": 0,
+                "top_left": 0,
+                "top_right": 0,
+                "bottom_left": 0,
+                "bottom_right": 0,
+            }
+            for index in range(room_data.ROOM_TILE_PATTERN_COUNT)
+        ]
+        patterns[0]["top_left"] = 1
+        with self.assertRaisesRegex(ValueError, "overlaps palette"):
+            room_data.encode_room_tile_patterns(patterns)
+
     def test_bitplane_is_row_major_and_msb_first(self) -> None:
         data = bytes([0x80, 0x01]) + bytes(room_data.BITPLANE_SIZE - 2)
         rows = room_data.decode_bitplane(data)

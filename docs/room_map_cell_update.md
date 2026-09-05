@@ -41,6 +41,11 @@ that record count. Tile `$10` can select one of six expanded constellation
 records at `$0407` when the map index falls in either of the two three-cell
 rows rooted at `ConstellationPosition`.
 
+The first record byte carries two independent values: palette in bits 0-1 and
+the top-left tile in bits 2-7. The next three bytes are the top-right,
+bottom-left, and bottom-right tiles. `make room-data-audit` decodes those five
+fields and re-encodes all 232 table bytes without retaining a raw first byte.
+
 `CalculateRoomMapAttributeAddressLow` also returns a quadrant selector in
 `RoomMapUpdatePpuAddressHigh` (`$05`). The builder rotates the existing
 attribute byte by two bits per quadrant, replaces only the selected low two

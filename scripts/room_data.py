@@ -15,6 +15,8 @@ ROOM_WIDTH = 16
 ROOM_HEIGHT = 12
 BITPLANE_SIZE = ROOM_WIDTH * ROOM_HEIGHT // 8
 BLOCK_BYTES_PER_ROOM = BITPLANE_SIZE * 2
+ROOM_TILE_PATTERN_COUNT = 58
+ROOM_TILE_PATTERN_SIZE = 4
 
 # Offsets within the 32 KiB PRG. Published file offsets include the 16-byte
 # iNES header, hence the $10 difference from the ROM-map document.
@@ -25,6 +27,7 @@ MIRROR_SCHEDULE_COUNT = 16
 MIRROR_SCHEDULE_SIZE = 8
 MIRROR_ENEMY_SET_COUNT = 17
 MIRROR_ENEMY_SET_LOOP_BASE = 0x90
+ROOM_TILE_PATTERN_DATA = 0x5000
 ENEMY_POINTER_TABLE = 0x5CEC
 BLOCK_DATA = 0x602C
 ITEM_POINTER_TABLE = 0x6A1C
@@ -58,6 +61,58 @@ def position(value: int) -> dict[str, int]:
 
 def rotate_left_3(value: int) -> int:
     return ((value & 0x1F) << 3) | (value >> 5)
+
+
+def decode_room_tile_patterns(prg: bytes) -> list[dict[str, int]]:
+    end = ROOM_TILE_PATTERN_DATA + ROOM_TILE_PATTERN_COUNT * ROOM_TILE_PATTERN_SIZE
+    if len(prg) < end:
+        raise RoomDataError("truncated RoomMap tile pattern table")
+    patterns: list[dict[str, int]] = []
+    for index in range(ROOM_TILE_PATTERN_COUNT):
+        offset = ROOM_TILE_PATTERN_DATA + index * ROOM_TILE_PATTERN_SIZE
+        first, top_right, bottom_left, bottom_right = prg[offset : offset + 4]
+        patterns.append(
+            {
+                "index": index,
+                "palette": first & 0x03,
+                "top_left": first & 0xFC,
+                "top_right": top_right,
+                "bottom_left": bottom_left,
+                "bottom_right": bottom_right,
+            }
+        )
+    return patterns
+
+
+def encode_room_tile_patterns(patterns: list[dict[str, int]]) -> bytes:
+    if len(patterns) != ROOM_TILE_PATTERN_COUNT:
+        raise RoomDataError(
+            f"RoomMap tile pattern count must be {ROOM_TILE_PATTERN_COUNT}"
+        )
+    encoded = bytearray()
+    for index, pattern in enumerate(patterns):
+        if pattern.get("index") != index:
+            raise RoomDataError("RoomMap tile pattern indices are not contiguous")
+        palette = pattern.get("palette")
+        top_left = pattern.get("top_left")
+        other_tiles = (
+            pattern.get("top_right"),
+            pattern.get("bottom_left"),
+            pattern.get("bottom_right"),
+        )
+        if not isinstance(palette, int) or not 0 <= palette <= 3:
+            raise RoomDataError(f"invalid RoomMap palette at pattern {index}")
+        if not isinstance(top_left, int) or not 0 <= top_left <= 0xFC:
+            raise RoomDataError(f"invalid top-left tile at pattern {index}")
+        if top_left & 0x03:
+            raise RoomDataError(f"top-left tile overlaps palette at pattern {index}")
+        if any(
+            not isinstance(tile, int) or not 0 <= tile <= 0xFF
+            for tile in other_tiles
+        ):
+            raise RoomDataError(f"invalid RoomMap tile byte at pattern {index}")
+        encoded.extend((top_left | palette, *other_tiles))
+    return bytes(encoded)
 
 
 def split_pointer(prg: bytes, table: int, index: int, count: int) -> int:
@@ -714,6 +769,7 @@ def roundtrip_rooms(prg: bytes) -> dict[str, int]:
     rooms = [decode_room(prg, index) for index in range(ROOM_COUNT)]
     mirror_schedules = decode_mirror_schedules(prg)
     mirror_enemy_sets = decode_mirror_enemy_sets(prg)
+    tile_patterns = decode_room_tile_patterns(prg)
     enemy_offsets: list[int] = []
     item_offsets: list[int] = []
     checked_bytes = 0
@@ -777,7 +833,14 @@ def roundtrip_rooms(prg: bytes) -> dict[str, int]:
         raise RoomDataError("Demon Mirror enemy-set pointer round trip differs")
     checked_bytes += len(enemy_set_pointers)
 
-    return {"rooms": len(rooms), "format_families": 5, "checked_bytes": checked_bytes}
+    encoded_tile_patterns = encode_room_tile_patterns(tile_patterns)
+    if encoded_tile_patterns != prg[
+        ROOM_TILE_PATTERN_DATA : ROOM_TILE_PATTERN_DATA + len(encoded_tile_patterns)
+    ]:
+        raise RoomDataError("RoomMap tile pattern round trip differs")
+    checked_bytes += len(encoded_tile_patterns)
+
+    return {"rooms": len(rooms), "format_families": 6, "checked_bytes": checked_bytes}
 
 
 def main() -> int:

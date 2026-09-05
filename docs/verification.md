@@ -26,16 +26,22 @@ the iNES header, PRG, CHR, headerless payload, full image, and extracted CHR.
 | `check-assets` | alias for `verify-assets` |
 | `verify` | aggregate of every target above |
 | `rom-info` | print and validate identities for original and built images |
-| `roundtrip-formats` | losslessly decode/encode room and Demon Mirror records/pointers |
+| `room-data-audit` | round-trip rooms, RoomMap tile patterns, and Demon Mirror data |
+| `roundtrip-formats` | aggregate all implemented byte-level format codecs |
 | `symbols` | export audited FCEUX labels and resolved debugger configuration |
 | `validate-symbols` | bind configured breakpoints and watch ranges to current linker symbols |
 | `prg-layout-audit` | classify all 32 KiB as code, data, stream, padding, or vectors |
+| `format-coverage-audit` | require one codec owner for every stream-classified segment |
 | `trace-runtime` | capture and validate deterministic cold-boot and Room 1 FCEUX traces |
 | `validate-runtime` | revalidate existing generated runtime traces without launching FCEUX |
 | `scheduler-audit` | check stacks, static/reviewed dynamic entries, and call counts |
 | `enemy-ai-audit` | check all 28 inline enemy-AI handler pointers |
 | `item-handler-audit` | check all 29 item selectors, pointers, names, and table hash |
 | `ppu-update-audit` | check 18 static stream pointers, coverage, hashes, and byte round trips |
+| `object-animation-audit` | round-trip 2,283 bytes of pointers, descriptors, selectors, and frames |
+| `object-motion-audit` | round-trip 524 bytes of pointers, selectors, and vectors |
+| `title-data-audit` | round-trip packed title streams and the adjacent attract-demo tables |
+| `audio-data-audit` | check audio pointers, reachability, hashes, and byte round trips |
 | `release-check` | lint, tests, ROM verification, symbols, format round trips, and subsystem audits |
 | `check` | alias for `release-check` |
 

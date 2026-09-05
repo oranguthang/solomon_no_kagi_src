@@ -29,6 +29,12 @@ class AnimationDescriptor:
     data_pointer: int
 
 
+@dataclass(frozen=True)
+class AnimationFrameRecord:
+    cpu_address: int
+    payload: tuple[int, int, int]
+
+
 def parse_number(value: object, field: str) -> int:
     if isinstance(value, int):
         return value
@@ -65,6 +71,15 @@ def decode_words(prg: bytes, cpu_address: int, count: int) -> list[int]:
     return [data[index] | (data[index + 1] << 8) for index in range(0, len(data), 2)]
 
 
+def encode_words(values: list[int]) -> bytes:
+    encoded = bytearray()
+    for value in values:
+        if not 0 <= value <= 0xFFFF:
+            raise RoomDataError(f"word outside 16-bit range: {value}")
+        encoded.extend((value & 0xFF, value >> 8))
+    return bytes(encoded)
+
+
 def decode_descriptors(
     prg: bytes, cpu_address: int, count: int
 ) -> list[AnimationDescriptor]:
@@ -83,6 +98,41 @@ def decode_descriptors(
         )
         for index in range(0, len(data), 4)
     ]
+
+
+def encode_descriptors(descriptors: list[AnimationDescriptor]) -> bytes:
+    encoded = bytearray()
+    for descriptor in descriptors:
+        if not 0 <= descriptor.initial_phase <= 0xFF:
+            raise RoomDataError("animation initial phase is outside byte range")
+        if not 0 <= descriptor.delay <= 0x7F:
+            raise RoomDataError("animation delay is outside seven-bit range")
+        encoded.extend(
+            (
+                descriptor.initial_phase,
+                descriptor.delay * 2 + descriptor.uses_variants,
+            )
+        )
+        encoded.extend(encode_words([descriptor.data_pointer]))
+    return bytes(encoded)
+
+
+def decode_frame_records(
+    prg: bytes, cpu_address: int, count: int
+) -> list[AnimationFrameRecord]:
+    if count <= 0:
+        raise RoomDataError(f"frame record count must be positive: {count}")
+    data = cpu_slice(
+        prg, cpu_address, cpu_address + count * 3 - 1, "animation frame records"
+    )
+    return [
+        AnimationFrameRecord(cpu_address + index, tuple(data[index : index + 3]))
+        for index in range(0, len(data), 3)
+    ]
+
+
+def encode_frame_records(records: list[AnimationFrameRecord]) -> bytes:
+    return bytes(value for record in records for value in record.payload)
 
 
 def load_manifest(path: Path) -> dict[str, Any]:
@@ -121,7 +171,8 @@ def collect_report(prg: bytes, manifest: dict[str, Any]) -> dict[str, object]:
 
     groups: list[dict[str, object]] = []
     descriptors: list[AnimationDescriptor] = []
-    definition_coverage: set[int] = set()
+    definition_coverage: list[int] = []
+    definition_round_trip = True
     for index, declaration in enumerate(manifest["descriptor_groups"]):
         if not isinstance(declaration, dict):
             raise RoomDataError(f"descriptor group {index} must be an object")
@@ -129,7 +180,10 @@ def collect_report(prg: bytes, manifest: dict[str, Any]) -> dict[str, object]:
         count = parse_number(declaration.get("action_count"), f"group {index}.count")
         decoded = decode_descriptors(prg, address, count)
         descriptors.extend(decoded)
-        definition_coverage.update(range(address, address + count * 4))
+        definition_coverage.extend(range(address, address + count * 4))
+        definition_round_trip &= encode_descriptors(decoded) == cpu_slice(
+            prg, address, address + count * 4 - 1, "animation descriptors"
+        )
         groups.append(
             {
                 "address": address,
@@ -144,7 +198,10 @@ def collect_report(prg: bytes, manifest: dict[str, Any]) -> dict[str, object]:
         address = parse_number(value, f"variant selector {index}")
         pointers = decode_words(prg, address, 4)
         variant_pointer_addresses.add(address)
-        definition_coverage.update(range(address, address + 8))
+        definition_coverage.extend(range(address, address + 8))
+        definition_round_trip &= encode_words(pointers) == cpu_slice(
+            prg, address, address + 7, "animation variant selector"
+        )
         variant_selectors.append({"address": address, "pointers": pointers})
 
     frame_start = parse_number(manifest.get("frame_data_start"), "frame_data_start")
@@ -152,6 +209,7 @@ def collect_report(prg: bytes, manifest: dict[str, Any]) -> dict[str, object]:
     frame_data = cpu_slice(prg, frame_start, frame_end, "animation frame data")
     if len(frame_data) % 3:
         raise RoomDataError("animation frame data is not a whole number of records")
+    frame_records = decode_frame_records(prg, frame_start, len(frame_data) // 3)
 
     frame_pointers: set[int] = set()
     invalid_variant_references: list[int] = []
@@ -176,7 +234,15 @@ def collect_report(prg: bytes, manifest: dict[str, Any]) -> dict[str, object]:
     definition_end = parse_number(
         manifest.get("definition_data_end"), "definition_data_end"
     )
-    expected_definition_coverage = set(range(definition_start, definition_end + 1))
+    expected_definition_coverage = list(range(definition_start, definition_end + 1))
+    pointer_round_trip = encode_words(type_pointers) == cpu_slice(
+        prg,
+        pointer_address,
+        pointer_address + len(type_pointers) * 2 - 1,
+        "animation pointer table",
+    )
+    definition_coverage_exact = sorted(definition_coverage) == expected_definition_coverage
+    frame_round_trip = encode_frame_records(frame_records) == frame_data
 
     return {
         "pointer_table_address": pointer_address,
@@ -189,10 +255,19 @@ def collect_report(prg: bytes, manifest: dict[str, Any]) -> dict[str, object]:
         "frame_sequence_starts": sorted(frame_pointers),
         "frame_sequence_count": len(frame_pointers),
         "frame_record_count": len(frame_data) // 3,
-        "definition_coverage_exact": definition_coverage
-        == expected_definition_coverage,
+        "definition_coverage_exact": definition_coverage_exact,
         "invalid_variant_references": invalid_variant_references,
         "invalid_frame_pointers": invalid_frame_pointers,
+        "pointer_round_trip": pointer_round_trip,
+        "definition_round_trip": definition_round_trip,
+        "frame_round_trip": frame_round_trip,
+        "round_trip": pointer_round_trip
+        and definition_coverage_exact
+        and definition_round_trip
+        and frame_round_trip,
+        "round_trip_size": len(type_pointers) * 2
+        + len(expected_definition_coverage)
+        + len(frame_data),
         "pointer_sha1": sha1_range(
             prg,
             pointer_address,
@@ -233,6 +308,8 @@ def validate_report(report: dict[str, object], manifest: dict[str, Any]) -> list
         errors.append("variant descriptors reference undeclared selector tables")
     if report.get("invalid_frame_pointers"):
         errors.append("animation frame pointers leave or misalign the frame-data range")
+    if not report.get("round_trip"):
+        errors.append("decoded object animation data does not round-trip byte-for-byte")
     return errors
 
 
@@ -414,7 +491,8 @@ def main() -> int:
         f"{report['object_type_count']} type pointers, "
         f"{report['descriptor_count']} descriptors, "
         f"{report['frame_sequence_count']} sequences, and "
-        f"{report['frame_record_count']} frame records"
+        f"{report['frame_record_count']} frame records; "
+        f"{report['round_trip_size']} bytes round-tripped"
     )
     return 0
 

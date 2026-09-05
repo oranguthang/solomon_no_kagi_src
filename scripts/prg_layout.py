@@ -156,7 +156,9 @@ def load_overrides(
     for category, names in document.items():
         if category not in {"stream", "padding", "vector"}:
             raise LayoutError(f"unsupported segment override category: {category}")
-        if not isinstance(names, list) or not all(isinstance(name, str) for name in names):
+        if not isinstance(names, list) or not all(
+            isinstance(name, str) for name in names
+        ):
             raise LayoutError(f"segment override {category} must be a list of names")
         for name in names:
             if name not in known_names:
@@ -165,6 +167,75 @@ def load_overrides(
                 raise LayoutError(f"segment has multiple classifications: {name}")
             overrides[name] = category
     return overrides
+
+
+def collect_stream_codec_coverage(
+    config: dict[str, object],
+    segment_counts: dict[str, dict[str, int]],
+    overrides: dict[str, str],
+) -> dict[str, object]:
+    declarations = config.get("stream_codecs")
+    if not isinstance(declarations, dict) or not declarations:
+        return {
+            "exact": False,
+            "covered_bytes": 0,
+            "codec_count": 0,
+            "segment_count": 0,
+            "errors": ["stream_codecs must be a nonempty object"],
+            "codecs": {},
+        }
+    expected_segments = sorted(
+        name for name, category in overrides.items() if category == "stream"
+    )
+    ownership: dict[str, list[str]] = defaultdict(list)
+    codecs: dict[str, dict[str, object]] = {}
+    errors: list[str] = []
+    for codec, names in declarations.items():
+        if not isinstance(codec, str) or not codec:
+            errors.append("stream codec name must be a nonempty string")
+            continue
+        if not isinstance(names, list) or not all(
+            isinstance(name, str) for name in names
+        ):
+            errors.append(f"stream codec {codec} must contain segment names")
+            continue
+        byte_count = 0
+        for name in names:
+            ownership[name].append(codec)
+            counts = segment_counts.get(name)
+            if counts is None:
+                errors.append(f"stream codec {codec} references unknown segment {name}")
+                continue
+            non_stream = {
+                category: count
+                for category, count in counts.items()
+                if category != "stream"
+            }
+            if non_stream:
+                errors.append(f"stream codec {codec} owns non-stream segment {name}")
+            byte_count += counts.get("stream", 0)
+        codecs[codec] = {"segments": names, "bytes": byte_count}
+    for name in expected_segments:
+        owners = ownership.get(name, [])
+        if not owners:
+            errors.append(f"stream segment has no codec owner: {name}")
+        elif len(owners) > 1:
+            errors.append(f"stream segment has multiple codec owners: {name}")
+    for name in sorted(set(ownership) - set(expected_segments)):
+        errors.append(f"codec ownership includes non-stream segment: {name}")
+    covered_bytes = sum(
+        segment_counts[name].get("stream", 0)
+        for name in expected_segments
+        if len(ownership.get(name, [])) == 1
+    )
+    return {
+        "exact": not errors,
+        "covered_bytes": covered_bytes,
+        "codec_count": len(codecs),
+        "segment_count": len(expected_segments),
+        "errors": errors,
+        "codecs": dict(sorted(codecs.items())),
+    }
 
 
 def classify_layout(debug_path: Path, config: dict[str, object]) -> dict[str, object]:
@@ -240,6 +311,9 @@ def classify_layout(debug_path: Path, config: dict[str, object]) -> dict[str, ob
         for address in range(segment.start, segment.start + segment.size):
             counts[str(layout[address - prg_start])] += 1
         segment_counts[segment.name] = counts
+    stream_codec_coverage = collect_stream_codec_coverage(
+        config, segment_counts, overrides
+    )
     return {
         "prg_start": f"0x{prg_start:04x}",
         "prg_end": f"0x{prg_end:04x}",
@@ -251,6 +325,7 @@ def classify_layout(debug_path: Path, config: dict[str, object]) -> dict[str, ob
             name: dict(sorted(counts.items()))
             for name, counts in sorted(segment_counts.items())
         },
+        "stream_codec_coverage": stream_codec_coverage,
     }
 
 
@@ -265,12 +340,38 @@ def audit_expected(report: dict[str, object], config: dict[str, object]) -> list
                 f"{field} mismatch: got {report.get(field)!r}, "
                 f"expected {expected.get(field)!r}"
             )
+    errors.extend(audit_stream_codec_coverage(report, config))
+    return errors
+
+
+def audit_stream_codec_coverage(
+    report: dict[str, object], config: dict[str, object]
+) -> list[str]:
+    coverage = report.get("stream_codec_coverage")
+    if not isinstance(coverage, dict):
+        return ["layout report has no stream codec coverage"]
+    errors = list(coverage.get("errors", []))
+    expected = config.get("expected")
+    if not isinstance(expected, dict):
+        errors.append("layout config has no expected audit values")
+        return errors
+    expected_bytes = expected.get("stream_codec_bytes")
+    if coverage.get("covered_bytes") != expected_bytes:
+        errors.append(
+            f"stream codec byte count mismatch: got {coverage.get('covered_bytes')!r}, "
+            f"expected {expected_bytes!r}"
+        )
+    byte_counts = report.get("byte_counts")
+    if not isinstance(byte_counts, dict) or coverage.get(
+        "covered_bytes"
+    ) != byte_counts.get("stream"):
+        errors.append("stream codecs do not cover every classified stream byte")
     return errors
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=("report", "audit"))
+    parser.add_argument("command", choices=("report", "audit", "format-audit"))
     parser.add_argument("--debug", required=True, type=Path)
     parser.add_argument("--config", required=True, type=Path)
     args = parser.parse_args()
@@ -280,7 +381,11 @@ def main() -> int:
         if args.command == "report":
             print(json.dumps(report, indent=2, sort_keys=True))
             return 0
-        errors = audit_expected(report, config)
+        errors = (
+            audit_stream_codec_coverage(report, config)
+            if args.command == "format-audit"
+            else audit_expected(report, config)
+        )
     except (OSError, LayoutError) as exc:
         print(f"[ERROR] {exc}", file=sys.stderr)
         return 1
@@ -288,6 +393,14 @@ def main() -> int:
         for error in errors:
             print(f"[ERROR] {error}", file=sys.stderr)
         return 1
+    if args.command == "format-audit":
+        coverage = report["stream_codec_coverage"]
+        print(
+            f"[OK] Stream codec coverage: {coverage['segment_count']} segments, "
+            f"{coverage['covered_bytes']} bytes across "
+            f"{coverage['codec_count']} codecs"
+        )
+        return 0
     counts = report["byte_counts"]
     print(
         f"[OK] PRG layout: {report['classified_bytes']} bytes, "

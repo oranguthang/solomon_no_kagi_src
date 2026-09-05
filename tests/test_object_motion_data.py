@@ -7,6 +7,8 @@ from scripts.object_motion_data import (
     collect_report,
     decode_motion_vectors,
     emit_source,
+    encode_motion_vectors,
+    encode_selectors,
     validate_report,
 )
 
@@ -20,6 +22,10 @@ class ObjectMotionDataTests(unittest.TestCase):
             [(item.index, item.y_velocity, item.x_velocity) for item in vectors],
             [(0, 0x80, 0x10), (1, 0x40, 0x68)],
         )
+        self.assertEqual(encode_motion_vectors(vectors), prg[0:4])
+
+    def test_encodes_direct_and_room_state_selectors(self) -> None:
+        self.assertEqual(encode_selectors([0x00, 0x22, 0x80, 0xFF]), b"\x00\x22\x80\xff")
 
     def test_collects_a_minimal_complete_layout(self) -> None:
         prg = bytearray(32_768)
@@ -42,6 +48,8 @@ class ObjectMotionDataTests(unittest.TestCase):
         report = collect_report(bytes(prg), manifest)
         self.assertEqual(report["direct_selector_count"], 1)
         self.assertEqual(report["room_state_mask_count"], 1)
+        self.assertTrue(report["round_trip"])
+        self.assertEqual(report["round_trip_size"], 6)
         self.assertEqual(validate_report(report, manifest), [])
         source = emit_source(bytes(prg), manifest)
         self.assertIn("ObjectMotionSelectorsType00:", source)
@@ -62,6 +70,7 @@ class ObjectMotionDataTests(unittest.TestCase):
             "vector_sha1": "vectors",
             "selector_coverage_exact": True,
             "invalid_direct_selectors": [1],
+            "round_trip": True,
         }
         manifest = {
             "object_type_pointers": ["0xda15"],
