@@ -10,11 +10,12 @@ a related object through two overlapping signed-offset tables, initializes its
 object header, and queues sound `$17`. A second action can replace the object
 header with `$E2,$1C,$FF,$00`; the source keeps those four bytes as named data.
 
-`CheckEnemyForwardCollisionBit` selects one of the two forward collision-mask
-bits from object direction. `CheckEnemyDeltaDirectionThreshold` compares an AI
-delta with a caller-provided threshold and reports whether its direction
-agrees with the object's facing bit. These helpers are now used symbolically by
-the earlier reconstructed families.
+`CheckEnemyForwardCollisionBit` selects `ObjectCollisionBelowLeftBit` or
+`ObjectCollisionBelowRightBit` from object direction. These are the Y-edge
+support probes at collision-mask bits 4 and 5. `CheckEnemyDeltaDirectionThreshold`
+compares an AI delta with a caller-provided threshold and reports whether its
+direction agrees with the object's facing bit. These helpers are now used
+symbolically by the earlier reconstructed families.
 
 The `$0C-$0F` family samples the shared four-cell collision mask, converts the
 first set bit into an overlapping Y/X offset pair, and either creates a map

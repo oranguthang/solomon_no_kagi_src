@@ -1,18 +1,13 @@
 # Unknowns and research queue
 
-1. Prove the remaining fields of the `$14`-byte object record, assign exact
-   directional meanings to collision-mask byte 11, and complete the separate
-   eight-byte enemy AI record.
-2. Assign gameplay names to the remaining low-six-bit `RoomMap` identities
+1. Assign gameplay names to the remaining low-six-bit `RoomMap` identities
    used by hazards and special-room scripts. Geometry and the four exhaustive
    decoration/solid/immutable byte classes are now shared source contracts.
-3. Identify the remaining special-room selectors and data for Bomb Jacks,
+2. Identify the remaining special-room selectors and data for Bomb Jacks,
    Tecmo Bunnies, and the Pages of Time and Space.
-4. Explain how `GameplayUpdateCount` compensates for missed timer-service
-   frames under load and whether the displayed countdown loses real time.
-5. Prove sound-command priorities and virtual-to-hardware channel stealing at
+3. Prove sound-command priorities and virtual-to-hardware channel stealing at
    runtime, then assign musical names only where trace evidence supports them.
-6. Compare USA, Japan, and Europe PRG revisions without merging assumptions
+4. Compare USA, Japan, and Europe PRG revisions without merging assumptions
    from one profile into another.
 
 ## Resolved questions
@@ -28,6 +23,13 @@
   byte 5 is signed Y motion. `docs/dana_action_states.md` records every proven
   pair. Fireball bytes `$0430-$0431` are the current and alternate four-way
   path directions consumed through the shared synthetic AI-record pointer.
+- All eight bytes of the parallel enemy AI record have shared offset names.
+  Bytes 1 and 2-3 are distinct phase and lifetime accumulators, bytes 4-5 are
+  Dana-relative deltas, and bytes 6-7 are family-specific linked-slot or path-
+  direction fields. See `docs/enemy_ai_record.md`.
+- All 20 bytes of the gameplay object record have established roles. Its six
+  collision bits are geometrically mapped from upper-left through below-right,
+  with bits 0-3 selecting the response table. See `docs/object_record.md`.
 - The complete CNROM policy is documented in `docs/chr_bank_policy.md`.
   `make chr-bank-audit` proves the decoded 53-room bank distribution; source
   inspection accounts for reset, intro, gameplay, transition, title, and
@@ -39,8 +41,11 @@
   `docs/room_map_tiles.md`: low six identity bits, decoration bit 6, collision
   bit 7, and the immutable `$F8-$FF` range.
 - Timer-service frequency and scheduler switch rate under low and high object
-  load are reproduced by the Room 1 and attract-demo runtime scenarios. The
-  compensation semantics remain open as queue item 4 above.
+  load are reproduced by the Room 1 and attract-demo runtime scenarios.
+  `GameplayUpdateCount` is now proven to preserve every serviced gameplay NMI
+  tick across delayed main-thread passes. The internal timer catches up, HUD
+  publication may be deferred, and NMI stack-safety skips can still make game
+  time lag wall time. See `docs/timer.md`.
 
 Unknowns stay here until evidence resolves them; they are not silently removed
 when a plausible name appears.

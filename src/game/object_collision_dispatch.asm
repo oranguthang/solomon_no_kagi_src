@@ -20,7 +20,7 @@ SelectObjectCollisionResponse:
     LDY #ObjectCollisionMaskOffset
     LDA (TempPointer08),Y
     STA ObjectCollisionMaskScratch
-    AND #$0F
+    AND #ObjectCollisionResponseMask
     ASL A
     TAX
     LDA ObjectCollisionHandlerTable,X

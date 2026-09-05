@@ -65,8 +65,8 @@ range is understood.
 | `$04D6-$04F5` | eight interleaved duration/reload/envelope/volume records | confirmed |
 | `$04F6` | rotating active virtual-channel bitset | confirmed |
 | `$05BE` | total extra lives acquired; overlaps auxiliary-object byte 3 | high |
-| `$04F7-$057E` | 17 eight-byte enemy AI records; bytes 6-7 can hold two linked slot indices | high |
-| `$057F-$070F` | `$14`-byte gameplay object records | high |
+| `$04F7-$057E` | 17 eight-byte enemy AI records; complete shared layout documented | confirmed |
+| `$057F-$070F` | 21 `$14`-byte gameplay object records; complete shared layout documented | confirmed |
 
 The last object base is `$070F`; a full `$14`-byte record therefore reaches
 `$0722`. Exact ownership above that boundary still needs write-watch evidence.
@@ -89,8 +89,10 @@ bytes 8-9 and align integer X to low nibble `$4` or `$C`.
 On a type/action transition, bytes 12-16 receive the animation counter, reload
 delay, packed phase, and little-endian animation-data pointer.
 The per-frame sampler stores six RoomMap solidity tests in collision-mask byte
-11. The animation sequencer writes its selected three-byte sprite frame to
-bytes 17-19.
+11. Bits 0-5 are upper-left, upper-right, lower-right, lower-left, below-left,
+and below-right. The animation sequencer writes its selected three-byte sprite
+frame to bytes 17-19. The complete record is tabulated in
+`docs/object_record.md`.
 For records in state `$E0+`, collision byte 11's low nibble indexes the
 response table at `$8806`; upper bits also participate in the mask-0/F handler.
 The shared auxiliary record at `$05BB` uses the same confirmed integer Y/X

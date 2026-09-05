@@ -300,7 +300,8 @@ decrease.
   retirement at deterministic frames;
 - a controlled, fully declared open-door setup proves the original
   `EnterRoomDoor` to `RoomClearThread` to next-room-load progression, while
-  paired Room 1/attract traces prove scheduler-sensitive timer cadence.
+  paired Room 1/attract traces prove scheduler-sensitive timer cadence and
+  lossless catch-up of every serviced gameplay NMI tick.
 
 ### 6. Data-format round trips - Complete
 

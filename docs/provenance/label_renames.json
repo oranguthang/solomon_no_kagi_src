@@ -11864,6 +11864,15 @@
       ]
     },
     {
+      "address": "0x8063",
+      "previous": "$8063",
+      "current": "SkipNmiGameplayServicesForStack",
+      "confidence": "confirmed",
+      "evidence": [
+        "After masking SP to its 32-byte context-local offset, values below $08 execute this branch directly to NmiRestoreRegisters."
+      ]
+    },
+    {
       "address": "0x8065",
       "previous": "_label_bank0_8065",
       "current": "RunNmiGameplayServices",

@@ -24,9 +24,9 @@ AdvanceObjectAnimation
 ```
 
 After the sweep, a nonzero low nibble in Dana's collision mask clears gameplay
-frame counter `$20`. The precise responsibility of that counter and the
-game-facing directional names of the collision bits remain open. The response
-dispatcher is documented in `docs/object_collision_response.md`.
+frame counter `$20`. The response-mask geometry is fully mapped in
+`docs/object_record.md`; the response dispatcher is documented in
+`docs/object_collision_response.md`.
 
 ## Fixed-point motion
 
@@ -49,8 +49,9 @@ are used. Six selected cells are tested by sign: a negative RoomMap byte sets
 the current collision bit.
 
 Those six results are shifted into object byte 11. This proves byte 11 is the
-per-frame RoomMap collision mask; exact directional names for all six bits
-still require behavior-dispatch traces.
+per-frame RoomMap collision mask. Bits 0-5 are upper-left, upper-right, lower-
+right, lower-left, below-left, and below-right respectively. Assembly
+constants lock the four response bits and the two below-support bits.
 
 ## Animation sequencing
 

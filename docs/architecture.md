@@ -203,7 +203,9 @@ data pointer bytes 12-16. See `docs/object_motion_animation.md`.
 It integrates the signed fixed-point coordinate fields, samples six RoomMap
 cells into collision byte 11, dispatches its low nibble through a 16-entry
 response table, and advances the packed animation phase into sprite bytes 17-19.
-See `docs/object_update_pipeline.md`.
+All 20 record fields and the exact upper/lower/below collision-bit geometry are
+tabulated in `docs/object_record.md`; see `docs/object_update_pipeline.md` for
+the update sequence.
 
 Collision responses are gated to object states `$E0+`. All 16 mask entries and
 their shared handler tails are reconstructed through `$8A61`; they align
@@ -257,8 +259,9 @@ object-state bit 1. See `docs/enemy_lifetime.md`.
 `UpdateEnemiesMovement` walks these parallel pools through four split pointer
 tables. It advances active AI records using the shared gameplay update count,
 caches direction components relative to Dana, and publishes an active-enemy
-count for later services. Field-level semantics beyond the confirmed offsets
-remain deliberately unresolved; see `docs/enemy_movement.md`.
+count for later services. The complete eight-byte shared layout distinguishes
+flags, phase, 16-bit lifetime, Dana-relative deltas, and polymorphic link/path
+fields; see `docs/enemy_ai_record.md` and `docs/enemy_movement.md`.
 
 The following `RunEnemyAiDispatcher` pass resolves the same parallel pointers,
 applies two object-record eligibility tests, and invokes a per-enemy handler.
@@ -278,16 +281,16 @@ retired only after a short low-counter grace interval. This state transition is
 isolated from the later object initialization and rendering helpers.
 
 Allocated enemy slots use a shared zero-page spawn contract. `InitializeEnemy`
-clears AI-record offsets 1-3 and writes converted coordinates into the matching
-object record before a separate type-specific service configures behavior and
-rendering. This confirms the parallel-record initialization order without yet
-assigning names to every field.
+clears the AI phase and 16-bit lifetime fields at offsets 1-3 and writes
+converted coordinates into the matching object record before a separate type-
+specific service configures behavior and rendering.
 
 `ConfigureEnemyType` then decodes the spawn type through a compact table,
 configures object state through a shared helper, and conditionally seeds the
-last two bytes of the parallel AI record. Existing slots can also pass through
-this stage without repeating coordinate initialization, so position setup and
-type configuration are intentionally separate services.
+current and alternate path-direction aliases in the last two AI bytes.
+Existing slots can also pass through this stage without repeating coordinate
+initialization, so position setup and type configuration are intentionally
+separate services.
 
 The type decoder's compact 27-byte flag table is now source-owned separately
 from executable code. Its size is assembly-asserted, while individual bit

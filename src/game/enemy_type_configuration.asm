@@ -51,7 +51,7 @@ ApplyEnemyTypeConfiguration:
     JSR LoadEnemyAiPointer
     LDA SpawnType
     AND #$03
-    LDY #$06
+    LDY #EnemyAiPathDirectionOffset
     STA (TempPointer00),Y
     INY
     EOR #$02

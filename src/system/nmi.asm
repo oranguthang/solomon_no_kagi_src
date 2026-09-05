@@ -5,6 +5,8 @@
 ChrBankCount = 4
 ChrBankIndexMask = ChrBankCount - 1
 ChrBankRequestConsumed = $80
+ThreadStackLocalOffsetMask = $1F
+NmiGameplayServiceStackFloor = $08
 
 NMI:
     STX NmiSavedX
@@ -56,9 +58,11 @@ RestoreNmiPpuMask:
     STA a:PPU_MASK
     TSX
     TXA
-    AND #$1F
-    CMP #$08
+    AND #ThreadStackLocalOffsetMask
+    CMP #NmiGameplayServiceStackFloor
     BCS RunNmiGameplayServices
+
+SkipNmiGameplayServicesForStack:
     BCC NmiRestoreRegisters
 
 RunNmiGameplayServices:

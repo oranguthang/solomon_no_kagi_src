@@ -32,9 +32,11 @@ these relationships are explicit and checked by byte-identical assembly.
 
 The handlers clear the appropriate fractional/motion fields, preserve a
 motion sign where required, and select new action values from `$04-$09` or
-`$18-$1B`. Their exact coordinate postconditions are now source-visible.
-Assigning game-facing directional names to the six collision bits remains a
-runtime-trace task; handler names therefore retain the proven mask values.
+`$18-$1B`. Their exact coordinate postconditions are now source-visible. The
+low-nibble bits mean upper-left, upper-right, lower-right, and lower-left;
+`docs/object_record.md` derives the complete six-bit sample order. Handler
+names retain mask values because several combinations intentionally choose
+between axes according to sub-tile penetration.
 
 `ObjectClampYCoordinateToThirteenInset` at `$8A41` is the shared lower-inset
 helper. It maps every integer Y input to low nibble `$D`, clears Y fraction

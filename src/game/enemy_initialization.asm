@@ -5,13 +5,13 @@
 InitializeEnemy:
     LDA SpawnSlotIndex
     JSR LoadEnemyAiPointer
-    LDY #$00
+    LDY #EnemyAiFlagsOffset
     TYA
 
 ClearEnemyAiStateFields:
     INY
     STA (TempPointer00),Y
-    CPY #$03
+    CPY #EnemyAiLifetimeHighOffset
     BNE ClearEnemyAiStateFields
     LDA SpawnSlotIndex
     JSR LoadEnemyObjectPointer

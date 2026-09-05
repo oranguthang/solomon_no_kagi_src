@@ -23,9 +23,6 @@ EnemyAiHandlerCount = (* - EnemyAiHandlerTable) / 2
 
 .segment "PRG_LINKED_ENEMY_AI"
 
-EnemyAiPhaseOffset = $01
-EnemyAiVerticalDeltaOffset = $04
-EnemyAiHorizontalDeltaOffset = $05
 EnemyAiLinkedSlotMask = $03
 EnemyAiActiveState = $80
 EnemyDirectionBit = $01

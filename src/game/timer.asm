@@ -2,17 +2,21 @@
 
 .segment "PRG_TIMER"
 
+PendingTimerTickCount = TempPointer02
+TimerDecrementMagnitude = TempPointer02 + 1
+TimerDisplayNonzeroAccumulator = TempPointer02
+
 DecrementTimer:
     LDA #<TimerWarningState
     STA TempPointer00
     LDA #>TimerWarningState
     STA TempPointer00 + 1
     LDA GameplayUpdateCount
-    STA $02
+    STA PendingTimerTickCount
     BEQ CommitTimerDisplayUpdate
     LDA TimerDecrementStep
     AND #$7F
-    STA $03
+    STA TimerDecrementMagnitude
     STA TimerDecrementStep
 
 ProcessPendingTimerTicks:
@@ -27,7 +31,7 @@ ProcessPendingTimerTicks:
 DecrementTimerByOne:
     INY
     LDA (TempPointer00),Y
-    SBC $03
+    SBC TimerDecrementMagnitude
     BCS StoreChangedTimerDigit
     LDX #$04
     BCC WrapTimerDigitAfterBorrow
@@ -59,7 +63,7 @@ StoreChangedTimerDigit:
     STA TimerDecrementStep
 
 NextTimerTick:
-    DEC $02
+    DEC PendingTimerTickCount
     BNE ProcessPendingTimerTicks
 
 CommitTimerDisplayUpdate:
@@ -71,7 +75,7 @@ CommitTimerDisplayUpdate:
     AND #$7F
     STA TimerDecrementStep
     JSR BuildTimerDisplayUpdate
-    LDA $02
+    LDA TimerDisplayNonzeroAccumulator
     BNE UpdateTimerWarningState
     LDA #$33
     JSR StartThread

@@ -23,7 +23,7 @@ UpdateNextEnemyMovement:
     STA TempPointer04
     LDA EnemyAiRecordPointerHighTable,X
     STA TempPointer04 + 1
-    LDY #$00
+    LDY #EnemyAiFlagsOffset
     LDA (TempPointer04),Y
     BPL NextEnemyMovement
     INC ActiveEnemyCount
@@ -41,18 +41,18 @@ UpdateNextEnemyMovement:
     LDA #$00
     ADC (TempPointer04),Y
     STA (TempPointer04),Y
-    LDY #$07
+    LDY #ObjectYPositionOffset
     LDA (TempPointer02),Y
     SEC
     SBC $06
     ROR A
     PHA
-    LDY #$0A
+    LDY #ObjectXPositionOffset
     LDA (TempPointer02),Y
     SEC
     SBC $07
     ROR A
-    LDY #$05
+    LDY #EnemyAiHorizontalDeltaOffset
     STA (TempPointer04),Y
     DEY
     PLA

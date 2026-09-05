@@ -14,8 +14,10 @@ Decoded table bits determine a `$C0`/`$E0` base, a derived value passed through
 scratch byte `$04`, whether object offset 5 receives `$80`, and which X value
 is passed to the helper at `$9D99`.
 
-One remaining decoded flag causes the matching AI record to be selected via
-`$B296`; the low two type bits and their XOR-derived counterpart are then
-stored at AI offsets 6 and 7. The behavioral meanings of these bit fields,
-`$9D99`, and the individual table bit meanings remain intentionally unnamed until
-their consumers are reconstructed.
+One decoded flag causes the matching AI record to be selected through
+`LoadEnemyAiPointer`. The low two type bits seed `EnemyAiPathDirectionOffset`;
+an XOR/mask transform chooses horizontal or vertical opposition for
+`EnemyAiAlternateDirectionOffset`. The shared path-mask handlers establish
+both fields as direction indices. The behavior of `$9D99` and the remaining
+individual table bits stays unnamed until their consumers provide equivalent
+evidence.

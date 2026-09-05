@@ -2,6 +2,7 @@
   "schema_version": 1,
   "watches": [
     {"address": "0x0012", "size": 8, "symbol": "ThreadStackPointers", "name": "Thread stack pointers", "confidence": "high"},
+    {"address": "0x0023", "size": 1, "symbol": "GameplayUpdateCount", "name": "Pending gameplay NMI ticks", "confidence": "confirmed"},
     {"address": "0x0028", "size": 1, "symbol": "GameplayFlags", "name": "Gameplay flags", "confidence": "high"},
     {"address": "0x0082", "size": 2, "symbol": "Joypad1Raw", "name": "Raw joypad state", "confidence": "high"},
     {"address": "0x0302", "size": 1, "symbol": "ThreadIndex", "name": "Current thread index", "confidence": "high"},

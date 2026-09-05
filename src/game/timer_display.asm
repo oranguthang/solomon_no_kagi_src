@@ -13,14 +13,14 @@ CopyTimerDisplayWriterCall:
     LDX #$03
     LDA #$00
     STA TimerDisplayTerminator + 1
-    STA $02
+    STA TimerDisplayNonzeroAccumulator
     TAY
 
 CopyTimerDigits:
     LDA TimerDigit10,X
     STA TimerDisplayDigits,Y
-    ORA $02
-    STA $02
+    ORA TimerDisplayNonzeroAccumulator
+    STA TimerDisplayNonzeroAccumulator
     INY
     DEX
     BPL CopyTimerDigits

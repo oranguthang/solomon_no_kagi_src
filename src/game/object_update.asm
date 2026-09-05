@@ -50,7 +50,7 @@ AdvanceObjectUpdateLoop:
     DEC CurrentObjectUpdateIndex
     BPL UpdateNextObject
     LDA DanaCollisionMask
-    AND #$0F
+    AND #ObjectCollisionResponseMask
     BEQ FinishActiveObjectUpdate
     LDA #$00
     STA GameplayFrameCounters

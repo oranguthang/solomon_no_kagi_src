@@ -240,9 +240,9 @@ CheckEnemyForwardCollisionBit:
     LDY #ObjectActionOffset
     LDA (EnemyObjectPointer),Y
     LSR A
-    LDA #$20
+    LDA #ObjectCollisionBelowRightBit
     BCC ApplyEnemyForwardCollisionMask
-    LDA #$10
+    LDA #ObjectCollisionBelowLeftBit
 
 ApplyEnemyForwardCollisionMask:
     LDY #ObjectCollisionMaskOffset

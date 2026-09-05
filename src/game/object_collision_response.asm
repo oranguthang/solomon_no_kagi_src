@@ -14,7 +14,7 @@ HandleObjectCollisionMask00:
     CMP #$0C
     BCS FinishObjectCollisionMask00
     LDA ObjectCollisionMaskScratch
-    AND #$30
+    AND #ObjectCollisionBelowMask
     BNE FinishObjectCollisionMask00
     LDA #$03
     AND ObjectCollisionActionScratch

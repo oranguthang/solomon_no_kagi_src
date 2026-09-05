@@ -15,9 +15,6 @@ DeactivateCurrentEnemy:
 .segment "PRG_ENEMY_LIFETIME"
 
 EnemyAiLifetimeFlagMask = $03
-EnemyAiLifetimeLowOffset = $02
-EnemyAiLifetimeHighOffset = $03
-EnemyAiLifetimeStateOffset = $01
 ExpiredEnemyObjectFlag = $02
 
 ApplyEnemyLifetimeThreshold:
@@ -37,7 +34,7 @@ ApplyEnemyLifetimeThreshold:
     BEQ FinishEnemyLifetimeThreshold
     LDA #$00
     STA (EnemyObjectPointer),Y
-    LDY #EnemyAiLifetimeStateOffset
+    LDY #EnemyAiPhaseOffset
     STA (EnemyAiPointer),Y
     TAY
     LDA #ExpiredEnemyObjectFlag

@@ -9,13 +9,12 @@ the shared `GameplayUpdateCount`, and visits all 17 enemy slots. Four split
 pointer tables at `$B446`, `$B457`, `$B46C`, and `$B481` select the eight-byte
 enemy AI record and the corresponding `$14`-byte object record.
 
-Only AI records whose byte 0 has bit 7 set are processed and counted in
-`ActiveEnemyCount`. The shared update count advances record bytes 1-3. Object
-offsets 7 and 10 are compared with Dana's coordinates, divided by two with a
-sign-preserving `ROR`, and cached in AI-record bytes 4 and 5. These field
-descriptions stay offset-based until the downstream AI consumers establish
-their complete contracts.
+Only AI records whose `EnemyAiFlagsOffset` byte has bit 7 set are processed and
+counted in `ActiveEnemyCount`. The shared update count advances the independent
+`EnemyAiPhaseOffset` byte and the little-endian lifetime pair at offsets 2-3.
+Object Y/X are compared with Dana's coordinates, divided by two through `ROR`,
+and cached as vertical/horizontal deltas at offsets 4-5.
 
-The four pointer tables remain raw addresses pending their own semantic data
-module and round-trip audit. `docs/enemy_ai_dispatch.md` describes the next
-consumer of the same parallel records.
+The pointer tables are formula-generated and audited as 17 AI plus 21 object
+records. `docs/enemy_ai_record.md` gives the complete AI layout;
+`docs/enemy_ai_dispatch.md` describes the next consumer of the parallel pools.

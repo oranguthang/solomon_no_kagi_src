@@ -17,6 +17,7 @@ local ram = {
     thread = symbol("ThreadIndex"),
     joypad = symbol("Joypad1Raw"),
     room = symbol("CurrentRoomIndex"),
+    gameplay_updates = symbol("GameplayUpdateCount"),
     timer = symbol("TimerDecrementStep"),
     mirror = symbol("RoomItemRuntimeData"),
     map = symbol("RoomMap"),
@@ -86,6 +87,11 @@ local gameplay_start_frame = nil
 local scheduler_window_counts = {0, 0, 0, 0, 0, 0, 0, 0}
 local timer_window_calls = 0
 local timer_window_frames = {}
+local timer_window_ticks = 0
+local timer_window_initial_ticks = nil
+local timer_window_steady_max_ticks = 0
+local gameplay_update_window_count = 0
+local gameplay_skip_window_count = 0
 for _, hook in ipairs(hooks) do
     local routine = hook[1]
     local event = hook[2]
@@ -118,11 +124,33 @@ for _, hook in ipairs(hooks) do
         end
         if routine == "DecrementTimer" and gameplay_start_frame ~= nil
             and emu.framecount() < gameplay_start_frame + 60 then
+            local pending_ticks = byte(ram.gameplay_updates)
             timer_window_calls = timer_window_calls + 1
             timer_window_frames[emu.framecount()] = true
+            timer_window_ticks = timer_window_ticks + pending_ticks
+            if timer_window_initial_ticks == nil then
+                timer_window_initial_ticks = pending_ticks
+            elseif pending_ticks > timer_window_steady_max_ticks then
+                timer_window_steady_max_ticks = pending_ticks
+            end
         end
     end)
 end
+
+memory.registerexecute(symbol("SkipNmiGameplayServicesForStack"), function()
+    if gameplay_start_frame ~= nil
+        and emu.framecount() < gameplay_start_frame + 60 then
+        gameplay_skip_window_count = gameplay_skip_window_count + 1
+    end
+end)
+
+memory.registerwrite(ram.gameplay_updates, 1, function(address, size, value)
+    if gameplay_start_frame ~= nil
+        and emu.framecount() < gameplay_start_frame + 60
+        and value ~= 0 then
+        gameplay_update_window_count = gameplay_update_window_count + 1
+    end
+end)
 
 memory.registerwrite(ram.map, 192, function(address, size, value)
     if seen["block_magic_request"] then
@@ -244,7 +272,18 @@ if gameplay_start_frame ~= nil then
     emit("scheduler_window", table.concat(scheduler_parts, ";"))
     emit(
         "timer_window",
-        string.format("calls=%d;frames=%d", timer_window_calls, distinct_timer_frames))
+        string.format(
+            "calls=%d;frames=%d;updates=%d;skips=%d;ticks=%d;initial=%d;steady=%d;queued=%d;max=%d",
+            timer_window_calls,
+            distinct_timer_frames,
+            gameplay_update_window_count,
+            gameplay_skip_window_count,
+            timer_window_ticks,
+            timer_window_initial_ticks or 0,
+            timer_window_ticks - (timer_window_initial_ticks or 0),
+            gameplay_update_window_count
+                - (timer_window_ticks - (timer_window_initial_ticks or 0)),
+            timer_window_steady_max_ticks))
 end
 
 emit("trace_end", scenario)

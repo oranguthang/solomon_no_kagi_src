@@ -34,6 +34,12 @@ frame, then sets bit 7 in `PpuCtrlShadow` before restoring `PPU_CTRL` on exit.
 
 ## Gameplay services
 
+After the PPU work, the handler masks SP with `$1F` to obtain the offset in the
+current context's 32-byte stack window. Offsets below `$08` branch through
+`SkipNmiGameplayServicesForStack` directly to register restoration, protecting
+the remaining stack space by omitting gameplay and post-gameplay calls for that
+video frame. The runtime timer windows now count this branch explicitly.
+
 The active path now uses symbolic calls for the alternating enemy-overlap
 scan, fireball RoomMap collision, Dana A/B action requests, the four-slot
 pending-thread queue, Dana's control-state dispatcher, and the complete

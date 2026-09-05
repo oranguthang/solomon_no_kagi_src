@@ -260,6 +260,8 @@ docs/special_room_scripts.md context-six room dispatch and trigger evidence
 docs/ending_sequence.md      room-index 49 ending choreography
 docs/ending_and_special_room_support.md ending text, Seal logic, and room data
 docs/enemy_lifetime.md       room enemy lifetime transition and carry contract
+docs/enemy_ai_record.md      complete eight-byte AI record layout and aliases
+docs/object_record.md        complete 20-byte object and collision-mask layout
 docs/linked_enemy_ai.md      linked-slot allocation and action dispatch
 docs/gameplay_exit_transition.md cooperative death, TIME OVER, and GDV flow
 docs/attract_demo_flow.md    post-game, title, and recorded demo control

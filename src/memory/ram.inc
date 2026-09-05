@@ -186,10 +186,17 @@ EnemyAiState = $04F7
 EnemyAiStateStride = 8
 EnemyAiStateCount = 17
 EnemyAiFlagsOffset = $00
+EnemyAiPhaseOffset = $01
+EnemyAiLifetimeLowOffset = $02
+EnemyAiLifetimeHighOffset = $03
+EnemyAiVerticalDeltaOffset = $04
+EnemyAiHorizontalDeltaOffset = $05
 EnemyAiFirstLinkedSlotOffset = $06
 EnemyAiSecondLinkedSlotOffset = $07
 EnemyAiPathDirectionOffset = $06
 EnemyAiAlternateDirectionOffset = $07
+
+.assert EnemyAiAlternateDirectionOffset + 1 = EnemyAiStateStride, error, "unexpected enemy AI record layout"
 
 ObjectRecordSize = $14
 ActiveObjectStateMinimum = $C0
@@ -213,6 +220,18 @@ ObjectAnimationPointerHighOffset = $10
 ObjectSpriteTile1Offset = $11
 ObjectSpriteTile2Offset = $12
 ObjectSpriteFlagsOffset = $13
+
+ObjectCollisionUpperLeftBit = $01
+ObjectCollisionUpperRightBit = $02
+ObjectCollisionLowerRightBit = $04
+ObjectCollisionLowerLeftBit = $08
+ObjectCollisionBelowLeftBit = $10
+ObjectCollisionBelowRightBit = $20
+ObjectCollisionResponseMask = $0F
+ObjectCollisionBelowMask = $30
+
+.assert ObjectCollisionUpperLeftBit | ObjectCollisionUpperRightBit | ObjectCollisionLowerRightBit | ObjectCollisionLowerLeftBit = ObjectCollisionResponseMask, error, "unexpected object collision response bits"
+.assert ObjectCollisionBelowLeftBit | ObjectCollisionBelowRightBit = ObjectCollisionBelowMask, error, "unexpected object collision below bits"
 
 DanaFacingRight = $00
 DanaFacingLeft = $01

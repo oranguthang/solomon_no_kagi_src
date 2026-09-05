@@ -9,10 +9,11 @@ zero-page input contract:
 - the caller invokes the adjacent type-specific initializer at `$A3F8` when a
   complete spawn is required.
 
-The helper at `$B296` resolves the selected eight-byte AI record. The routine
-clears offsets 1-3, then `$B28A` resolves the matching `$14`-byte object record
-and receives Y/X at offsets 7 and 10. These two helpers and their split pointer
-tables remain raw until their own data/code module is reconstructed.
+`LoadEnemyAiPointer` resolves the selected eight-byte AI record. The routine
+clears its phase byte and two-byte lifetime accumulator at offsets 1-3, then
+`LoadEnemyObjectPointer` resolves the matching `$14`-byte object record and
+receives Y/X at offsets 7 and 10. Both pointer helpers and all four split
+tables are source-owned and machine-audited.
 
 `InitializeDemonMirrorObject` at `$A144` uses only this position/state helper
 while building a placeholder with state `$C6`, type `$04`, and action `$0C`;

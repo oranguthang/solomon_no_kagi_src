@@ -49,7 +49,7 @@
       },
       "expected_event_details": {
         "scheduler_window": "0=829;1=828;2=828;3=829;4=829;5=829;6=829;7=829",
-        "timer_window": "calls=203;frames=60"
+        "timer_window": "calls=203;frames=60;updates=59;skips=0;ticks=146;initial=87;steady=59;queued=0;max=1"
       },
       "expected_event_series": {
         "scheduler_switch": [
@@ -225,7 +225,7 @@
       },
       "expected_event_details": {
         "scheduler_window": "0=205;1=205;2=205;3=205;4=205;5=205;6=205;7=205",
-        "timer_window": "calls=52;frames=52"
+        "timer_window": "calls=52;frames=52;updates=59;skips=0;ticks=122;initial=64;steady=58;queued=1;max=2"
       },
       "expected_event_series": {
         "scheduler_switch": [
