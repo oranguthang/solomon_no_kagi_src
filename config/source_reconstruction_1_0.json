@@ -39,6 +39,7 @@
   ],
   "required_documents": [
     "README.md",
+    "docs/index.md",
     "docs/source_reconstruction_1_0.md",
     "docs/architecture.md",
     "docs/source_layout.md",

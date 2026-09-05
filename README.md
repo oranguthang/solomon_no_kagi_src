@@ -6,6 +6,10 @@ preservation-first structure of the sibling `smb1_src` repository: a stable
 baseline, explicit ROM identity, reproducible build artifacts, documented
 evidence, and small tested tools for decoded game data.
 
+The grouped [documentation index](docs/index.md) is the shortest route into
+the release contract, architecture, runtime evidence, and individual
+subsystems.
+
 ## Current status
 
 - **Source Reconstruction 1.0 is tag-ready for the fixed USA profile.** Its
