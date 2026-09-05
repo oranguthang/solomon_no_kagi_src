@@ -7,6 +7,7 @@ local input_spec = os.getenv("SOLOMON_RUNTIME_INPUTS") or ""
 local patch_spec = os.getenv("SOLOMON_RUNTIME_PATCHES") or ""
 local output = assert(io.open(output_path, "w"))
 local audio_probe = scenario == "audio-channel-priority"
+local pause_probe = scenario == "room-1-pause-resume"
 
 local function symbol(name)
     local address = debugger.getsymboloffset(name)
@@ -29,6 +30,7 @@ local ram = {
     audio_active = symbol("AudioActiveChannelMask"),
     audio_pointer = symbol("TempPointer08"),
     audio_hardware_index = symbol("TempPointer08") + 2,
+    game_state = symbol("GameStateFlags"),
 }
 
 local function byte(address)
@@ -73,6 +75,7 @@ local hooks = {
     {"RoomLoadThread", "room_load"},
     {"PrepareRoomIntro", "room_intro"},
     {"MainGameplayThread", "gameplay_start"},
+    {"PauseGameThread", "pause_thread", true},
     {"DecrementTimer", "first_timer_tick"},
     {"UpdateDanaControlState", "dana_control", true},
     {"UpdateObjectMotionAndCollision", "object_motion", true},
@@ -101,6 +104,8 @@ local timer_window_initial_ticks = nil
 local timer_window_steady_max_ticks = 0
 local gameplay_update_window_count = 0
 local gameplay_skip_window_count = 0
+local pause_active = false
+local pause_cleared = false
 for _, hook in ipairs(hooks) do
     local routine = hook[1]
     local event = hook[2]
@@ -141,6 +146,13 @@ for _, hook in ipairs(hooks) do
                 timer_window_initial_ticks = pending_ticks
             elseif pending_ticks > timer_window_steady_max_ticks then
                 timer_window_steady_max_ticks = pending_ticks
+            end
+        end
+        if pause_probe and routine == "UpdateDanaControlState" then
+            if pause_active then
+                emit_once("gameplay_during_pause", routine)
+            elseif pause_cleared then
+                emit_once("gameplay_resumed", routine)
             end
         end
     end)
@@ -210,6 +222,20 @@ memory.registerwrite(ram.gameplay_updates, 1, function(address, size, value)
         and emu.framecount() < gameplay_start_frame + 60
         and value ~= 0 then
         gameplay_update_window_count = gameplay_update_window_count + 1
+    end
+end)
+
+memory.registerwrite(ram.game_state, 1, function(address, size, value)
+    if not pause_probe or not seen["pause_thread"] then
+        return
+    end
+    if bit.band(value, 0x04) ~= 0 and not pause_active then
+        pause_active = true
+        emit_once("pause_active", string.format("%04X=%02X", address, value))
+    elseif pause_active and bit.band(value, 0x04) == 0 then
+        pause_active = false
+        pause_cleared = true
+        emit_once("pause_cleared", string.format("%04X=%02X", address, value))
     end
 end)
 

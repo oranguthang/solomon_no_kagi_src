@@ -27,7 +27,7 @@ Super Mario Bros. preservation projects.
   PPU-stream audits; it also cross-checks the Source Reconstruction 1.0
   manifest
 - `make source-1-audit` adds a fresh emulator capture and validation of all
-  eight committed runtime scenarios to the complete static release gate
+  nine committed runtime scenarios to the complete static release gate
 - `make check` is the full release check
 
 The former address-ordered preservation listing has been eliminated. New

@@ -7,6 +7,7 @@
     {"address": "0x8c00", "symbol": "Reset", "name": "Reset", "kind": "execute", "confidence": "confirmed"},
     {"address": "0x8db4", "symbol": "SwitchThreads", "name": "Switch threads", "kind": "execute", "confidence": "high"},
     {"address": "0x8dfc", "symbol": "IdleThreadLoop", "name": "Idle thread loop", "kind": "execute", "confidence": "high"},
+    {"address": "0x8e47", "symbol": "PauseGameThread", "name": "Pause-game thread", "kind": "execute", "confidence": "confirmed"},
     {"address": "0x8ee4", "symbol": "RoomClearThread", "name": "Room-clear thread", "kind": "execute", "confidence": "high"},
     {"address": "0x8fb0", "symbol": "SubtractTimerBy8", "name": "Subtract timer by eight", "kind": "execute", "confidence": "confirmed"},
     {"address": "0x9021", "symbol": "RoomLoadThread", "name": "Room-load thread", "kind": "execute", "confidence": "confirmed"},

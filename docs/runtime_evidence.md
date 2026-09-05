@@ -42,6 +42,13 @@ digits, Dana position, and active-enemy count.
 Dana's horizontal coordinate subsequently changes, then fixes a final gameplay
 state at frame 900.
 
+`room-1-pause-resume` supplies independent Start pulses on frames 720-721 and
+800-801. The pause thread starts at frame 722, sets `GameStateFlags` to `$07`
+after its 40-frame debounce, and clears the pause bits to `$01` on frame 803.
+The timer remains unchanged while pause is active, Dana control is forbidden
+inside that interval, and its first post-resume execution is required on frame
+804. No RAM or control-flow patch is used.
+
 `room-1-cast-block` presses A on frames 720-780. It observes the block-magic
 request, execution of `CreateBlockInRoomMap`, and the resulting write of `$90`
 to RAM address `$0387`, map index `$83`. The expected event detail protects
@@ -75,8 +82,9 @@ code then executes `EnterRoomDoor` and `RoomClearThread`, starts timer-to-score
 conversion through `SubtractTimerBy8`, and reaches the next `RoomLoadThread` at
 frame 1136. The final state proves gameplay in internal room `$01`.
 
-These scenarios establish the runtime harness and a reproducible boot-to-play,
-movement, block/fireball casting, progression, and scheduler-timing baseline.
+These nine scenarios establish the runtime harness and a reproducible
+boot-to-play, movement, pause/resume, block/fireball casting, progression, and
+scheduler-timing baseline.
 Later subsystem traces should add focused, explicitly declared state setup
 where reaching rare mechanics through input alone would make the evidence
 prohibitively slow.
