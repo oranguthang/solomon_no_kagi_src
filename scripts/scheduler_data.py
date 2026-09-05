@@ -19,7 +19,7 @@ except ImportError:
 INITIAL_STACK_POINTERS = 0x8E01
 THREAD_ENTRY_TABLE_BASES = 0x8E09
 THREAD_COUNT = 8
-START_CALL_RE = re.compile(r"^\s*JSR\s+StartThread\s*$")
+START_CALL_RE = re.compile(r"^\s*(?:JSR|JMP)\s+StartThread\s*$")
 IMMEDIATE_A_RE = re.compile(
     r"^\s*LDA\s+#(?:\$([0-9A-Fa-f]{1,2})|([A-Za-z_][A-Za-z0-9_]*))\s*$"
 )
@@ -182,6 +182,88 @@ def compare_entry(
     return errors
 
 
+def validate_context_roles(
+    manifest: dict[str, Any],
+    known_codes: set[int],
+) -> list[str]:
+    roles = manifest.get("context_roles")
+    if roles is None:
+        return []
+    if not isinstance(roles, list):
+        return ["context_roles must be a list"]
+
+    errors: list[str] = []
+    seen_contexts: set[int] = set()
+    listed_codes: set[int] = set()
+    for index, record in enumerate(roles):
+        if not isinstance(record, dict):
+            errors.append(f"context_roles[{index}] must be an object")
+            continue
+        try:
+            context = int(str(record.get("context")), 0)
+        except (TypeError, ValueError):
+            errors.append(f"context_roles[{index}] has an invalid context")
+            continue
+        if not 0 <= context < THREAD_COUNT:
+            errors.append(f"scheduler context outside range: {context}")
+            continue
+        if context in seen_contexts:
+            errors.append(f"duplicate scheduler context role: {context}")
+            continue
+        seen_contexts.add(context)
+
+        role = record.get("role")
+        if not isinstance(role, str) or not role.strip():
+            errors.append(f"scheduler context {context} must have a role")
+
+        entry_codes = record.get("entry_codes")
+        if not isinstance(entry_codes, list):
+            errors.append(f"scheduler context {context} entry_codes must be a list")
+            continue
+        for encoded_code in entry_codes:
+            try:
+                code = int(str(encoded_code), 0)
+            except (TypeError, ValueError):
+                errors.append(
+                    f"scheduler context {context} has an invalid entry code"
+                )
+                continue
+            if code >> 4 != context:
+                errors.append(
+                    f"scheduler code ${code:02X} is listed under context {context}"
+                )
+            if code in listed_codes:
+                errors.append(f"duplicate scheduler context entry code: ${code:02X}")
+            listed_codes.add(code)
+
+    missing_contexts = set(range(THREAD_COUNT)) - seen_contexts
+    if missing_contexts:
+        errors.append(
+            "scheduler contexts missing roles: "
+            + ", ".join(str(context) for context in sorted(missing_contexts))
+        )
+    extra_contexts = seen_contexts - set(range(THREAD_COUNT))
+    if extra_contexts:
+        errors.append(
+            "unexpected scheduler context roles: "
+            + ", ".join(str(context) for context in sorted(extra_contexts))
+        )
+
+    missing_codes = known_codes - listed_codes
+    if missing_codes:
+        errors.append(
+            "known scheduler codes missing context roles: "
+            + ", ".join(f"${code:02X}" for code in sorted(missing_codes))
+        )
+    extra_codes = listed_codes - known_codes
+    if extra_codes:
+        errors.append(
+            "context roles contain unknown scheduler codes: "
+            + ", ".join(f"${code:02X}" for code in sorted(extra_codes))
+        )
+    return errors
+
+
 def validate_report(
     report: dict[str, object],
     manifest: dict[str, Any],
@@ -226,12 +308,12 @@ def validate_report(
             f"expected {expected_dynamic}"
         )
     reviewed_entries = manifest.get("reviewed_dynamic_entries", [])
+    reviewed_codes: set[int] = set()
     if not isinstance(reviewed_entries, list):
         errors.append("reviewed_dynamic_entries must be a list")
     elif reviewed_entries and prg is None:
         errors.append("PRG is required to validate reviewed dynamic entries")
     elif prg is not None:
-        reviewed_codes: set[int] = set()
         for expected in reviewed_entries:
             code = int(str(expected.get("code")), 0)
             if code in reviewed_codes:
@@ -244,6 +326,7 @@ def validate_report(
                 errors.append(f"cannot decode reviewed dynamic thread code ${code:02X}: {exc}")
                 continue
             errors.extend(compare_entry(actual, expected, "reviewed dynamic thread code"))
+    errors.extend(validate_context_roles(manifest, expected_codes | reviewed_codes))
     return errors
 
 
@@ -274,11 +357,14 @@ def main() -> int:
         return 1
     reviewed_count = len(manifest.get("reviewed_dynamic_entries", []))
     reviewed_noun = "entry" if reviewed_count == 1 else "entries"
+    context_role_count = len(manifest.get("context_roles", []))
+    context_noun = "role" if context_role_count == 1 else "roles"
     print(
         f"[OK] Scheduler tables: {len(report['entries'])} static codes, "
         f"{report['static_call_count']} immediate calls, "
         f"{report['dynamic_call_count']} dynamic calls, "
-        f"{reviewed_count} reviewed dynamic {reviewed_noun}"
+        f"{reviewed_count} reviewed dynamic {reviewed_noun}, "
+        f"{context_role_count} context {context_noun}"
     )
     return 0
 

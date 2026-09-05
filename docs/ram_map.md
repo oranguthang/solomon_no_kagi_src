@@ -48,8 +48,8 @@ range is understood.
 | `$0429-$043D` | fireball, inventory, and lifetime state; `$0429` temporarily saves the prior room index during special-room loading | mixed/high |
 | `$042B` | number of usable two-bit fireball inventory slots, maximum 8 | confirmed |
 | `$042E-$042F` | eight packed two-bit fireball inventory slots | confirmed |
-| `$0430` | four-way fireball direction index used by NMI collision integration | confirmed |
-| `$0431` | casting pose copied into the fireball type field during activation | high |
+| `$0430` | four-way fireball direction index: right, left, up, down | confirmed |
+| `$0431` | fireball alternate path direction: initially up or down | confirmed |
 | `$0434-$043B` | timer warning state, step, fraction, and decimal digits | high |
 | `$043C-$043D` | NMI-incremented Demon Mirror spawn timer | confirmed |
 | `$043E` | Demon Mirror phase/loop state and two pending bits | confirmed |
@@ -75,6 +75,11 @@ Important object fields observed on Dana include integer Y at `$0586`, integer
 X at `$0589`, and adjacent fractional/movement fields. Equivalent offsets are
 expected across the object pool, but each field should be proven before global
 renaming.
+
+Dana's byte 3 at `$0582` is the action-state selector. Bit 0 is right/left
+facing; paired states cover jump startup, surface contact, crouching, walking,
+airborne movement, casting, and death presentation. The full encoding and its
+source evidence are in `docs/dana_action_states.md`.
 
 Across shared object helpers, byte 5 is signed Y motion, byte 6 is the Y
 fraction, and byte 7 is integer Y. The surface clamp aligns byte 7 to 16 pixels

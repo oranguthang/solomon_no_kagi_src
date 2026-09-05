@@ -10,6 +10,7 @@ from scripts.scheduler_data import (
     decode_thread_code,
     discover_start_calls,
     prg_offset,
+    validate_context_roles,
     validate_report,
 )
 
@@ -39,12 +40,16 @@ class SchedulerDataTests(unittest.TestCase):
         root = Path(temporary.name)
         (root / "src").mkdir()
         (root / "src" / "main.asm").write_text(
-            "    LDA #$17\n    JSR StartThread\n    TXA\n    JSR StartThread\n",
+            "    LDA #$17\n"
+            "    JSR StartThread\n"
+            "    TXA\n"
+            "    JSR StartThread\n"
+            "    JMP StartThread\n",
             encoding="utf-8",
         )
         static, dynamic = discover_start_calls(root)
         self.assertEqual([call["code"] for call in static], [0x17])
-        self.assertEqual(len(dynamic), 1)
+        self.assertEqual(len(dynamic), 2)
 
     def test_discovers_named_numeric_thread_code(self) -> None:
         temporary = tempfile.TemporaryDirectory()
@@ -189,6 +194,38 @@ class SchedulerDataTests(unittest.TestCase):
         self.assertTrue(
             any("reviewed dynamic thread code $21 return_address differs" in error for error in errors)
         )
+
+    def test_context_roles_cover_all_contexts_and_known_codes(self) -> None:
+        manifest = {
+            "context_roles": [
+                {
+                    "context": context,
+                    "role": f"context {context} role",
+                    "entry_codes": (
+                        [f"0x{code:02x}"]
+                        if (code := {1: 0x10, 3: 0x30}.get(context)) is not None
+                        else []
+                    ),
+                }
+                for context in range(8)
+            ]
+        }
+        self.assertEqual(validate_context_roles(manifest, {0x10, 0x30}), [])
+
+    def test_context_roles_reject_missing_context_and_code(self) -> None:
+        manifest = {
+            "context_roles": [
+                {
+                    "context": context,
+                    "role": f"context {context} role",
+                    "entry_codes": [],
+                }
+                for context in range(7)
+            ]
+        }
+        errors = validate_context_roles(manifest, {0x10})
+        self.assertTrue(any("contexts missing roles: 7" in error for error in errors))
+        self.assertTrue(any("codes missing context roles: $10" in error for error in errors))
 
 
 if __name__ == "__main__":

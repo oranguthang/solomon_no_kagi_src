@@ -18,6 +18,12 @@ direction maps to choose the next direction or snap a candidate coordinate to
 a tile boundary. Every exit either stores direction bytes 6/7 or commits the
 candidate Y/X bytes to object offsets 7/10.
 
+The direction fields now have shared names because the fireball collision
+path proves the same contract independently. It temporarily points
+`EnemyAiPointer` at `FireballActive`, placing `FireballDirectionIndex` and
+`FireballAlternateDirectionIndex` at AI offsets 6 and 7 before dispatching
+these handlers. Direction values 0 through 3 mean right, left, up, and down.
+
 Three handlers deliberately share the short trampoline at `$ABAD`, and some
 mask paths contain branches whose fallthrough is unreachable from that entry.
 Those shapes are retained because they are part of the original machine code,

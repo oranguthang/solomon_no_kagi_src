@@ -46,13 +46,35 @@ All 61 direct calls to the three scheduler entry points use these semantic
 symbols; no source call site retains raw `$8D5F`, `$8DB4`, or `$8DCA` operands.
 
 The packed entry table is now decoded and machine-checked. Sixteen distinct
-static codes occur in 18 immediate call sites, plus three calls whose A value
-is selected dynamically. See `docs/scheduler_entries.md` for the complete
-context/selector/return/entry table and the important RTS-plus-one convention.
+static codes occur in 18 immediate call sites, plus four calls whose A value
+is selected dynamically. One of those four is a tail `JMP StartThread`; the
+source audit deliberately recognizes both call forms. Seven dynamically
+selected entries have also been reconstructed independently. See
+`docs/scheduler_entries.md` for the complete context/selector/return/entry
+table and the important RTS-plus-one convention.
 
-One dynamically selected target is independently identified: context 2
-selector 1, packed code `$21`, stores `$8E46` and enters `PauseGameThread` at
-`$8E47`. The semantic pointer is emitted as `PauseGameThread - 1` in the table.
+## Context responsibilities
+
+All eight contexts now have a stable role derived from their entry tables and
+callers. `make scheduler-audit` checks that every known static or reviewed
+dynamic code appears under exactly one matching context.
+
+| Context | Entry codes | Responsibility |
+| ---: | :--- | :--- |
+| 0 | none | Startup coordinator: drains `PendingThreadStarts` and schedules contexts |
+| 1 | `$10-$18` | Room lifecycle, Dana actions, post-game, title, and attract flow |
+| 2 | `$21-$22` | Pause handling and recorded demo input |
+| 3 | `$30-$35` | Main gameplay and gameplay-exit transitions |
+| 4 | `$40-$43` | Map-item and enemy-item presentation |
+| 5 | `$50` | Defeated-enemy drop conversion |
+| 6 | `$60` | Special-room scripts |
+| 7 | none | Reserved idle-only context |
+
+Context 0 begins on the reset stack and remains the coordinator instead of
+being entered through `StartThread`. Startup pre-seeds idle continuations for
+contexts 2 through 7, starts context 1 with code `$17`, and then context 0
+repeatedly drains the four pending-start slots before yielding. Context 7 has
+no known entry code or start caller and permanently follows that idle frame.
 
 ## Runtime scheduling evidence
 
@@ -64,8 +86,7 @@ counts of `829,828,828,829,829,829,829,829`; the attract demo records exactly
 cycle substantially faster when less cooperative work is runnable.
 
 These observations are generated and checked by `make trace-runtime`; exact
-event series and counts live in `scenarios/runtime_scenarios.json`.
-
-The remaining evidence task is to assign all eight contexts stable subsystem
-responsibilities. A deeper trace must add SP, `ActiveThreadMask`, all eight
-saved SP bytes, and continuation addresses at each selected switch boundary.
+event series and counts live in `scenarios/runtime_scenarios.json`. The static
+role map is complete. A deeper trace of SP, `ActiveThreadMask`, the eight saved
+SP bytes, and continuation addresses would still make useful evidence for
+individual suspension and resumption paths.

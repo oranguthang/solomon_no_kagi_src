@@ -82,7 +82,7 @@ BeginDanaEnemyCollisionScan:
     SBC #$05
     STA CollisionTargetY
     LDX DanaObject + ObjectActionOffset
-    CPX #$1C
+    CPX #DanaCastActionBase
     LDA #$00
     BCC StoreDanaCollisionX
     TXA
@@ -228,6 +228,9 @@ FireballCollisionYDelta:
 
 FireballCollisionXDelta:
     .byte $02, $FE, $00, $00
+
+.assert FireballCollisionXDelta - FireballCollisionYDelta = FireballDirectionCount, error, "unexpected fireball Y-delta count"
+.assert * - FireballCollisionXDelta = FireballDirectionCount, error, "unexpected fireball X-delta count"
 
 ; Temporarily points EnemyAiPointer at $042A and EnemyObjectPointer at the
 ; fireball object so the shared collision handlers can operate on both
@@ -384,18 +387,18 @@ TryStartDanaAction:
     LDA DanaObject + ObjectActionOffset
     TAX
     SEC
-    SBC #$10
-    CMP #$0C
+    SBC #DanaControllableActionMinimum
+    CMP #DanaControllableActionLimit - DanaControllableActionMinimum
     BCS RejectDanaAction
     STX DanaSavedAction
-    CMP #$04
+    CMP #DanaActionGroupSize
     TXA
-    AND #$01
+    AND #DanaFacingMask
     BCS SelectDanaCastingAction
-    ORA #$02
+    ORA #DanaActionIdleBit
 
 SelectDanaCastingAction:
-    ORA #$1C
+    ORA #DanaCastActionBase
     STA DanaObject + ObjectActionOffset
     ROR A
     LDA #$04

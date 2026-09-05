@@ -2506,10 +2506,10 @@
     {
       "address": "0x9b17",
       "previous": "_label_bank0_9b17",
-      "current": "StoreFireballCastPose",
-      "confidence": "high",
+      "current": "StoreFireballInitialDirections",
+      "confidence": "confirmed",
       "evidence": [
-        "This path records the pose class and facing bit derived from Dana's saved action pose before positioning the projectile."
+        "This path stores Dana's facing bit as the fireball's current path direction and selects up or down as the alternate direction in the adjacent synthetic AI-record byte."
       ]
     },
     {

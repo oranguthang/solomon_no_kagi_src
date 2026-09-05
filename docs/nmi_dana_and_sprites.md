@@ -14,9 +14,10 @@ Dana's current action in X, and `Joypad1Cached` in Y.
 
 The handlers choose new action encodings from the low action bits, directional
 input, and elapsed-frame thresholds of 5, 7, 8, or 9. One group submits
-scheduler code `$12`, the context-one `HandleDanaHeadCollision` entry. The
-precise player-facing name for every action encoding remains open, so the
-source retains neutral group names instead of guessing animation semantics.
+scheduler code `$12`, the context-one `HandleDanaHeadCollision` entry. Bit 0
+consistently selects right/left facing, and the controllable action pairs are
+now defined as shared assembly constants. See `docs/dana_action_states.md` for
+the complete `$00-$23` state map and the three pairs with no direct producer.
 
 ## Y sorting and overlap groups
 

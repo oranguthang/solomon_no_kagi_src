@@ -46,12 +46,14 @@ magic-spark object at `$0593`, wait on `GameplayDelayCounter`, and request
 map-cell updates through `BuildAndPublishRoomMapCellUpdate`.
 
 The NMI request path snapshots `ObjectActionOffset` and `ObjectYMotionOffset`
-as `DanaSavedAction` and `DanaSavedYMotion` at `$002A-$002B`. It stores the
-fireball direction index at `$0430`; the cast entry derives the fireball
-configuration from that index and the casting pose at `$0431`.
+as `DanaSavedAction` and `DanaSavedYMotion` at `$002A-$002B`. The cast entry
+stores the source action's facing bit as `FireballDirectionIndex` at `$0430`.
+It also stores 2 for source actions `$10-$17` or 3 for airborne actions
+`$18-$1B` in `FireballAlternateDirectionIndex` at `$0431`. These are the up
+and down alternatives used by the shared path-selection collision handlers.
 
-The shared `$9C12` continuation restores Dana's action state and position. The
-final `$9C3A` path filters the cached controller bits, deactivates the magic
-spark, and stops scheduler context 1. Exact meanings for all Dana record byte
-3 action encodings remain open even though this request/restore contract is
-now statically established.
+The shared `$9C12` continuation restores Dana's action state, horizontal
+position, and byte-5 Y motion. The final `$9C3A` path filters the cached
+controller bits, deactivates the magic spark, and stops scheduler context 1.
+The action pairs and casting transformations are documented in
+`docs/dana_action_states.md`.

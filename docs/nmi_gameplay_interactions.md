@@ -37,6 +37,8 @@ Before dispatch, the routine temporarily makes `EnemyAiPointer` address
 16-entry split handler table targets the path-mask handlers reconstructed in
 `src/game/pathfinding_enemy_ai.asm`. The pointer setup, mask construction, and
 all table destinations are statically confirmed and assemble byte-for-byte.
+This synthetic AI-record view also proves `$0430-$0431` as the current and
+alternate four-way path directions at AI offsets 6 and 7.
 
 ## Dana action requests
 
@@ -47,7 +49,7 @@ The A-button and B-button NMI paths enter `TryStartBlockMagicAction` and
 
 The shared setup rejects incompatible gameplay flags and Dana actions outside
 `$10-$1B`. An accepted request snapshots Dana's action and Y-motion as
-`DanaSavedAction` and `DanaSavedYMotion`, selects the casting pose, shifts
+`DanaSavedAction` and `DanaSavedYMotion`, selects the casting action, shifts
 Dana's X coordinate, marks the action active, and submits the code through
 `QueuePendingThreadStart`.
 

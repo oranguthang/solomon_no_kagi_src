@@ -118,7 +118,7 @@ ApplyRoomPaletteColorCopies:
     STA GameStateFlags
     LDA DanaXPosition
     ROL A
-    LDA #$0A
+    LDA #(DanaWalkActionBase / 2)
     ROL A
     LDY #ObjectActionOffset
 

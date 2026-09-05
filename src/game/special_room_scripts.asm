@@ -12,7 +12,7 @@ RoomScriptEnemyType = $18
 RoomScriptEnemyAiFlag = $40
 RoomScriptEnemyAiActive = $80
 RoomScriptEnemyObjectState = $90
-RoomScriptDanaAction = $14
+RoomScriptDanaAction = DanaWalkActionBase
 
 RunSpecialRoomScriptThread:
     JSR DispatchCurrentRoomScript

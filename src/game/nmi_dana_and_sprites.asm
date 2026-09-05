@@ -28,7 +28,7 @@ UpdateDanaControlState:
     TAX
     LSR A
     LSR A
-    CMP #$07
+    CMP #DanaActionGroupCount
     BCS FinishDanaControlUpdate
     TAY
     LDA DanaControlHandlerLowBytes,Y
@@ -68,7 +68,7 @@ FinishDanaControlStateUpdate:
 
 PromoteDanaActionGroup0:
     TXA
-    ORA #$0C
+    ORA #DanaJumpAscentActionBase
     JMP StoreDanaControlAction
 
 HandleDanaActionGroup1:
@@ -88,13 +88,13 @@ WaitForDanaActionGroup1:
     LDA #$80
     STA DanaObject + ObjectYMotionOffset
     TXA
-    AND #$03
-    ORA #$1A
+    AND #DanaActionPairMask
+    ORA #DanaAirborneIdleActionBase
     JMP StoreDanaControlAction
 
 UpdateDanaActionGroup1UpperPair:
     CMP #$09
-    LDY #$14
+    LDY #DanaWalkActionBase
     STY DanaControlHandlerPointer
     BCS SelectDanaActionFromPair
     LDA Joypad1Cached
@@ -113,7 +113,7 @@ FinishDanaControlUpdate:
 HandleDanaActionGroup2:
     CMP #$07
     BCC FinishDanaControlUpdate
-    LDY #$1A
+    LDY #DanaAirborneIdleActionBase
     STY DanaControlHandlerPointer
     BNE SelectDanaActionFromPair
 
@@ -123,7 +123,7 @@ HandleDanaActionGroup4:
     BNE SelectDanaGroup4DownAction
     TXA
     ROR A
-    LDA #$0A
+    LDA #(DanaWalkActionBase / 2)
     ROL A
     TAX
     STX DanaObject + ObjectActionOffset
@@ -133,7 +133,7 @@ SelectDanaGroup4DownAction:
     TYA
     AND #$03
     BNE SelectDanaGroup4HorizontalAction
-    LDY #$12
+    LDY #DanaCrouchIdleActionBase
 
 StoreDanaPairBase:
     STY DanaControlHandlerPointer
@@ -144,7 +144,7 @@ SelectDanaGroup4HorizontalAction:
     TYA
     AND #$01
     TAX
-    LDY #$10
+    LDY #DanaCrouchMoveActionBase
     BNE StoreDanaPairBase
 
 HandleDanaActionGroup5:
@@ -155,7 +155,7 @@ HandleDanaActionGroup5:
 
 SelectDanaIdleAction:
     TXA
-    ORA #$02
+    ORA #DanaActionIdleBit
     BNE StoreDanaControlAction
 
 SelectDanaActionGroup5Input:
@@ -169,7 +169,7 @@ SelectDanaActionGroup5Input:
     LDA #$00
     STA GameplayFrameCounters
     TXA
-    AND #$01
+    AND #DanaFacingMask
     JMP StoreDanaControlAction
 
 SelectDanaActionGroup5Direction:
@@ -177,8 +177,8 @@ SelectDanaActionGroup5Direction:
     CMP #$04
     BNE SelectDanaActionGroup5Horizontal
     TXA
-    AND #$03
-    ORA #$10
+    AND #DanaActionPairMask
+    ORA #DanaCrouchMoveActionBase
     BNE StoreDanaControlAction
 
 SelectDanaActionGroup5Horizontal:
@@ -187,8 +187,8 @@ SelectDanaActionGroup5Horizontal:
     BEQ SelectDanaIdleAction
     INY
     TYA
-    AND #$01
-    ORA #$14
+    AND #DanaFacingMask
+    ORA #DanaWalkActionBase
     BNE StoreDanaControlAction
 
 HandleDanaActionGroup6:
@@ -210,8 +210,8 @@ UpdateDanaActionGroup6Horizontal:
 SelectDanaActionGroup6Direction:
     INY
     TYA
-    AND #$01
-    ORA #$18
+    AND #DanaFacingMask
+    ORA #DanaAirborneMoveActionBase
 
 StoreDanaControlAction:
     STA DanaObject + ObjectActionOffset

@@ -152,7 +152,7 @@ ClearType6CTo6FDirectionBit:
 
 CheckDanaEnemyProximityThreshold:
     LDA DanaObject + ObjectActionOffset
-    CMP #$1C
+    CMP #DanaCastActionBase
     BCS FinishDanaEnemyProximityCheck
     STX TempPointer00
     LDY #EnemyAiVerticalDeltaOffset

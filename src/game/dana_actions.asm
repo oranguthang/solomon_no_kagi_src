@@ -118,15 +118,15 @@ CastFireballFromInventory:
     LDA FireballObject + ObjectStateOffset
     BMI FinishFireballCast
     LDA DanaSavedAction
-    CMP #$18
-    LDX #$02
-    BCC StoreFireballCastPose
+    CMP #DanaAirborneMoveActionBase
+    LDX #FireballGroundedAlternateDirection
+    BCC StoreFireballInitialDirections
     INX
 
-StoreFireballCastPose:
-    STX FireballCastingPose
+StoreFireballInitialDirections:
+    STX FireballAlternateDirectionIndex
     STA FireballSourceAction
-    AND #$01
+    AND #DanaFacingMask
     STA FireballDirectionIndex
     LSR A
     LDA #$04
@@ -185,8 +185,8 @@ CastOrRemoveBlock:
     STA RoomMapUpdateIndex
     LDA DanaSavedAction
     LDX #$08
-    AND #$FC
-    CMP #$10
+    AND #DanaActionGroupMask
+    CMP #DanaCrouchMoveActionBase
     BNE SelectBlockCastVerticalOffset
     LDX #$18
     INC RoomMapUpdateIndex

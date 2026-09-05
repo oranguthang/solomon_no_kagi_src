@@ -265,6 +265,7 @@ docs/gameplay_exit_transition.md cooperative death, TIME OVER, and GDV flow
 docs/attract_demo_flow.md    post-game, title, and recorded demo control
 docs/chr_bank_policy.md      complete CNROM request and screen/room bank policy
 docs/room_map_tiles.md       RoomMap byte classes, collision, and rendering
+docs/dana_action_states.md   Dana action pairs, facing, Y motion, and cast state
 docs/title_screen.md         packed title renderer and record presentation
 scripts/project.py         split, verify, lint, and safe build helpers
 scripts/asm_style.py       shared ca65 formatter and style checker

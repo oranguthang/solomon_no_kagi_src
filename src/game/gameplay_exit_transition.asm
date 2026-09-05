@@ -9,10 +9,10 @@ GameplayExitChrBank = $03
 GameplayExitMaskStepCount = $18
 GameplayExitMaskStepDelay = $04
 TimeOverDisplayDelay = $64
-DanaDeathStartState = $10
+DanaDeathGameplayFlag = $10
 DanaDeathObjectState = $80
-DanaDeathStartYMotion = $C0
-DanaDeathAction = $C3
+DanaDeathActiveObjectState = $C0
+DanaDeathYMotion = $C3
 DanaDeathYLimit = $D1
 DanaDeathSetupDelay = $09
 DanaDeathFinishDelay = $30
@@ -93,12 +93,12 @@ ShowTimeOverMessage:
 ; object reaches the lower Y limit before the shared exit cleanup
 RunDanaDeathTransition:
     JSR ResetRoomTransitionState
-    LDA #DanaDeathStartState
+    LDA #DanaDeathGameplayFlag
     ORA GameplayFlags
     STA GameplayFlags
     LDA DanaObject + ObjectActionOffset
     LSR A
-    LDA #DanaDeathStartState
+    LDA #(DanaDeathFallActionBase / 2)
     ROL A
     STA DanaObject + ObjectActionOffset
     LDA #DanaDeathObjectState
@@ -109,9 +109,9 @@ RunDanaDeathTransition:
     LDX #GameplayExitCounter
     LDA #DanaDeathSetupDelay
     JSR WaitForZeroPageCounterAboveThreshold
-    LDA #DanaDeathStartYMotion
+    LDA #DanaDeathActiveObjectState
     STA DanaObject + ObjectStateOffset
-    LDA #DanaDeathAction
+    LDA #DanaDeathYMotion
     STA DanaObject + ObjectYMotionOffset
 
 WaitForDanaDeathFall:
@@ -122,6 +122,7 @@ WaitForDanaDeathFall:
     BCS WaitForDanaDeathFall
 
 FinishDanaDeathAnimation:
+; $20/$21 preserve facing during the fall; adding two selects $22/$23
     INC DanaObject + ObjectActionOffset
     INC DanaObject + ObjectActionOffset
     LDA #$00

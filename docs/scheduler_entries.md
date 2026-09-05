@@ -64,16 +64,25 @@ Context 4's complete selector family is now classified. `$40` enters
 calls in the static inventory because `$40/$41` are selected through
 `ItemInteractionThreadCode` after map-item dispatch.
 
-There are 18 immediate calls using those 16 distinct codes and three calls
-whose accumulator value is selected dynamically. Dynamic calls are recorded
-as a count because static source inspection cannot prove their runtime values.
+There are 18 immediate calls using those 16 distinct codes and four sites
+whose accumulator value is selected dynamically. Three use `JSR StartThread`;
+the map-item path uses `JMP StartThread` as a tail call. Dynamic sites are
+recorded as a count because static source inspection cannot prove every
+runtime value.
 
-Four additional table slots are independently reconstructed even though their
+Seven additional table slots are independently reconstructed even though their
 callers select the code dynamically:
 
 | Code | Context | Selector | Base | Slot | Stored return | Entry |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `$11` | 1 | 1 | `$8E17` | `$8E19` | `$9B79` | `CastOrRemoveBlock` (`$9B7A`) |
+| `$12` | 1 | 2 | `$8E17` | `$8E1B` | `$9A6C` | `HandleDanaHeadCollision` (`$9A6D`) |
+| `$13` | 1 | 3 | `$8E17` | `$8E1D` | `$9B04` | `CastFireballFromInventory` (`$9B05`) |
 | `$21` | 2 | 1 | `$8E29` | `$8E2B` | `$8E46` | `PauseGameThread` (`$8E47`) |
 | `$34` | 3 | 4 | `$8E2F` | `$8E37` | `$C23B` | `RunKeyCollectionPresentation` (`$C23C`) |
 | `$40` | 4 | 0 | `$8E3B` | `$8E3B` | `$C394` | `RunMapItemPresentation` (`$C395`) |
 | `$41` | 4 | 1 | `$8E3B` | `$8E3D` | `$C385` | `RunExtraLifeMapItemPresentation` (`$C386`) |
+
+Together, the static and reviewed entries cover all 23 semantic entry codes
+used by contexts 1 through 6. Context 0 is the startup coordinator and context
+7 remains idle-only, so neither has an entry code.

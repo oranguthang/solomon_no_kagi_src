@@ -2,7 +2,7 @@
 
 .segment "PRG_ITEM_COLLISION"
 
-DanaItemInteractionStateLimit = $1C
+DanaItemInteractionStateLimit = DanaCastActionBase
 DanaItemInteractionCenterOffset = $08
 FirstInventoryItemTile = $06
 FirstVisualInventoryItemTile = $08

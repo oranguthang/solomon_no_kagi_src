@@ -293,6 +293,8 @@ decrease.
 - the first FCEUX scenarios now prove cold-boot scheduler activity and the
   natural Start-to-Room-1 path, core gameplay dispatch, and controller-driven
   Dana movement and block casting without RAM patches;
+- all eight scheduler contexts have a statically proven subsystem role, and
+  the manifest assigns all 23 known entry codes to their exact contexts;
 - a three-write controlled inventory/lifetime setup proves B-cast fireball
   activation, NMI collision service, lifetime deactivation, cleanup, and object
   retirement at deterministic frames;

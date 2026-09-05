@@ -22,10 +22,11 @@ ticks. Its low two bits select `LifeLossPpuMaskCycle`; the chosen value is
 merged into `PpuMaskShadow`. After 24 steps, the path restores PPUMASK, clears
 the gameplay nametable region, and publishes `TimeOverPpuUpdateStream`.
 
-The independent `$31` path also begins with the shared reset. It configures
-Dana's action and Y motion, converts other active objects to state `$80`, then
-yields until `DanaYPosition` reaches `$D1`. Both paths converge at
-`FinalizeGameplayExit`.
+The independent `$31` path also begins with the shared reset. It selects
+facing-preserving death action `$20/$21`, converts other active objects to
+state `$80`, then activates Dana in state `$C0` with Y motion `$C3` and yields
+until `DanaYPosition` reaches `$D1`. At that boundary it advances the action
+to `$22/$23`. Both paths converge at `FinalizeGameplayExit`.
 
 ## Result calculation and persistence
 

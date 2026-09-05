@@ -2,8 +2,8 @@
 
 .segment "PRG_PATHFINDING_ENEMY_AI"
 
-PathDirectionOffset = $06
-PathAlternateDirectionOffset = $07
+PathDirectionOffset = EnemyAiPathDirectionOffset
+PathAlternateDirectionOffset = EnemyAiAlternateDirectionOffset
 TempPointer03 = TempPointer02 + 1
 TempPointer05 = TempPointer04 + 1
 TempPointer06 = TempPointer04 + 2
