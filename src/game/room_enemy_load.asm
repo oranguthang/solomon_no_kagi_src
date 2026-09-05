@@ -2,8 +2,6 @@
 
 .segment "PRG_ROOM_ENEMY_LOAD"
 
-RoomEnemyPointerLowTable = $DCEC
-RoomEnemyPointerHighTable = $DD21
 EnemyAiActiveFlag = $80
 EnemySpawnLifetimeLowMask = $E0
 EnemySpawnLifetimeHighMask = $1F

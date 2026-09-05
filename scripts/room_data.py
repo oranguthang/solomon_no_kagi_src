@@ -440,6 +440,83 @@ def decode_room(prg: bytes, room_index: int) -> dict[str, object]:
     }
 
 
+def emit_enemy_source(prg: bytes) -> str:
+    """Render all room enemy pointers and records as readable ca65 source."""
+    rooms = [decode_enemies(prg, index) for index in range(ROOM_COUNT)]
+    labels = [f"RoomEnemyStream{index + 1:02d}" for index in range(ROOM_COUNT)]
+    lines = [
+        "; Per-room enemy pointers, encoded lifetimes, and spawn records",
+        "",
+        "RoomEnemyStreamCount = 53",
+        "",
+        ".macro RoomEnemySpawnLifetime encoded_value",
+        "    .byte encoded_value",
+        ".endmacro",
+        "",
+        ".macro RoomEnemyRecord enemy_type, map_position",
+        "    .byte enemy_type, map_position",
+        ".endmacro",
+        "",
+        ".macro EndRoomEnemyStream",
+        "    .byte $00",
+        ".endmacro",
+        "",
+        '.segment "PRG_ROOM_ENEMY_POINTERS"',
+        "",
+        "RoomEnemyPointerLowTable:",
+    ]
+    for index in range(0, ROOM_COUNT, 2):
+        row = labels[index : index + 2]
+        lines.append("    .byte " + ", ".join(f"<{label}" for label in row))
+    lines.extend(("", "RoomEnemyPointerHighTable:"))
+    for index in range(0, ROOM_COUNT, 2):
+        row = labels[index : index + 2]
+        lines.append("    .byte " + ", ".join(f">{label}" for label in row))
+    lines.extend(
+        (
+            "",
+            ".assert RoomEnemyPointerHighTable - RoomEnemyPointerLowTable = "
+            "RoomEnemyStreamCount, error, \"unexpected room enemy pointer count\"",
+            ".assert * - RoomEnemyPointerHighTable = RoomEnemyStreamCount, "
+            "error, \"unexpected room enemy pointer count\"",
+            "",
+            '.segment "PRG_ROOM_ENEMY_DATA"',
+            "",
+        )
+    )
+    for label, stream in zip(labels, rooms):
+        encoded_lifetime = stream["spawn_lifetime_encoded"]
+        enemies = stream["enemies"]
+        if not isinstance(encoded_lifetime, int) or not isinstance(enemies, list):
+            raise RoomDataError("decoded enemy stream has invalid fields")
+        lines.append(f"{label}:")
+        lines.append(f"    RoomEnemySpawnLifetime ${encoded_lifetime:02X}")
+        for enemy in enemies:
+            if not isinstance(enemy, dict):
+                raise RoomDataError("decoded enemy record is invalid")
+            enemy_type = enemy.get("type")
+            enemy_position = enemy.get("position")
+            if not isinstance(enemy_type, int) or not isinstance(enemy_position, dict):
+                raise RoomDataError("decoded enemy record has invalid fields")
+            lines.append(
+                f"    RoomEnemyRecord ${enemy_type:02X}, "
+                f"${encode_position(enemy_position):02X}"
+            )
+        lines.append("    EndRoomEnemyStream")
+    data_size = BLOCK_DATA - rooms[0]["prg_offset"]
+    if not isinstance(data_size, int):
+        raise RoomDataError("invalid room enemy data extent")
+    lines.extend(
+        (
+            "",
+            f".assert * - {labels[0]} = ${data_size:04X}, error, "
+            '"unexpected room enemy data size"',
+            "",
+        )
+    )
+    return "\n".join(lines)
+
+
 def roundtrip_rooms(prg: bytes) -> dict[str, int]:
     rooms = [decode_room(prg, index) for index in range(ROOM_COUNT)]
     mirror_schedules = decode_mirror_schedules(prg)
@@ -516,6 +593,11 @@ def main() -> int:
     parser.add_argument("--room", type=int, help="one-based room number (default: all)")
     parser.add_argument("--pretty", action="store_true")
     parser.add_argument(
+        "--source-enemies",
+        action="store_true",
+        help="emit reviewed ca65 source for all room enemy data",
+    )
+    parser.add_argument(
         "--validate",
         action="store_true",
         help="decode every room and print only a structural summary",
@@ -528,6 +610,9 @@ def main() -> int:
     args = parser.parse_args()
     try:
         prg = extract_prg(Path(args.image).read_bytes())
+        if args.source_enemies:
+            print(emit_enemy_source(prg), end="")
+            return 0
         if args.roundtrip:
             result = roundtrip_rooms(prg)
             print(

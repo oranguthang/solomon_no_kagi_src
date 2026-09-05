@@ -7716,7 +7716,227 @@
     },
     {
       "address": "0xdcea", "previous": "$DCEA", "current": "DemonMirrorEnemySet16", "confidence": "confirmed",
-      "evidence": ["The corresponding split pointer selects this complete enemy-type stream ending in the $90 loop command."]
+     "evidence": ["The corresponding split pointer selects this complete enemy-type stream ending in the $90 loop command."]
+    },
+    {
+      "address": "0xdcec", "previous": "$DCEC", "current": "RoomEnemyPointerLowTable", "confidence": "confirmed",
+      "evidence": ["LoadRoomEnemies indexes this 53-byte low half; round-trip reconstruction resolves every room stream address."]
+    },
+    {
+      "address": "0xdd21", "previous": "$DD21", "current": "RoomEnemyPointerHighTable", "confidence": "confirmed",
+      "evidence": ["LoadRoomEnemies indexes this adjacent 53-byte high half; round-trip reconstruction resolves every room stream address."]
+    },
+    {
+      "address": "0xdd56", "previous": "$DD56", "current": "RoomEnemyStream01", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdd5a", "previous": "$DD5A", "current": "RoomEnemyStream02", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdd5c", "previous": "$DD5C", "current": "RoomEnemyStream03", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdd70", "previous": "$DD70", "current": "RoomEnemyStream04", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdd84", "previous": "$DD84", "current": "RoomEnemyStream05", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdd96", "previous": "$DD96", "current": "RoomEnemyStream06", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdda6", "previous": "$DDA6", "current": "RoomEnemyStream07", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xddc2", "previous": "$DDC2", "current": "RoomEnemyStream08", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xddd0", "previous": "$DDD0", "current": "RoomEnemyStream09", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xddd8", "previous": "$DDD8", "current": "RoomEnemyStream10", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdde4", "previous": "$DDE4", "current": "RoomEnemyStream11", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xddf6", "previous": "$DDF6", "current": "RoomEnemyStream12", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xddf8", "previous": "$DDF8", "current": "RoomEnemyStream13", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xde0c", "previous": "$DE0C", "current": "RoomEnemyStream14", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xde10", "previous": "$DE10", "current": "RoomEnemyStream15", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xde14", "previous": "$DE14", "current": "RoomEnemyStream16", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xde28", "previous": "$DE28", "current": "RoomEnemyStream17", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xde44", "previous": "$DE44", "current": "RoomEnemyStream18", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xde52", "previous": "$DE52", "current": "RoomEnemyStream19", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xde5a", "previous": "$DE5A", "current": "RoomEnemyStream20", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xde5c", "previous": "$DE5C", "current": "RoomEnemyStream21", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xde70", "previous": "$DE70", "current": "RoomEnemyStream22", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xde7a", "previous": "$DE7A", "current": "RoomEnemyStream23", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xde8c", "previous": "$DE8C", "current": "RoomEnemyStream24", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdea4", "previous": "$DEA4", "current": "RoomEnemyStream25", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdea6", "previous": "$DEA6", "current": "RoomEnemyStream26", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdea8", "previous": "$DEA8", "current": "RoomEnemyStream27", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdeb2", "previous": "$DEB2", "current": "RoomEnemyStream28", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdec2", "previous": "$DEC2", "current": "RoomEnemyStream29", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdece", "previous": "$DECE", "current": "RoomEnemyStream30", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xded0", "previous": "$DED0", "current": "RoomEnemyStream31", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdee0", "previous": "$DEE0", "current": "RoomEnemyStream32", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdeee", "previous": "$DEEE", "current": "RoomEnemyStream33", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdf06", "previous": "$DF06", "current": "RoomEnemyStream34", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdf0c", "previous": "$DF0C", "current": "RoomEnemyStream35", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdf24", "previous": "$DF24", "current": "RoomEnemyStream36", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdf2e", "previous": "$DF2E", "current": "RoomEnemyStream37", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdf3a", "previous": "$DF3A", "current": "RoomEnemyStream38", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdf4c", "previous": "$DF4C", "current": "RoomEnemyStream39", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdf5e", "previous": "$DF5E", "current": "RoomEnemyStream40", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdf70", "previous": "$DF70", "current": "RoomEnemyStream41", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdf76", "previous": "$DF76", "current": "RoomEnemyStream42", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdf88", "previous": "$DF88", "current": "RoomEnemyStream43", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdf96", "previous": "$DF96", "current": "RoomEnemyStream44", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdfac", "previous": "$DFAC", "current": "RoomEnemyStream45", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdfba", "previous": "$DFBA", "current": "RoomEnemyStream46", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdfcc", "previous": "$DFCC", "current": "RoomEnemyStream47", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdfde", "previous": "$DFDE", "current": "RoomEnemyStream48", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xdff8", "previous": "$DFF8", "current": "RoomEnemyStream49", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xe000", "previous": "$E000", "current": "RoomEnemyStream50", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xe01c", "previous": "$E01C", "current": "RoomEnemyStream51", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xe028", "previous": "$E028", "current": "RoomEnemyStream52", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xe02a", "previous": "$E02A", "current": "RoomEnemyStream53", "confidence": "confirmed",
+      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
     }
   ]
 }

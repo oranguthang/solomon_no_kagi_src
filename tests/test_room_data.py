@@ -39,6 +39,16 @@ class RoomDataTests(unittest.TestCase):
         decoded = room_data.decode_enemies(bytes(prg), 0)
         self.assertEqual(room_data.encode_enemies(decoded), encoded)
 
+        low = bytes((cpu_address & 0xFF,)) * room_data.ROOM_COUNT
+        high = bytes((cpu_address >> 8,)) * room_data.ROOM_COUNT
+        table = room_data.ENEMY_POINTER_TABLE
+        prg[table : table + room_data.ROOM_COUNT] = low
+        prg[table + room_data.ROOM_COUNT : table + room_data.ROOM_COUNT * 2] = high
+        source = room_data.emit_enemy_source(bytes(prg))
+        self.assertIn("RoomEnemyStream01:", source)
+        self.assertIn("RoomEnemyRecord $04, $B5", source)
+        self.assertIn("RoomEnemyStream53:", source)
+
     def test_item_stream_round_trip_preserves_rle_commands(self) -> None:
         prg = bytearray(32_768)
         offset = 0x1100

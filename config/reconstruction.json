@@ -2124,6 +2124,30 @@
         "DemonMirrorEnemySet00",
         "DemonMirrorEnemySet16"
       ]
+    },
+    {
+      "id": "room_enemy_pointers",
+      "path": "src/data/room_enemies.asm",
+      "segment": "PRG_ROOM_ENEMY_POINTERS",
+      "start": "0xdcec",
+      "end": "0xdd55",
+      "status": "semantic",
+      "required_labels": [
+        "RoomEnemyPointerLowTable",
+        "RoomEnemyPointerHighTable"
+      ]
+    },
+    {
+      "id": "room_enemy_data",
+      "path": "src/data/room_enemies.asm",
+      "segment": "PRG_ROOM_ENEMY_DATA",
+      "start": "0xdd56",
+      "end": "0xe02b",
+      "status": "semantic",
+      "required_labels": [
+        "RoomEnemyStream01",
+        "RoomEnemyStream53"
+      ]
     }
   ],
   "thresholds": {

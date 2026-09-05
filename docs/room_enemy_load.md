@@ -5,6 +5,11 @@ record into live runtime slots. `CurrentRoomIndex` selects one of 53 split
 pointers at `$DCEC/$DD21`; the resulting stream uses the format already
 round-tripped by `scripts/room_data.py`.
 
+Both pointer halves and all 53 streams are source-owned in the 552-line
+`src/data/room_enemies.asm`. Each record is expressed with macros for the
+encoded lifetime, `(enemy_type, map_position)` pair, and terminator; the source
+can be reproduced with `scripts/room_data.py --source-enemies`.
+
 The first byte is split into `EnemySpawnLifetimeThresholdLo` (`bits 7..5`) and
 `EnemySpawnLifetimeThresholdHi` (`bits 4..0`). `ApplyEnemyLifetimeThreshold`
 subtracts these from AI-record bytes 2-3 as a low/high threshold pair. Each

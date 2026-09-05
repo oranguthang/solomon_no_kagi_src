@@ -66,6 +66,11 @@ then allocates one runtime enemy slot per pair. The position byte is converted
 to pixel coordinates before `InitializeEnemy` and `ConfigureEnemyType` fill
 the parallel object and AI records.
 
+The complete pointer tables and all streams through `$E02B` are symbolic ca65
+source in `src/data/room_enemies.asm`. Its 53 stream labels replace raw ROM
+addresses, while the existing round-trip codec remains the independent binary
+contract.
+
 ## Item metadata and stream
 
 Every item stream begins with ten bytes:

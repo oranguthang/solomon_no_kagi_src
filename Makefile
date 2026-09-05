@@ -51,7 +51,7 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm 
 	src/graphics/room_map_cell_update.asm src/graphics/room_map_ppu_address.asm \
 	src/data/main_thread_padding.asm \
 	src/graphics/static_ppu_update_queue.asm src/data/static_ppu_update_streams.asm \
-	src/game/room_enemy_load.asm \
+	src/game/room_enemy_load.asm src/data/room_enemies.asm \
 	src/graphics/room_map_render.asm \
 	src/game/object_y_clamp.asm \
 	src/game/object_x_left_clamp.asm \
