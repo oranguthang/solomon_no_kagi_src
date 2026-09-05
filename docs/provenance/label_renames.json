@@ -7936,7 +7936,219 @@
     },
     {
       "address": "0xe02a", "previous": "$E02A", "current": "RoomEnemyStream53", "confidence": "confirmed",
-      "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+     "evidence": ["The reviewed split pointer for this room selects a losslessly decoded lifetime byte, enemy records, and zero terminator."]
+    },
+    {
+      "address": "0xe02c", "previous": "$E02C", "current": "RoomBlockData", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe05c", "previous": "$E05C", "current": "RoomBlockDataRoom02", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe08c", "previous": "$E08C", "current": "RoomBlockDataRoom03", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe0bc", "previous": "$E0BC", "current": "RoomBlockDataRoom04", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe0ec", "previous": "$E0EC", "current": "RoomBlockDataRoom05", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe11c", "previous": "$E11C", "current": "RoomBlockDataRoom06", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe14c", "previous": "$E14C", "current": "RoomBlockDataRoom07", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe17c", "previous": "$E17C", "current": "RoomBlockDataRoom08", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe1ac", "previous": "$E1AC", "current": "RoomBlockDataRoom09", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe1dc", "previous": "$E1DC", "current": "RoomBlockDataRoom10", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe20c", "previous": "$E20C", "current": "RoomBlockDataRoom11", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe23c", "previous": "$E23C", "current": "RoomBlockDataRoom12", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe26c", "previous": "$E26C", "current": "RoomBlockDataRoom13", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe29c", "previous": "$E29C", "current": "RoomBlockDataRoom14", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe2cc", "previous": "$E2CC", "current": "RoomBlockDataRoom15", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe2fc", "previous": "$E2FC", "current": "RoomBlockDataRoom16", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe32c", "previous": "$E32C", "current": "RoomBlockDataRoom17", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe35c", "previous": "$E35C", "current": "RoomBlockDataRoom18", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe38c", "previous": "$E38C", "current": "RoomBlockDataRoom19", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe3bc", "previous": "$E3BC", "current": "RoomBlockDataRoom20", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe3ec", "previous": "$E3EC", "current": "RoomBlockDataRoom21", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe41c", "previous": "$E41C", "current": "RoomBlockDataRoom22", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe44c", "previous": "$E44C", "current": "RoomBlockDataRoom23", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe47c", "previous": "$E47C", "current": "RoomBlockDataRoom24", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe4ac", "previous": "$E4AC", "current": "RoomBlockDataRoom25", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe4dc", "previous": "$E4DC", "current": "RoomBlockDataRoom26", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe50c", "previous": "$E50C", "current": "RoomBlockDataRoom27", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe53c", "previous": "$E53C", "current": "RoomBlockDataRoom28", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe56c", "previous": "$E56C", "current": "RoomBlockDataRoom29", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe59c", "previous": "$E59C", "current": "RoomBlockDataRoom30", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe5cc", "previous": "$E5CC", "current": "RoomBlockDataRoom31", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe5fc", "previous": "$E5FC", "current": "RoomBlockDataRoom32", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe62c", "previous": "$E62C", "current": "RoomBlockDataRoom33", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe65c", "previous": "$E65C", "current": "RoomBlockDataRoom34", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe68c", "previous": "$E68C", "current": "RoomBlockDataRoom35", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe6bc", "previous": "$E6BC", "current": "RoomBlockDataRoom36", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe6ec", "previous": "$E6EC", "current": "RoomBlockDataRoom37", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe71c", "previous": "$E71C", "current": "RoomBlockDataRoom38", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe74c", "previous": "$E74C", "current": "RoomBlockDataRoom39", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe77c", "previous": "$E77C", "current": "RoomBlockDataRoom40", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe7ac", "previous": "$E7AC", "current": "RoomBlockDataRoom41", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe7dc", "previous": "$E7DC", "current": "RoomBlockDataRoom42", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe80c", "previous": "$E80C", "current": "RoomBlockDataRoom43", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe83c", "previous": "$E83C", "current": "RoomBlockDataRoom44", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe86c", "previous": "$E86C", "current": "RoomBlockDataRoom45", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe89c", "previous": "$E89C", "current": "RoomBlockDataRoom46", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe8cc", "previous": "$E8CC", "current": "RoomBlockDataRoom47", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe8fc", "previous": "$E8FC", "current": "RoomBlockDataRoom48", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe92c", "previous": "$E92C", "current": "RoomBlockDataRoom49", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe95c", "previous": "$E95C", "current": "RoomBlockDataRoom50", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe98c", "previous": "$E98C", "current": "RoomBlockDataRoom51", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe9bc", "previous": "$E9BC", "current": "RoomBlockDataRoom52", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
+    },
+    {
+      "address": "0xe9ec", "previous": "$E9EC", "current": "RoomBlockDataRoom53", "confidence": "confirmed",
+      "evidence": ["The fixed room index times 48 selects this reviewed pair of 24-byte brown/white block bitplanes; the codec round-trips both planes."]
     }
   ]
 }

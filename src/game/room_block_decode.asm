@@ -2,7 +2,6 @@
 
 .segment "PRG_ROOM_BLOCK_DECODE"
 
-RoomBlockDataBase = $E02C
 RoomBlockBytesPerPlane = $18
 RoomBlockBytesPerRoom = RoomBlockBytesPerPlane * 2
 RoomMapStorageSize = $E0
@@ -53,10 +52,10 @@ ScaleRoomBlockDataOffset:
     ROL RoomBlockDataPointer + 1
     DEY
     BNE ScaleRoomBlockDataOffset
-    LDA #<RoomBlockDataBase
+    LDA #<RoomBlockData
     ADC RoomBlockDataPointer
     STA RoomBlockDataPointer
-    LDA #>RoomBlockDataBase
+    LDA #>RoomBlockData
     ADC RoomBlockDataPointer + 1
     STA RoomBlockDataPointer + 1
     LDA #BrownBlockTile

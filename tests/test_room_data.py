@@ -28,6 +28,13 @@ class RoomDataTests(unittest.TestCase):
         self.assertEqual(sum(map(sum, rows)), 2)
         self.assertEqual(room_data.encode_bitplane(room_data.true_positions(rows)), data)
 
+        prg = bytearray(32_768)
+        prg[room_data.BLOCK_DATA : room_data.BLOCK_DATA + len(data)] = data
+        source = room_data.emit_block_source(bytes(prg))
+        self.assertIn("RoomBlockData:", source)
+        self.assertIn(".byte $80, $01", source)
+        self.assertIn("RoomBlockDataRoom53:", source)
+
     def test_enemy_stream_round_trip(self) -> None:
         prg = bytearray(32_768)
         offset = 0x1000

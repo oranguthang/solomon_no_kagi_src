@@ -54,6 +54,11 @@ cells in reverse order, rotating each byte right. This produces the same
 top-to-bottom, MSB-first logical ordering while filling RoomMap indices
 `$10-$CF`; indices `$00-$0F` and `$D0-$DF` are sentinel rows.
 
+All 2,544 encoded bytes are source-owned in `src/data/room_blocks.asm` and can
+be regenerated from a reviewed ROM with `scripts/room_data.py --source-blocks`.
+The existing `make roundtrip-formats` check independently decodes and re-encodes
+every bitplane.
+
 ## Enemy stream
 
 The first byte is the Demonhead/Saramandor lifetime rotated right by three bits.

@@ -517,6 +517,41 @@ def emit_enemy_source(prg: bytes) -> str:
     return "\n".join(lines)
 
 
+def emit_block_source(prg: bytes) -> str:
+    """Render all 53 paired room block bitplanes as readable ca65 source."""
+    lines = [
+        "; Paired 16x12 brown/breakable and white/solid room bitplanes",
+        "",
+        "RoomBlockDataSize = 53 * 48",
+        "",
+        '.segment "PRG_ROOM_BLOCK_DATA"',
+        "",
+    ]
+    for room_index in range(ROOM_COUNT):
+        label = "RoomBlockData" if room_index == 0 else f"RoomBlockDataRoom{room_index + 1:02d}"
+        blocks = decode_blocks(prg, room_index)
+        encoded = encode_blocks(blocks)
+        lines.append(f"{label}:")
+        lines.append("; Brown/breakable block plane")
+        for offset in range(0, BITPLANE_SIZE, 8):
+            row = encoded[offset : offset + 8]
+            lines.append("    .byte " + ", ".join(f"${value:02X}" for value in row))
+        lines.append("; White/solid block plane")
+        white = encoded[BITPLANE_SIZE:]
+        for offset in range(0, BITPLANE_SIZE, 8):
+            row = white[offset : offset + 8]
+            lines.append("    .byte " + ", ".join(f"${value:02X}" for value in row))
+    lines.extend(
+        (
+            "",
+            ".assert * - RoomBlockData = RoomBlockDataSize, error, "
+            '"unexpected room block data size"',
+            "",
+        )
+    )
+    return "\n".join(lines)
+
+
 def roundtrip_rooms(prg: bytes) -> dict[str, int]:
     rooms = [decode_room(prg, index) for index in range(ROOM_COUNT)]
     mirror_schedules = decode_mirror_schedules(prg)
@@ -598,6 +633,11 @@ def main() -> int:
         help="emit reviewed ca65 source for all room enemy data",
     )
     parser.add_argument(
+        "--source-blocks",
+        action="store_true",
+        help="emit reviewed ca65 source for all room block data",
+    )
+    parser.add_argument(
         "--validate",
         action="store_true",
         help="decode every room and print only a structural summary",
@@ -612,6 +652,9 @@ def main() -> int:
         prg = extract_prg(Path(args.image).read_bytes())
         if args.source_enemies:
             print(emit_enemy_source(prg), end="")
+            return 0
+        if args.source_blocks:
+            print(emit_block_source(prg), end="")
             return 0
         if args.roundtrip:
             result = roundtrip_rooms(prg)

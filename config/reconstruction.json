@@ -2148,6 +2148,18 @@
         "RoomEnemyStream01",
         "RoomEnemyStream53"
       ]
+    },
+    {
+      "id": "room_block_data",
+      "path": "src/data/room_blocks.asm",
+      "segment": "PRG_ROOM_BLOCK_DATA",
+      "start": "0xe02c",
+      "end": "0xea1b",
+      "status": "semantic",
+      "required_labels": [
+        "RoomBlockData",
+        "RoomBlockDataRoom53"
+      ]
     }
   ],
   "thresholds": {

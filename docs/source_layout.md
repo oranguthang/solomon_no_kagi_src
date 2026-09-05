@@ -244,7 +244,8 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_DEMON_MIRROR_ENEMY_SET_DATA` | 17 cyclic enemy-type streams | 42 |
 | `PRG_ROOM_ENEMY_POINTERS` | 53 split room-enemy stream pointers | 106 |
 | `PRG_ROOM_ENEMY_DATA` | 53 encoded-lifetime enemy streams | 726 |
-| `PRG_POST_ROOM_ENEMY_DATA` | unresolved `$E02C-$FFFF` range | 8,148 |
+| `PRG_ROOM_BLOCK_DATA` | 53 paired 24-byte block bitplanes | 2,544 |
+| `PRG_POST_ROOM_BLOCK_DATA` | unresolved `$EA1C-$FFFF` range | 5,604 |
 | `PRG_BANK_1` | generated CHR payload (historical name) | 32,768 |
 
 This unusual naming is documented in `config/linker/cnrom.cfg`. Renaming a
