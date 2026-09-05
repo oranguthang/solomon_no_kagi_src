@@ -64,3 +64,14 @@ The former raw dependencies at `$91EB`, `$91B9`, `$92BC`, `$9340`, `$C2A6`,
 `RefreshGameplayHud`, and `BuildScoreDisplayUpdate`. The shared coordinate
 dependency at `$C364` is `BuildScaledCoordinateDeltas`. The room-load pipeline
 therefore has no remaining raw call targets.
+
+## Runtime transition evidence
+
+The `room-1-door-transition` scenario creates only the four prerequisite RAM
+conditions for an already collected key and an open-door overlap. From there,
+the original ROM executes `EnterRoomDoor` at frame 721, enters
+`RoomClearThread` in context 1 on the same frame, reaches the first
+`SubtractTimerBy8` score conversion at frame 854, and invokes `RoomLoadThread`
+for internal room `$01` at frame 1136. Every setup write and previous value is
+declared in `scenarios/runtime_scenarios.json` and checked by
+`make validate-runtime`.

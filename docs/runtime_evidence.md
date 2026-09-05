@@ -22,7 +22,8 @@ without rerunning FCEUX.
 The traces are generated evidence and are not committed. The committed
 contract is `scenarios/runtime_scenarios.json`: it records the method, exact
 input frames, expected first execution of semantic routines, forbidden events,
-and selected final RAM state.
+selected final RAM state, and every controlled patch. Undeclared, reordered,
+or value-mismatched patches fail validation.
 
 ## Initial scenarios
 
@@ -46,7 +47,21 @@ request, execution of `CreateBlockInRoomMap`, and the resulting write of `$90`
 to RAM address `$0387`, map index `$83`. The expected event detail protects
 both the selected cell and encoded tile value.
 
-These scenarios establish the runtime harness and a reproducible boot-to-play
-and movement baseline. Later subsystem traces should add focused, explicitly
+`attract-demo-scheduler` supplies no input and waits for the built-in demo. It
+compares a populated object pool with the first-room baseline. Both traces
+preserve the context cycle `3,4,5,6,7,0,1,2`, while their 60-frame switch and
+timer-service totals demonstrate the scheduler's workload-dependent cadence.
+
+`room-1-door-transition` uses four declared writes at frame 720 to represent
+the state immediately after obtaining the key and reaching the open door: set
+the key flag, replace the Room 1 door cell with tile `$07`, and move Dana's Y/X
+coordinates onto that cell. No control-flow or timer state is patched. Original
+code then executes `EnterRoomDoor` and `RoomClearThread`, starts timer-to-score
+conversion through `SubtractTimerBy8`, and reaches the next `RoomLoadThread` at
+frame 1136. The final state proves gameplay in internal room `$01`.
+
+These scenarios establish the runtime harness and a reproducible boot-to-play,
+movement, casting, and scheduler-timing baseline. Later subsystem traces should
+add focused, explicitly
 declared state setup where reaching rare mechanics through input alone would
 make the evidence prohibitively slow.

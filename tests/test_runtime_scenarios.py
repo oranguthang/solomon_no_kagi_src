@@ -26,8 +26,10 @@ def scenario_document() -> dict[str, object]:
                 "inputs": [
                     {"start_frame": 2, "end_frame": 3, "buttons": ["start"]}
                 ],
+                "patches": [],
                 "expected_events": {"first_nmi": 1},
                 "expected_event_details": {"first_nmi": "NMI"},
+                "expected_event_series": {"first_nmi": ["1:NMI"]},
                 "expected_final": {"frame": "10", "thread": "01"},
             }
         ],
@@ -95,6 +97,24 @@ class ScenarioTests(unittest.TestCase):
         with self.assertRaisesRegex(runtime_scenarios.RuntimeError, "buttons"):
             runtime_scenarios.validate_inputs(scenario)
 
+    def test_encodes_reviewed_patch(self) -> None:
+        scenario = scenario_document()["scenarios"][0]
+        scenario["patches"] = [
+            {
+                "frame": 5,
+                "symbol": "GameplayFlags",
+                "operation": "or",
+                "value": "0x20",
+                "reason": "mark_key_collected",
+                "expected_detail": "0028:00>20:mark_key_collected",
+            }
+        ]
+        runtime_scenarios.validate_patches(scenario)
+        self.assertEqual(
+            runtime_scenarios.encode_patches(scenario),
+            "5,GameplayFlags,0,or,32,mark_key_collected",
+        )
+
 
 class TraceTests(unittest.TestCase):
     def test_validates_expected_event_and_final_state(self) -> None:
@@ -115,11 +135,24 @@ class TraceTests(unittest.TestCase):
         with self.assertRaisesRegex(runtime_scenarios.RuntimeError, "detail"):
             runtime_scenarios.validate_trace(scenario, rows)
 
+    def test_detects_changed_event_series(self) -> None:
+        scenario = scenario_document()["scenarios"][0]
+        scenario["expected_event_series"]["first_nmi"] = ["2:NMI"]
+        with self.assertRaisesRegex(runtime_scenarios.RuntimeError, "series"):
+            runtime_scenarios.validate_trace(scenario, trace_rows())
+
     def test_detects_forbidden_event(self) -> None:
         scenario = scenario_document()["scenarios"][0]
         scenario["forbidden_events"] = ["first_nmi"]
         with self.assertRaisesRegex(runtime_scenarios.RuntimeError, "forbidden"):
             runtime_scenarios.validate_trace(scenario, trace_rows())
+
+    def test_detects_undeclared_controlled_patch(self) -> None:
+        scenario = scenario_document()["scenarios"][0]
+        rows = trace_rows()
+        rows.insert(1, dict(rows[0], frame="1", event="controlled_patch", detail="bad"))
+        with self.assertRaisesRegex(runtime_scenarios.RuntimeError, "patch scope"):
+            runtime_scenarios.validate_trace(scenario, rows)
 
     def test_load_trace_checks_schema_and_monotonic_frames(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

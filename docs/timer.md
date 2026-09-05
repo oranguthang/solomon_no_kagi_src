@@ -39,3 +39,16 @@ The builder tail-calls `PublishPpuUpdateBuffer`, which publishes `$03E6`
 through the shared PPU update pointer. The `$20,$69,$44` bytes decode as a
 literal five-tile command targeting PPU `$2069`; their instruction-like
 appearance as `JSR $4469` is incidental.
+
+## Runtime cadence
+
+The deterministic runtime harness counts `DecrementTimer` calls over the first
+60 frames after `MainGameplayThread` starts. The lightly populated first room
+executes 203 calls spanning all 60 frames. The attract demo, with nine active
+enemies at its first gameplay frame, executes 52 calls spanning 52 frames.
+This confirms that cooperative workload affects service cadence; the routine's
+`GameplayUpdateCount` input is therefore essential to accumulated-time
+handling rather than a redundant loop count.
+
+`make trace-runtime` reproduces both measurements and validates their exact
+summary strings against `scenarios/runtime_scenarios.json`.

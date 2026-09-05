@@ -289,7 +289,10 @@ decrease.
   source symbols;
 - the first FCEUX scenarios now prove cold-boot scheduler activity and the
   natural Start-to-Room-1 path, core gameplay dispatch, and controller-driven
-  Dana movement and block casting without RAM patches.
+  Dana movement and block casting without RAM patches;
+- a controlled, fully declared open-door setup proves the original
+  `EnterRoomDoor` to `RoomClearThread` to next-room-load progression, while
+  paired Room 1/attract traces prove scheduler-sensitive timer cadence.
 
 ### 6. Data-format round trips - In progress
 
@@ -312,8 +315,8 @@ proves the full contract.
 - full scheduler and object lifecycle documentation;
 - room decode/encode round trips for all 53 rooms;
 - object, enemy, item, and collision dispatch tables;
-- deterministic runtime scenarios for movement, casting, room completion, and
-  scheduler-sensitive timing;
+- expand the existing deterministic movement, casting, room-completion, and
+  scheduler-sensitive timing scenarios to rarer mechanics;
 - region profiles for Japanese and European releases.
 
 Castle Excellent / Castlequest research is related but intentionally outside

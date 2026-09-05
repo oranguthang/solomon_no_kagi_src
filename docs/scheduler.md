@@ -54,11 +54,18 @@ One dynamically selected target is independently identified: context 2
 selector 1, packed code `$21`, stores `$8E46` and enters `PauseGameThread` at
 `$8E47`. The semantic pointer is emitted as `PauseGameThread - 1` in the table.
 
-## Remaining evidence work
+## Runtime scheduling evidence
 
-The mechanics and static entry targets above are confirmed by instruction flow
-and linked addresses. Most target routines still retain raw addresses because
-their behavior has not yet been reconstructed. A future runtime scenario must
-log `ThreadIndex`, SP, `ActiveThreadMask`, and
-the eight saved SP bytes at every `SwitchThreads` entry and verify that each
-observed continuation resolves to a semantic source label.
+The first 24 `SwitchThreads` entries after gameplay begins follow the strict
+cycle `3,4,5,6,7,0,1,2` in both the user-started first room and the populated
+attract demo. Over the first 60 gameplay frames, Room 1 records context switch
+counts of `829,828,828,829,829,829,829,829`; the attract demo records exactly
+205 for every context. Idle contexts therefore preserve round-robin order but
+cycle substantially faster when less cooperative work is runnable.
+
+These observations are generated and checked by `make trace-runtime`; exact
+event series and counts live in `scenarios/runtime_scenarios.json`.
+
+The remaining evidence task is to assign all eight contexts stable subsystem
+responsibilities. A deeper trace must add SP, `ActiveThreadMask`, all eight
+saved SP bytes, and continuation addresses at each selected switch boundary.

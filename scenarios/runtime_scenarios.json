@@ -7,6 +7,7 @@
       "method": "natural cold boot with no controller input",
       "max_frames": 180,
       "inputs": [],
+      "patches": [],
       "expected_events": {
         "first_nmi": 6,
         "first_joypad_read": 6,
@@ -31,6 +32,7 @@
       "inputs": [
         {"start_frame": 300, "end_frame": 301, "buttons": ["start"]}
       ],
+      "patches": [],
       "expected_events": {
         "first_nmi": 6,
         "first_joypad_read": 6,
@@ -44,6 +46,20 @@
         "dana_control": 611,
         "object_motion": 611,
         "object_collision": 611
+      },
+      "expected_event_details": {
+        "scheduler_window": "0=829;1=828;2=828;3=829;4=829;5=829;6=829;7=829",
+        "timer_window": "calls=203;frames=60"
+      },
+      "expected_event_series": {
+        "scheduler_switch": [
+          "610:03", "610:04", "610:05", "610:06",
+          "610:07", "610:00", "610:01", "610:02",
+          "610:03", "610:04", "610:05", "610:06",
+          "610:07", "610:00", "610:01", "610:02",
+          "610:03", "610:04", "610:05", "610:06",
+          "610:07", "610:00", "610:01", "610:02"
+        ]
       },
       "expected_final": {
         "frame": "1000",
@@ -63,6 +79,7 @@
         {"start_frame": 300, "end_frame": 301, "buttons": ["start"]},
         {"start_frame": 720, "end_frame": 780, "buttons": ["right"]}
       ],
+      "patches": [],
       "expected_events": {
         "first_nmi": 6,
         "first_joypad_read": 6,
@@ -97,6 +114,7 @@
         {"start_frame": 300, "end_frame": 301, "buttons": ["start"]},
         {"start_frame": 720, "end_frame": 780, "buttons": ["a"]}
       ],
+      "patches": [],
       "expected_events": {
         "first_nmi": 6,
         "first_joypad_read": 6,
@@ -128,6 +146,88 @@
         "dana_y": "90",
         "dana_x": "28",
         "active_enemies": "01"
+      }
+    },
+    {
+      "id": "attract-demo-scheduler",
+      "method": "natural no-input attract demo under a populated object pool",
+      "max_frames": 1300,
+      "inputs": [],
+      "patches": [],
+      "expected_events": {
+        "first_nmi": 6,
+        "first_joypad_read": 6,
+        "first_thread_switch": 7,
+        "room_load": 792,
+        "room_intro": 796,
+        "gameplay_start": 1099,
+        "first_timer_tick": 1099,
+        "enemy_ai": 1099,
+        "dana_control": 1100,
+        "object_motion": 1100,
+        "object_collision": 1100,
+        "scheduler_window": 1300,
+        "timer_window": 1300
+      },
+      "expected_event_details": {
+        "scheduler_window": "0=205;1=205;2=205;3=205;4=205;5=205;6=205;7=205",
+        "timer_window": "calls=52;frames=52"
+      },
+      "expected_event_series": {
+        "scheduler_switch": [
+          "1099:03", "1099:04", "1099:05", "1099:06",
+          "1099:07", "1099:00", "1099:01", "1099:02",
+          "1100:03", "1100:04", "1100:05", "1100:06",
+          "1100:07", "1100:00", "1100:01", "1100:02",
+          "1100:03", "1100:04", "1100:05", "1100:06",
+          "1100:07", "1100:00", "1100:01", "1100:02"
+        ]
+      },
+      "expected_final": {
+        "frame": "1300",
+        "thread": "03",
+        "room": "02",
+        "timer": "06060900",
+        "dana_y": "50",
+        "dana_x": "38",
+        "active_enemies": "0A"
+      }
+    },
+    {
+      "id": "room-1-door-transition",
+      "method": "controlled open-door overlap followed by original transition code",
+      "max_frames": 2200,
+      "inputs": [
+        {"start_frame": 300, "end_frame": 301, "buttons": ["start"]}
+      ],
+      "patches": [
+        {"frame": 720, "symbol": "GameplayFlags", "operation": "or", "value": "0x20", "reason": "mark_key_collected", "expected_detail": "0028:00>20:mark_key_collected"},
+        {"frame": 720, "symbol": "RoomMap", "offset": 167, "value": "0x07", "reason": "open_room_1_door", "expected_detail": "03AB:02>07:open_room_1_door"},
+        {"frame": 720, "symbol": "DanaObject", "offset": 7, "value": "0xb0", "reason": "overlap_door_y", "expected_detail": "0586:90>B0:overlap_door_y"},
+        {"frame": 720, "symbol": "DanaObject", "offset": 10, "value": "0x78", "reason": "overlap_door_x", "expected_detail": "0589:28>78:overlap_door_x"}
+      ],
+      "expected_events": {
+        "first_nmi": 6,
+        "first_joypad_read": 6,
+        "first_thread_switch": 7,
+        "start_input_seen": 301,
+        "room_load": 303,
+        "room_intro": 308,
+        "gameplay_start": 610,
+        "first_timer_tick": 610,
+        "door_entered": 721,
+        "room_clear": 721,
+        "room_bonus_tick": 854,
+        "next_room_load": 1136
+      },
+      "expected_final": {
+        "frame": "2200",
+        "thread": "03",
+        "room": "01",
+        "timer": "03070800",
+        "dana_y": "A0",
+        "dana_x": "18",
+        "active_enemies": "03"
       }
     }
   ]

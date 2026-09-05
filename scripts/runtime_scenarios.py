@@ -61,6 +61,7 @@ def load_scenarios(path: Path) -> dict[str, object]:
         if not isinstance(max_frames, int) or max_frames <= 0:
             raise RuntimeError(f"invalid max_frames for {identifier}")
         validate_inputs(scenario)
+        validate_patches(scenario)
     return document
 
 
@@ -94,12 +95,70 @@ def validate_inputs(scenario: dict[str, object]) -> None:
         previous_end = last
 
 
+def parse_byte(value: object, field: str) -> int:
+    try:
+        parsed = int(value, 0) if isinstance(value, str) else int(value)
+    except (TypeError, ValueError) as exc:
+        raise RuntimeError(f"invalid byte for {field}: {value!r}") from exc
+    if not 0 <= parsed <= 0xFF:
+        raise RuntimeError(f"byte outside range for {field}: {value!r}")
+    return parsed
+
+
+def validate_patches(scenario: dict[str, object]) -> None:
+    patches = scenario.get("patches")
+    if not isinstance(patches, list):
+        raise RuntimeError(f"patches must be a list for {scenario.get('id')}")
+    previous_frame = -1
+    for patch in patches:
+        if not isinstance(patch, dict):
+            raise RuntimeError(f"invalid patch for {scenario.get('id')}")
+        frame = patch.get("frame")
+        symbol = patch.get("symbol")
+        offset = patch.get("offset", 0)
+        operation = patch.get("operation", "set")
+        reason = patch.get("reason")
+        expected_detail = patch.get("expected_detail")
+        if (
+            not isinstance(frame, int)
+            or frame < previous_frame
+            or frame >= int(scenario["max_frames"])
+        ):
+            raise RuntimeError(f"invalid patch frame for {scenario.get('id')}")
+        if not isinstance(symbol, str) or not symbol:
+            raise RuntimeError(f"invalid patch symbol for {scenario.get('id')}")
+        if not isinstance(offset, int) or not 0 <= offset <= 0x7FF:
+            raise RuntimeError(f"invalid patch offset for {scenario.get('id')}")
+        if operation not in {"set", "or"}:
+            raise RuntimeError(f"invalid patch operation for {scenario.get('id')}")
+        if not isinstance(reason, str) or not reason or ":" in reason or ";" in reason:
+            raise RuntimeError(f"invalid patch reason for {scenario.get('id')}")
+        if (
+            not isinstance(expected_detail, str)
+            or not expected_detail.endswith(f":{reason}")
+        ):
+            raise RuntimeError(f"invalid expected patch detail for {scenario.get('id')}")
+        parse_byte(patch.get("value"), f"{scenario.get('id')}.{reason}")
+        previous_frame = frame
+
+
 def encode_inputs(scenario: dict[str, object]) -> str:
     encoded: list[str] = []
     for input_range in scenario["inputs"]:  # type: ignore[index]
         encoded.append(
             f"{input_range['start_frame']}-{input_range['end_frame']}:"
             + "+".join(input_range["buttons"])
+        )
+    return ";".join(encoded)
+
+
+def encode_patches(scenario: dict[str, object]) -> str:
+    encoded: list[str] = []
+    for patch in scenario["patches"]:  # type: ignore[index]
+        encoded.append(
+            f"{patch['frame']},{patch['symbol']},{patch.get('offset', 0)},"
+            f"{patch.get('operation', 'set')},{parse_byte(patch['value'], 'patch')},"
+            f"{patch['reason']}"
         )
     return ";".join(encoded)
 
@@ -135,6 +194,18 @@ def validate_trace(scenario: dict[str, object], rows: list[dict[str, str]]) -> N
     if not isinstance(expected_events, dict) or not expected_events:
         raise RuntimeError(f"scenario has no expected_events: {identifier}")
     observed = first_events(rows)
+    declared_patches = [
+        str(patch["expected_detail"])
+        for patch in scenario["patches"]  # type: ignore[index]
+    ]
+    observed_patches = [
+        row["detail"] for row in rows if row["event"] == "controlled_patch"
+    ]
+    if observed_patches != declared_patches:
+        raise RuntimeError(
+            f"controlled patch scope differs for {identifier}: "
+            f"expected={declared_patches}, observed={observed_patches}"
+        )
     for event, expected_frame in expected_events.items():
         if observed.get(str(event)) != expected_frame:
             raise RuntimeError(
@@ -152,6 +223,24 @@ def validate_trace(scenario: dict[str, object], rows: list[dict[str, str]]) -> N
             raise RuntimeError(
                 f"unexpected {event} detail for {identifier}: "
                 f"expected={expected_detail}, observed={observed_details.get(str(event))}"
+            )
+    expected_series = scenario.get("expected_event_series", {})
+    if not isinstance(expected_series, dict):
+        raise RuntimeError(f"expected_event_series must be an object for {identifier}")
+    for event, expected_values in expected_series.items():
+        if not isinstance(expected_values, list) or not all(
+            isinstance(value, str) for value in expected_values
+        ):
+            raise RuntimeError(f"invalid {event} event series for {identifier}")
+        observed_values = [
+            f"{row['frame']}:{row['detail']}"
+            for row in rows
+            if row["event"] == event
+        ]
+        if observed_values != expected_values:
+            raise RuntimeError(
+                f"unexpected {event} series for {identifier}: "
+                f"expected={expected_values}, observed={observed_values}"
             )
     forbidden = scenario.get("forbidden_events", [])
     if not isinstance(forbidden, list):
@@ -192,6 +281,7 @@ def command_trace(args: argparse.Namespace, document: dict[str, object]) -> None
             SOLOMON_RUNTIME_SCENARIO=str(scenario["id"]),
             SOLOMON_RUNTIME_MAX_FRAMES=str(scenario["max_frames"]),
             SOLOMON_RUNTIME_INPUTS=encode_inputs(scenario),
+            SOLOMON_RUNTIME_PATCHES=encode_patches(scenario),
         )
         command = [
             str(args.fceux.resolve()),
