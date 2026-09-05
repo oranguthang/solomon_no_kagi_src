@@ -122,10 +122,10 @@ CastFireballFromInventory:
     INX
 
 StoreFireballCastPose:
-    STX $0431
+    STX FireballCastingPose
     STA $00
     AND #$01
-    STA $0430
+    STA FireballDirectionIndex
     LSR A
     LDA #$04
     BCS PositionFireballHorizontally

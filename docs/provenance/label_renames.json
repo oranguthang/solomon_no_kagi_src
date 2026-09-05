@@ -9189,6 +9189,398 @@
     {
       "address": "0xfffa", "previous": "$FFFA", "current": "CpuVectors", "confidence": "confirmed",
       "evidence": ["The final six PRG bytes encode the NMI, Reset, and IRQ little-endian CPU vectors and assemble back to the original image."]
+    },
+    {
+      "address": "0x80ff", "previous": "$80FF", "current": "TryStartFireballAction", "confidence": "confirmed",
+      "evidence": ["NMI call sites, fireball-record accesses, and byte-identical assembly confirm this collision path or table boundary."]
+    },
+    {
+      "address": "0x8106", "previous": "_label_bank0_8106", "current": "FinishNmiGameplayInteraction", "confidence": "confirmed",
+      "evidence": ["NMI call sites, fireball-record accesses, and byte-identical assembly confirm this collision path or table boundary."]
+    },
+    {
+      "address": "0x8107", "previous": "$8107", "current": "CheckGameplayObjectInteractions", "confidence": "confirmed",
+      "evidence": ["NMI call sites, fireball-record accesses, and byte-identical assembly confirm this collision path or table boundary."]
+    },
+    {
+      "address": "0x8136", "previous": "_label_bank0_8136", "current": "CheckNextEnemyForFireballCollision", "confidence": "confirmed",
+      "evidence": ["Static control flow and indexed object-record accesses identify this enemy overlap scan boundary."]
+    },
+    {
+      "address": "0x815d", "previous": "_label_bank0_815d", "current": "AdvanceFireballEnemyCollisionScan", "confidence": "confirmed",
+      "evidence": ["Static control flow and indexed object-record accesses identify this enemy overlap scan boundary."]
+    },
+    {
+      "address": "0x816a", "previous": "_label_bank0_816a", "current": "BeginDanaEnemyCollisionScan", "confidence": "confirmed",
+      "evidence": ["Controller call sites and context-one scheduler selectors confirm this Dana action boundary."]
+    },
+    {
+      "address": "0x8187", "previous": "_label_bank0_8187", "current": "StoreDanaCollisionX", "confidence": "confirmed",
+      "evidence": ["Controller call sites and context-one scheduler selectors confirm this Dana action boundary."]
+    },
+    {
+      "address": "0x818c", "previous": "_label_bank0_818c", "current": "CheckNextEnemyForDanaCollision", "confidence": "confirmed",
+      "evidence": ["Controller call sites and context-one scheduler selectors confirm this Dana action boundary."]
+    },
+    {
+      "address": "0x81ac", "previous": "_label_bank0_81ac", "current": "AdvanceDanaEnemyCollisionScan", "confidence": "confirmed",
+      "evidence": ["Controller call sites and context-one scheduler selectors confirm this Dana action boundary."]
+    },
+    {
+      "address": "0x81b0", "previous": "_label_bank0_81b0", "current": "FinishEnemyCollisionScan", "confidence": "confirmed",
+      "evidence": ["Static control flow and indexed object-record accesses identify this enemy overlap scan boundary."]
+    },
+    {
+      "address": "0x81b1", "previous": "$81B1", "current": "CheckEnemyOverlapAtCoordinates", "confidence": "confirmed",
+      "evidence": ["Static control flow and indexed object-record accesses identify this enemy overlap scan boundary."]
+    },
+    {
+      "address": "0x81d6", "previous": "_label_bank0_81d6", "current": "FinishEnemyOverlapCheck", "confidence": "confirmed",
+      "evidence": ["Static control flow and indexed object-record accesses identify this enemy overlap scan boundary."]
+    },
+    {
+      "address": "0x81d7", "previous": "$81D7", "current": "EnemyOverlapHeight", "confidence": "confirmed",
+      "evidence": ["Static control flow and indexed object-record accesses identify this enemy overlap scan boundary."]
+    },
+    {
+      "address": "0x81d9", "previous": "$81D9", "current": "EnemyOverlapWidth", "confidence": "confirmed",
+      "evidence": ["Static control flow and indexed object-record accesses identify this enemy overlap scan boundary."]
+    },
+    {
+      "address": "0x81db", "previous": "$81DB", "current": "EnemyOverlapExcludedStateBits", "confidence": "confirmed",
+      "evidence": ["Static control flow and indexed object-record accesses identify this enemy overlap scan boundary."]
+    },
+    {
+      "address": "0x81dd", "previous": "$81DD", "current": "UpdateActiveFireballCollision", "confidence": "confirmed",
+      "evidence": ["NMI call sites, fireball-record accesses, and byte-identical assembly confirm this collision path or table boundary."]
+    },
+    {
+      "address": "0x81ed", "previous": "_label_bank0_81ed", "current": "ClearFireballCollisionCoordinates", "confidence": "confirmed",
+      "evidence": ["NMI call sites, fireball-record accesses, and byte-identical assembly confirm this collision path or table boundary."]
+    },
+    {
+      "address": "0x823f", "previous": "_label_bank0_823f", "current": "SaveCollisionDispatcherPointers", "confidence": "confirmed",
+      "evidence": ["NMI call sites, fireball-record accesses, and byte-identical assembly confirm this collision path or table boundary."]
+    },
+    {
+      "address": "0x8257", "previous": "_label_bank0_8257", "current": "RestoreCollisionDispatcherPointers", "confidence": "confirmed",
+      "evidence": ["NMI call sites, fireball-record accesses, and byte-identical assembly confirm this collision path or table boundary."]
+    },
+    {
+      "address": "0x825f", "previous": "_label_bank0_825f", "current": "FinishActiveFireballCollision", "confidence": "confirmed",
+      "evidence": ["NMI call sites, fireball-record accesses, and byte-identical assembly confirm this collision path or table boundary."]
+    },
+    {
+      "address": "0x8260", "previous": "$8260", "current": "FireballCollisionYDelta", "confidence": "confirmed",
+      "evidence": ["NMI call sites, fireball-record accesses, and byte-identical assembly confirm this collision path or table boundary."]
+    },
+    {
+      "address": "0x8264", "previous": "$8264", "current": "FireballCollisionXDelta", "confidence": "confirmed",
+      "evidence": ["NMI call sites, fireball-record accesses, and byte-identical assembly confirm this collision path or table boundary."]
+    },
+    {
+      "address": "0x8268", "previous": "$8268", "current": "FireballCollisionPointerSetup", "confidence": "confirmed",
+      "evidence": ["NMI call sites, fireball-record accesses, and byte-identical assembly confirm this collision path or table boundary."]
+    },
+    {
+      "address": "0x826c", "previous": "$826C", "current": "DispatchFireballCollisionMask", "confidence": "confirmed",
+      "evidence": ["NMI call sites, fireball-record accesses, and byte-identical assembly confirm this collision path or table boundary."]
+    },
+    {
+      "address": "0x8279", "previous": "$8279", "current": "FireballCollisionHandlerLowBytes", "confidence": "confirmed",
+      "evidence": ["NMI call sites, fireball-record accesses, and byte-identical assembly confirm this collision path or table boundary."]
+    },
+    {
+      "address": "0x8289", "previous": "$8289", "current": "FireballCollisionHandlerHighBytes", "confidence": "confirmed",
+      "evidence": ["NMI call sites, fireball-record accesses, and byte-identical assembly confirm this collision path or table boundary."]
+    },
+    {
+      "address": "0x8299", "previous": "$8299", "current": "BuildFireballRoomCollisionMask", "confidence": "confirmed",
+      "evidence": ["NMI call sites, fireball-record accesses, and byte-identical assembly confirm this collision path or table boundary."]
+    },
+    {
+      "address": "0x82b0", "previous": "_label_bank0_82b0", "current": "RecordFireballVerticalCellSpan", "confidence": "confirmed",
+      "evidence": ["NMI call sites, fireball-record accesses, and byte-identical assembly confirm this collision path or table boundary."]
+    },
+    {
+      "address": "0x82c6", "previous": "_label_bank0_82c6", "current": "RecordFireballHorizontalCellSpan", "confidence": "confirmed",
+      "evidence": ["NMI call sites, fireball-record accesses, and byte-identical assembly confirm this collision path or table boundary."]
+    },
+    {
+      "address": "0x82da", "previous": "_label_bank0_82da", "current": "BuildFireballTopLeftMapIndex", "confidence": "confirmed",
+      "evidence": ["NMI call sites, fireball-record accesses, and byte-identical assembly confirm this collision path or table boundary."]
+    },
+    {
+      "address": "0x82e8", "previous": "_label_bank0_82e8", "current": "RecordFireballTopLeftCell", "confidence": "confirmed",
+      "evidence": ["NMI call sites, fireball-record accesses, and byte-identical assembly confirm this collision path or table boundary."]
+    },
+    {
+      "address": "0x82ef", "previous": "_label_bank0_82ef", "current": "SampleFireballTopRightCell", "confidence": "confirmed",
+      "evidence": ["NMI call sites, fireball-record accesses, and byte-identical assembly confirm this collision path or table boundary."]
+    },
+    {
+      "address": "0x82f5", "previous": "_label_bank0_82f5", "current": "RecordFireballTopRightCell", "confidence": "confirmed",
+      "evidence": ["NMI call sites, fireball-record accesses, and byte-identical assembly confirm this collision path or table boundary."]
+    },
+    {
+      "address": "0x8301", "previous": "_label_bank0_8301", "current": "SampleFireballBottomRightCell", "confidence": "confirmed",
+      "evidence": ["NMI call sites, fireball-record accesses, and byte-identical assembly confirm this collision path or table boundary."]
+    },
+    {
+      "address": "0x8307", "previous": "_label_bank0_8307", "current": "RecordFireballBottomRightCell", "confidence": "confirmed",
+      "evidence": ["NMI call sites, fireball-record accesses, and byte-identical assembly confirm this collision path or table boundary."]
+    },
+    {
+      "address": "0x830e", "previous": "_label_bank0_830e", "current": "SampleFireballBottomLeftCell", "confidence": "confirmed",
+      "evidence": ["NMI call sites, fireball-record accesses, and byte-identical assembly confirm this collision path or table boundary."]
+    },
+    {
+      "address": "0x8314", "previous": "_label_bank0_8314", "current": "RecordFireballBottomLeftCell", "confidence": "confirmed",
+      "evidence": ["NMI call sites, fireball-record accesses, and byte-identical assembly confirm this collision path or table boundary."]
+    },
+    {
+      "address": "0x831e", "previous": "$831E", "current": "TryStartBlockMagicAction", "confidence": "confirmed",
+      "evidence": ["Controller call sites and context-one scheduler selectors confirm this Dana action boundary."]
+    },
+    {
+      "address": "0x8326", "previous": "$8326", "current": "TryStartDanaAction", "confidence": "confirmed",
+      "evidence": ["Controller call sites and context-one scheduler selectors confirm this Dana action boundary."]
+    },
+    {
+      "address": "0x8345", "previous": "_label_bank0_8345", "current": "SelectDanaCastingAction", "confidence": "confirmed",
+      "evidence": ["Controller call sites and context-one scheduler selectors confirm this Dana action boundary."]
+    },
+    {
+      "address": "0x8351", "previous": "_label_bank0_8351", "current": "OffsetDanaCastingPosition", "confidence": "confirmed",
+      "evidence": ["Controller call sites and context-one scheduler selectors confirm this Dana action boundary."]
+    },
+    {
+      "address": "0x836d", "previous": "_label_bank0_836d", "current": "RejectDanaAction", "confidence": "confirmed",
+      "evidence": ["Controller call sites and context-one scheduler selectors confirm this Dana action boundary."]
+    },
+    {
+      "address": "0x836f", "previous": "$836F", "current": "QueuePendingThreadStart", "confidence": "confirmed",
+      "evidence": ["The four-byte pending-request scan and startup consumer confirm this scheduler request boundary."]
+    },
+    {
+      "address": "0x8371", "previous": "_label_bank0_8371", "current": "FindPendingThreadStartSlot", "confidence": "confirmed",
+      "evidence": ["The four-byte pending-request scan and startup consumer confirm this scheduler request boundary."]
+    },
+    {
+      "address": "0x8379", "previous": "_label_bank0_8379", "current": "StorePendingThreadStart", "confidence": "confirmed",
+      "evidence": ["The four-byte pending-request scan and startup consumer confirm this scheduler request boundary."]
+    },
+    {
+      "address": "0x83c2", "previous": "$83C2", "current": "UpdateDanaControlState", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x83ec", "previous": "_label_bank0_83ec", "current": "DispatchDanaControlHandler", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x83f1", "previous": "$83F1", "current": "DanaControlHandlerLowBytes", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x83f8", "previous": "$83F8", "current": "DanaControlHandlerHighBytes", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x83ff", "previous": "$83FF", "current": "HandleDanaActionGroup0", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x8403", "previous": "_label_bank0_8403", "current": "FinishDanaControlStateUpdate", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x8404", "previous": "_label_bank0_8404", "current": "PromoteDanaActionGroup0", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x840a", "previous": "$840A", "current": "HandleDanaActionGroup1", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x841a", "previous": "_label_bank0_841a", "current": "WaitForDanaActionGroup1", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x842b", "previous": "_label_bank0_842b", "current": "UpdateDanaActionGroup1UpperPair", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x843a", "previous": "_label_bank0_843a", "current": "SelectDanaActionFromPair", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x8442", "previous": "_label_bank0_8442", "current": "FinishDanaControlUpdate", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x8443", "previous": "$8443", "current": "HandleDanaActionGroup2", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x844d", "previous": "$844D", "current": "HandleDanaActionGroup4", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x845d", "previous": "_label_bank0_845d", "current": "SelectDanaGroup4DownAction", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x8464", "previous": "_label_bank0_8464", "current": "StoreDanaPairBase", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x8468", "previous": "_label_bank0_8468", "current": "SelectDanaGroup4HorizontalAction", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x8471", "previous": "_label_bank0_8471", "current": "HandleDanaActionGroup5", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x8477", "previous": "_label_bank0_8477", "current": "SelectDanaIdleAction", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x847c", "previous": "_label_bank0_847c", "current": "SelectDanaActionGroup5Input", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x8494", "previous": "_label_bank0_8494", "current": "SelectDanaActionGroup5Direction", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x84a0", "previous": "_label_bank0_84a0", "current": "SelectDanaActionGroup5Horizontal", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x84ad", "previous": "$84AD", "current": "HandleDanaActionGroup6", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x84b7", "previous": "_label_bank0_84b7", "current": "UpdateDanaActionGroup6Horizontal", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x84c4", "previous": "_label_bank0_84c4", "current": "SelectDanaActionGroup6Direction", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x84ca", "previous": "_label_bank0_84ca", "current": "StoreDanaControlAction", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x84ce", "previous": "$84CE", "current": "RenderGameplayObjectsToOam", "confidence": "confirmed",
+      "evidence": ["The seven-entry action-group dispatch, cached input, and Dana object writes confirm this control-state boundary."]
+    },
+    {
+      "address": "0x84d2", "previous": "_label_bank0_84d2", "current": "LoadObjectSpriteSortKeys", "confidence": "confirmed",
+      "evidence": ["The non-Dana pointer traversal, OAM writes, and byte-identical assembly confirm this sprite composition boundary."]
+    },
+    {
+      "address": "0x84eb", "previous": "_label_bank0_84eb", "current": "RunObjectSpriteShellSortPass", "confidence": "confirmed",
+      "evidence": ["The non-Dana pointer traversal, OAM writes, and byte-identical assembly confirm this sprite composition boundary."]
+    },
+    {
+      "address": "0x84ef", "previous": "_label_bank0_84ef", "current": "CompareObjectSpriteSortKeys", "confidence": "confirmed",
+      "evidence": ["The non-Dana pointer traversal, OAM writes, and byte-identical assembly confirm this sprite composition boundary."]
+    },
+    {
+      "address": "0x8517", "previous": "_label_bank0_8517", "current": "ContinueObjectSpriteInsertion", "confidence": "confirmed",
+      "evidence": ["The non-Dana pointer traversal, OAM writes, and byte-identical assembly confirm this sprite composition boundary."]
+    },
+    {
+      "address": "0x851e", "previous": "_label_bank0_851e", "current": "AdvanceObjectSpriteSortPair", "confidence": "confirmed",
+      "evidence": ["The non-Dana pointer traversal, OAM writes, and byte-identical assembly confirm this sprite composition boundary."]
+    },
+    {
+      "address": "0x8530", "previous": "_label_bank0_8530", "current": "MarkObjectSpriteOverlapGroups", "confidence": "confirmed",
+      "evidence": ["The sorted Y-coordinate pass and per-row scratch array confirm this sprite-overlap accounting boundary."]
+    },
+    {
+      "address": "0x853c", "previous": "_label_bank0_853c", "current": "KeepObjectInSpriteOverlapGroup", "confidence": "confirmed",
+      "evidence": ["The sorted Y-coordinate pass and per-row scratch array confirm this sprite-overlap accounting boundary."]
+    },
+    {
+      "address": "0x854e", "previous": "_label_bank0_854e", "current": "MarkObjectOrderEntry", "confidence": "confirmed",
+      "evidence": ["The non-Dana pointer traversal, OAM writes, and byte-identical assembly confirm this sprite composition boundary."]
+    },
+    {
+      "address": "0x8553", "previous": "_label_bank0_8553", "current": "FindPreviousSpriteOverlapGroup", "confidence": "confirmed",
+      "evidence": ["The sorted Y-coordinate pass and per-row scratch array confirm this sprite-overlap accounting boundary."]
+    },
+    {
+      "address": "0x855a", "previous": "_label_bank0_855a", "current": "FinishPreviousSpriteOverlapGroup", "confidence": "confirmed",
+      "evidence": ["The sorted Y-coordinate pass and per-row scratch array confirm this sprite-overlap accounting boundary."]
+    },
+    {
+      "address": "0x8569", "previous": "_label_bank0_8569", "current": "SelectNextObjectForOam", "confidence": "confirmed",
+      "evidence": ["The non-Dana pointer traversal, OAM writes, and byte-identical assembly confirm this sprite composition boundary."]
+    },
+    {
+      "address": "0x8589", "previous": "_label_bank0_8589", "current": "MarkSelectedObjectOrderEntry", "confidence": "confirmed",
+      "evidence": ["The non-Dana pointer traversal, OAM writes, and byte-identical assembly confirm this sprite composition boundary."]
+    },
+    {
+      "address": "0x8590", "previous": "_label_bank0_8590", "current": "FindPreviousObjectOrderEntry", "confidence": "confirmed",
+      "evidence": ["The non-Dana pointer traversal, OAM writes, and byte-identical assembly confirm this sprite composition boundary."]
+    },
+    {
+      "address": "0x859b", "previous": "_label_bank0_859b", "current": "FollowMarkedObjectOrderEntry", "confidence": "confirmed",
+      "evidence": ["The non-Dana pointer traversal, OAM writes, and byte-identical assembly confirm this sprite composition boundary."]
+    },
+    {
+      "address": "0x85a5", "previous": "_label_bank0_85a5", "current": "LoadSelectedObjectPointer", "confidence": "confirmed",
+      "evidence": ["The non-Dana pointer traversal, OAM writes, and byte-identical assembly confirm this sprite composition boundary."]
+    },
+    {
+      "address": "0x85b5", "previous": "_label_bank0_85b5", "current": "WriteObjectSpritesToOam", "confidence": "confirmed",
+      "evidence": ["The non-Dana pointer traversal, OAM writes, and byte-identical assembly confirm this sprite composition boundary."]
+    },
+    {
+      "address": "0x85ed", "previous": "_label_bank0_85ed", "current": "StoreLeftObjectSpriteAttributes", "confidence": "confirmed",
+      "evidence": ["The non-Dana pointer traversal, OAM writes, and byte-identical assembly confirm this sprite composition boundary."]
+    },
+    {
+      "address": "0x85fa", "previous": "_label_bank0_85fa", "current": "StoreRightObjectSpriteAttributes", "confidence": "confirmed",
+      "evidence": ["The non-Dana pointer traversal, OAM writes, and byte-identical assembly confirm this sprite composition boundary."]
+    },
+    {
+      "address": "0x8600", "previous": "_label_bank0_8600", "current": "HideObjectSprites", "confidence": "confirmed",
+      "evidence": ["The non-Dana pointer traversal, OAM writes, and byte-identical assembly confirm this sprite composition boundary."]
+    },
+    {
+      "address": "0x8608", "previous": "$8608", "current": "AdvanceObjectOamSlot", "confidence": "confirmed",
+      "evidence": ["The non-Dana pointer traversal, OAM writes, and byte-identical assembly confirm this sprite composition boundary."]
+    },
+    {
+      "address": "0x860d", "previous": "$860D", "current": "UpdateScanlineObjectAllowance", "confidence": "confirmed",
+      "evidence": ["The sorted Y-coordinate pass and per-row scratch array confirm this sprite-overlap accounting boundary."]
+    },
+    {
+      "address": "0x862c", "previous": "_label_bank0_862c", "current": "ReduceScanlineObjectAllowance", "confidence": "confirmed",
+      "evidence": ["The sorted Y-coordinate pass and per-row scratch array confirm this sprite-overlap accounting boundary."]
+    },
+    {
+      "address": "0x8635", "previous": "_label_bank0_8635", "current": "StoreScanlineObjectAllowance", "confidence": "confirmed",
+      "evidence": ["The sorted Y-coordinate pass and per-row scratch array confirm this sprite-overlap accounting boundary."]
+    },
+    {
+      "address": "0x8638", "previous": "_label_bank0_8638", "current": "FinishScanlineObjectAllowance", "confidence": "confirmed",
+      "evidence": ["The sorted Y-coordinate pass and per-row scratch array confirm this sprite-overlap accounting boundary."]
+    },
+    {
+      "address": "0x80cf", "previous": "$80CF", "current": "RunNmiPostGameplayServices", "confidence": "confirmed",
+      "evidence": ["Both NMI paths converge here before object-to-OAM composition, controller sampling, and audio update."]
+    },
+    {
+      "address": "0xcf35", "previous": "$CF35", "current": "FillerBeforeRoomTilePatterns", "confidence": "confirmed",
+      "evidence": ["Bisqwit's map classifies the entire 203-byte gap before $D000 as FillerBeforeD000_203bytes; a size assertion and ROM comparison preserve it exactly."]
     }
   ]
 }

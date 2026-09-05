@@ -43,6 +43,12 @@ decrease.
 
 - `$8000-$80FE`: NMI, CNROM bank selection, OAM DMA, and PPU scroll commit are
   isolated in `src/system/nmi.asm`;
+- `$80FF-$837C`: alternating enemy overlap scans, fireball RoomMap collision,
+  A/B Dana action setup, and the pending-thread request queue are isolated in
+  `src/game/nmi_gameplay_interactions.asm`;
+- `$83C2-$863B`: the seven-group Dana input/action dispatcher, non-Dana Y
+  sorting, scanline allowance pass, and two-sprite OAM composition are isolated
+  in `src/game/nmi_dana_and_sprites.asm`;
 - `$837D-$83C1`: both controller ports are serially sampled and merged into
   raw and policy-filtered cached input bytes in `src/system/controller_input.asm`;
 - `$863C-$87DF`: the 21-record active-object traversal, signed fixed-point
@@ -211,6 +217,8 @@ decrease.
   terminators and source-owned alongside their decoder;
 - `$CEF1-$CF34`: the attract demo's two parallel 34-byte duration/controller
   tables are source-owned with count and adjacency assertions;
+- `$CF35-$CFFF`: Bisqwit's complete 203-byte `FillerBeforeD000_203bytes`
+  range is explicitly classified and size-asserted beside the demo data;
   - `$D000-$D0E7`: all 58 four-byte logical tile patterns consumed by buffered
     RoomMap cell updates are source-owned and record-count asserted;
   - `$D0E8-$D129`: all 33 object-type animation descriptor pointers are

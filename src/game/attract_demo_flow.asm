@@ -191,3 +191,23 @@ DemoInputValues:
 
 .assert DemoInputValues - DemoInputDurations = DemoInputCount, error, "unexpected demo duration count"
 .assert * - DemoInputValues = DemoInputCount, error, "unexpected demo input count"
+
+.segment "PRG_FILLER_BEFORE_ROOM_TILE_PATTERNS"
+
+; Bisqwit's map classifies this complete gap as FillerBeforeD000_203bytes
+FillerBeforeRoomTilePatterns:
+    .byte $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $04, $FF, $00
+    .byte $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $FE, $20, $FF
+    .byte $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $00, $FF, $00
+    .byte $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $FF, $00, $FF
+    .byte $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $88, $FF, $00
+    .byte $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $EF, $02, $FF
+    .byte $01, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $00, $FF, $00
+    .byte $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $FF, $00, $FF
+    .byte $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $87, $FF, $00
+    .byte $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $E3, $00, $FF
+    .byte $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $00, $FF, $00
+    .byte $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $FF, $00, $FF
+    .byte $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00, $FF, $00
+
+.assert * - FillerBeforeRoomTilePatterns = 203, error, "unexpected pre-room-tile filler size"

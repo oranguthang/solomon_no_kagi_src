@@ -58,7 +58,7 @@ _label_bank0_8055:
     BCC NmiRestoreRegisters
 
 _label_bank0_8065:
-    JSR $8107
+    JSR CheckGameplayObjectInteractions
     LDA $78
     TAX
     AND #$02
@@ -73,18 +73,18 @@ _label_bank0_8065:
     ORA $78
     STA $78
     LDA #$21
-    JSR $836F
+    JSR QueuePendingThreadStart
     BPL _label_bank0_80cd
 
 _label_bank0_8087:
-    JSR $83C2
+    JSR UpdateDanaControlState
     LDX #$07
 
 _label_bank0_808c:
     INC $20,X
     DEX
     BPL _label_bank0_808c
-    JSR $81DD
+    JSR UpdateActiveFireballCollision
     JSR UpdateActiveObjects
     INC FireballLifeCounter1Lo
     BNE _label_bank0_809f
@@ -104,13 +104,13 @@ _label_bank0_80a7:
     LDA Joypad1Cached
     ASL A
     BCC _label_bank0_80bc
-    JSR $831E
+    JSR TryStartBlockMagicAction
     BCS _label_bank0_80ca
 
 _label_bank0_80bc:
     ASL A
     BCC _label_bank0_80c4
-    JSR $80FF
+    JSR TryStartFireballAction
     BCS _label_bank0_80ca
 
 _label_bank0_80c4:
@@ -119,11 +119,13 @@ _label_bank0_80c4:
     STA $28
 
 _label_bank0_80ca:
-    JMP $80CF
+    JMP RunNmiPostGameplayServices
 
 _label_bank0_80cd:
     INC NmiFrameCounter
-    JSR $84CE
+
+RunNmiPostGameplayServices:
+    JSR RenderGameplayObjectsToOam
     JSR ReadJoyPads
     LDA $78
     AND #$04

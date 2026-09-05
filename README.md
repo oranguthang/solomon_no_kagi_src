@@ -14,8 +14,10 @@ evidence, and small tested tools for decoded game data.
   entrypoint; CHR is a private generated asset and is not stored in Git.
 - Confirmed NES registers and high-confidence RAM aliases are separated into
   `src/memory/`.
-- One hundred forty-three semantic PRG modules own NMI (`$8000-$80FE`), controller input
-  (`$837D-$83C1`), reset/startup
+- One hundred fifty-five semantic PRG modules own NMI (`$8000-$80FE`), its
+  gameplay interaction services (`$80FF-$837C`), controller input
+  (`$837D-$83C1`), Dana control and object-to-OAM composition
+  (`$83C2-$863B`), reset/startup
   (`$8C00-$8D5E`), the cooperative scheduler (`$8D5F-$8E46`), and the main
   gameplay thread (`$A000-$A04B`), plus countdown timer arithmetic and warning
   transitions (`$A15F-$A225`), its HUD update builder (`$A238-$A273`), and
@@ -46,8 +48,8 @@ evidence, and small tested tools for decoded game data.
   Full clearing of both physical nametables owns `$CB6F-$CBA5`.
   Packed title graphics, score/best-score/GDV presentation, and fixed logo
   patterns own `$CBA6-$CD52`; both packed streams and the parallel demo
-  duration/input tables continue through `$CF34`.
-  All 58 four-byte RoomMap tile patterns are source-owned at `$D000-$D0E7`.
+  duration/input tables continue through `$CF34`. The classified 203-byte
+  filler and all 58 four-byte RoomMap tile patterns continue through `$D0E7`.
   The parallel 33-entry object-animation descriptor pointer table follows at
   `$D0E8-$D129`.
   All 340 action descriptors, four variant selectors, 126 referenced animation

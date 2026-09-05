@@ -24,7 +24,9 @@
 .include "memory/ram.inc"
 
 .include "system/nmi.asm"
+.include "game/nmi_gameplay_interactions.asm"
 .include "system/controller_input.asm"
+.include "game/nmi_dana_and_sprites.asm"
 .include "game/object_update.asm"
 .include "game/object_motion.asm"
 .include "game/object_collision.asm"

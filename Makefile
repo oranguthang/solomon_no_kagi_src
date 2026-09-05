@@ -13,7 +13,8 @@ ROM := $(BUILD_DIR)/solomons_key.nes
 LABELS := $(BUILD_DIR)/solomons_key.lbl
 MAP := $(BUILD_DIR)/solomons_key.map
 DEBUG := $(BUILD_DIR)/solomons_key.dbg
-SOURCE_FILES := src/main.asm src/system/nmi.asm src/system/controller_input.asm \
+SOURCE_FILES := src/main.asm src/system/nmi.asm src/game/nmi_gameplay_interactions.asm \
+	src/system/controller_input.asm src/game/nmi_dana_and_sprites.asm \
 	src/game/object_update.asm src/game/object_motion.asm \
 	src/game/object_collision.asm src/game/object_animation.asm \
 	src/game/object_collision_dispatch.asm src/data/object_collision_handlers.asm \

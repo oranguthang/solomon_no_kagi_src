@@ -2,8 +2,10 @@
 
 ## Owned range
 
-`src/system/nmi.asm` owns CPU `$8000-$80FE` (255 bytes). The linker places its
-`PRG_NMI` segment before the remaining fixed PRG, and
+`src/system/nmi.asm` owns CPU `$8000-$80FE` (255 bytes). The adjacent gameplay
+services at `$80FF-$837C` are reconstructed separately in
+`src/game/nmi_gameplay_interactions.asm`. The linker places both segments
+before the remaining fixed PRG, and
 `make reconstruction-audit` checks its start, end, size, and required labels.
 
 ## Entry and exit contract
@@ -28,11 +30,17 @@ frame, then sets bit 7 in `PpuCtrlShadow` before restoring `PPU_CTRL` on exit.
   the CNROM cartridge range. The low two data bits therefore select one of the
   four 8 KiB CHR banks; the high nibble is retained from the original bus value.
 
+## Gameplay services
+
+The active path now uses symbolic calls for the alternating enemy-overlap
+scan, fireball RoomMap collision, Dana A/B action requests, the four-slot
+pending-thread queue, Dana's control-state dispatcher, and the complete
+object-to-OAM composer. See `docs/nmi_gameplay_interactions.md` and
+`docs/nmi_dana_and_sprites.md`.
+
 ## Evidence boundary
 
 The register save/restore, PPU writes, OAM page, and four-way CNROM selection
-are statically confirmed. Several conditional frame services inside the NMI
-still call raw addresses and use unclassified RAM fields. Their generated
-branch labels remain intentionally unresolved rather than receiving guessed
-behavioral names. Those paths require call-graph work and focused runtime
-traces before further renaming.
+are statically confirmed. The NMI now has no raw absolute control-flow target;
+neutral names remain where the precise game-facing meaning of Dana's action
+encodings still needs runtime evidence.

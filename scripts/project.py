@@ -238,6 +238,8 @@ def command_lint(_args: argparse.Namespace) -> None:
         "scripts/verify_rom.py",
         "src/main.asm",
         "src/system/nmi.asm",
+        "src/game/nmi_gameplay_interactions.asm",
+        "src/game/nmi_dana_and_sprites.asm",
         "src/system/pause_thread.asm",
         "src/system/scheduler.asm",
         "src/system/startup.asm",
@@ -290,6 +292,18 @@ def command_lint(_args: argparse.Namespace) -> None:
     source_contract = {
         "src/main.asm": ('.setcpu "6502x"', '.segment "HEADER"'),
         "src/system/nmi.asm": ('.segment "PRG_NMI"', "NMI:", "WritePpuScroll:"),
+        "src/game/nmi_gameplay_interactions.asm": (
+            '.segment "PRG_NMI_GAMEPLAY_INTERACTIONS"',
+            "CheckGameplayObjectInteractions:",
+            "UpdateActiveFireballCollision:",
+            "QueuePendingThreadStart:",
+        ),
+        "src/game/nmi_dana_and_sprites.asm": (
+            '.segment "PRG_NMI_DANA_AND_SPRITES"',
+            "UpdateDanaControlState:",
+            "RenderGameplayObjectsToOam:",
+            "UpdateScanlineObjectAllowance:",
+        ),
         "src/system/startup.asm": (
             '.segment "PRG_STARTUP"',
             "Reset:",
@@ -427,8 +441,8 @@ def command_lint(_args: argparse.Namespace) -> None:
             "ObjectRecordPointerHighTable:",
         ),
         "src/preservation/prg.asm": (
-            '.segment "PRG_PRE_STARTUP"',
-            "CPU $80FF",
+            '.segment "PRG_PRE_ENEMY_POINTERS"',
+            "CPU $A4B3",
         ),
         "src/graphics/chr.asm": (
             '.segment "PRG_BANK_1"',

@@ -23,6 +23,9 @@ range is understood.
 | `$0030-$0031` | current room item/header stream pointer | confirmed |
 | `$0036-$0039` | two resolved Demon Mirror schedule pointers | confirmed |
 | `$003A-$003D` | two resolved Demon Mirror enemy-set pointers | confirmed |
+| `$0040-$0053` | 20 non-Dana object Y sort keys used by the NMI OAM composer | confirmed |
+| `$0054-$0067` | parallel sorted object order and overlap-group markers | confirmed |
+| `$0068-$0077` | per-row object allowances used for scanline sprite selection | high |
 | `$007C-$007D` | room-state flags and decoded tileset | high |
 | `$007E` | most recent block-cast target map index | high |
 | `$007F` | most recent head-collision target map index | high |
@@ -36,6 +39,7 @@ range is understood.
 | `$0302` | current scheduler context index | high |
 | `$0304-$03E3` | 16x14 room map: 16x12 interior plus two sentinel rows; `$0304-$030B` temporarily hold key-flight motion and return to `$F8` | confirmed |
 | `$0406-$041E` | constellation position and expanded 24-byte pattern | confirmed |
+| `$041F-$0422` | four pending scheduler start requests, drained by startup | confirmed |
 | `$03E4-$03E5` | cached controller state with game-state-dependent filtering | confirmed |
 | `$03E6-$03F9` | shared RAM PPU update-program buffer extent used by room palette loading | confirmed |
 | `$0423-$0425` | three sound-effect request slots | confirmed |
@@ -44,6 +48,8 @@ range is understood.
 | `$0429-$043D` | fireball, inventory, and lifetime state; `$0429` temporarily saves the prior room index during special-room loading | mixed/high |
 | `$042B` | number of usable two-bit fireball inventory slots, maximum 8 | confirmed |
 | `$042E-$042F` | eight packed two-bit fireball inventory slots | confirmed |
+| `$0430` | four-way fireball direction index used by NMI collision integration | confirmed |
+| `$0431` | casting pose copied into the fireball type field during activation | high |
 | `$0434-$043B` | timer warning state, step, fraction, and decimal digits | high |
 | `$043C-$043D` | NMI-incremented Demon Mirror spawn timer | confirmed |
 | `$043E` | Demon Mirror phase/loop state and two pending bits | confirmed |

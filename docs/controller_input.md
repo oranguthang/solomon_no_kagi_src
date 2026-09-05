@@ -1,8 +1,8 @@
 # Controller input
 
 `src/system/controller_input.asm` owns CPU `$837D-$83C1`. `ReadJoyPads` is
-called once on the active NMI service path after the frame counter and the
-service at `$84CE` have run.
+called once on the active NMI service path after the frame counter and
+`RenderGameplayObjectsToOam` have run.
 
 The routine strobes `JOYPAD1`, then calls `ReadJoyPad` with `X=0` and `X=1`.
 Each call performs eight serial reads from `JOYPAD1,X` and stores the assembled

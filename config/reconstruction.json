@@ -18,9 +18,29 @@
         "CheckRoomMapAttributeReadRequest",
         "ResetRoomMapAttributeReadState",
         "UpdateNmiChrBank",
+        "RunNmiPostGameplayServices",
         "NmiRestoreRegisters",
         "ChrBankSelectValues",
         "WritePpuScroll"
+      ]
+    },
+    {
+      "id": "nmi_gameplay_interactions",
+      "path": "src/game/nmi_gameplay_interactions.asm",
+      "segment": "PRG_NMI_GAMEPLAY_INTERACTIONS",
+      "start": "0x80ff",
+      "end": "0x837c",
+      "status": "semantic",
+      "required_labels": [
+        "TryStartFireballAction",
+        "CheckGameplayObjectInteractions",
+        "CheckEnemyOverlapAtCoordinates",
+        "UpdateActiveFireballCollision",
+        "DispatchFireballCollisionMask",
+        "BuildFireballRoomCollisionMask",
+        "TryStartBlockMagicAction",
+        "TryStartDanaAction",
+        "QueuePendingThreadStart"
       ]
     },
     {
@@ -35,6 +55,24 @@
         "UpdateJoypadCache",
         "CacheCompleteJoypadState",
         "ReadJoyPad"
+      ]
+    },
+    {
+      "id": "nmi_dana_and_sprites",
+      "path": "src/game/nmi_dana_and_sprites.asm",
+      "segment": "PRG_NMI_DANA_AND_SPRITES",
+      "start": "0x83c2",
+      "end": "0x863b",
+      "status": "semantic",
+      "required_labels": [
+        "UpdateDanaControlState",
+        "DanaControlHandlerLowBytes",
+        "DanaControlHandlerHighBytes",
+        "StoreDanaControlAction",
+        "RenderGameplayObjectsToOam",
+        "RunObjectSpriteShellSortPass",
+        "WriteObjectSpritesToOam",
+        "UpdateScanlineObjectAllowance"
       ]
     },
     {
@@ -1988,6 +2026,17 @@
       ]
     },
     {
+      "id": "pre_room_tile_pattern_filler",
+      "path": "src/game/attract_demo_flow.asm",
+      "segment": "PRG_FILLER_BEFORE_ROOM_TILE_PATTERNS",
+      "start": "0xcf35",
+      "end": "0xcfff",
+      "status": "semantic",
+      "required_labels": [
+        "FillerBeforeRoomTilePatterns"
+      ]
+    },
+    {
       "id": "room_tile_patterns",
       "path": "src/graphics/room_map_cell_update.asm",
       "segment": "PRG_ROOM_TILE_PATTERNS",
@@ -2275,11 +2324,11 @@
     }
   ],
   "thresholds": {
-    "minimum_semantic_modules": 114,
-    "minimum_documented_prg_bytes": 9925,
-    "minimum_provenance_entries": 629,
-    "maximum_preservation_lines": 6718,
-    "maximum_generated_labels": 425,
-    "maximum_raw_control_flow_targets": 183
+    "minimum_semantic_modules": 155,
+    "minimum_documented_prg_bytes": 29225,
+    "minimum_provenance_entries": 1546,
+    "maximum_preservation_lines": 2158,
+    "maximum_generated_labels": 183,
+    "maximum_raw_control_flow_targets": 66
   }
 }

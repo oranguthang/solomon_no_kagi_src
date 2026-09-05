@@ -1,8 +1,10 @@
 # Source layout
 
 `src/main.asm` owns the CPU selection, iNES header, hardware/RAM registries, and
-address-ordered includes. Semantic modules own NMI at `$8000-$80FE`, controller
-sampling at `$837D-$83C1`, the per-frame object update pipeline at
+address-ordered includes. Semantic modules own NMI at `$8000-$80FE`, its enemy
+overlap/fireball collision and Dana action services at `$80FF-$837C`, controller
+sampling at `$837D-$83C1`, Dana control and object-to-OAM composition at
+`$83C2-$863B`, and the per-frame object update pipeline at
 `$863C-$87DF`, its complete collision-response dispatcher at `$87E0-$8A61`,
 object surface clamping at `$8A62-$8ABF`, object motion/animation definition loading
 at `$8AC0-$8B50`, NMI-side RoomMap attribute reads at
@@ -87,10 +89,11 @@ Packed title rendering and record presentation own `$CBA6-$CD52`, including
 the command decoder, both direct-PPU layers, and their small fixed templates.
 The shared PPU address-latch helper owns `$CD53-$CD5E`.
 The two packed title streams own `$CD5F-$CEF0`; the 34-byte demo duration and
-input tables immediately follow at `$CEF1-$CF34`.
+input tables immediately follow at `$CEF1-$CF34`, followed by classified
+filler through `$CFFF`.
 The 58 four-byte logical RoomMap tile patterns own `$D000-$D0E7`.
-`src/preservation/prg.asm` owns the unresolved ranges
-between and after those modules. `src/graphics/chr.asm` includes the ignored CHR payload created by
+`src/preservation/prg.asm` now owns only the unresolved `$A4B3-$B289` range.
+`src/graphics/chr.asm` includes the ignored CHR payload created by
 `make split`; no CHR bytes are kept in Git.
 
 The linker deliberately preserves the upstream segment names:
@@ -99,9 +102,9 @@ The linker deliberately preserves the upstream segment names:
 | --- | --- | ---: |
 | `HEADER` | 16-byte iNES header | 16 |
 | `PRG_NMI` | semantic NMI and PPU commit module | 255 |
-| `PRG_PRE_STARTUP` | unresolved `$80FF-$837C` range | 638 |
+| `PRG_NMI_GAMEPLAY_INTERACTIONS` | enemy overlap, fireball collision, Dana action requests | 638 |
 | `PRG_CONTROLLER_INPUT` | two-port serial controller sampling and caching | 69 |
-| `PRG_POST_CONTROLLER_INPUT` | unresolved `$83C2-$863B` range | 634 |
+| `PRG_NMI_DANA_AND_SPRITES` | Dana action dispatch and non-Dana OAM composition | 634 |
 | `PRG_OBJECT_UPDATE` | active 21-record object traversal | 77 |
 | `PRG_OBJECT_MOTION` | signed fixed-point Y/X integration | 75 |
 | `PRG_OBJECT_COLLISION` | six-cell RoomMap collision sampling | 181 |
@@ -229,7 +232,7 @@ The linker deliberately preserves the upstream segment names:
 | `PRG_SET_PPU_ADDRESS` | reset the latch and write the A:X PPU address | 12 |
 | `PRG_TITLE_PACKED_DATA` | record/background and logo packed streams | 402 |
 | `PRG_DEMO_INPUT_DATA` | 34 duration bytes and 34 controller values | 68 |
-| `PRG_DATA_BEFORE_ROOM_TILE_PATTERNS` | unresolved `$CF35-$CFFF` range | 203 |
+| `PRG_FILLER_BEFORE_ROOM_TILE_PATTERNS` | classified filler before RoomMap tile patterns | 203 |
 | `PRG_ROOM_TILE_PATTERNS` | 58 four-byte logical RoomMap tile patterns | 232 |
 | `PRG_OBJECT_ANIMATION_DESCRIPTOR_POINTERS` | 33 object-type animation descriptor pointers | 66 |
 | `PRG_OBJECT_ANIMATION_DEFINITIONS` | 340 action descriptors and four variant selectors | 1,392 |

@@ -6,7 +6,7 @@ ResetNewGameState:
     LDA #$00
     STA CurrentRoomIndex
     STA InventorySlotsLow
-    STA $0430
+    STA FireballDirectionIndex
     LDX #$03
     STX RemainingLives
     STX InventorySlotCount

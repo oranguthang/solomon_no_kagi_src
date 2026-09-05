@@ -17,6 +17,19 @@ registers, commits OAM page `$02`, selects one of four CNROM CHR banks through
 CPU registers. `WritePpuScroll` resets the PPU write latch by reading
 `PPU_STATUS`, then performs the X and Y writes to `PPU_SCROLL`.
 
+The adjacent `$80FF-$837C` NMI gameplay module runs alternating 17-enemy
+overlap scans, constructs the fireball's four-cell RoomMap collision mask,
+dispatches that mask through a 16-entry handler table, and converts A/B input
+into context-one Dana action requests. Its shared four-slot request producer
+also feeds the pause, death, and defeated-enemy threads. See
+`docs/nmi_gameplay_interactions.md`.
+
+The adjacent `$83C2-$863B` service dispatches Dana's action byte through seven
+input/state groups, then sorts 20 non-Dana objects by Y and emits each active
+record as two 8x16 OAM sprites. A row-indexed allowance array rotates objects
+inside sub-16-pixel overlap groups to manage the NES scanline sprite limit.
+See `docs/nmi_dana_and_sprites.md`.
+
 The active NMI path calls `ReadJoyPads` once per service. It strobes and reads
 both controller ports, records complete serial samples at `$0082-$0083`, and
 updates the cached input at `$03E4-$03E5`. Depending on bit 0 of the global
