@@ -4,21 +4,17 @@
 
 RoomBlockBytesPerPlane = $18
 RoomBlockBytesPerRoom = RoomBlockBytesPerPlane * 2
-RoomMapInteriorTile = $10
-RoomMapBoundaryTile = RoomMapImmutableTileMinimum
-BrownBlockTile = RoomMapSolidBit | RoomMapInteriorTile
-WhiteBlockTile = RoomMapImmutableTileMinimum
 BitsPerBlockByte = $08
 
 InitializeRoomBlockMap:
     LDX #RoomMapStorageSize
-    LDA #RoomMapInteriorTile
+    LDA #RoomMapEmptyIdentity
 
 FillRoomMapInterior:
     STA RoomMap - 1,X
     DEX
     BNE FillRoomMapInterior
-    LDA #RoomMapBoundaryTile
+    LDA #RoomMapWhiteBlock
     LDX #RoomMapWidth - 1
 
 FillRoomMapTopBoundary:
@@ -54,7 +50,7 @@ ScaleRoomBlockDataOffset:
     LDA #>RoomBlockData
     ADC RoomBlockDataPointer + 1
     STA RoomBlockDataPointer + 1
-    LDA #BrownBlockTile
+    LDA #RoomMapBrownBlock
     JSR ExpandRoomMapBitplane
     CLC
     LDA #RoomBlockBytesPerPlane
@@ -63,7 +59,7 @@ ScaleRoomBlockDataOffset:
     LDA #$00
     ADC RoomBlockDataPointer + 1
     STA RoomBlockDataPointer + 1
-    LDA #WhiteBlockTile
+    LDA #RoomMapWhiteBlock
     JMP ExpandRoomMapBitplane
 
 ExpandRoomMapBitplane:

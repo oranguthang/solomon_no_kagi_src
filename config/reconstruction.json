@@ -1507,14 +1507,14 @@
         "DispatchCurrentRoomScript",
         "SpecialRoomScriptGroupBases",
         "SpecialRoomScriptOffsets",
-        "RunRoomIndex19BlockTrigger",
-        "RunRoomMapTrigger",
+        "RunRoom20TecmoBunnyTrigger",
+        "RunTecmoBunnyTrigger",
         "EnablePrimaryEnemyAiPhase",
-        "SpawnType18AtScriptTarget",
+        "SpawnMightyBombJackAtScriptTarget",
         "RunRoomIndex29BlockTrigger",
-        "RunRoomIndex48ObjectTrigger",
-        "RunRoomIndex51ObjectTrigger",
-        "RunRoomIndex52ObjectTrigger"
+        "RunPrincessRoomScript",
+        "RunPageOfTimeRoomScript",
+        "RunPageOfSpaceRoomScript"
       ]
     },
     {
@@ -1751,9 +1751,9 @@
       "end": "0xc562",
       "status": "semantic",
       "required_labels": [
-        "ApplySpecialItem1C",
-        "ApplySpecialItem1B",
-        "StoreSpecialItem1BFlag",
+        "ApplyGoldenWingsItem",
+        "ApplySolomonPageItem",
+        "StoreSolomonPageEndingFlag",
         "ApplySolomonSealItem",
         "ApplyConstellationSymbolItem"
       ]

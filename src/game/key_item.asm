@@ -3,7 +3,6 @@
 .segment "PRG_KEY_ITEM"
 
 RoomDoorPositionOffset = $05
-OpenDoorTile = $07
 KeyCollectedGameplayFlag = $20
 KeyCollectedSound = $16
 KeyObjectThreadIndex = $04
@@ -13,7 +12,7 @@ CollectRoomKey:
     LDY #RoomDoorPositionOffset
     LDA (RoomItemPointer),Y
     TAY
-    LDA #OpenDoorTile
+    LDA #RoomMapOpenDoorIdentity
     STA RoomMap,Y
     LDA FireballState
     BNE QueueKeyCollectedSound
@@ -115,8 +114,8 @@ KeyFlightMotionByteCount = $04
 KeyFlightScratchSize = $08
 KeyFlightDuration = $40
 KeyFlightGravity = $08
-KeyDoorOpeningTile = $34
-KeyDoorOpenTile = $07
+KeyDoorOpeningPattern = $34
+KeyDoorOpenPattern = RoomMapOpenDoorIdentity
 KeyDoorOpenDelay = $06
 KeyFlightPreviousFrame = $3E
 KeyFlightMotionVector = RoomMap
@@ -180,7 +179,7 @@ YieldKeyFlightThread:
 
 FinishKeyFlight:
     LDX #KeyFlightScratchSize - 1
-    LDA #$F8
+    LDA #RoomMapImmutableTileMinimum
 
 ClearKeyFlightScratch:
     STA KeyFlightMotionVector,X
@@ -189,12 +188,12 @@ ClearKeyFlightScratch:
     INX
     STX AuxiliaryObject + ObjectStateOffset
     STX GameplayUpdateCount
-    LDA #KeyDoorOpeningTile
+    LDA #KeyDoorOpeningPattern
     JSR PublishKeyDoorTile
     LDX #GameplayUpdateCount
     LDA #KeyDoorOpenDelay
     JSR WaitForZeroPageCounterAboveThreshold
-    LDA #KeyDoorOpenTile
+    LDA #KeyDoorOpenPattern
 
 PublishKeyDoorTile:
     STA RoomMapUpdateTile

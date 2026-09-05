@@ -1,13 +1,8 @@
 # Unknowns and research queue
 
-1. Assign gameplay names to the remaining low-six-bit `RoomMap` identities
-   used by hazards and special-room scripts. Geometry and the four exhaustive
-   decoration/solid/immutable byte classes are now shared source contracts.
-2. Identify the remaining special-room selectors and data for Bomb Jacks,
-   Tecmo Bunnies, and the Pages of Time and Space.
-3. Prove sound-command priorities and virtual-to-hardware channel stealing at
+1. Prove sound-command priorities and virtual-to-hardware channel stealing at
    runtime, then assign musical names only where trace evidence supports them.
-4. Compare USA, Japan, and Europe PRG revisions without merging assumptions
+2. Compare USA, Japan, and Europe PRG revisions without merging assumptions
    from one profile into another.
 
 ## Resolved questions
@@ -30,6 +25,12 @@
 - All 20 bytes of the gameplay object record have established roles. Its six
   collision bits are geometrically mapped from upper-left through below-right,
   with bits 0-3 selecting the response table. See `docs/object_record.md`.
+- Special-room selectors `$10/$20/$30` map to the Page of Time, Page of Space,
+  and constellation bonus rooms. Internal rooms 48/49 are the Princess and
+  Solomon ending rooms; the room 17/39 Mighty Bomb Jack and room 20/38 Tecmo
+  Bunny scripts, page collectible, and Golden Wings flag now have gameplay
+  names backed by code behavior and independently documented room locations.
+  See `docs/special_room_scripts.md`.
 - The complete CNROM policy is documented in `docs/chr_bank_policy.md`.
   `make chr-bank-audit` proves the decoded 53-room bank distribution; source
   inspection accounts for reset, intro, gameplay, transition, title, and
@@ -40,6 +41,11 @@
 - Every `RoomMap` byte is structurally classified by
   `docs/room_map_tiles.md`: low six identity bits, decoration bit 6, collision
   bit 7, and the immutable `$F8-$FF` range.
+- The gameplay vocabulary for every `RoomMap` identity used by stock room
+  scripts is now explicit. The source distinguishes encoded map values from
+  incremental-render-only patterns, identifies the two modifiable item
+  quartets, and preserves the unreachable `$23/$24` handler-table overflow as
+  original behavior. See `docs/room_map_tiles.md`.
 - Timer-service frequency and scheduler switch rate under low and high object
   load are reproduced by the Room 1 and attract-demo runtime scenarios.
   `GameplayUpdateCount` is now proven to preserve every serviced gameplay NMI

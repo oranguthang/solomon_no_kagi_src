@@ -31,7 +31,7 @@
     {"name": "ApplyConstellationSymbolItem", "address": "0xc55c"},
     {"name": "ApplyConstellationSymbolItem", "address": "0xc55c"},
     {"name": "ApplySolomonSealItem", "address": "0xc553"},
-    {"name": "ApplySpecialItem1B", "address": "0xc544"},
-    {"name": "ApplySpecialItem1C", "address": "0xc53d"}
+    {"name": "ApplySolomonPageItem", "address": "0xc544"},
+    {"name": "ApplyGoldenWingsItem", "address": "0xc53d"}
   ]
 }

@@ -8,12 +8,13 @@ DoorEnteredSound = $15
 DoorSkipRoomsFlag = $40
 DoorSkipRoomCount = $05
 DoorConstellationFlag = $08
-DoorSpecialRoomFlag1 = $10
-DoorSpecialRoomFlags = $30
-FirstDoorSealThreshold = $04
-SecondDoorSealThreshold = $06
-FirstDoorSpecialRoomIndex = $14
-SecondDoorSpecialRoomIndex = $2C
+DoorPageOfTimeSelector = $10
+DoorPageOfSpaceSelector = $20
+DoorConstellationBonusSelector = $30
+PageOfTimeSealThreshold = $04
+PageOfSpaceSealThreshold = $06
+PageOfTimeSourceRoomIndex = $14
+PageOfSpaceSourceRoomIndex = $2C
 KeyCollectedGameplayFlagMask = $DF
 RoomStateAfterDoorMask = $EE
 RoomClearThreadCode = $14
@@ -62,20 +63,20 @@ ApplyDoorSpecialRoomFlags:
     LDA #DoorConstellationFlag
     AND GameStateFlags
     BEQ FinishDoorSpecialRoomFlags
-    CPY #FirstDoorSealThreshold
+    CPY #PageOfTimeSealThreshold
     BCC SelectDefaultDoorSpecialRoomFlags
-    LDA #DoorSpecialRoomFlag1
+    LDA #DoorPageOfTimeSelector
     LDX CurrentRoomIndex
-    CPX #FirstDoorSpecialRoomIndex
+    CPX #PageOfTimeSourceRoomIndex
     BEQ StoreDoorSpecialRoomFlags
-    CPY #SecondDoorSealThreshold
+    CPY #PageOfSpaceSealThreshold
     BCC SelectDefaultDoorSpecialRoomFlags
-    ASL A
-    CPX #SecondDoorSpecialRoomIndex
+    ASL A  ; Page of Time selector $10 becomes Page of Space selector $20
+    CPX #PageOfSpaceSourceRoomIndex
     BEQ StoreDoorSpecialRoomFlags
 
 SelectDefaultDoorSpecialRoomFlags:
-    LDA #DoorSpecialRoomFlags
+    LDA #DoorConstellationBonusSelector
 
 StoreDoorSpecialRoomFlags:
     ORA GameStateFlags

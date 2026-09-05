@@ -15,6 +15,7 @@ BlockCreateSound = $07
 BlockRemoveSound = $08
 SolidBlockRemoveSound = $12
 FireballCastSound = $0A
+HeadCollisionCoveredBlockPattern = $01
 
 HandleDanaHeadCollision:
     LDY #HeadCollisionSound
@@ -82,14 +83,14 @@ StoreHeadCollisionTarget:
     STA DanaHeadCollisionTarget
     TAY
     LDA RoomMap,Y
-    CMP #$F8
+    CMP #RoomMapImmutableTileMinimum
     BCS FinishHeadCollisionAction
-    CMP #$C8
+    CMP #RoomMapRevealedEmbeddedItemMinimum
     BCS SpawnHeadCollisionSpark
-    ORA #$40
+    ORA #RoomMapDecorationBit
     STA RoomMap,Y
     STY RoomMapUpdateIndex
-    LDA #$01
+    LDA #HeadCollisionCoveredBlockPattern
     STA RoomMapUpdateTile
     JSR BuildAndPublishRoomMapCellUpdate
     BNE WaitAfterHeadCollision
@@ -258,7 +259,7 @@ RemoveBlockAtTarget:
     JSR ApplyMapTileInteractionToObject
     PLA
     LDY #SolidBlockRemoveSound
-    CMP #$F8
+    CMP #RoomMapImmutableTileMinimum
     BCS QueueBlockRemovalSound
     LDY #BlockRemoveSound
 

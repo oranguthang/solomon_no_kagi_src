@@ -4,12 +4,12 @@
 
 DanaItemInteractionStateLimit = DanaCastActionBase
 DanaItemInteractionCenterOffset = $08
-FirstInventoryItemTile = $06
-FirstVisualInventoryItemTile = $08
-IgnoredMapTile = $10
-FirstBonusMapTile = $25
-FirstExtraLifeMapTile = $32
-MapTileInteractionLimit = $38
+FirstInventoryItemTile = RoomMapKeyIdentity
+FirstVisualInventoryItemTile = RoomMapFirstModifiableItemIdentity
+IgnoredMapTile = RoomMapEmptyIdentity
+FirstBonusMapTile = RoomMapFirstBonusItemIdentity
+FirstExtraLifeMapTile = RoomMapFirstExtraLifeIdentity
+MapTileInteractionLimit = RoomMapItemInteractionLimit
 BonusItemGroupSize = $03
 NoItemInteractionThread = $00
 InventoryItemInteractionThread = $40
@@ -121,7 +121,8 @@ QueueInventoryItemInteraction:
     LDY #ItemInteractionSound
     JSR AddSoundEffect
 ; Carry is clear here, so subtracting 5 converts map tiles $06-$24 to
-; zero-based handler selectors $00-$1E
+; selectors $00-$1E. Only $00-$1C have table entries; stock room streams do
+; not contain the overflow values $23-$24
     SBC #FirstInventoryItemTile - 1
     JSR JumpWithParams
 
@@ -132,7 +133,7 @@ QueueInventoryItemInteraction:
 ShortItemPresentationDuration = $12
 ExtraLifePresentationDuration = $40
 ExtraLifeItemYMotion = $C0
-EmptyRoomMapTile = $10
+EmptyRoomMapTile = RoomMapEmptyIdentity
 ItemPresentationThreadIndex = $04
 ItemMapUpdateInProgressFlag = $01
 

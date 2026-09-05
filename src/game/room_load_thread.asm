@@ -2,6 +2,17 @@
 
 .segment "PRG_ROOM_LOAD_THREAD"
 
+SpecialRoomSelectorMask = $30
+PageOfTimeRoomSelector = $10
+PageOfSpaceRoomSelector = $20
+ConstellationBonusRoomSelector = $30
+ConstellationBonusRoomIndex = $32
+PageOfTimeRoomIndex = $33
+PageOfSpaceRoomIndex = $34
+
+.assert PageOfTimeRoomIndex = ConstellationBonusRoomIndex + 1, error, "unexpected Page of Time room index"
+.assert PageOfSpaceRoomIndex = PageOfTimeRoomIndex + 1, error, "unexpected Page of Space room index"
+
 NewGameRoomLoadThread:
     JSR ResetNewGameState
 
@@ -10,15 +21,15 @@ RoomLoadThread:
     AND RoomStateFlags
     STA RoomStateFlags
     JSR DrawRoomNametableFrame
-    LDA #$30
+    LDA #SpecialRoomSelectorMask
     AND GameStateFlags
     BEQ LoadSelectedRoom
     LDX CurrentRoomIndex
-    STX $0429
-    LDX #$32
-    CMP #$30
+    STX SpecialRoomSourceIndex
+    LDX #ConstellationBonusRoomIndex
+    CMP #ConstellationBonusRoomSelector
     BEQ StoreSpecialRoomIndex
-    CMP #$20
+    CMP #PageOfSpaceRoomSelector
     BCC AdvanceSpecialRoomIndex
     INX
 
@@ -78,10 +89,10 @@ CopyRoomPaletteTemplate:
     DEX
     BPL CopyRoomPaletteTemplate
     LDX CurrentRoomIndex
-    LDA #$30
+    LDA #SpecialRoomSelectorMask
     AND GameStateFlags
     BEQ SelectRoomPaletteGroup
-    LDY $0429
+    LDY SpecialRoomSourceIndex
     STY CurrentRoomIndex
     DEY
     CMP #$30

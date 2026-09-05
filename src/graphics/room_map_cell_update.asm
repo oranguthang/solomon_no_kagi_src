@@ -95,7 +95,7 @@ BuildRoomCellUpdateBuffer:
     JSR CalculateRoomMapAttributeAddressLow
     STA RoomMapUpdateAttributeAddressLow
     LDA RoomMapUpdateSavedTile
-    CMP #$10
+    CMP #RoomMapEmptyIdentity
     BNE SelectRoomCellTilePattern
     LDA ConstellationPosition
     BEQ SelectDefaultRoomCellTilePattern
@@ -112,7 +112,7 @@ BuildRoomCellUpdateBuffer:
     BCC SelectLowerConstellationTilePattern
 
 SelectDefaultRoomCellTilePattern:
-    LDA #$10
+    LDA #RoomMapEmptyIdentity
     BPL SelectRoomCellTilePattern
 
 SelectLowerConstellationTilePattern:

@@ -79,9 +79,9 @@ TryCreateBlockAtMapCell:
     STA (MapInteractionObjectPointer),Y
     LDY MapInteractionMapIndex
     LDA RoomMap,Y
-    CMP #$10
+    CMP #RoomMapEmptyIdentity
     BEQ CheckBlockCreationOccupancy
-    CMP #$38
+    CMP #RoomMapItemInteractionLimit
     BCS CheckBlockCreationOccupancy
     JMP AdvanceRoomMapTileVariant
 

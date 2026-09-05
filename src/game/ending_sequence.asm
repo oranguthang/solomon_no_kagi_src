@@ -27,9 +27,9 @@ RunEndingRoomScript:
     STA InventorySlotsHigh
     STA InventorySlotsLow
     JSR WaitForDanaActive
-    LDA #$02
+    LDA #RoomMapClosedDoorIdentity
     STA RoomMap + $67
-    LDA #$90
+    LDA #RoomMapBrownBlock
     STA RoomMap + $27
     STA RoomMap + $43
     STA RoomMap + $8C
@@ -39,7 +39,7 @@ WaitForEndingCastAt6C:
     LDA BlockCastTargetMapIndex
     CMP #$6C
     BNE WaitForEndingCastAt6C
-    LDA #$90
+    LDA #RoomMapBrownBlock
     STA RoomMap + $69
 
 WaitForEndingCastAt67:

@@ -30,8 +30,8 @@ ItemInteractionHandlerTable:
     .addr ApplyConstellationSymbolItem
     .addr ApplyConstellationSymbolItem
     .addr ApplySolomonSealItem
-    .addr ApplySpecialItem1B
-    .addr ApplySpecialItem1C
+    .addr ApplySolomonPageItem
+    .addr ApplyGoldenWingsItem
 
 ItemInteractionHandlerCount = (* - ItemInteractionHandlerTable) / 2
 .assert ItemInteractionHandlerCount = $1D, error, "item handler table must contain 29 entries"

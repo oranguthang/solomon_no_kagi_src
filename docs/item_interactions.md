@@ -7,13 +7,15 @@ coordinate `(Y+8, X+8)`, and passes the tile value to
 `ClassifyDanaMapTileInteraction`.
 
 The classifier ignores values below `$06`, value `$10`, and values `$38+`.
-Tiles `$06-$24` select one of 29 item handlers. Tiles `$25-$31` use the compact
-score digit/amount tables, while `$32-$37` award an extra life; tile `$32`
-also adds five at score digit index 2. `ItemInteractionThreadCode` at scratch
-byte `$02` is zero when no cooperative follow-up is needed, `$40` for ordinary
-item presentation, `$41` for an extra life, `$34` for the key, or another code
-selected by a specialized handler. The caller starts that code through
-`StartThread` after classification returns.
+Tiles `$06-$22` safely select one of 29 item handlers. The original comparison
+also admits `$23-$24`, whose selectors read two-byte targets beyond the table;
+neither identity occurs in the stock room streams. Tiles `$25-$31` use the
+compact score digit/amount tables, while `$32-$37` award an extra life; tile
+`$32` also adds five at score digit index 2. `ItemInteractionThreadCode` at
+scratch byte `$02` is zero when no cooperative follow-up is needed, `$40` for
+ordinary item presentation, `$41` for an extra life, `$34` for the key, or
+another code selected by a specialized handler. The caller starts that code
+through `StartThread` after classification returns.
 
 Item tiles `$08-$24` are suppressed when `$0087` bit 0 is set. Otherwise the
 classifier initializes `AuxiliaryObject` at the collected map cell before
@@ -24,7 +26,11 @@ own state transitions. The exact meaning of `$0087` remains unassigned.
 
 `ItemInteractionHandlerTable` at `$C4D3-$C50C` is an inline appendix consumed
 by `JumpWithParams`. Carry is deliberately clear before `SBC #$05`, so map
-tiles `$06-$24` become selectors `$00-$1E`.
+tiles `$06-$24` become selectors `$00-$1E`; the appendix itself ends at
+selector `$1C`. If malformed map data exposes `$23/$24`, their words are read
+from the first four bytes of the adjacent red-bottle routine and decode as
+invalid CPU targets `$10A2/$208A`. This reconstruction intentionally preserves
+that unchecked original behavior rather than inventing handlers.
 
 | Selector | Map tile | Handler |
 | ---: | ---: | --- |
@@ -52,8 +58,8 @@ tiles `$06-$24` become selectors `$00-$1E`.
 | `$15` | `$1B` | `ApplyBlueTzoItem` |
 | `$16-$19` | `$1C-$1F` | `ApplyConstellationSymbolItem` |
 | `$1A` | `$20` | `ApplySolomonSealItem` |
-| `$1B` | `$21` | `ApplySpecialItem1B` |
-| `$1C` | `$22` | `ApplySpecialItem1C` |
+| `$1B` | `$21` | `ApplySolomonPageItem` |
+| `$1C` | `$22` | `ApplyGoldenWingsItem` |
 
 These selector names agree with Bisqwit's independently published item map.
 The reconstruction preserves repeated pointers instead of inventing wrapper
@@ -61,6 +67,13 @@ routines for item types that intentionally share behavior.
 `make item-handler-audit` independently decodes the built ROM and checks every
 selector, semantic name, address, and the complete table SHA-1 against
 `config/item_handlers.json`.
+
+Tile `$21` is shared by the Page of Time and Page of Space rooms. Before
+gameplay starts, the loader restores `CurrentRoomIndex` to the source-room
+index saved in `SpecialRoomSourceIndex`; the item handler consequently sets
+ending bit `$40` for the page reached after room 20 and bit `$80` for the page
+reached after room 44. Tile `$22` sets gameplay bit `$40`, which
+`EnterRoomDoor` consumes as the Golden Wings five-room skip.
 
 ## Bonus and red-bottle paths
 

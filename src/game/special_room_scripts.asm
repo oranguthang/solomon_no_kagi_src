@@ -7,12 +7,13 @@ RoomsPerScriptGroup = 8
 RoomScriptGroupPointerSize = 2
 RoomScriptDisabledFlag = $10
 RoomScriptTargetMapIndex = $88
-RoomScriptRepeatCount = $0B
-RoomScriptEnemyType = $18
+MightyBombJackHeadHitCount = $0B
+MightyBombJackObjectType = $18
 RoomScriptEnemyAiFlag = $40
 RoomScriptEnemyAiActive = $80
-RoomScriptEnemyObjectState = $90
 RoomScriptDanaAction = DanaWalkActionBase
+TecmoBunnyFirstRevealPattern = $38
+TecmoBunnyFinalRevealPattern = $39
 
 RunSpecialRoomScriptThread:
     JSR DispatchCurrentRoomScript
@@ -83,8 +84,8 @@ RevealRoomSealFlag02:
 NoGroup2RoomScript:
     RTS
 
-RunRepeatedHeadCollision7ETrigger:
-    LDA #$04
+RunRoom17MightyBombJackTrigger:
+    LDA #RoomMapBatSymbolIdentity
     JSR RevealCurrentRoomSeal
     LDA #$00
     STA RoomScriptTargetMapIndex
@@ -92,20 +93,20 @@ RunRepeatedHeadCollision7ETrigger:
     AND #RoomScriptDisabledFlag
     BNE NoGroup2RoomScript
 
-WaitForHeadCollision7E:
+WaitForRoom17MightyBombJackHeadHit:
     JSR SwitchThreads
     LDA HeadCollisionTargetMapIndex
     CMP #$7E
-    BNE WaitForHeadCollision7E
+    BNE WaitForRoom17MightyBombJackHeadHit
     LDA #$00
     STA HeadCollisionTargetMapIndex
     INC RoomScriptTargetMapIndex
     LDA RoomScriptTargetMapIndex
-    CMP #RoomScriptRepeatCount
-    BCC WaitForHeadCollision7E
+    CMP #MightyBombJackHeadHitCount
+    BCC WaitForRoom17MightyBombJackHeadHit
     LDA #$6E
     STA RoomScriptTargetMapIndex
-    JMP SpawnType18AtScriptTarget
+    JMP SpawnMightyBombJackAtScriptTarget
 
 EnablePrimaryEnemyScriptGroup2:
     JMP EnablePrimaryEnemyAiPhase
@@ -115,7 +116,7 @@ RevealRoomSealFlag08AndEnableEnemy:
     JSR RevealCurrentRoomSeal
     JMP EnablePrimaryEnemyAiPhase
 
-RunRoomIndex19BlockTrigger:
+RunRoom20TecmoBunnyTrigger:
     JSR PrepareSpecialRoomTrigger
     LDA #<Room20SpecialBlockPlane
     STA RoomBlockDataPointer
@@ -125,61 +126,61 @@ RunRoomIndex19BlockTrigger:
     JSR ExpandRoomMapBitplane
     LDA #$20
     STA RoomScriptTargetMapIndex
-    JMP RunRoomMapTrigger
+    JMP RunTecmoBunnyTrigger
 
 RevealRoomSealFlag10:
     LDA #$10
     JMP RevealCurrentRoomSeal
 
-RunRoomMapTrigger:
+RunTecmoBunnyTrigger:
     LDA RoomStateFlags
     AND #RoomScriptDisabledFlag
-    BNE FinishRoomMapTrigger
+    BNE FinishTecmoBunnyTrigger
 
-WaitForTargetTileSet:
+WaitForTecmoBunnyCover:
     JSR ReadScriptTargetTileAfterYield
-    BPL WaitForTargetTileSet
+    BPL WaitForTecmoBunnyCover
 
-WaitForTargetTileClear:
+WaitForTecmoBunnyFirstUncover:
     JSR ReadScriptTargetTileAfterYield
-    BMI WaitForTargetTileClear
+    BMI WaitForTecmoBunnyFirstUncover
 
-WaitForDanaActionToFinish:
+WaitForTecmoBunnyRevealAction:
     JSR SwitchThreads
     LDA DanaObject + ObjectStateOffset
     LSR A
-    BCS WaitForDanaActionToFinish
+    BCS WaitForTecmoBunnyRevealAction
     LDA RoomScriptTargetMapIndex
     STA RoomMapUpdateIndex
-    LDA #$38
+    LDA #TecmoBunnyFirstRevealPattern
     STA RoomMapUpdateTile
     JSR BuildAndPublishRoomMapCellUpdate
 
-WaitForSecondTargetTileSet:
+WaitForTecmoBunnySecondCover:
     JSR ReadScriptTargetTileAfterYield
-    BPL WaitForSecondTargetTileSet
+    BPL WaitForTecmoBunnySecondCover
 
-WaitForSecondTargetTileClear:
+WaitForTecmoBunnySecondUncover:
     JSR ReadScriptTargetTileAfterYield
-    BMI WaitForSecondTargetTileClear
+    BMI WaitForTecmoBunnySecondUncover
     LDA HeadCollisionTargetMapIndex
     CMP RoomScriptTargetMapIndex
-    BNE FinishRoomMapTrigger
+    BNE FinishTecmoBunnyTrigger
 
-WaitForDanaRoomScriptAction:
+WaitForTecmoBunnyCollectionAction:
     JSR SwitchThreads
     LDA DanaObject + ObjectActionOffset
     CMP #RoomScriptDanaAction
-    BNE WaitForDanaRoomScriptAction
+    BNE WaitForTecmoBunnyCollectionAction
     LDX RoomScriptTargetMapIndex
-    LDA #$32
+    LDA #RoomMapTecmoBunnyRewardIdentity
     STA RoomMap,X
-    LDA #$39
+    LDA #TecmoBunnyFinalRevealPattern
     STA RoomMapUpdateTile
     STX RoomMapUpdateIndex
     JSR BuildAndPublishRoomMapCellUpdate
 
-FinishRoomMapTrigger:
+FinishTecmoBunnyTrigger:
     RTS
 
 ReadScriptTargetTileAfterYield:
@@ -195,10 +196,10 @@ EnablePrimaryEnemyAiPhase:
     STA EnemyAiState
     RTS
 
-SpawnType18AtScriptTarget:
+SpawnMightyBombJackAtScriptTarget:
     JSR SwitchThreads
     JSR FindFreeEnemySlotIndex
-    BCC SpawnType18AtScriptTarget
+    BCC SpawnMightyBombJackAtScriptTarget
     LDA #RoomScriptEnemyAiActive
     STA (TempPointer04),Y
     LDA #$00
@@ -210,7 +211,7 @@ SpawnType18AtScriptTarget:
     LDA RoomScriptTargetMapIndex
     STA SpawnYPosition
     JSR ConvertMapIndexToPixelCoordinates
-    LDA #RoomScriptEnemyType
+    LDA #MightyBombJackObjectType
     STA SpawnType
     JSR InitializeEnemy
     JSR ConfigureEnemyType
@@ -229,7 +230,7 @@ RunRoomIndex29BlockTrigger:
     STA RoomBlockDataPointer
     LDA #>Room30SpecialBlockPlane
     STA RoomBlockDataPointer + 1
-    LDA #$27
+    LDA #RoomMapBlueOpalIdentity
     JSR ExpandRoomMapBitplane
     JMP EnablePrimaryEnemyAiPhase
 
@@ -239,32 +240,32 @@ UnusedRoomIndex29ScriptReturn:
 NoGroup4RoomScript:
     RTS
 
-RunRepeatedHeadCollision56Trigger:
+RunRoom39MightyBombJackTrigger:
     LDA #$00
     STA RoomScriptTargetMapIndex
     LDA RoomStateFlags
     AND #RoomScriptDisabledFlag
     BNE NoGroup4RoomScript
 
-WaitForHeadCollision56:
+WaitForRoom39MightyBombJackHeadHit:
     JSR SwitchThreads
     LDA HeadCollisionTargetMapIndex
     CMP #$56
-    BNE WaitForHeadCollision56
+    BNE WaitForRoom39MightyBombJackHeadHit
     LDA #$00
     STA HeadCollisionTargetMapIndex
     INC RoomScriptTargetMapIndex
     LDA RoomScriptTargetMapIndex
-    CMP #RoomScriptRepeatCount
-    BCC WaitForHeadCollision56
+    CMP #MightyBombJackHeadHitCount
+    BCC WaitForRoom39MightyBombJackHeadHit
     LDA #$36
     STA RoomScriptTargetMapIndex
-    JMP SpawnType18AtScriptTarget
+    JMP SpawnMightyBombJackAtScriptTarget
 
-RunRoomIndex37MapTrigger:
+RunRoom38TecmoBunnyTrigger:
     LDA #$9E
     STA RoomScriptTargetMapIndex
-    JMP RunRoomMapTrigger
+    JMP RunTecmoBunnyTrigger
 
 NoGroup5RoomScript:
     RTS
@@ -281,84 +282,84 @@ RevealRoomSealFlag80:
 NoGroup6RoomScript:
     RTS
 
-RunRoomIndex48ObjectTrigger:
+RunPrincessRoomScript:
     JSR WaitForDanaActive
-    LDA #$F8
+    LDA #RoomMapWhiteBlock
     STA RoomMap
-    LDA #RoomScriptEnemyObjectState
+    LDA #RoomMapBrownBlock
     LDX #$0B
 
-HideRoomIndex48Objects:
-    LDY SpecialRoomObjectMapOffsets,X
+HidePrincessRoomObjects:
+    LDY PrincessRoomObjectMapOffsets,X
     STA RoomMap,Y
     DEX
-    BPL HideRoomIndex48Objects
+    BPL HidePrincessRoomObjects
 
-WaitForRoomIndex48FirstCastTarget:
+WaitForPrincessRoomFirstCastTarget:
     JSR SwitchThreads
     LDA BlockCastTargetMapIndex
     CMP #$AD
-    BNE WaitForRoomIndex48FirstCastTarget
+    BNE WaitForPrincessRoomFirstCastTarget
     LDA EnemyObjects + ObjectStateOffset
-    BPL FinishRoomIndex48ObjectTrigger
+    BPL FinishPrincessRoomScript
     LDA EnemyObjects + ObjectYPositionOffset
     STA CoordinateY
     LDA EnemyObjects + ObjectXPositionOffset
     STA CoordinateX
     JSR ConvertPixelCoordinatesToMapIndex
     CPX #$AD
-    BNE FinishRoomIndex48ObjectTrigger
-    LDA #RoomScriptEnemyObjectState
+    BNE FinishPrincessRoomScript
+    LDA #RoomMapBrownBlock
     STA RoomMap + $82
 
-WaitForRoomIndex48SecondCastTarget:
+WaitForPrincessRoomSecondCastTarget:
     JSR SwitchThreads
     LDA BlockCastTargetMapIndex
     CMP #$57
-    BNE WaitForRoomIndex48SecondCastTarget
-    LDA #RoomScriptEnemyObjectState
+    BNE WaitForPrincessRoomSecondCastTarget
+    LDA #RoomMapBrownBlock
     STA RoomMap + $65
 
-FinishRoomIndex48ObjectTrigger:
+FinishPrincessRoomScript:
     RTS
 
-RunRoomIndex51ObjectTrigger:
+RunPageOfTimeRoomScript:
     LDX #$37
-    BNE MarkRoomIndex51Or52TriggerTile
+    BNE MarkSolomonPageTriggerTile
 
-RunRoomIndex52ObjectTrigger:
+RunPageOfSpaceRoomScript:
     LDX #$A7
 
-MarkRoomIndex51Or52TriggerTile:
-    LDA #$21
+MarkSolomonPageTriggerTile:
+    LDA #RoomMapSolomonPageIdentity
     STA RoomMap,X
     JSR WaitForDanaActive
-    LDA #RoomScriptEnemyObjectState
+    LDA #RoomMapBrownBlock
     STA RoomMap + $97
 
-WaitForRoomIndex51Or52DanaPosition:
+WaitForSolomonPageRoomTrigger:
     JSR SwitchThreads
     LDA DanaObject + ObjectYPositionOffset
     STA CoordinateY
     LDA DanaObject + ObjectXPositionOffset
     STA CoordinateX
     JSR ConvertPixelCoordinatesToMapIndex
-    LDA #RoomScriptEnemyObjectState
+    LDA #RoomMapBrownBlock
     CPX #$57
-    BEQ OpenRoomIndex51Or52Tiles
+    BEQ OpenSolomonPageRoomTiles
     LDX BlockCastTargetMapIndex
     CPX #$A1
-    BNE WaitForRoomIndex51Or52DanaPosition
+    BNE WaitForSolomonPageRoomTrigger
     STA RoomMap + $C7
     RTS
 
-OpenRoomIndex51Or52Tiles:
+OpenSolomonPageRoomTiles:
     LDX #$02
 
-OpenNextRoomIndex51Or52Tile:
+OpenNextSolomonPageRoomTile:
     STA RoomMap + $46,X
     DEX
-    BPL OpenNextRoomIndex51Or52Tile
+    BPL OpenNextSolomonPageRoomTile
     RTS
 
 .assert * - RunSpecialRoomScriptThread = $234, error, "unexpected special-room script module size"

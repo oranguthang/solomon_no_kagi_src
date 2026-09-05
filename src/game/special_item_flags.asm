@@ -2,26 +2,26 @@
 
 .segment "PRG_SPECIAL_ITEM_FLAGS"
 
-SpecialItem1CGameplayFlag = $40
-SpecialItem1BLowRoomFlag = $40
-SpecialItem1BHighRoomFlag = $80
-SpecialItem1BRoomThreshold = $1E
+GoldenWingsRoomSkipFlag = $40
+PageOfTimeEndingFlag = $40
+PageOfSpaceEndingFlag = $80
+PageOfSpaceRoomThreshold = $1E
 ConstellationCollectedFlag = $08
 
-ApplySpecialItem1C:
-    LDA #SpecialItem1CGameplayFlag
+ApplyGoldenWingsItem:
+    LDA #GoldenWingsRoomSkipFlag
     ORA GameplayFlags
     STA GameplayFlags
     RTS
 
-ApplySpecialItem1B:
+ApplySolomonPageItem:
     LDA CurrentRoomIndex
-    CMP #SpecialItem1BRoomThreshold
-    LDA #SpecialItem1BLowRoomFlag
-    BCC StoreSpecialItem1BFlag
+    CMP #PageOfSpaceRoomThreshold
+    LDA #PageOfTimeEndingFlag
+    BCC StoreSolomonPageEndingFlag
     ASL A
 
-StoreSpecialItem1BFlag:
+StoreSolomonPageEndingFlag:
     ORA GameStateFlags
     STA GameStateFlags
     RTS

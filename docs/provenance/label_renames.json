@@ -5134,28 +5134,28 @@
     {
       "address": "0xc53d",
       "previous": "$C53D",
-      "current": "ApplySpecialItem1C",
+      "current": "ApplyGoldenWingsItem",
       "confidence": "confirmed",
       "evidence": [
-        "Bisqwit's item map identifies type $1C here; the handler sets GameplayFlags bit $40 and returns."
+        "Type $1C sets GameplayFlags bit $40, which EnterRoomDoor consumes as the five-room Golden Wings skip."
       ]
     },
     {
       "address": "0xc544",
       "previous": "$C544",
-      "current": "ApplySpecialItem1B",
+      "current": "ApplySolomonPageItem",
       "confidence": "confirmed",
       "evidence": [
-        "Bisqwit's item map identifies type $1B here; the handler sets GameStateFlags bit $40 below room $1E and bit $80 at or above it."
+        "Type $1B is placed in both page rooms; the restored source-room index selects the Page of Time ending bit $40 or Page of Space bit $80."
       ]
     },
     {
       "address": "0xc54e",
       "previous": "_label_bank0_c54e",
-      "current": "StoreSpecialItem1BFlag",
+      "current": "StoreSolomonPageEndingFlag",
       "confidence": "confirmed",
       "evidence": [
-        "Both room-index branches converge on merging the selected $40/$80 bit into GameStateFlags."
+        "Both page-room branches converge on merging the selected $40/$80 ending bit into GameStateFlags."
       ]
     },
     {
@@ -5809,16 +5809,16 @@
     {
       "address": "0xb87a",
       "previous": "$B87A",
-      "current": "RunRepeatedHeadCollision7ETrigger",
+      "current": "RunRoom17MightyBombJackTrigger",
       "confidence": "confirmed",
       "evidence": [
-        "This handler reveals flag $04, counts eleven head-collision reports for map cell $7E, then spawns an enemy at cell $6E."
+        "Displayed room 17 reveals its seal, counts the documented eleven head hits at cell $7E, then spawns the Mighty Bomb Jack object at cell $6E."
       ]
     },
     {
       "address": "0xb889",
       "previous": "_label_bank0_b889",
-      "current": "WaitForHeadCollision7E",
+      "current": "WaitForRoom17MightyBombJackHeadHit",
       "confidence": "confirmed",
       "evidence": [
         "The cooperative loop waits until HeadCollisionTargetMapIndex equals $7E and clears that report before counting it."
@@ -5845,10 +5845,10 @@
     {
       "address": "0xb8b0",
       "previous": "$B8B0",
-      "current": "RunRoomIndex19BlockTrigger",
-      "confidence": "high",
+      "current": "RunRoom20TecmoBunnyTrigger",
+      "confidence": "confirmed",
       "evidence": [
-        "Room-index dispatch selects this handler; it expands the bitplane at $BFE2 with tile $04 and runs the map trigger at cell $20."
+        "Displayed room 20 expands its special bitplane and runs the Tecmo Bunny reveal sequence at the documented upper-left cell $20."
       ]
     },
     {
@@ -5863,16 +5863,16 @@
     {
       "address": "0xb8cc",
       "previous": "$B8CC",
-      "current": "RunRoomMapTrigger",
+      "current": "RunTecmoBunnyTrigger",
       "confidence": "confirmed",
       "evidence": [
-        "The shared handler watches a selected RoomMap cell through two set/clear cycles and publishes tiles $38 and $39 around Dana action $14."
+        "The shared room-20/38 handler watches two cover/uncover cycles and commits collectible tile $32, whose score path awards 500000 points and an extra life."
       ]
     },
     {
       "address": "0xb8d2",
       "previous": "_label_bank0_b8d2",
-      "current": "WaitForTargetTileSet",
+      "current": "WaitForTecmoBunnyCover",
       "confidence": "confirmed",
       "evidence": [
         "This cooperative loop repeats while the selected RoomMap byte is nonnegative and exits when its high bit becomes set."
@@ -5881,7 +5881,7 @@
     {
       "address": "0xb8d7",
       "previous": "_label_bank0_b8d7",
-      "current": "WaitForTargetTileClear",
+      "current": "WaitForTecmoBunnyFirstUncover",
       "confidence": "confirmed",
       "evidence": [
         "This loop is the inverse phase, waiting until the selected RoomMap byte loses its high bit."
@@ -5890,7 +5890,7 @@
     {
       "address": "0xb8dc",
       "previous": "_label_bank0_b8dc",
-      "current": "WaitForDanaActionToFinish",
+      "current": "WaitForTecmoBunnyRevealAction",
       "confidence": "high",
       "evidence": [
         "The loop yields while bit 0 of Dana's state remains set, then publishes tile $38 at the scripted map cell."
@@ -5899,7 +5899,7 @@
     {
       "address": "0xb8f0",
       "previous": "_label_bank0_b8f0",
-      "current": "WaitForSecondTargetTileSet",
+      "current": "WaitForTecmoBunnySecondCover",
       "confidence": "confirmed",
       "evidence": [
         "After publishing tile $38, this second phase waits for the target RoomMap byte's high bit to become set again."
@@ -5908,7 +5908,7 @@
     {
       "address": "0xb8f5",
       "previous": "_label_bank0_b8f5",
-      "current": "WaitForSecondTargetTileClear",
+      "current": "WaitForTecmoBunnySecondUncover",
       "confidence": "confirmed",
       "evidence": [
         "The final tile phase waits for the high bit to clear and then checks the reported head-collision cell."
@@ -5917,7 +5917,7 @@
     {
       "address": "0xb900",
       "previous": "_label_bank0_b900",
-      "current": "WaitForDanaRoomScriptAction",
+      "current": "WaitForTecmoBunnyCollectionAction",
       "confidence": "confirmed",
       "evidence": [
         "The loop yields until Dana action byte 3 equals $14, then stores tile $32 and publishes tile $39 at the target cell."
@@ -5926,7 +5926,7 @@
     {
       "address": "0xb91a",
       "previous": "_label_bank0_b91a",
-      "current": "FinishRoomMapTrigger",
+      "current": "FinishTecmoBunnyTrigger",
       "confidence": "confirmed",
       "evidence": [
         "Disabled and failed-condition branches converge on this return from the shared map trigger."
@@ -5953,10 +5953,10 @@
     {
       "address": "0xb930",
       "previous": "_label_bank0_b930",
-      "current": "SpawnType18AtScriptTarget",
+      "current": "SpawnMightyBombJackAtScriptTarget",
       "confidence": "confirmed",
       "evidence": [
-        "The loop waits for a free enemy slot, converts the scripted map index to coordinates, and initializes enemy type $18."
+        "The room-17/39 cameo triggers share this allocator, which converts the scripted cell and initializes the Mighty Bomb Jack object as type $18."
       ]
     },
     {
@@ -6007,16 +6007,16 @@
     {
       "address": "0xb974",
       "previous": "$B974",
-      "current": "RunRepeatedHeadCollision56Trigger",
+      "current": "RunRoom39MightyBombJackTrigger",
       "confidence": "confirmed",
       "evidence": [
-        "This handler counts eleven head-collision reports for map cell $56, then spawns an enemy at cell $36."
+        "Displayed room 39 counts the documented eleven head hits at cell $56, then spawns the Mighty Bomb Jack object at cell $36."
       ]
     },
     {
       "address": "0xb97e",
       "previous": "_label_bank0_b97e",
-      "current": "WaitForHeadCollision56",
+      "current": "WaitForRoom39MightyBombJackHeadHit",
       "confidence": "confirmed",
       "evidence": [
         "The cooperative loop waits for HeadCollisionTargetMapIndex $56 and clears every accepted report before incrementing its count."
@@ -6025,10 +6025,10 @@
     {
       "address": "0xb99a",
       "previous": "$B99A",
-      "current": "RunRoomIndex37MapTrigger",
-      "confidence": "high",
+      "current": "RunRoom38TecmoBunnyTrigger",
+      "confidence": "confirmed",
       "evidence": [
-        "The room entry selects map cell $9E and joins the shared map-trigger state machine."
+        "Displayed room 38 selects the documented Tecmo Bunny cell $9E and joins the shared reveal state machine."
       ]
     },
     {
@@ -6070,17 +6070,17 @@
     {
       "address": "0xb9b0",
       "previous": "$B9B0",
-      "current": "RunRoomIndex48ObjectTrigger",
-      "confidence": "high",
+      "current": "RunPrincessRoomScript",
+      "confidence": "confirmed",
       "evidence": [
-        "Room index 48 resolves here; the handler hides twelve fixed map cells and reacts to cast targets $AD and $57."
+        "Internal room 48 is the eight-seal Princess room; this handler hides twelve fixed cells and reacts to cast targets $AD and $57."
       ]
     },
     {
       "address": "0xb9bc",
       "previous": "_label_bank0_b9bc",
-      "current": "HideRoomIndex48Objects",
-      "confidence": "high",
+      "current": "HidePrincessRoomObjects",
+      "confidence": "confirmed",
       "evidence": [
         "This twelve-iteration loop stores state $90 at map offsets read from the fixed table at $BFD6."
       ]
@@ -6088,7 +6088,7 @@
     {
       "address": "0xb9c5",
       "previous": "_label_bank0_b9c5",
-      "current": "WaitForRoomIndex48FirstCastTarget",
+      "current": "WaitForPrincessRoomFirstCastTarget",
       "confidence": "confirmed",
       "evidence": [
         "The cooperative loop waits for block-cast target $AD, then verifies that the first enemy is active at the same map cell."
@@ -6097,7 +6097,7 @@
     {
       "address": "0xb9e9",
       "previous": "_label_bank0_b9e9",
-      "current": "WaitForRoomIndex48SecondCastTarget",
+      "current": "WaitForPrincessRoomSecondCastTarget",
       "confidence": "confirmed",
       "evidence": [
         "After the first condition succeeds, this loop waits for block-cast target $57 and updates RoomMap cell $65."
@@ -6106,7 +6106,7 @@
     {
       "address": "0xb9f7",
       "previous": "_label_bank0_b9f7",
-      "current": "FinishRoomIndex48ObjectTrigger",
+      "current": "FinishPrincessRoomScript",
       "confidence": "confirmed",
       "evidence": [
         "All failed enemy-position checks and the completed second cast path return through this label."
@@ -6115,35 +6115,35 @@
     {
       "address": "0xb9f8",
       "previous": "$B9F8",
-      "current": "RunRoomIndex51ObjectTrigger",
+      "current": "RunPageOfTimeRoomScript",
       "confidence": "confirmed",
       "evidence": [
-        "Room index 51's offset selects this entry, which chooses map cell $37 before joining the shared secret-room trigger."
+        "The $10 selector loads internal room 51 after displayed room 20; this entry places the Page of Time tile at cell $37."
       ]
     },
     {
       "address": "0xb9fc",
       "previous": "$B9FC",
-      "current": "RunRoomIndex52ObjectTrigger",
+      "current": "RunPageOfSpaceRoomScript",
       "confidence": "confirmed",
       "evidence": [
-        "Room index 52's offset selects this entry, which chooses map cell $A7 before joining the shared secret-room trigger."
+        "The $20 selector loads internal room 52 after displayed room 44; this entry places the Page of Space tile at cell $A7."
       ]
     },
     {
       "address": "0xb9fe",
       "previous": "_label_bank0_b9fe",
-      "current": "MarkRoomIndex51Or52TriggerTile",
-      "confidence": "high",
+      "current": "MarkSolomonPageTriggerTile",
+      "confidence": "confirmed",
       "evidence": [
-        "The common path writes tile $21 at the entry-selected cell, waits for Dana, and marks cell $97 with state $90."
+        "The common Page of Time/Space path writes collectible tile $21 at the entry-selected cell, waits for Dana, and marks cell $97."
       ]
     },
     {
       "address": "0xba0b",
       "previous": "_label_bank0_ba0b",
-      "current": "WaitForRoomIndex51Or52DanaPosition",
-      "confidence": "high",
+      "current": "WaitForSolomonPageRoomTrigger",
+      "confidence": "confirmed",
       "evidence": [
         "The cooperative loop converts Dana's current coordinates to a map cell and also tests the most recent block-cast target."
       ]
@@ -6151,8 +6151,8 @@
     {
       "address": "0xba2b",
       "previous": "_label_bank0_ba2b",
-      "current": "OpenRoomIndex51Or52Tiles",
-      "confidence": "high",
+      "current": "OpenSolomonPageRoomTiles",
+      "confidence": "confirmed",
       "evidence": [
         "Reaching converted map cell $57 selects a three-byte RoomMap update beginning at offset $46."
       ]
@@ -6160,7 +6160,7 @@
     {
       "address": "0xba2d",
       "previous": "_label_bank0_ba2d",
-      "current": "OpenNextRoomIndex51Or52Tile",
+      "current": "OpenNextSolomonPageRoomTile",
       "confidence": "confirmed",
       "evidence": [
         "This three-iteration loop writes state $90 to RoomMap offsets $46-$48."
@@ -6435,8 +6435,8 @@
       "evidence": ["The helper passes mask $02 and RoomStateFlags to WaitForMaskedBitsSet before scripted room activity begins."]
     },
     {
-      "address": "0xbfd6", "previous": "$BFD6", "current": "SpecialRoomObjectMapOffsets", "confidence": "confirmed",
-      "evidence": ["Room-index 48 iterates all twelve bytes and marks the selected map cells with inactive object state $90."]
+      "address": "0xbfd6", "previous": "$BFD6", "current": "PrincessRoomObjectMapOffsets", "confidence": "confirmed",
+      "evidence": ["The Princess-room script iterates all twelve bytes and marks the selected map cells with inactive object state $90."]
     },
     {
       "address": "0xbfe2", "previous": "$BFE2", "current": "Room20SpecialBlockPlane", "confidence": "confirmed",

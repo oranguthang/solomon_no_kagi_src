@@ -8,13 +8,6 @@ RoomItemRleBase = $C0
 RoomItemTerminatorBase = $E0
 RoomItemConstellationBit = $10
 RoomItemChrBankMask = $0C
-DoorTile = $02
-AlternateDoorTile = $07
-DemonMirrorTile = $05
-VisibleKeyTile = $06
-HiddenKeyTile = $46
-AlternateHiddenKeyTile = $86
-DoorWithoutKeyTile = $35
 SpecialRoomIndex = $32
 SpecialRoomRandomPositionMask = $1F
 SpecialRoomPlacementCount = $10
@@ -89,12 +82,12 @@ ClearRoomTimerDigits:
     INY
     TAX
     BEQ DecodeRoomKeyPosition
-    LDA #DoorTile
+    LDA #RoomMapClosedDoorIdentity
     STA RoomDoorTile
     LDA #$20
     BIT GameplayFlags
     BEQ StoreRoomDoorTile
-    LDA #AlternateDoorTile
+    LDA #RoomMapOpenDoorIdentity
     STA RoomDoorTile
 
 StoreRoomDoorTile:
@@ -104,7 +97,7 @@ StoreRoomDoorTile:
 DecodeRoomKeyPosition:
     LDA (RoomItemPointer),Y
     BNE SelectRoomKeyTile
-    LDA #DoorWithoutKeyTile
+    LDA #RoomMapDeferredDoorIdentity
     BNE StoreRoomKeyTile
 
 SelectRoomKeyTile:
@@ -112,14 +105,14 @@ SelectRoomKeyTile:
     LDA #$20
     BIT GameplayFlags
     BNE DecodeDemonMirrorPositions
-    LDA #VisibleKeyTile
+    LDA #RoomMapKeyIdentity
     BIT RoomKeyStatusAndTimerRate
     BPL SelectAlternateKeyTile
-    LDA #HiddenKeyTile
+    LDA #RoomMapHiddenKey
 
 SelectAlternateKeyTile:
     BVC StoreRoomKeyTile
-    LDA #AlternateHiddenKeyTile
+    LDA #RoomMapEmbeddedKey
 
 StoreRoomKeyTile:
     STA RoomMap,X
@@ -135,7 +128,7 @@ PlaceNextDemonMirror:
     INY
     STA MapCellIndex
     TAX
-    LDA #DemonMirrorTile
+    LDA #RoomMapDemonMirrorIdentity
     STA RoomMap,X
     JSR ConvertMapIndexToPixelCoordinates
     LDX RoomItemStreamOffset

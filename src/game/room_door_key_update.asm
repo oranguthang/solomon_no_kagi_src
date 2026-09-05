@@ -5,20 +5,17 @@
 RoomHeaderFlagsOffset = $04
 RoomHeaderDoorPositionOffset = $05
 RoomHeaderKeyPositionOffset = $06
-InitialDoorTile = $02
-InitialDoorWithoutKeyTile = $35
-InitialKeyTile = $06
 
 PublishRoomDoorAndKeyUpdates:
     LDY #RoomHeaderDoorPositionOffset
     LDA (RoomItemPointer),Y
     BEQ FinishRoomDoorAndKeyUpdates
     STA RoomMapUpdateIndex
-    LDX #InitialDoorTile
+    LDX #RoomMapClosedDoorIdentity
     INY
     LDA (RoomItemPointer),Y
     BNE PublishInitialDoorCell
-    LDX #InitialDoorWithoutKeyTile
+    LDX #RoomMapDeferredDoorIdentity
 
 PublishInitialDoorCell:
     STX RoomMapUpdateTile
@@ -33,7 +30,7 @@ PublishInitialDoorCell:
     LDY #RoomHeaderKeyPositionOffset
     LDA (RoomItemPointer),Y
     STA RoomMapUpdateIndex
-    LDA #InitialKeyTile
+    LDA #RoomMapKeyIdentity
     STA RoomMapUpdateTile
     JMP BuildAndPublishRoomMapCellUpdate
 

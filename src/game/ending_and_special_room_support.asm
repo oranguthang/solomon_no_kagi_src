@@ -12,7 +12,6 @@ EndingRandomObjectType = $50
 EndingRandomTargetY = $D0
 EndingRandomTargetX = $78
 EndingRandomVelocity = $50
-EndingSealTile = $60
 RoomReadyFlag = $02
 
 ; Three palette values are consumed in reverse order by the ending fade
@@ -258,7 +257,7 @@ FindCurrentRoomSealIndex:
     LSR A
     BCC FindCurrentRoomSealIndex
     LDY SolomonSealRoomMapOffsets,X
-    LDA #EndingSealTile
+    LDA #RoomMapHiddenSolomonSeal
     STA RoomMap,Y
 
 FinishCurrentRoomSealReveal:
@@ -274,8 +273,8 @@ PrepareSpecialRoomTrigger:
     JSR WaitForMaskedBitsSet
     RTS
 
-; Room-index 48 cells hidden until its scripted object conditions are met
-SpecialRoomObjectMapOffsets:
+; Princess-room cells hidden until its scripted object conditions are met
+PrincessRoomObjectMapOffsets:
     .byte $41, $51, $61, $71, $81
     .byte $4D, $5D, $6D, $7D, $8D
     .byte $46, $48
