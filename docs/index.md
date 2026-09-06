@@ -18,6 +18,8 @@ ASM module.
 - [Naming policy](naming.md), [provenance](provenance.md), the machine-readable
   [rename ledger](provenance/label_renames.json), and
   [unknowns](unknowns.md) define what semantic claims the source makes.
+- [Licensing and redistribution boundaries](licensing.md) classify project
+  tools, imported material, reconstructed source, and private inputs separately.
 
 ## Architecture, memory, and source ownership
 

@@ -383,7 +383,8 @@ which attributes the original disassembly to `ninespaces`. That repository did
 not contain an explicit license when imported. This project therefore does not
 assert a blanket license over the imported listing or game data. Original
 tooling and documentation should be treated separately from third-party and
-copyrighted material. See `docs/provenance.md` for the complete source ledger.
+copyrighted material. See `docs/provenance.md` for the complete source ledger
+and `docs/licensing.md` for component-by-component redistribution boundaries.
 
 This is an unofficial preservation and research project. Solomon's Key and its
 game data remain property of their respective rights holders.

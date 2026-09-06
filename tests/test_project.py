@@ -170,5 +170,49 @@ class ToolchainTests(unittest.TestCase):
             project.parse_path_overrides(["assembler=first", "assembler=second"])
 
 
+class RepositoryLintTests(unittest.TestCase):
+    def test_accepts_local_and_external_markdown_links(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "docs").mkdir()
+            (root / "docs" / "target.md").write_text("# Target\n", encoding="utf-8")
+            (root / "README.md").write_text(
+                "[local](docs/target.md) [anchor](#section) "
+                "[external](https://example.com)\n",
+                encoding="utf-8",
+            )
+            project.lint_markdown_links(root)
+
+    def test_rejects_broken_markdown_link(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "docs").mkdir()
+            (root / "docs" / "index.md").write_text(
+                "[missing](missing.md)\n", encoding="utf-8"
+            )
+            with self.assertRaisesRegex(project.ProjectError, "broken"):
+                project.lint_markdown_links(root)
+
+    def test_rejects_invalid_json_and_python(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for name in (
+                "assets",
+                "config",
+                "docs",
+                "scenarios",
+                "scripts",
+                "tests",
+            ):
+                (root / name).mkdir()
+            (root / "config" / "broken.json").write_text("{", encoding="utf-8")
+            with self.assertRaisesRegex(project.ProjectError, "invalid JSON"):
+                project.lint_json_files(root)
+            (root / "config" / "broken.json").write_text("{}", encoding="utf-8")
+            (root / "scripts" / "broken.py").write_text("if:\n", encoding="utf-8")
+            with self.assertRaisesRegex(project.ProjectError, "invalid Python"):
+                project.lint_python_files(root)
+
+
 if __name__ == "__main__":
     unittest.main()

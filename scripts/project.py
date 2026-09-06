@@ -4,17 +4,21 @@
 from __future__ import annotations
 
 import argparse
+import ast
 import hashlib
 import json
 import os
 from pathlib import Path, PurePosixPath
+import re
 import shutil
 import subprocess
 import sys
+from urllib.parse import unquote
 import zlib
 
 
 ROOT = Path(__file__).resolve().parent.parent
+MARKDOWN_LINK = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
 
 
 class ProjectError(ValueError):
@@ -327,6 +331,103 @@ def command_toolchain(args: argparse.Namespace) -> None:
     print(f"[OK] verified {verified} pinned {args.scope} toolchain input(s)")
 
 
+def lint_json_files(root: Path) -> None:
+    paths = [
+        *root.joinpath("assets").rglob("*.json"),
+        *root.joinpath("config").rglob("*.json"),
+        *root.joinpath("docs").rglob("*.json"),
+        *root.joinpath("scenarios").rglob("*.json"),
+    ]
+    for path in sorted(paths):
+        try:
+            json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            raise ProjectError(f"invalid JSON file {path.relative_to(root)}: {exc}") from exc
+
+
+def lint_python_files(root: Path) -> None:
+    paths = [
+        *root.joinpath("scripts").rglob("*.py"),
+        *root.joinpath("tests").rglob("*.py"),
+    ]
+    for path in sorted(paths):
+        try:
+            source = path.read_text(encoding="utf-8")
+            ast.parse(source, filename=str(path))
+        except (OSError, SyntaxError) as exc:
+            raise ProjectError(f"invalid Python file {path.relative_to(root)}: {exc}") from exc
+
+
+def markdown_target_path(root: Path, document: Path, target: str) -> Path | None:
+    value = target.strip()
+    if value.startswith("<") and value.endswith(">"):
+        value = value[1:-1]
+    elif " " in value:
+        value = value.split(" ", 1)[0]
+    if not value or value.startswith("#") or re.match(
+        r"^[A-Za-z][A-Za-z0-9+.-]*:", value
+    ):
+        return None
+    value = unquote(value.split("#", 1)[0].split("?", 1)[0])
+    if not value:
+        return None
+    resolved = (document.parent / value).resolve()
+    try:
+        resolved.relative_to(root.resolve())
+    except ValueError as exc:
+        raise ProjectError(
+            f"documentation link escapes the repository: "
+            f"{document.relative_to(root)} -> {target}"
+        ) from exc
+    return resolved
+
+
+def lint_markdown_links(root: Path) -> None:
+    paths = [*root.joinpath("docs").rglob("*.md")]
+    paths.extend(
+        path
+        for name in ("README.md", "CONTRIBUTING.md")
+        if (path := root / name).is_file()
+    )
+    for document in sorted(paths):
+        source = document.read_text(encoding="utf-8")
+        for match in MARKDOWN_LINK.finditer(source):
+            target = match.group(1)
+            linked = markdown_target_path(root, document, target)
+            if linked is not None and not linked.exists():
+                raise ProjectError(
+                    f"broken documentation link: "
+                    f"{document.relative_to(root)} -> {target}"
+                )
+
+
+def lint_tracked_outputs(root: Path) -> None:
+    try:
+        tracked = subprocess.run(
+            ["git", "ls-files", "-z"],
+            cwd=root,
+            check=True,
+            capture_output=True,
+        ).stdout.decode("utf-8").split("\0")
+    except (OSError, subprocess.CalledProcessError, UnicodeDecodeError) as exc:
+        raise ProjectError(f"cannot inspect tracked files: {exc}") from exc
+    prohibited_extensions = {".nes", ".chr", ".hdr", ".prg", ".o"}
+    prohibited_roots = ("build/", "assets/generated/", "references/")
+    prohibited = [
+        path
+        for path in tracked
+        if path
+        and (
+            PurePosixPath(path).suffix.lower() in prohibited_extensions
+            or path.startswith(prohibited_roots)
+        )
+    ]
+    if prohibited:
+        raise ProjectError(
+            "private/generated files must not be tracked: " + ", ".join(prohibited)
+        )
+
+
 def command_lint(_args: argparse.Namespace) -> None:
     required = (
         "README.md",
@@ -368,9 +469,11 @@ def command_lint(_args: argparse.Namespace) -> None:
         "docs/pause_thread.md",
         "docs/scheduler.md",
         "docs/runtime_evidence.md",
+        "docs/licensing.md",
         "docs/scheduler_entries.md",
         "docs/startup.md",
         "docs/timer.md",
+        "docs/toolchain.md",
         "docs/provenance/label_renames.json",
         "scripts/asm_style.py",
         "scripts/debug_symbols.py",
@@ -426,6 +529,10 @@ def command_lint(_args: argparse.Namespace) -> None:
     if missing:
         raise ProjectError("missing project files: " + ", ".join(missing))
     load_manifest(ROOT / "assets/manifest.json")
+    load_toolchain(ROOT / "config/toolchain.json")
+    lint_json_files(ROOT)
+    lint_python_files(ROOT)
+    lint_markdown_links(ROOT)
     for relative in (
         "config/debugger_watches.json",
         "config/debugger_breakpoints.json",
@@ -639,19 +746,11 @@ def command_lint(_args: argparse.Namespace) -> None:
         for marker in markers:
             if marker not in source:
                 raise ProjectError(f"{relative} is missing required marker: {marker}")
-    try:
-        tracked = subprocess.run(
-            ["git", "ls-files", "*.nes", "*.chr", "*.prg", "*.o"],
-            cwd=ROOT,
-            check=True,
-            capture_output=True,
-            text=True,
-        ).stdout.splitlines()
-    except (OSError, subprocess.CalledProcessError) as exc:
-        raise ProjectError(f"cannot inspect tracked binary files: {exc}") from exc
-    if tracked:
-        raise ProjectError("ROM/build binaries must not be tracked: " + ", ".join(tracked))
-    print("[OK] project structure, manifest, source contract, and binary policy")
+    lint_tracked_outputs(ROOT)
+    print(
+        "[OK] project structure, manifests, source contract, Python/JSON syntax, "
+        "documentation links, and private/generated file policy"
+    )
 
 
 def build_parser() -> argparse.ArgumentParser:
