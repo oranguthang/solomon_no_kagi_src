@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "components": [
+    {
+      "id": "assembler",
+      "scope": "build",
+      "path": "bin/ca65.exe",
+      "size": 721629,
+      "binary_sha256": "9109d7118ff070e78f031bee4eb776061e56b74e7c8f9f40c70fd6707ea0ac5a",
+      "version": "ca65 V2.19 - Git 0fca835",
+      "version_arguments": ["--version"],
+      "source": "https://github.com/cc65/cc65",
+      "source_commit": "0fca835",
+      "provenance": "bundled",
+      "verification_target": "verify-build-toolchain"
+    },
+    {
+      "id": "linker",
+      "scope": "build",
+      "path": "bin/ld65.exe",
+      "size": 575874,
+      "binary_sha256": "5f68367a135c578c88744e27ba0b1234604d87ef1ff6294b46fcb031ff984db4",
+      "version": "ld65 V2.19 - Git 0fca835",
+      "version_arguments": ["--version"],
+      "source": "https://github.com/cc65/cc65",
+      "source_commit": "0fca835",
+      "provenance": "bundled",
+      "verification_target": "verify-build-toolchain"
+    },
+    {
+      "id": "runtime_emulator",
+      "scope": "runtime",
+      "path": "../fceux_automation/vc/x64/Release/fceux64.exe",
+      "size": 5499904,
+      "binary_sha256": "97aadff4970e98a413377810a296c045fab717661dd8270f84d58190f43a232e",
+      "version": "oranguthang/fceux_automation ec507d86",
+      "version_arguments": [],
+      "source": "https://github.com/oranguthang/fceux_automation",
+      "source_commit": "ec507d86c57acd8979547bc35e9627fb199fac9a",
+      "source_checkout": "../fceux_automation",
+      "provenance": "source-built-external",
+      "verification_target": "verify-runtime-toolchain"
+    }
+  ],
+  "hosts": [
+    {
+      "id": "windows-x64-powershell",
+      "os": "Microsoft Windows",
+      "architecture": "x86_64",
+      "shell": "Windows PowerShell 5.1",
+      "language_versions": {
+        "python": "3.14.6",
+        "make": "GNU Make 4.4.1"
+      },
+      "supported_status": "supported"
+    }
+  ],
+  "private_inputs": [
+    {
+      "id": "usa_reference_rom",
+      "scope": "private",
+      "path": "Solomon's Key (U) [!].nes",
+      "role": "canonical byte-identity reference and CHR extraction source",
+      "size": 65552,
+      "sha256": "3d9f3bee199a3fbc04bab38e1d9d5cdeae1c6691dcca463a13c25e42f77bb03d",
+      "tracked": false,
+      "verification_target": "verify-private-input"
+    }
+  ]
+}

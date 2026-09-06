@@ -4,6 +4,7 @@ LD65 ?= bin/ld65.exe
 REFERENCE_ROM ?= Solomon's Key (U) [!].nes
 MANIFEST := assets/manifest.json
 VERIFY_ROM := scripts/verify_rom.py
+TOOLCHAIN_MANIFEST := config/toolchain.json
 
 BUILD_DIR := build/native
 GENERATED_ASSET_DIR := assets/generated
@@ -121,6 +122,8 @@ SOURCE_FILES := src/main.asm src/system/nmi.asm src/game/nmi_gameplay_interactio
 
 .PHONY: all build split verify verify-reference verify-built verify-header \
 	verify-prg verify-chr verify-payload verify-rom verify-assets check-assets \
+	verify-toolchain verify-build-toolchain verify-runtime-toolchain \
+	verify-private-input \
 	rom-info rom-info-reference rom-info-built symbols validate-symbols \
 	trace-runtime validate-runtime \
 	format format-check lint lint-asm \
@@ -144,15 +147,30 @@ $(BUILD_DIR):
 $(CHR_ASSET):
 	$(PYTHON) scripts/project.py require --path "$@" --hint "run 'make split' first"
 
-$(OBJECT): $(SOURCE_FILES) $(CHR_ASSET) | $(BUILD_DIR)
+$(OBJECT): $(SOURCE_FILES) $(CHR_ASSET) | $(BUILD_DIR) verify-build-toolchain
 	$(CA65) --debug-info -g -o "$@" -l "$(BUILD_DIR)/solomons_key.lst" "src/main.asm"
 
-$(ROM): $(OBJECT) config/linker/cnrom.cfg
+$(ROM): $(OBJECT) config/linker/cnrom.cfg | verify-build-toolchain
 	$(LD65) -C config/linker/cnrom.cfg -o "$@" "$<" -Ln "$(LABELS)" -m "$(MAP)" --dbgfile "$(DEBUG)"
 
-build: $(ROM)
+build: verify-build-toolchain $(ROM)
 
-verify-reference:
+verify-build-toolchain:
+	$(PYTHON) scripts/project.py toolchain --manifest "$(TOOLCHAIN_MANIFEST)" \
+		--scope build --component-path "assembler=$(CA65)" \
+		--component-path "linker=$(LD65)"
+
+verify-runtime-toolchain:
+	$(PYTHON) scripts/project.py toolchain --manifest "$(TOOLCHAIN_MANIFEST)" \
+		--scope runtime --component-path "runtime_emulator=$(FCEUX)"
+
+verify-private-input:
+	$(PYTHON) scripts/project.py toolchain --manifest "$(TOOLCHAIN_MANIFEST)" \
+		--scope private --component-path "usa_reference_rom=$(REFERENCE_ROM)"
+
+verify-toolchain: verify-build-toolchain verify-runtime-toolchain verify-private-input
+
+verify-reference: verify-private-input
 	$(PYTHON) scripts/project.py verify --image "$(REFERENCE_ROM)" --manifest "$(MANIFEST)"
 
 verify-built: $(ROM)
@@ -180,7 +198,7 @@ check-assets: verify-assets
 
 verify: verify-reference verify-built verify-header verify-prg verify-chr verify-payload verify-rom verify-assets
 
-split:
+split: verify-private-input
 	$(PYTHON) scripts/project.py split --image "$(REFERENCE_ROM)" --manifest "$(MANIFEST)" --output-dir "$(GENERATED_ASSET_DIR)"
 
 rom-info-reference:
@@ -197,7 +215,7 @@ symbols: $(ROM)
 validate-symbols: symbols
 	$(DEBUG_SYMBOLS) --check
 
-trace-runtime: symbols
+trace-runtime: verify-runtime-toolchain symbols
 	$(PYTHON) scripts/runtime_scenarios.py trace --fceux "$(FCEUX)" --rom "$(ROM)" \
 		--lua "$(RUNTIME_LUA)" --scenarios "$(RUNTIME_SCENARIOS)" \
 		--output-dir "$(RUNTIME_TRACE_DIR)"

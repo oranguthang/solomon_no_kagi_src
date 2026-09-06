@@ -25,14 +25,19 @@ def sample_manifest(image: bytes) -> dict[str, object]:
         "reference_rom": {
             "file_size": len(image),
             "file_sha1": project.digest(image),
+            "file_sha256": project.digest(image, "sha256"),
             "file_md5": project.digest(image, "md5"),
             "file_crc32": project.crc32(image),
             "payload_sha1": project.digest(parsed["payload"]),
+            "payload_sha256": project.digest(parsed["payload"], "sha256"),
             "payload_crc32": project.crc32(parsed["payload"]),
             "header_sha1": project.digest(parsed["header"]),
+            "header_sha256": project.digest(parsed["header"], "sha256"),
             "prg_sha1": project.digest(parsed["prg"]),
+            "prg_sha256": project.digest(parsed["prg"], "sha256"),
             "prg_crc32": project.crc32(parsed["prg"]),
             "chr_sha1": project.digest(parsed["chr"]),
+            "chr_sha256": project.digest(parsed["chr"], "sha256"),
             "chr_crc32": project.crc32(parsed["chr"]),
             "trainer_size": 0,
             "prg_size": 16_384,
@@ -106,6 +111,7 @@ class PathTests(unittest.TestCase):
                 "region": "chr",
                 "size": len(parsed["chr"]),
                 "sha1": project.digest(parsed["chr"]),
+                "sha256": project.digest(parsed["chr"], "sha256"),
             }
         ]
         with tempfile.TemporaryDirectory() as directory:
@@ -128,6 +134,40 @@ class PathTests(unittest.TestCase):
             self.assertEqual((output / "chr" / "game.chr").read_bytes(), parsed["chr"])
             self.assertFalse((output / "header").exists())
             self.assertFalse((output / "prg").exists())
+
+
+class ToolchainTests(unittest.TestCase):
+    def test_verifies_component_hash_and_version(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            binary = root / "tool.exe"
+            binary.write_bytes(b"pinned tool")
+            entry = {
+                "id": "tool",
+                "size": binary.stat().st_size,
+                "binary_sha256": project.digest(binary.read_bytes(), "sha256"),
+                "version": "unused",
+                "version_arguments": [],
+            }
+            project.verify_component(binary, entry)
+
+    def test_rejects_changed_component_hash(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            binary = Path(directory) / "tool.exe"
+            binary.write_bytes(b"changed tool")
+            entry = {
+                "id": "tool",
+                "size": binary.stat().st_size,
+                "binary_sha256": "0" * 64,
+                "version": "unused",
+                "version_arguments": [],
+            }
+            with self.assertRaisesRegex(project.ProjectError, "SHA-256 mismatch"):
+                project.verify_component(binary, entry)
+
+    def test_rejects_duplicate_component_override(self) -> None:
+        with self.assertRaisesRegex(project.ProjectError, "duplicate"):
+            project.parse_path_overrides(["assembler=first", "assembler=second"])
 
 
 if __name__ == "__main__":

@@ -84,14 +84,19 @@ def validate_image(data: bytes, manifest: dict[str, object]) -> dict[str, object
     checks = {
         "file_size": len(data),
         "file_sha1": digest(data),
+        "file_sha256": digest(data, "sha256"),
         "file_md5": digest(data, "md5"),
         "file_crc32": crc32(data),
         "payload_sha1": digest(parsed["payload"]),
+        "payload_sha256": digest(parsed["payload"], "sha256"),
         "payload_crc32": crc32(parsed["payload"]),
         "header_sha1": digest(parsed["header"]),
+        "header_sha256": digest(parsed["header"], "sha256"),
         "prg_sha1": digest(parsed["prg"]),
+        "prg_sha256": digest(parsed["prg"], "sha256"),
         "prg_crc32": crc32(parsed["prg"]),
         "chr_sha1": digest(parsed["chr"]),
+        "chr_sha256": digest(parsed["chr"], "sha256"),
         "chr_crc32": crc32(parsed["chr"]),
         "trainer_size": parsed["trainer_size"],
         "prg_size": parsed["prg_size"],
@@ -162,7 +167,12 @@ def command_split(args: argparse.Namespace) -> None:
         payload = parsed[region]
         expected_size = parse_number(entry.get("size"), f"{region}.size")
         expected_sha1 = str(entry.get("sha1", "")).lower()
-        if len(payload) != expected_size or digest(payload) != expected_sha1:
+        expected_sha256 = str(entry.get("sha256", "")).lower()
+        if (
+            len(payload) != expected_size
+            or digest(payload) != expected_sha1
+            or digest(payload, "sha256") != expected_sha256
+        ):
             raise ProjectError(f"manifest does not describe extracted {region}")
         destination = safe_asset_path(output_root, str(entry.get("path", "")))
         action = write_if_changed(destination, payload)
@@ -189,6 +199,134 @@ def command_clean(args: argparse.Namespace) -> None:
         print(f"[CLEAN] {target}")
 
 
+def load_toolchain(path: Path) -> dict[str, object]:
+    try:
+        manifest = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ProjectError(f"cannot read toolchain manifest {path}: {exc}") from exc
+    if manifest.get("schema_version") != 1:
+        raise ProjectError("unsupported toolchain manifest schema")
+    return manifest
+
+
+def parse_path_overrides(values: list[str]) -> dict[str, str]:
+    overrides: dict[str, str] = {}
+    for value in values:
+        component, separator, path = value.partition("=")
+        if not separator or not component or not path:
+            raise ProjectError(f"invalid component path override: {value!r}")
+        if component in overrides:
+            raise ProjectError(f"duplicate component path override: {component}")
+        overrides[component] = path
+    return overrides
+
+
+def resolve_tool_path(value: str) -> Path:
+    path = Path(value)
+    if not path.is_absolute():
+        project_path = ROOT / path
+        if project_path.is_file():
+            return project_path.resolve()
+        executable = shutil.which(value)
+        if executable:
+            return Path(executable).resolve()
+    return path.resolve()
+
+
+def verify_file_contract(path: Path, entry: dict[str, object], description: str) -> None:
+    if not path.is_file():
+        raise ProjectError(f"{description} not found: {path}")
+    data = path.read_bytes()
+    expected_size = parse_number(entry.get("size"), f"{description}.size")
+    expected_sha256 = str(entry.get("binary_sha256", entry.get("sha256", ""))).lower()
+    if len(data) != expected_size:
+        raise ProjectError(
+            f"{description} size mismatch: got {len(data)}, expected {expected_size}"
+        )
+    actual_sha256 = digest(data, "sha256")
+    if actual_sha256 != expected_sha256:
+        raise ProjectError(
+            f"{description} SHA-256 mismatch: got {actual_sha256}, "
+            f"expected {expected_sha256}"
+        )
+
+
+def verify_component(path: Path, entry: dict[str, object]) -> None:
+    identifier = str(entry.get("id", ""))
+    if not identifier:
+        raise ProjectError("toolchain component has no id")
+    verify_file_contract(path, entry, f"toolchain component {identifier}")
+    arguments = entry.get("version_arguments")
+    if not isinstance(arguments, list) or not all(isinstance(arg, str) for arg in arguments):
+        raise ProjectError(f"toolchain component {identifier} has invalid version arguments")
+    if arguments:
+        try:
+            result = subprocess.run(
+                [str(path), *arguments],
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+        except (OSError, subprocess.CalledProcessError) as exc:
+            raise ProjectError(f"cannot query {identifier} version: {exc}") from exc
+        actual_version = (result.stdout + result.stderr).strip()
+        if actual_version != entry.get("version"):
+            raise ProjectError(
+                f"{identifier} version mismatch: got {actual_version!r}, "
+                f"expected {entry.get('version')!r}"
+            )
+    checkout = entry.get("source_checkout")
+    source_commit = entry.get("source_commit")
+    if checkout:
+        checkout_path = (ROOT / str(checkout)).resolve()
+        try:
+            actual_commit = subprocess.run(
+                ["git", "-C", str(checkout_path), "rev-parse", "HEAD"],
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+        except (OSError, subprocess.CalledProcessError) as exc:
+            raise ProjectError(f"cannot inspect {identifier} source checkout: {exc}") from exc
+        if actual_commit != source_commit:
+            raise ProjectError(
+                f"{identifier} source commit mismatch: got {actual_commit}, "
+                f"expected {source_commit}"
+            )
+
+
+def command_toolchain(args: argparse.Namespace) -> None:
+    manifest = load_toolchain(Path(args.manifest))
+    overrides = parse_path_overrides(args.component_path)
+    components = manifest.get("components")
+    if not isinstance(components, list):
+        raise ProjectError("toolchain manifest has no components list")
+    verified = 0
+    for entry in components:
+        if not isinstance(entry, dict):
+            raise ProjectError("invalid toolchain component entry")
+        if args.scope != "all" and entry.get("scope") != args.scope:
+            continue
+        identifier = str(entry.get("id", ""))
+        path = resolve_tool_path(overrides.get(identifier, str(entry.get("path", ""))))
+        verify_component(path, entry)
+        verified += 1
+    if args.scope in ("private", "all"):
+        private_inputs = manifest.get("private_inputs")
+        if not isinstance(private_inputs, list):
+            raise ProjectError("toolchain manifest has no private_inputs list")
+        for entry in private_inputs:
+            if not isinstance(entry, dict):
+                raise ProjectError("invalid private input entry")
+            identifier = str(entry.get("id", ""))
+            path = resolve_tool_path(overrides.get(identifier, str(entry.get("path", ""))))
+            verify_file_contract(path, entry, f"private input {identifier}")
+            verified += 1
+    if not verified:
+        raise ProjectError(f"toolchain scope has no entries: {args.scope}")
+    print(f"[OK] verified {verified} pinned {args.scope} toolchain input(s)")
+
+
 def command_lint(_args: argparse.Namespace) -> None:
     required = (
         "README.md",
@@ -201,6 +339,7 @@ def command_lint(_args: argparse.Namespace) -> None:
         "config/item_handlers.json",
         "config/enemy_record_pointers.json",
         "config/scheduler_entries.json",
+        "config/toolchain.json",
         "scenarios/runtime_scenarios.json",
         "config/linker/cnrom.cfg",
         "docs/code_quality.md",
@@ -545,6 +684,14 @@ def build_parser() -> argparse.ArgumentParser:
 
     lint = subparsers.add_parser("lint", help="check the repository contract")
     lint.set_defaults(handler=command_lint)
+
+    toolchain = subparsers.add_parser("toolchain", help="verify pinned toolchain inputs")
+    toolchain.add_argument("--manifest", required=True)
+    toolchain.add_argument(
+        "--scope", choices=("build", "runtime", "private", "all"), required=True
+    )
+    toolchain.add_argument("--component-path", action="append", default=[])
+    toolchain.set_defaults(handler=command_toolchain)
     return parser
 
 

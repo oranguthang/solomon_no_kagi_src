@@ -10,7 +10,8 @@ ASM module.
 - [Source Reconstruction 1.0](source_reconstruction_1_0.md) defines the fixed
   USA scope and tag gate.
 - [Verification](verification.md), [code quality](code_quality.md), and the
-  [roadmap](roadmap.md) describe commands, audits, and milestone boundaries.
+  [toolchain contract](toolchain.md) describe commands, pinned binaries, and
+  release evidence. The [roadmap](roadmap.md) records milestone boundaries.
 - [Runtime evidence](runtime_evidence.md) and the
   [debugger workflow](debugger_workflow.md) cover deterministic FCEUX traces,
   generated symbols, breakpoints, and watches.
