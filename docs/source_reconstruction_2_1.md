@@ -19,10 +19,12 @@ Build, Preview
 or Play, and dirty-close behavior through all four public studios for both
 accepted profiles.
 
-The full commit interval starts immediately after the annotated 2.0 tag. During
-development its terminal commit is advanced after each accepted vertical slice
-and must cover every substantive commit before the status can become
-`tag-ready`.
+The full substantive commit interval starts immediately after the annotated 2.0
+tag at `a95261592ce579195613099b1e6dd57c49812171` and currently ends at
+`9f39d7a6d8bbb038804baa163916ae90583e47fb`. The 25 commits in that interval
+cover every source, tooling, evidence, and documentation change accepted for the
+candidate. Later commits may change only the release manifest and this boundary
+document unless the terminal commit and count are advanced again.
 
 The compatible manifest is self-describing even though its preservation facts
 remain inherited. It repeats the effective profile inventory, direct runtime
