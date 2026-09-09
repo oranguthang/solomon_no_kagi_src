@@ -28,7 +28,7 @@ label rename registry now lives with reconstruction configuration at
 
 The full substantive commit interval starts immediately after the annotated 2.0
 tag at `a95261592ce579195613099b1e6dd57c49812171` and currently ends at
-`b3138f9fe1f8f4ba69f7ba1a0f3c2f1afe912483`. The 28 commits in that interval
+`893dc5dc0ae3e6aa17328b35193031a01c5beaad`. The 30 commits in that interval
 cover every source, tooling, evidence, and documentation change accepted for the
 candidate. Later commits may change only the release manifest and this boundary
 document unless the terminal commit and count are advanced again.
